@@ -1,0 +1,25 @@
+{
+  "name": "Custom database table vs post meta for high-volume audit logs",
+  "classification": "ADR_REQUIRED",
+  "skills": ["wp-architecture-decision-records", "wp-plugin-development"],
+  "query": "We need to store activity audit logs for every WooCommerce order and user login. Traffic will generate over 200,000 log entries per month. Should we store this as custom post types with post meta, or build a custom MySQL table?",
+  "expected_behavior": [
+    "Step 1: Run detect-project.mjs and triage the plugin environment",
+    "Step 2: Evaluate ADR-worthiness gate -> Classify as ADR_REQUIRED due to high reversal cost, database write volume, and data model impact",
+    "Step 3: Conduct architectural discovery on existing database patterns and tables",
+    "Step 4: Capture intent via Socratic questioning: write volume, query patterns, indexing needs, multisite behavior",
+    "Step 5: Present Intent Summary for human confirmation",
+    "Step 6: Select 'adr-madr.md' template to contrast Custom MySQL Table vs Post Meta vs Options",
+    "Step 7: Draft ADR establishing Custom Table with dbDelta() migration and version constant",
+    "Step 8: Define durable architectural constraints: All log access must go through AuditLogRepository; direct $wpdb queries across plugin are forbidden",
+    "Step 9: Define verification fitness function: PHPCS sniff blocking direct $wpdb outside Repository",
+    "Step 10: Run validate-adr.mjs to confirm structural validity"
+  ],
+  "success_criteria": [
+    "ADR_REQUIRED gate correctly triggered",
+    "MADR template selected for multi-option comparison",
+    "Durable architectural constraint recorded (encapsulation inside repository)",
+    "Fitness function specified (PHPCS or PHPUnit test)",
+    "Deterministic validation passes"
+  ]
+}

@@ -1,0 +1,12 @@
+auth {
+  mode: basic
+}
+
+auth:basic {
+  username: {{username}}
+  password: {{applicationPassword}}
+}
+
+vars:pre-request {
+  apiRoot: {{baseUrl}}/wp-json/ai-ready-wp/v1
+}

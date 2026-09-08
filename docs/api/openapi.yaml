@@ -1,0 +1,193 @@
+openapi: 3.1.0
+info:
+  title: AI-Ready WP Plugin Boilerplate REST API
+  version: 1.0.0
+  description: Authoritative OpenAPI 3.1 contract specification for AI-Ready WP Plugin Boilerplate endpoints.
+servers:
+  - url: http://localhost:8888/wp-json/ai-ready-wp/v1
+    description: Local Docker development container
+paths:
+  /hello:
+    get:
+      summary: Health check and greeting contract
+      description: Returns greeting payload, system health status, and active plugin version.
+      security: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HelloWorldResponse'
+
+  /settings:
+    get:
+      summary: Retrieve plugin settings
+      description: Fetches current plugin settings merged with default schema values.
+      security:
+        - basicAuth: []
+      responses:
+        '200':
+          description: Plugin settings
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PluginSettings'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+
+    post:
+      summary: Update plugin settings
+      description: Updates partial or full plugin settings payload.
+      security:
+        - basicAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateSettingsRequest'
+      responses:
+        '200':
+          description: Updated plugin settings
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PluginSettings'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+
+components:
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+      description: WordPress Application Password authentication
+
+  responses:
+    BadRequest:
+      description: Invalid request parameters or malformed JSON
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    Unauthorized:
+      description: Authentication required
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    Forbidden:
+      description: Insufficient user capabilities
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+
+  schemas:
+    HelloWorldResponse:
+      type: object
+      required: [message, timestamp, version, status]
+      properties:
+        message:
+          type: string
+          example: Hello from AI-Ready WP Plugin Boilerplate!
+        timestamp:
+          type: string
+          format: date-time
+          example: '2026-08-01T12:00:00Z'
+        version:
+          type: string
+          example: '1.0.0'
+        status:
+          type: string
+          example: ok
+
+    PluginSettings:
+      type: object
+      required: [general, advanced, data_retention]
+      properties:
+        general:
+          $ref: '#/components/schemas/GeneralSettings'
+        advanced:
+          $ref: '#/components/schemas/AdvancedSettings'
+        data_retention:
+          $ref: '#/components/schemas/DataRetentionSettings'
+
+    GeneralSettings:
+      type: object
+      required: [greeting_message, enable_feature, description]
+      properties:
+        greeting_message:
+          type: string
+          example: Hello from AI-Ready WP Plugin Boilerplate!
+        enable_feature:
+          type: boolean
+          example: true
+        description:
+          type: string
+          example: A modern WordPress plugin powered by AI workflows.
+
+    AdvancedSettings:
+      type: object
+      required: [rest_debug, cache_ttl]
+      properties:
+        rest_debug:
+          type: boolean
+          example: false
+        cache_ttl:
+          type: integer
+          example: 3600
+
+    DataRetentionSettings:
+      type: object
+      required: [uninstall_action]
+      properties:
+        uninstall_action:
+          type: string
+          enum: [preserve, delete_settings, delete_all]
+          example: preserve
+
+    UpdateSettingsRequest:
+      type: object
+      properties:
+        general:
+          type: object
+          properties:
+            greeting_message: { type: string }
+            enable_feature: { type: boolean }
+            description: { type: string }
+        advanced:
+          type: object
+          properties:
+            rest_debug: { type: boolean }
+            cache_ttl: { type: integer }
+        data_retention:
+          type: object
+          properties:
+            uninstall_action:
+              type: string
+              enum: [preserve, delete_settings, delete_all]
+
+    ErrorResponse:
+      type: object
+      required: [code, message, data]
+      properties:
+        code:
+          type: string
+          example: rest_forbidden
+        message:
+          type: string
+          example: You do not have sufficient permissions to access plugin settings.
+        data:
+          type: object
+          properties:
+            status:
+              type: integer
+              example: 403

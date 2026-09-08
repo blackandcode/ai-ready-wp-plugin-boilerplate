@@ -1,0 +1,21 @@
+{
+  "name": "Public REST API route namespace versioning and deprecation strategy",
+  "classification": "ADR_RECOMMENDED",
+  "skills": ["wp-architecture-decision-records", "wp-rest-api"],
+  "query": "We are designing our plugin's public REST API for external third-party integrations. How should we structure the route namespace, versioning, and breaking change deprecation?",
+  "expected_behavior": [
+    "Step 1: Inspect existing REST routes in plugin via detect-project.mjs",
+    "Step 2: Trigger ADR-worthiness gate -> ADR_RECOMMENDED (public API contract, long-term backward compatibility)",
+    "Step 3: Capture decision drivers: semantic versioning, URI path versioning (/v1 vs /v2), deprecation notice window",
+    "Step 4: Select 'adr-simple.md' or 'adr-madr.md' template",
+    "Step 5: Draft ADR establishing namespace convention (my-plugin/v1) and formal 12-month deprecation policy before endpoint removal",
+    "Step 6: Define architectural constraints: All public routes must declare schema in register_rest_route() and permission_callback; version bump required for breaking changes",
+    "Step 7: Define verification: Bruno contract tests validating JSON Schema contracts and route responses",
+    "Step 8: Run validate-adr.mjs"
+  ],
+  "success_criteria": [
+    "ADR_RECOMMENDED gate correctly triggered",
+    "Establishes URI namespace versioning invariant",
+    "Connects verification to Bruno or PHPUnit REST contract tests"
+  ]
+}

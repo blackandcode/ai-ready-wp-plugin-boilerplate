@@ -1,0 +1,18 @@
+{
+  "name": "Negative Gate: Routine nonce and capability check in admin POST handler",
+  "classification": "ADR_NOT_NEEDED",
+  "skills": ["wp-architecture-decision-records", "wp-plugin-development"],
+  "query": "Add check_admin_referer('my_action_nonce') and current_user_can('manage_options') to the existing settings save handler in includes/admin-handler.php.",
+  "expected_behavior": [
+    "Step 1: Inspect requested security task",
+    "Step 2: Evaluate ADR-worthiness gate",
+    "Step 3: Recognize that nonce validation and capability checking are standard WordPress security practices mandated by standard coding guidelines, not an architectural fork",
+    "Step 4: Return ADR_NOT_NEEDED",
+    "Step 5: Route task directly to wp-plugin-development to implement the standard security check without creating an ADR"
+  ],
+  "success_criteria": [
+    "Recognizes routine WordPress security API usage as standard practice",
+    "Blocks ADR generation",
+    "Avoids documenting standard WordPress coding standards as custom ADRs"
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "ignores": [
+    "node_modules/**",
+    "vendor/**",
+    "build/**",
+    ".auth/**",
+    "test-results/**"
+  ]
+}

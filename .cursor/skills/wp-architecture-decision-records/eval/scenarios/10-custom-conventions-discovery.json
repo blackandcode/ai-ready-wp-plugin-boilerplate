@@ -1,0 +1,19 @@
+{
+  "name": "Project adaptation: discovering custom directory and numbering conventions",
+  "classification": "ADR_REQUIRED",
+  "skills": ["wp-architecture-decision-records"],
+  "query": "A legacy plugin repository stores its ADRs under docs/decisions/ using 3-digit numbering (e.g. 001-initial-architecture.md, 002-use-react-in-admin.md). How does the skill adapt without forcing docs/adr/ or 4-digit prefixes?",
+  "expected_behavior": [
+    "Step 1: Execute detect-adr-conventions.mjs against target repository",
+    "Step 2: Discover established directory: 'docs/decisions/'",
+    "Step 3: Discover established numbering style: 'numeric-3' with pad width 3",
+    "Step 4: Identify highest existing sequence number (002) and compute next number as '003'",
+    "Step 5: Generate new record as docs/decisions/003-new-decision.md",
+    "Step 6: Respect existing convention without altering historical files or paths"
+  ],
+  "success_criteria": [
+    "Detects custom directory docs/decisions/",
+    "Preserves 3-digit numbering convention",
+    "Avoids forcing default docs/adr/ on established repository"
+  ]
+}

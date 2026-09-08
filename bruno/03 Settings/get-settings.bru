@@ -1,0 +1,18 @@
+meta {
+  name: Get Plugin Settings
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{apiRoot}}/settings
+  body: none
+  auth: inherit
+}
+
+assert {
+  res.status: eq 200
+  res.body.general: isDefined
+  res.body.advanced: isDefined
+  res.body.data_retention: isDefined
+}

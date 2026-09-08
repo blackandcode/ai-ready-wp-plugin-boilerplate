@@ -1,0 +1,17 @@
+{
+  "name": "Negative Gate: Routine patch upgrade of development dependency",
+  "classification": "ADR_NOT_NEEDED",
+  "skills": ["wp-architecture-decision-records"],
+  "query": "Update phpstan/phpstan from version 1.10.15 to 1.10.16 in composer.json to pick up an upstream bug fix.",
+  "expected_behavior": [
+    "Step 1: Inspect requested dependency update",
+    "Step 2: Evaluate ADR-worthiness gate",
+    "Step 3: Determine that routine patch dependency bumps within an already approved toolchain do NOT constitute an architectural decision",
+    "Step 4: Return ADR_NOT_NEEDED",
+    "Step 5: Do NOT generate an ADR"
+  ],
+  "success_criteria": [
+    "Correctly classifies routine patch dependency updates as ADR_NOT_NEEDED",
+    "Prevents ADR clutter"
+  ]
+}

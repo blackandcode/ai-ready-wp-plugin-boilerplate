@@ -1,0 +1,24 @@
+meta {
+  name: Update Plugin Settings
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{apiRoot}}/settings
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "general": {
+      "greeting_message": "Updated greetings from Bruno automated test suite!"
+    }
+  }
+}
+
+assert {
+  res.status: eq 200
+  res.body.general.greeting_message: eq Updated greetings from Bruno automated test suite!
+}

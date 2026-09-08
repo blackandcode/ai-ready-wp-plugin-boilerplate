@@ -1,0 +1,20 @@
+{
+  "name": "Validation guard: catching missing rationale and broken supersession references",
+  "classification": "VALIDATION_FAILURE",
+  "skills": ["wp-architecture-decision-records"],
+  "query": "A draft ADR was checked in with unreplaced {{TITLE}} placeholders, missing Architectural Constraints section, status set to 'superseded' but with no Superseded by target, and a link pointing to a non-existent file. How does the skill handle this?",
+  "expected_behavior": [
+    "Step 1: Execute validate-adr.mjs against the flawed ADR",
+    "Step 2: Detect missing required section 'Architectural Constraints'",
+    "Step 3: Detect unreplaced template placeholders {{TITLE}}",
+    "Step 4: Detect status 'superseded' lacking valid successor link",
+    "Step 5: Detect broken markdown link target pointing to non-existent file",
+    "Step 6: Output clear, actionable error report to stderr",
+    "Step 7: Exit with non-zero exit code (1) to block CI pull request"
+  ],
+  "success_criteria": [
+    "Validator correctly flags all structural, template, and referential errors",
+    "Blocks invalid ADR from acceptance in CI",
+    "Provides specific remediation guidance"
+  ]
+}
