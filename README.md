@@ -36,6 +36,7 @@ It provides an instant foundation containing:
 - **Automated Project Scaffolding CLI (`npm run scaffold`):** One-click rebranding that atomically renames slugs, namespaces, constants, files, and text domains.
 - **Automated Semantic Versioning (`npm run update-version`):** Coordinated SemVer bumps with changelog promotion and decision logging.
 - **5-Tier Testing Pyramid:** PHPUnit 11 unit/integration tests, Jest + React Testing Library, Git-native Bruno REST tests, and Playwright visual regression.
+- **Durable Architectural Memory (ADRs):** 6 foundational Architecture Decision Records under `docs/adr/` with dedicated ADR CLI tooling and pre-planning agent gates.
 - **32 Bundled Agent Skills & Persistent Rules:** Equipping AI agents with deep WordPress APIs, core engineering craftsmanship domain knowledge (DDD, OOP, Design Patterns, TDD, Refactoring), and WordPress Architecture Decision Records (ADRs).
 
 ---
@@ -181,9 +182,9 @@ Changing version numbers is **never a manual text edit**. The boilerplate provid
 
 ```bash
 # Automated SemVer bumps:
-npm run update-version:patch    # 1.0.0 -> 1.0.1 (maintenance fixes & refactoring)
-npm run update-version:minor    # 1.0.0 -> 1.1.0 (new features & phase completions)
-npm run update-version:major    # 1.0.0 -> 2.0.0 (breaking changes & major baseline)
+npm run update-version:patch    # 1.0.1 -> 1.0.1 (maintenance fixes & refactoring)
+npm run update-version:minor    # 1.0.1 -> 1.1.0 (new features & phase completions)
+npm run update-version:major    # 1.0.1 -> 2.0.0 (breaking changes & major baseline)
 
 # Explicit target version with optional custom notes & decision rationale:
 npm run update-version -- 1.2.0 -m "Release highlights" -d "Approved v1.2.0 release"
@@ -212,11 +213,25 @@ npm run update-version -- patch --dry-run
 2. Updates `composer.json` version.
 3. Updates WordPress plugin header `Version: X.Y.Z` and `AIRWP_VERSION` constant.
 4. Updates `readme.txt` `Stable tag: X.Y.Z`.
-5. Promotes `CHANGELOG.md` `[Unreleased]` items into the release header.
-6. Appends a structured record (`REL-X.Y.Z`) into `docs/decision-log.md`.
-7. Enforces PHP version comparison ordering (`version_compare`).
+5. Promotes `CHANGELOG.md` `[Unreleased]` items into the formal release header (`## [X.Y.Z] - YYYY-MM-DD`).
+6. Enforces PHP version comparison ordering (`version_compare`).
 
 For deep-dive documentation, see [07. Versioning & Release Lifecycle](docs/07-versioning-and-release-lifecycle.md).
+
+---
+
+## Architecture Decision Records (ADRs)
+
+Architectural decisions are captured under `docs/adr/` as immutable historical records with explicit invariants, trade-offs, and verification criteria. Ephemeral phase plans (`docs/plans/`) govern *how* to build features, while ADRs define the durable architectural boundaries.
+
+| Command | Purpose | Example |
+|---|---|---|
+| `npm run adr:new` | Scaffolds a new ADR with sequential numbering and auto-updates the index | `npm run adr:new -- -t "Cache REST Endpoints" --template simple` |
+| `npm run adr:validate` | Validates markdown schema, YAML frontmatter, and cross-references | `npm run adr:validate -- --strict` |
+| `npm run adr:status` | Updates the status of an existing ADR (`accepted`, `deprecated`, `superseded`) | `npm run adr:status -- --file docs/adr/0002-xyz.md --status superseded --by 0005` |
+| `npm run adr:detect` | Detects WordPress project architecture, dependencies, and ADR conventions | `npm run adr:detect` |
+
+For full lifecycle details and the pre-planning evaluation gate, see [12. Architecture Decision Records](docs/12-architecture-decision-records.md) and the [ADR Index](docs/adr/README.md).
 
 ---
 
@@ -224,6 +239,7 @@ For deep-dive documentation, see [07. Versioning & Release Lifecycle](docs/07-ve
 
 The boilerplate includes full instruction sets for AI coding agents:
 - **`.cursor/rules/`**:
+  - `adr-evaluation.mdc`: Pre-planning and in-session ADR evaluation gate enforcing architectural invariants.
   - `wp-admin-ui-ux.mdc`: Persistent visual design standards, WPDS token enforcement, and visual regression loops.
   - `post-phase-documentation.mdc`: Phase completion checklists, implementation logs, and version bumps.
 - **`.cursor/skills/`**: 32 bundled skills covering WordPress core APIs, block creation, REST design, OOP principles, Domain-Driven Design, GoF design patterns, TDD, Architecture Decision Records (ADRs), and test harnesses.
@@ -248,8 +264,9 @@ Deep dive into the architectural principles and implementation guides under `doc
 - [09. Agent Skills & Sync Script](docs/09-agent-skills-and-sync-script.md)
 - [10. Configuration Templates Reference](docs/10-configuration-templates-reference.md)
 - [11. Project Scaffolding CLI](docs/11-project-scaffolding-cli.md)
+- [12. Architecture Decision Records (ADRs)](docs/12-architecture-decision-records.md)
+- [Architecture Decision Records Index](docs/adr/README.md)
 - [OpenAPI 3.1 Specification](docs/api/openapi.yaml)
-- [Architectural Decision & Release Log](docs/decision-log.md)
 
 ---
 

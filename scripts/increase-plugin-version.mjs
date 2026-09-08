@@ -10,8 +10,7 @@ Usage:
   npm run update-version -- --target-version <X.Y.Z> [options]
 
 Synchronizes the active plugin version across project files, package manifests,
-WordPress headers, creates a CHANGELOG.md release entry (promoting unreleased changes),
-and records the release in docs/decision-log.md.
+WordPress headers, and creates a CHANGELOG.md release entry (promoting unreleased changes).
 
 Arguments:
   [version|bump]                 Target version (e.g. 1.2.0) or bump type (patch, minor, major).
@@ -20,7 +19,7 @@ Options:
   -v, --target-version <X.Y.Z>   Explicit target semantic version.
   -b, --bump <type>              Bump type: patch, minor, or major.
   -m, --changelog <text>         Release notes summary (prepended to unreleased notes).
-  -d, --decision <text>          Approval rationale for docs/decision-log.md.
+  -d, --decision <text>          Release headline summary (alias for --changelog).
   --date <YYYY-MM-DD>            Override release date. Default: today's date.
   --root <path>                  Project root. Defaults to current directory.
   --env <path>                   Environment file relative to root (optional fallback). Default: .env

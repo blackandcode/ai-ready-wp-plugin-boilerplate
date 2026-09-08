@@ -17,7 +17,7 @@ export function DiagnosticsSection( {
         <tr>
           <th>{ __( 'Boilerplate Version', 'ai-ready-wp-plugin-boilerplate' ) }</th>
           <td>
-            <code>{ version || '1.0.0' }</code>
+            <code>{ version || '1.0.1' }</code>
           </td>
         </tr>
         <tr>

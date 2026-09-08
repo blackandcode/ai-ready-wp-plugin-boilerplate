@@ -64,9 +64,11 @@ For **every** plan phase, the agent must manage implementation logs in `docs/imp
 
 ## Documentation Synchronization Checklist
 
-### 1. Update `docs/decision-log.md`
-If a version bump was executed, `npm run update-version` automatically appends a `REL-VERSION` entry linking the version bump and rationale. If additional phase decisions were made, append them under the phase section in `docs/decision-log.md`.
-If a decision changes authoritative product behavior, also update `docs/00-product-charter-and-decisions.md`.
+### 1. Maintain Architecture Decision Records (ADRs)
+If architecturally significant decisions or boundaries were introduced or modified during the phase:
+- Ensure corresponding records are authored and accepted in `docs/adr/` using `npm run adr:new` and the `wp-architecture-decision-records` skill.
+- Run `npm run adr:validate -- --strict` to verify referential integrity.
+- If a decision alters fundamental architectural boundaries, synchronize `docs/00-product-charter-and-decisions.md`.
 
 ### 2. Update `CHANGELOG.md`
 Ensure all user-visible and developer-facing changes are documented under `## [Unreleased]` or promoted to the release header.
@@ -76,14 +78,14 @@ Update only what the session actually changed:
 
 | Trigger | Target |
 |---|---|
-| Resolved or new open spike | `docs/11-open-decisions.md` |
-| API/schema/contract change | `docs/03-data-model-rest-api.md`, Bruno/OpenAPI notes |
-| Architecture boundary change | Relevant spec under `docs/02-enterprise-architecture.md`, integration guides |
+| Resolved or new open spike | `docs/plans/` technical-spec |
+| API/schema/contract change | `docs/rest-api.yaml`, Bruno/OpenAPI specs |
+| Architecture boundary change | Relevant spec under `docs/`, `docs/adr/` |
 | Pinned version/license change | Source lock and integration docs cited by the phase |
 | Handoff differs from plan | Phase folder README or technical-spec |
 
-### 4. Update `docs/MANIFEST.md`
-If files were added, removed, or renamed under `docs/`, update `docs/MANIFEST.md`.
+### 4. Update `MANIFEST.md`
+If files were added, removed, or renamed across the repository, update `MANIFEST.md`.
 
 ---
 

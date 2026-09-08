@@ -45,7 +45,6 @@ const STRUCTURED_FILES = new Set([
 
 const HISTORY_FILES = new Set([
   'CHANGELOG.md',
-  'docs/decision-log.md',
 ]);
 
 const MAX_TEXT_FILE_BYTES = 5 * 1024 * 1024;
@@ -195,11 +194,21 @@ function stringifyJson(value, originalSource) {
   return `${JSON.stringify(value, null, indentation).replaceAll('\n', newline)}${newline}`;
 }
 
+export function escapeRegex(str) {
+  return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+export function createVersionRegex(version) {
+  return new RegExp(`(?<![\\d.])${escapeRegex(version)}(?![\\d.])`, 'g');
+}
+
 function countOccurrences(source, needle) {
   if (!needle) {
     return 0;
   }
-  return source.split(needle).length - 1;
+  const regex = createVersionRegex(needle);
+  const matches = source.match(regex);
+  return matches ? matches.length : 0;
 }
 
 function isLikelyBinary(buffer) {
@@ -284,50 +293,6 @@ export function updateChangelog(source, { currentVersion, targetVersion, date, m
     '\n',
     source.slice(bodyEnd).replace(/^\n+/, '\n'),
   ].join('');
-}
-
-export function updateDecisionLog(source, { currentVersion, targetVersion, date, decision }) {
-  const releaseId = `REL-${targetVersion}`;
-  if (source.includes(`## ${releaseId} `) || source.includes(`- Version: \`${targetVersion}\``)) {
-    throw new Error(`docs/decision-log.md already contains version ${targetVersion}.`);
-  }
-
-  const entry = [
-    `## ${releaseId} — Version ${targetVersion}`,
-    '',
-    `- Date: ${date}`,
-    `- Version: \`${targetVersion}\``,
-    `- Previous version: \`${currentVersion}\``,
-    '- Status: Applied',
-    '- Command: `npm run update-version`',
-    `- Changelog: [${targetVersion}](../CHANGELOG.md#${targetVersion.replaceAll('.', '')}---${date})`,
-    '',
-    `**Decision:** ${decision || `Adopt \`${targetVersion}\` as the synchronized plugin version across active project metadata and documentation.`}`,
-    '',
-  ].join('\n');
-
-  if (!source.trim()) {
-    return [
-      '# Decision Log',
-      '',
-      'This log records release-linked project decisions. Newest entries appear first.',
-      '',
-      '<!-- release-entries -->',
-      '',
-      entry,
-    ].join('\n');
-  }
-
-  const marker = '<!-- release-entries -->';
-  const markerIndex = source.indexOf(marker);
-  if (markerIndex !== -1) {
-    const insertionIndex = markerIndex + marker.length;
-    return `${source.slice(0, insertionIndex)}\n\n${entry}${source.slice(insertionIndex).replace(/^\n+/, '\n')}`;
-  }
-
-  const firstLineEnd = source.indexOf('\n');
-  const insertionIndex = firstLineEnd === -1 ? source.length : firstLineEnd + 1;
-  return `${source.slice(0, insertionIndex)}\n${entry}${source.slice(insertionIndex)}`;
 }
 
 function addChange(changes, absolutePath, before, after, metadata = {}) {
@@ -445,14 +410,16 @@ async function prepareTextChanges(root, currentVersion, targetVersion, changes) 
     }
 
     const source = buffer.toString('utf8');
-    const occurrences = countOccurrences(source, currentVersion);
+    const versionRegex = createVersionRegex(currentVersion);
+    const matches = source.match(versionRegex);
+    const occurrences = matches ? matches.length : 0;
     scanned.push(projectPath);
 
     if (occurrences === 0) {
       continue;
     }
 
-    const after = source.replaceAll(currentVersion, targetVersion);
+    const after = source.replace(versionRegex, targetVersion);
     addChange(changes, absolutePath, source, after, {
       kind: 'text',
       occurrences,
@@ -462,7 +429,7 @@ async function prepareTextChanges(root, currentVersion, targetVersion, changes) 
   return { scanned, skipped };
 }
 
-async function prepareHistoryChanges(root, currentVersion, targetVersion, date, changelogMessage, decisionRationale, changes) {
+async function prepareHistoryChanges(root, currentVersion, targetVersion, date, changelogMessage, changes) {
   const changelogPath = join(root, 'CHANGELOG.md');
   const changelogBefore = (await fileExists(changelogPath)) ? await readFile(changelogPath, 'utf8') : '';
   const changelogAfter = updateChangelog(changelogBefore, {
@@ -472,16 +439,6 @@ async function prepareHistoryChanges(root, currentVersion, targetVersion, date, 
     message: changelogMessage,
   });
   addChange(changes, changelogPath, changelogBefore, changelogAfter, { kind: 'changelog' });
-
-  const decisionPath = join(root, 'docs', 'decision-log.md');
-  const decisionBefore = (await fileExists(decisionPath)) ? await readFile(decisionPath, 'utf8') : '';
-  const decisionAfter = updateDecisionLog(decisionBefore, {
-    currentVersion,
-    targetVersion,
-    date,
-    decision: decisionRationale,
-  });
-  addChange(changes, decisionPath, decisionBefore, decisionAfter, { kind: 'decision-log' });
 }
 
 async function commitChanges(changes) {
@@ -520,14 +477,6 @@ async function verifyResult(root, targetVersion) {
   const changelog = await readFile(join(root, 'CHANGELOG.md'), 'utf8');
   if (!changelog.includes(`## [${targetVersion}]`)) {
     throw new Error(`Verification failed: CHANGELOG.md has no ${targetVersion} release entry.`);
-  }
-
-  const decisionPath = join(root, 'docs', 'decision-log.md');
-  if (await fileExists(decisionPath)) {
-    const decisionLog = await readFile(decisionPath, 'utf8');
-    if (!decisionLog.includes(`## REL-${targetVersion}`)) {
-      throw new Error(`Verification failed: docs/decision-log.md has no REL-${targetVersion} release entry.`);
-    }
   }
 }
 
@@ -591,8 +540,7 @@ export async function synchronizeVersion({
   }
 
   const effectiveDate = date || env.TARGET_VERSION_DATE || todayIso();
-  const changelogMessage = changelog || env.TARGET_VERSION_CHANGELOG || env.VERSION_CHANGELOG;
-  const decisionRationale = decision || env.TARGET_VERSION_DECISION || env.VERSION_DECISION;
+  const changelogMessage = changelog || decision || env.TARGET_VERSION_CHANGELOG || env.VERSION_CHANGELOG;
 
   const comparison = compareSemver(targetVersion, currentVersion);
   if (comparison === 0) {
@@ -615,7 +563,7 @@ export async function synchronizeVersion({
   const changes = new Map();
   await prepareStructuredChanges(root, currentVersion, targetVersion, changes);
   const { scanned, skipped } = await prepareTextChanges(root, currentVersion, targetVersion, changes);
-  await prepareHistoryChanges(root, currentVersion, targetVersion, effectiveDate, changelogMessage, decisionRationale, changes);
+  await prepareHistoryChanges(root, currentVersion, targetVersion, effectiveDate, changelogMessage, changes);
 
   if (!dryRun) {
     await commitChanges(changes);

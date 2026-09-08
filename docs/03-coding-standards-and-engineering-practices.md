@@ -17,7 +17,7 @@ Add the standard tools to `composer.json`:
 ```json
 {
   "require-dev": {
-    "dealerdirect/phpcodesniffer-composer-installer": "^1.0.0",
+    "dealerdirect/phpcodesniffer-composer-installer": "^1.0.1",
     "wp-coding-standards/wpcs": "^3.1.0",
     "phpstan/phpstan": "^2.1.0",
     "szepeviktor/phpstan-wordpress": "^2.0.0",

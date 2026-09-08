@@ -27,7 +27,7 @@ flowchart LR
 openapi: 3.1.0
 info:
   title: My Plugin REST API
-  version: 1.0.0
+  version: 1.0.1
   description: Authoritative REST specification for My Plugin WordPress endpoints.
 servers:
   - url: http://localhost:8888/wp-json/my-plugin/v1

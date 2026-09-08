@@ -19,7 +19,6 @@ flowchart TD
     Script --> Manifests["package.json & package-lock.json & composer.json"]
     Script --> PHPFiles["Plugin Headers, Constants & readme.txt"]
     Script --> Changelog["CHANGELOG.md (Promotes [Unreleased] to [X.Y.Z])"]
-    Script --> DecisionLog["docs/decision-log.md (Appends REL-X.Y.Z)"]
     Script --> TestSuite["npm run test:versioning (Pass)"]
 ```
 
@@ -29,10 +28,10 @@ flowchart TD
 
 The engineer or AI agent reads the current version from `package.json` and calculates the target version using strict SemVer (`MAJOR.MINOR.PATCH`):
 
-1. **Minor Bump (`minor`, e.g. `1.0.0` → `1.1.0`):**
+1. **Minor Bump (`minor`, e.g. `1.0.1` → `1.1.0`):**
    - Finalization of a planned implementation phase.
    - Addition of substantial new features, blocks, or REST endpoints.
-2. **Patch Bump (`patch`, e.g. `1.0.0` → `1.0.1`):**
+2. **Patch Bump (`patch`, e.g. `1.0.1` → `1.0.1`):**
    - Bug fixes, security patches, styling polish, or internal refactoring within a phase.
 3. **Major Bump (`major`, e.g. `1.x.x` → `2.0.0`):**
    - Breaking architectural shift, minimum PHP/WP requirement increase, or major product baseline release.
@@ -45,13 +44,13 @@ Version synchronization does **not** require modifying `.env`. All target versio
 
 ### 3.1 Convenience npm Scripts
 ```bash
-# Automated patch bump (1.0.0 -> 1.0.1)
+# Automated patch bump (1.0.1 -> 1.0.1)
 npm run update-version:patch
 
-# Automated minor bump (1.0.0 -> 1.1.0)
+# Automated minor bump (1.0.1 -> 1.1.0)
 npm run update-version:minor
 
-# Automated major bump (1.0.0 -> 2.0.0)
+# Automated major bump (1.0.1 -> 2.0.0)
 npm run update-version:major
 ```
 
@@ -77,7 +76,7 @@ npm run update-version -- patch --dry-run
 | `--bump <type>` | `-b` | Bump type: `patch`, `minor`, or `major`. | `undefined` |
 | `--target-version <X.Y.Z>` | `-v` | Explicit target semantic version. | `undefined` |
 | `--changelog <text>` | `-m` | Optional release highlights (prepended to unreleased notes). | Inferred from `[Unreleased]` |
-| `--decision <text>` | `-d` | Rationale for `docs/decision-log.md`. | Standard adoption notice |
+| `--decision <text>` | `-d` | Optional release notes highlight summary (alias for `-m`). | Standard adoption notice |
 | `--date <YYYY-MM-DD>` | | Override release date. | Today's ISO date |
 | `--dry-run` | | Preview planned file modifications without writing. | `false` |
 | `--allow-downgrade` | | Permit a lower target version for recovery only. | `false` |
@@ -118,7 +117,7 @@ The boilerplate coordinates three core release and history artifacts with distin
 |---|---|---|---|
 | **Versioning** | `scripts/increase-plugin-version.mjs` | Atomic synchronization of SemVer across manifests (`package.json`, `composer.json`), headers (`plugin.php`), constants, and `readme.txt`. | On-demand upon release. Preferred manually or when explicitly requested in agent prompt. |
 | **Changelog** | `CHANGELOG.md` | Chronological, user- and developer-facing log of WHAT changed. | **100% of tasks** under `## [Unreleased]`; promoted to version header upon release. |
-| **Decision Log** | `docs/decision-log.md` | Chronological ledger of release milestones (`REL-X.Y.Z`) and operational decisions (`DEC-XXX`). | Appended automatically on release (`REL-X.Y.Z`); manual for operational decisions. |
+| **Architecture Decision Records (ADRs)** | `docs/adr/` | Durable, immutable records capturing WHY architectural choices were made and binding invariants for future code. | Evaluated before planning/coding; created when architecturally significant forks occur. |
 
 ---
 

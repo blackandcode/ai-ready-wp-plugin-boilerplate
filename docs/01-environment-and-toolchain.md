@@ -37,7 +37,7 @@ For complete OS-specific setup guides across macOS, native Windows, WSL2, and Li
 ```bash
 # Verify versions on host
 node --version        # >= 24.16.0 (e.g., v24.18.1)
-npm --version         # >= 11.0.0
+npm --version         # >= 11.0.1
 php -v                # >= 8.3 (e.g., PHP 8.3.33 CLI)
 composer --version    # >= 2.7.0
 docker version        # Docker Desktop with WSL2 engine active

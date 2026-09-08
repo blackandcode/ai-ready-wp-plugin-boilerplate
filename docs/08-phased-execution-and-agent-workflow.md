@@ -134,9 +134,9 @@ Codified in `.cursor/rules/post-phase-documentation.mdc`, this rule triggers **o
      ```
 2. **Synchronize Historical Records:**
    - Confirms `CHANGELOG.md` promoted `[Unreleased]` to `[1.2.0]`.
-   - Confirms `docs/decision-log.md` received `REL-1.2.0` entry.
+   - Confirms all architectural decisions and invariants are captured in `docs/adr/`.
 3. **Synchronize Documentation Manifest:**
-   - If files were added or modified under `docs/`, updates `docs/MANIFEST.md`.
+   - If files were added or modified under `docs/` or root, updates `MANIFEST.md`.
 4. **Output Closeout Summary:**
    - Produces a concise summary confirming phase completion, version bump, test status, and remaining notes for the next phase.
 
@@ -150,8 +150,8 @@ At the repository root, `AGENTS.md` provides global instructions that every codi
 # Agent Instructions — My Plugin
 
 Before any change:
-1. Read `docs/00-product-charter-and-decisions.md`.
-2. Read the active folder under `docs/plans/` and its `master-prompt.md`.
+1. Read `docs/00-product-charter-and-decisions.md` and active records under `docs/adr/`.
+2. Evaluate the ADR gate (`.cursor/rules/adr-evaluation.mdc`) and read the active folder under `docs/plans/`.
 3. Run WordPress router/project triage skills.
 4. Load every skill named by the phase.
 5. Do not implement later phases early.
@@ -162,5 +162,5 @@ Always use REST for browser mutations. Follow WPDS for admin UI.
 After a plan phase is finalized:
 6. Run the post-phase documentation and automated versioning closeout:
    increment version via `npm run update-version`, write implementation report
-   to `docs/implementation-logs/`, and update `docs/decision-log.md` and `CHANGELOG.md`.
+   to `docs/implementation-logs/`, and ensure all durable architectural choices are captured in `docs/adr/` and staged in `CHANGELOG.md`.
 ```

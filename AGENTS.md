@@ -2,8 +2,10 @@
 
 Before executing any phase or modification:
 
-1. **Read Charter First:** Consult `docs/00-product-charter-and-decisions.md`. The product charter is the ultimate single source of truth for architectural boundaries, database choices, and design constraints.
-2. **Consult Active Phase Plan:** When working on an implementation phase, read the active directory under `docs/plans/` and review its `master-prompt.md`.
+1. **Read Charter & Consult Active ADRs:** Consult `docs/00-product-charter-and-decisions.md` and active records under `docs/adr/`. The product charter and accepted ADRs are the ultimate single source of truth for architectural boundaries, database choices, and design constraints.
+2. **Consult Active Phase Plan & Evaluate ADR Gate:**
+   - Run the ADR-worthiness gate (`.cursor/rules/adr-evaluation.mdc`). If an architectural fork or boundary is touched, author/update an ADR in `docs/adr/` before executing implementation code.
+   - When working on an implementation phase, read the active directory under `docs/plans/` and review its `master-prompt.md`.
 3. **Execute Skills & Route Deterministically:**
    - Run the WordPress router and project triage skills (`.cursor/skills/wp-project-triage/`).
    - Load domain-specific skills required for the task (`wp-rest-api`, `wp-admin-ui-ux`, `ddd-best-practices`, `oop-best-practices`, `design-patterns-best-practices`, `tdd-best-practices`, `refactoring-best-practices`, `bruno-test-writer`, `wp-architecture-decision-records`).
@@ -25,7 +27,7 @@ Before executing any phase or modification:
    - **Prompt-Aware Versioning:** Check the initial user prompt. If and only if the user explicitly requested a version bump (e.g. "bump version", "release v1.1.0", "finish phase with patch bump"), execute atomic version bump via `npm run update-version -- [patch|minor|major|X.Y.Z]` directly via CLI parameters (never edit `.env` for versioning). Otherwise, leave version bumping as a manual task for the developer.
    - Follow `.cursor/rules/post-phase-documentation.mdc`.
    - Record implementation audit log in `docs/implementation-logs/YYYY-MM-DD-phase-XX-*.md` when finalizing planned phases.
-   - Synchronize `CHANGELOG.md` and `docs/decision-log.md`.
+   - Ensure all durable architectural choices are recorded as accepted ADRs in `docs/adr/` and synchronized with `CHANGELOG.md`.
 8. **Permanent Protection Invariants for Workspace Rules & In-Tree Skills:**
-   - **Workspace Rules (`.cursor/rules/`):** Core workspace rules (`post-phase-documentation.mdc`, `changelog-unreleased.mdc`, `wp-admin-ui-ux.mdc`, `windows-coreutils-shell.mdc`) encode immutable architectural policies and workflows. Agents and automated scripts MUST NEVER delete, clear, or overwrite workspace rules.
+   - **Workspace Rules (`.cursor/rules/`):** Core workspace rules (`adr-evaluation.mdc`, `post-phase-documentation.mdc`, `changelog-unreleased.mdc`, `wp-admin-ui-ux.mdc`, `windows-coreutils-shell.mdc`) encode immutable architectural policies and workflows. Agents and automated scripts MUST NEVER delete, clear, or overwrite workspace rules.
    - **In-Tree Custom Skills (`.cursor/skills/`):** Custom skills developed in-tree (`versioning`, `changelog`, `wp-admin-ui-ux`) are protected from upstream overwriting or deletion. `scripts/sync-agent-skills.mjs` enforces `PROTECTED_IN_TREE_SKILLS` to guarantee remote repository updates only manage external skills.

@@ -1,6 +1,6 @@
 ---
 name: versioning
-description: "Automatically calculate and synchronize plugin version increments across project files, package metadata, WordPress headers, constants, changelog, and decision log using scripts/increase-plugin-version.mjs."
+description: "Automatically calculate and synchronize plugin version increments across project files, package metadata, WordPress headers, constants, and changelog using scripts/increase-plugin-version.mjs."
 compatibility: "Requires Node.js 24.16.0+, npm 11+, and optional PHP CLI for version_compare()."
 ---
 
@@ -11,7 +11,7 @@ compatibility: "Requires Node.js 24.16.0+, npm 11+, and optional PHP CLI for ver
 Trigger this skill whenever:
 - The user's initial prompt explicitly requests a version bump or release (e.g. "bump version", "release v1.1.0", "finish phase with patch bump").
 - A developer manually triggers an atomic plugin version increment.
-- Synchronizing version numbers across the WordPress main plugin header, PHP constants, package manifests (`package.json`, `package-lock.json`, `composer.json`), `readme.txt`, docs, `CHANGELOG.md`, and `docs/decision-log.md`.
+- Synchronizing version numbers across the WordPress main plugin header, PHP constants, package manifests (`package.json`, `package-lock.json`, `composer.json`), `readme.txt`, docs, and `CHANGELOG.md`.
 
 *Note:* If the user did **not** explicitly request a version bump, do NOT run version increments automatically; instead, stage changes in `CHANGELOG.md` under `## [Unreleased]` using the `changelog` skill.
 
@@ -70,7 +70,8 @@ npm run test:versioning
 - **SemVer Strictness:** Target version must be valid Semantic Versioning (`X.Y.Z`) and higher than or equal to current version in `package.json`. Downgrades are rejected unless `--allow-downgrade` is explicitly passed.
 - **PHP Version Ordering:** When PHP CLI is available, target version must pass PHP `version_compare()` check.
 - **Dependency Preservation:** Never replace third-party dependency version numbers, even if they match the plugin version.
-- **Log Linkage:** The script moves `Unreleased` content in `CHANGELOG.md` to `## [VERSION] - YYYY-MM-DD` and creates `REL-VERSION` in `docs/decision-log.md`.
+- **Changelog Promotion:** The script moves `Unreleased` content in `CHANGELOG.md` to `## [VERSION] - YYYY-MM-DD` and creates a fresh empty `## [Unreleased]` block.
+- **Architectural Memory:** Architectural choices and invariants remain governed exclusively by `docs/adr/`.
 - **Atomic Operations:** Uses temporary file writes and rollback on failure.
 
 ---
@@ -82,5 +83,4 @@ npm run test:versioning
 - [ ] `package-lock.json` root package version matches target.
 - [ ] Plugin header `Version:` and constant match target.
 - [ ] `CHANGELOG.md` contains release header `## [VERSION] - YYYY-MM-DD` with promoted unreleased notes.
-- [ ] `docs/decision-log.md` contains entry `REL-VERSION`.
 - [ ] `npm run test:versioning` passes without errors.

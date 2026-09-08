@@ -40,7 +40,7 @@ function runChangelogCli(root, args = []) {
   });
 }
 
-test('updates WordPress, PHP, npm, Composer, docs, changelog, and decision log (legacy env)', async () => {
+test('updates WordPress, PHP, npm, Composer, docs, and changelog (legacy env)', async () => {
   const root = await createFixture();
   try {
     const result = runCli(root);
@@ -77,11 +77,6 @@ test('updates WordPress, PHP, npm, Composer, docs, changelog, and decision log (
     assert.match(changelog, /## \[1\.3\.0\] - 2026-08-01/);
     assert.match(changelog, /A release candidate feature/);
     assert.match(changelog, /## \[1\.2\.3\] - 2026-07-20/);
-
-    const decisionLog = await readFile(join(root, 'docs/decision-log.md'), 'utf8');
-    assert.match(decisionLog, /REL-1\.3\.0/);
-    assert.match(decisionLog, /Previous version: `1\.2\.3`/);
-    assert.match(decisionLog, /REL-1\.2\.3/);
   } finally {
     await rm(root, { recursive: true, force: true });
   }
@@ -163,9 +158,6 @@ test('updates version via positional CLI argument without .env', async () => {
     const changelog = await readFile(join(root, 'CHANGELOG.md'), 'utf8');
     assert.match(changelog, /## \[1\.4\.0\] - 2026-09-08/);
     assert.match(changelog, /A release candidate feature/);
-
-    const decisionLog = await readFile(join(root, 'docs/decision-log.md'), 'utf8');
-    assert.match(decisionLog, /REL-1\.4\.0/);
   } finally {
     await rm(root, { recursive: true, force: true });
   }
@@ -213,13 +205,12 @@ test('calculates major bump via --bump major without .env', async () => {
   }
 });
 
-test('combines custom changelog message and decision with unreleased notes', async () => {
+test('combines custom changelog message with unreleased notes', async () => {
   const root = await createFixture();
   try {
     const result = runCliWithoutEnv(root, [
       '--target-version', '1.3.0',
       '-m', 'Custom release headline note',
-      '-d', 'Custom decision approval reason',
       '--date', '2026-09-08',
     ]);
     assert.equal(result.status, 0, result.stderr);
@@ -228,9 +219,6 @@ test('combines custom changelog message and decision with unreleased notes', asy
     assert.match(changelog, /## \[1\.3\.0\] - 2026-09-08/);
     assert.match(changelog, /Custom release headline note/);
     assert.match(changelog, /A release candidate feature/);
-
-    const decisionLog = await readFile(join(root, 'docs/decision-log.md'), 'utf8');
-    assert.match(decisionLog, /Custom decision approval reason/);
   } finally {
     await rm(root, { recursive: true, force: true });
   }
@@ -248,7 +236,7 @@ test('fails with clear message when no target version or bump is provided and no
 });
 
 test('recordUnreleasedChange pure function adds entries under correct category', () => {
-  const initial = '# Changelog\n\n## [Unreleased]\n\n## [1.0.0] - 2026-08-01\n';
+  const initial = '# Changelog\n\n## [Unreleased]\n\n## [1.0.1] - 2026-08-01\n';
   const updated1 = recordUnreleasedChange(initial, { type: 'Added', message: 'First new feature' });
   assert.match(updated1, /## \[Unreleased\]\n\n### Added\n\n- First new feature/);
 

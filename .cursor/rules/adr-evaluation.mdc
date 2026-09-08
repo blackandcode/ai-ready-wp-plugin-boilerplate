@@ -1,0 +1,66 @@
+---
+description: Mandatory pre-planning and in-session Architecture Decision Record (ADR) evaluation gate
+alwaysApply: true
+---
+
+# Architecture Decision Record (ADR) Evaluation & Invariant Gate
+
+## Core Directive
+
+Architectural decisions must be evaluated **before** drafting phase plans and **during** coding sessions when architectural forks emerge. Architecture Decision Records (`docs/adr/`) serve as the **durable architectural memory** of the codebase, preventing architectural drift and agent hallucinations.
+
+Ephemeral phase plans (`docs/plans/`) specify *how* to implement features within the boundaries established by authoritative ADRs; they must never substitute for or contradict an ADR.
+
+---
+
+## 1. Pre-Planning ADR Gate (Before Creating Plans)
+
+Before creating or executing any phase plan under `docs/plans/`:
+
+1. **Inspect Existing ADRs:**
+   Read `docs/adr/README.md` to identify all currently `accepted` architectural constraints.
+2. **Evaluate the Proposed Scope:**
+   Classify the proposed architectural impact into one of five discrete states:
+
+| Classification State | Required Action |
+|---|---|
+| `ADR_REQUIRED` | The feature introduces custom tables, new dependencies, background job architectures, public REST changes, or high reversal costs. **Author and accept the ADR in `docs/adr/` BEFORE drafting implementation tasks.** |
+| `ADR_RECOMMENDED` | The feature involves competing design trade-offs with multiple viable patterns. **Propose the ADR to the user and draft before planning.** |
+| `ADR_NOT_NEEDED` | Routine feature code, standard WordPress API usage, or UI components adhering to existing ADRs. **Proceed directly to phase planning.** |
+| `EXISTING_ADR_GOVERNS` | A prior accepted ADR already dictates this exact pattern. **Cite the ADR in the phase plan and obey its invariants.** |
+| `EXISTING_ADR_MAY_REQUIRE_SUPERSESSION` | The planned feature contradicts an accepted ADR. **Draft a new ADR that supersedes the prior one before proceeding.** |
+
+---
+
+## 2. In-Session Proactive Triggers (Mid-Implementation)
+
+When executing an active coding session, if the agent encounters any of the following triggers, it **MUST PAUSE** implementation and surface the architectural decision:
+
+1. **New External Dependency:**
+   About to add a new third-party Composer package or npm dependency not already present in the boilerplate.
+2. **Data Model Architecture:**
+   About to introduce a custom database table (`dbDelta`), change storage paradigms (e.g. custom table vs. post meta vs. options), or alter schema indices.
+3. **Asynchronous Execution & Scheduling:**
+   About to implement background processing, deciding between Action Scheduler, WP-Cron, external webhooks, or loopback requests.
+4. **Public REST & Integration Contracts:**
+   About to alter a public REST API route schema, deprecate an endpoint, or change authentication/authorization paradigms.
+5. **Architectural Contradiction:**
+   About to implement a design pattern or file structure that contradicts an existing accepted ADR in `docs/adr/`.
+
+### Surfacing Protocol:
+When a trigger is hit:
+1. Explain the architectural fork and the trade-offs to the developer.
+2. Formulate the intent summary (title, trigger, options considered, binding invariants).
+3. Draft the ADR using `npm run adr:new -- -t "<Title>" --template <madr|simple>` and the `wp-architecture-decision-records` skill (`.cursor/skills/wp-architecture-decision-records/SKILL.md`).
+
+---
+
+## 3. Negative Anti-Spam Criteria (Do NOT Create an ADR)
+
+Do **NOT** create an ADR for:
+- Routine bug fixes, edge-case null checks, or typo corrections.
+- Cosmetic CSS styling or layout tweaks conforming to WPDS.
+- Standard WordPress API calls (`add_action()`, `wp_verify_nonce()`, `sanitize_text_field()`).
+- Minor/patch dependency updates within existing constraints.
+- Internal method refactorings that preserve public class contracts.
+- Changes already tracked in `CHANGELOG.md` under `## [Unreleased]`.

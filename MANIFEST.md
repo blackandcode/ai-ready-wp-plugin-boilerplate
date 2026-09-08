@@ -133,6 +133,7 @@ This manifest provides a comprehensive directory and file inventory for the **Wo
 
 | Path | Purpose |
 |---|---|
+| `.cursor/rules/adr-evaluation.mdc` | Persistent Cursor rule enforcing pre-planning and in-session ADR evaluation gate. |
 | `.cursor/rules/wp-admin-ui-ux.mdc` | Persistent Cursor rule enforcing WPDS admin styling and tokens. |
 | `.cursor/rules/post-phase-documentation.mdc` | Persistent Cursor rule enforcing phase closure, logs, and prompt-aware versioning. |
 | `.cursor/rules/changelog-unreleased.mdc` | Persistent Cursor rule enforcing 100% unreleased changelog recording on every run. |
@@ -141,6 +142,7 @@ This manifest provides a comprehensive directory and file inventory for the **Wo
 | `.agents/` | Symlink to `.cursor/` for vendor-agnostic AI agent compatibility. |
 | `.codex/` | Symlink to `.cursor/` for OpenAI Codex compatibility. |
 | `docs/00-product-charter-and-decisions.md` | Single authoritative source of truth for architectural invariants. |
-| `docs/decision-log.md` | Architecture Decision Records (ADRs) and release history. |
+| `docs/adr/` | Durable Architecture Decision Records (ADRs) with index registry and foundational records. |
+| `docs/12-architecture-decision-records.md` | Comprehensive guide to ADR lifecycle, classification states, and tooling. |
 | `docs/api/openapi.yaml` | OpenAPI 3.1 specification for all plugin endpoints. |
 | `docs/plans/01-starter-phase-template/` | 4-document phase template for structured agile implementation. |

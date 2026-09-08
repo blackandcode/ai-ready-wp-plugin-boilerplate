@@ -82,4 +82,3 @@ When a release is triggered (via `npm run update-version`):
 1. The versioning engine automatically scoops up all items under `## [Unreleased]`.
 2. Converts them into `## [X.Y.Z] - YYYY-MM-DD`.
 3. Inserts a fresh, clean `## [Unreleased]` section at the top.
-4. Appends a linked release entry in `docs/decision-log.md`.

@@ -3,7 +3,7 @@
  * Plugin Name: AI-Ready WP Plugin Boilerplate
  * Plugin URI: https://github.com/wordpress-ai/ai-ready-wp-plugin-boilerplate
  * Description: Production-ready WordPress plugin boilerplate built for modern agentic AI development workflows.
- * Version: 1.0.0
+ * Version: 1.0.1
  * Requires at least: 7.0
  * Requires PHP: 8.3
  * Author: WordPress AI Team
@@ -26,7 +26,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 define( 'AIRWP_PLUGIN_FILE', __FILE__ );
 define( 'AIRWP_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 define( 'AIRWP_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
-define( 'AIRWP_VERSION', '1.0.0' );
+define( 'AIRWP_VERSION', '1.0.1' );
 
 if ( file_exists( AIRWP_PLUGIN_DIR . 'vendor/autoload.php' ) ) {
 	require_once AIRWP_PLUGIN_DIR . 'vendor/autoload.php';

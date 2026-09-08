@@ -1,6 +1,6 @@
 {
   "name": "ai-ready-wp-plugin-boilerplate",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Enterprise-grade WordPress plugin boilerplate designed for AI coding agents and human developers.",
   "private": true,
   "engines": {
@@ -41,7 +41,11 @@
     "update-version:major": "node scripts/increase-plugin-version.mjs --bump major",
     "changelog:add": "node scripts/record-unreleased-change.mjs",
     "test:versioning": "node --test tests/node/versioning/*.test.mjs",
-    "test:environment": "node --test tests/node/environment/*.test.mjs"
+    "test:environment": "node --test tests/node/environment/*.test.mjs",
+    "adr:new": "node .cursor/skills/wp-architecture-decision-records/scripts/new-adr.mjs",
+    "adr:validate": "node .cursor/skills/wp-architecture-decision-records/scripts/validate-adr.mjs",
+    "adr:status": "node .cursor/skills/wp-architecture-decision-records/scripts/set-adr-status.mjs",
+    "adr:detect": "node .cursor/skills/wp-architecture-decision-records/scripts/detect-project.mjs"
   },
   "devDependencies": {
     "@playwright/test": "1.62.1",

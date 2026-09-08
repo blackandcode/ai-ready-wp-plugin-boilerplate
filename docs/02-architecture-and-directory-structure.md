@@ -46,13 +46,11 @@ my-plugin/
 ├── build/                                   # Compiled Webpack output (JS/CSS/asset-manifests)
 ├── docs/                                    # Authoritative documentation & agent specs
 │   ├── 00-product-charter-and-decisions.md  # Single authoritative truth for product behavior
+│   ├── adr/                                 # Architectural Decision Records (0001-*.md & README.md)
 │   ├── api/                                 # OpenAPI specifications (openapi.yaml)
-│   ├── architecture/adr/                    # Architectural Decision Records (ADR-NNN-*.md)
 │   ├── implementation-logs/                 # Pre- & post-phase audit logs (YYYY-MM-DD-*.md)
 │   ├── plans/                               # Phased implementation plans (XX-<name>/)
-│   ├── CHANGELOG.md                         # Release history & unreleased features
-│   ├── decision-log.md                      # Chronological ADR & version bump record
-│   └── MANIFEST.md                          # Documentation checksum and inventory manifest
+│   └── 12-architecture-decision-records.md  # ADR lifecycle guide & pre-planning evaluation gate
 ├── packages/                                # Internal monorepo packages/libraries (if any)
 ├── scripts/                                 # Operational automation scripts
 │   ├── increase-plugin-version.mjs          # Automated SemVer synchronization CLI

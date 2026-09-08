@@ -11,7 +11,7 @@ It supports all major operating systems: **macOS**, **native Windows**, **Window
 | Tool / Runtime | Minimum Version | Scope | Purpose |
 |---|---|---|---|
 | **Node.js** | `>= 24.16.0` | Host | Asset compilation (`@wordpress/scripts`), test runners, scaffolding CLI |
-| **npm** | `>= 11.0.0` | Host | Package management and script orchestration |
+| **npm** | `>= 11.0.1` | Host | Package management and script orchestration |
 | **Docker** | Docker 24+ / Desktop 4+ | Host / Virtualization | Containerized WordPress, MariaDB, and CLI environments (`wp-env`) |
 | **Docker Compose** | Compose `v2.x` | Host / Docker | Multi-container orchestration driven by `@wordpress/env` |
 | **PHP CLI** | `>= 8.3.0` | Host (Advisory) | Local PHPUnit unit testing, WPCS coding standards linting, and PHPStan |

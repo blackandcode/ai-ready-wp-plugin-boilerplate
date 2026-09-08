@@ -50,4 +50,10 @@ No feature is considered complete without accompanying automated tests:
 ### Invariant 5: Atomic, Automated Release Lifecycle
 1. Changing version numbers is strictly forbidden as a manual text edit.
 2. All releases must be executed via `npm run update-version`, driven by `scripts/increase-plugin-version.mjs`.
-3. The script atomically updates `package.json`, `package-lock.json`, `composer.json`, plugin file headers, constants, `readme.txt`, promotes `CHANGELOG.md` unreleased entries, and logs a release decision in `docs/decision-log.md`.
+3. The script atomically updates `package.json`, `package-lock.json`, `composer.json`, plugin file headers, constants, `readme.txt`, and promotes staged `CHANGELOG.md` unreleased entries into the release milestone header.
+
+### Invariant 6: Durable Architectural Memory (ADR Governance)
+1. Architectural decisions must be evaluated before planning or coding using `.cursor/rules/adr-evaluation.mdc`.
+2. All durable architectural choices, trade-offs, and invariants must be captured in `docs/adr/` as immutable Architecture Decision Records under `docs/adr/`.
+3. Accepted ADRs are binding on all subsequent development. Any departure from an accepted ADR requires drafting a new ADR that explicitly supersedes it.
+4. Ephemeral phase plans (`docs/plans/`) must cite active governing ADRs and never substitute for architectural memory.
