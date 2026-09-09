@@ -2,7 +2,7 @@
 
 This document defines the system requirements, toolchains, and setup steps required to develop, test, and build plugins using the **WordPress AI Plugin Development Boilerplate**.
 
-It supports all major operating systems: **macOS**, **native Windows**, **Windows Subsystem for Linux (WSL2)**, and **native Linux**.
+It leverages `@wordpress/env` (`wp-env`), the [official WordPress local development environment](https://developer.wordpress.org/block-editor/getting-started/devenv/get-started-with-wp-env/), supporting all major operating systems: **macOS**, **native Windows**, **Windows Subsystem for Linux (WSL2)**, and **native Linux**.
 
 ---
 

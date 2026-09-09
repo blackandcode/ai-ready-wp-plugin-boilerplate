@@ -30,12 +30,22 @@ export class SettingsPage {
 	public readonly resetButton: Locator;
 	public readonly noticeBanner: Locator;
 	public readonly layoutContainer: Locator;
+	public readonly cardHeader: Locator;
+	public readonly cardHeaderContent: Locator;
+	public readonly headerBadge: Locator;
+	public readonly cardTitle: Locator;
+	public readonly cardSubtitle: Locator;
 
 	constructor( page: Page ) {
 		this.page = page;
 		this.pageHeading = page.locator( 'h1.wp-heading-inline' );
 		this.appContainer = page.locator( '.airwp-app-container' );
 		this.settingsCard = page.locator( '.airwp-settings-card' );
+		this.cardHeader = page.locator( '.airwp-card-header' );
+		this.cardHeaderContent = page.locator( '.airwp-header-content' );
+		this.headerBadge = page.locator( '.airwp-header-badge' );
+		this.cardTitle = page.locator( '.airwp-card-title' );
+		this.cardSubtitle = page.locator( '.airwp-card-subtitle' );
 		this.sidebarNav = page.locator( '.airwp-settings-sidebar' );
 		this.generalTab = page
 			.locator( '.airwp-sidebar-tab' )
@@ -138,5 +148,34 @@ export class SettingsPage {
 			'data-airwp-app-state',
 			'ready'
 		);
+	}
+
+	/**
+	 * Verify that the card header title is positioned on the left side of the card,
+	 * immediately adjacent to the header icon badge.
+	 */
+	public async expectCardHeaderAlignedLeft(): Promise< void > {
+		await expect( this.cardHeader ).toBeVisible();
+		await expect( this.headerBadge ).toBeVisible();
+		await expect( this.cardTitle ).toBeVisible();
+
+		const cardBox = await this.settingsCard.boundingBox();
+		const badgeBox = await this.headerBadge.boundingBox();
+		const titleBox = await this.cardTitle.boundingBox();
+
+		expect( cardBox ).not.toBeNull();
+		expect( badgeBox ).not.toBeNull();
+		expect( titleBox ).not.toBeNull();
+
+		if ( cardBox && badgeBox && titleBox ) {
+			// Title must start immediately after the icon badge with standard spacing (< 30px gap).
+			const gap = titleBox.x - ( badgeBox.x + badgeBox.width );
+			expect( gap ).toBeGreaterThanOrEqual( 0 );
+			expect( gap ).toBeLessThanOrEqual( 30 );
+
+			// Title must be positioned in the left portion of the card (not pushed to the right edge).
+			const relativeTitleStart = titleBox.x - cardBox.x;
+			expect( relativeTitleStart ).toBeLessThan( cardBox.width / 2 );
+		}
 	}
 }

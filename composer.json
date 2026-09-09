@@ -2,7 +2,7 @@
   "name": "wordpress-ai/ai-ready-wp-plugin-boilerplate",
   "description": "Enterprise-grade WordPress plugin boilerplate designed for AI coding agents and human developers.",
   "type": "wordpress-plugin",
-  "license": "GPL-2.0-or-later",
+  "license": "MIT",
   "require": {
     "php": ">=8.3"
   },

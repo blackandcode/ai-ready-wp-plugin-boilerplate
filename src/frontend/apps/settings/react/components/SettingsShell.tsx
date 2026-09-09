@@ -138,16 +138,21 @@ export function SettingsShell( {
 			<main className="airwp-settings-main">
 				<Card className="airwp-settings-card">
 					<CardHeader className="airwp-card-header">
-						<div className="airwp-header-badge">
-							<Icon icon={ currentTabMeta.icon } size={ 20 } />
-						</div>
-						<div>
-							<h2 className="airwp-card-title">
-								{ currentTabMeta.label }
-							</h2>
-							<p className="airwp-card-subtitle">
-								{ currentTabMeta.subtitle }
-							</p>
+						<div className="airwp-header-content">
+							<div className="airwp-header-badge">
+								<Icon
+									icon={ currentTabMeta.icon }
+									size={ 20 }
+								/>
+							</div>
+							<div>
+								<h2 className="airwp-card-title">
+									{ currentTabMeta.label }
+								</h2>
+								<p className="airwp-card-subtitle">
+									{ currentTabMeta.subtitle }
+								</p>
+							</div>
 						</div>
 					</CardHeader>
 

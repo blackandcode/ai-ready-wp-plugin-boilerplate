@@ -26,6 +26,29 @@ test.describe( 'Settings Admin Application (Page Object Model)', () => {
 		);
 	} );
 
+	test( 'positions card header title on the left adjacent to the icon badge across all tabs', async ( {
+		page,
+	} ) => {
+		const settingsPage = new SettingsPage( page );
+		await settingsPage.goto();
+
+		// Verify General tab card header layout
+		await expect( settingsPage.cardTitle ).toHaveText( 'General' );
+		await settingsPage.expectCardHeaderAlignedLeft();
+
+		// Verify Advanced & Retention tab card header layout
+		await settingsPage.switchTab( 'advanced' );
+		await expect( settingsPage.cardTitle ).toHaveText(
+			'Advanced & Retention'
+		);
+		await settingsPage.expectCardHeaderAlignedLeft();
+
+		// Verify Developer Tools tab card header layout
+		await settingsPage.switchTab( 'developer' );
+		await expect( settingsPage.cardTitle ).toHaveText( 'Developer Tools' );
+		await settingsPage.expectCardHeaderAlignedLeft();
+	} );
+
 	test( 'renders embedded Developer App with horizontal sub-tabs inside settings card', async ( {
 		page,
 	} ) => {

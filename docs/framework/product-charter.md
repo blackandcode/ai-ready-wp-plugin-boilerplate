@@ -15,7 +15,7 @@ If any specification, phase document, prompt, or code implementation conflicts w
 - **Default Block Namespace:** `ai-ready-wp/hello-world`
 - **Minimum Supported WordPress Version:** `7.0`
 - **Minimum Supported PHP Version:** `8.3`
-- **License:** GPL-2.0-or-later
+- **License:** MIT
 
 ---
 

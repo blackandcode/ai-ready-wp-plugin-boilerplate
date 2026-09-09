@@ -6,19 +6,33 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Standalone Developer Frontend Application (`src/frontend/apps/developer/`): Implemented independent React application structure (`DeveloperApp`, `DeveloperShell`, styles, and entrypoint) encapsulating System Diagnostics telemetry and live OpenAPI 3.1 Scalar reference viewer.
+- Extensible Settings App Architecture (`src/frontend/apps/settings/`): Refactored `SettingsShell` and `App` to support `SettingsAppExtension` contracts, enabling dynamic discovery and embedding of sibling applications in the left sidebar navigation and card layout.
+- In-Card Developer Horizontal Sub-Tabs: Added sub-tab navigation switching cleanly between **System Diagnostics** and **API Reference** inside the main card without leaving the Settings application.
+- Developer Frontend Unit Test Suites: Added `tests/js/apps/developer/DeveloperShell.test.tsx` and migrated `ApiReferenceSection.test.tsx` to the Developer app domain.
+- Bruno REST automated test suite for OpenAPI live endpoint: Added `tests/bruno/05 Developer/get-dev-openapi.bru` (verifying 200 OK, valid OpenAPI 3.1 structure, routes) and `tests/bruno/05 Developer/dev-openapi-unauthenticated.bru` (verifying 403 Forbidden).
+- Playwright E2E test coverage for embedded Developer app & sub-tabs: Enhanced `tests/e2e/playwright/tests/settings.spec.ts` and `SettingsPage.ts` with assertions verifying the left sidebar "Developer Tools" menu item, in-card sub-tabs, and Scalar contract viewer.
+
+### Changed
+
+- Moved `StatusBadge` component from Settings app to `src/frontend/shared/components/StatusBadge.tsx` and exported via `src/frontend/shared/index.ts` for cross-application design token consistency.
+- Updated `webpack.config.js` to register `admin/developer/index` standalone entrypoint alongside `admin/settings/index`.
+- Streamlined root `README.md` into a marketing-ready developer onboarding guide with key features and site placeholders.
+- Consolidated architectural highlights, 5-tier testing pyramid, SemVer lifecycle, CI/CD, and ADR details into `docs/README.md`.
+- Updated project license from GPL-2.0-or-later to MIT across `README.md`, `LICENSE`, `package.json`, `composer.json`, headers, and metadata.
+- Reordered `README.md` to prioritize Quick Start (Under 2 Minutes) above Why This Boilerplate and simplified Scaffolding section by removing the flags table.
+- Updated Quick Start prerequisites in `README.md` and `docs/developers/development-prerequisites.md` to reference the official WordPress development environment documentation for `@wordpress/env` and relocated pre-check execution to post-clone.
+
 ### Fixed
 
-- Resolved GitHub Actions release readiness workflow failures: Migrated external GitHub Actions in `.github/workflows/_release-readiness.yml` and `release.yml` from commit hashes to semantic version tags (`actions/checkout@v4`, `actions/setup-node@v4`, `actions/upload-artifact@v4`, `actions/download-artifact@v4`, `shivammathur/setup-php@v2`, `actions/attest-build-provenance@v2`, and `wordpress/plugin-check-action@v1`).
-- Updated `tools/release/lint-actions.mjs` to validate semantic version tags instead of 40-character commit SHAs.
-- Configured ignore rules in `.github/dependabot.yml` for incompatible major ecosystem packages (`react@19`, `react-dom@19`, `typescript@7`, `@wordpress/components@40`, and `@wordpress/block-editor@17`).
 - Resolved Settings API Reference tab invisibility in WordPress Admin: Aligned localized window property names between `SettingsAssets.php` (`airwpAdminBootstrap` and `airwpSettingsBootstrap`) and `index.tsx`, ensuring bootstrap metadata and development status hydrate cleanly into the React container.
 - Resolved direct browser inspection of `/ai-ready-wp-dev/v1/openapi`: Updated `DevOpenApiController::permissions_check()` to validate authenticated WordPress administrator cookie sessions (`wp_validate_auth_cookie`) when accessing directly in browser address bars without a REST nonce.
 - Added relative path resolution in `ApiReferenceSection`: Supported `path: '/ai-ready-wp-dev/v1/openapi'` alongside `endpoint` URL to leverage WordPress `wp-api-fetch` core middlewares and prevent cross-origin/port issues in local and proxied development environments.
+- Fixed card header title alignment in Settings App: Wrapped the icon badge, title, and subtitle into a cohesive `.airwp-header-content` container and set explicit `justify-content: flex-start` on `.airwp-card-header` in `SettingsShell.tsx` and `settings.css`, preventing Emotion flexbox defaults from pushing the title to the right edge.
+- Added Playwright E2E layout alignment assertions in `tests/e2e/playwright/tests/settings.spec.ts` and `SettingsPage.ts` verifying the title is positioned on the left side adjacent to the icon badge across all tabs.
 
-### Added
-
-- Bruno REST automated test suite for OpenAPI live endpoint: Added `tests/bruno/05 Developer/get-dev-openapi.bru` (verifying 200 OK, valid OpenAPI 3.1 structure, routes) and `tests/bruno/05 Developer/dev-openapi-unauthenticated.bru` (verifying 403 Forbidden).
-- Playwright E2E test coverage for API Reference UI & REST verification: Enhanced `tests/e2e/playwright/tests/settings.spec.ts` and `SettingsPage.ts` with test assertions for the API Reference sidebar tab, developer guidance banner, Scalar contract viewer, and direct REST API session requests.
 
 ## [1.1.0] - 2026-09-09
 

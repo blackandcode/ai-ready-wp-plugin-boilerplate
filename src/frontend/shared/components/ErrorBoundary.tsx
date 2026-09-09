@@ -83,17 +83,19 @@ export class ErrorBoundary extends Component<
 			return (
 				<Card className="airwp-error-boundary-card" role="alert">
 					<CardHeader className="airwp-card-header">
-						<div className="airwp-header-badge airwp-badge-error">
-							<Icon icon={ caution } size={ 20 } />
-						</div>
-						<div>
-							<h2 className="airwp-card-title">{ title }</h2>
-							<p className="airwp-card-description">
-								{ __(
-									'An unexpected JavaScript error occurred. You can attempt to retry or reload the page.',
-									'ai-ready-wp-plugin-boilerplate'
-								) }
-							</p>
+						<div className="airwp-header-content">
+							<div className="airwp-header-badge airwp-badge-error">
+								<Icon icon={ caution } size={ 20 } />
+							</div>
+							<div>
+								<h2 className="airwp-card-title">{ title }</h2>
+								<p className="airwp-card-description">
+									{ __(
+										'An unexpected JavaScript error occurred. You can attempt to retry or reload the page.',
+										'ai-ready-wp-plugin-boilerplate'
+									) }
+								</p>
+							</div>
 						</div>
 					</CardHeader>
 					<CardBody className="airwp-card-body">

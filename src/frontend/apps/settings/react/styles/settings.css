@@ -83,12 +83,21 @@
 	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
 }
 
-.airwp-card-header {
+.airwp-card-header,
+.airwp-settings-card .airwp-card-header {
 	display: flex;
 	align-items: center;
+	justify-content: flex-start;
 	gap: 14px;
 	padding: 16px 20px;
 	border-bottom: 1px solid #dcdcde;
+}
+
+.airwp-header-content {
+	display: flex;
+	align-items: center;
+	gap: 14px;
+	min-width: 0;
 }
 
 .airwp-header-badge {

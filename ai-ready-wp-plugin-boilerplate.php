@@ -7,8 +7,8 @@
  * Requires at least: 7.0
  * Requires PHP: 8.3
  * Author: WordPress AI Team
- * License: GPL-2.0-or-later
- * License URI: https://www.gnu.org/licenses/gpl-2.0.html
+ * License: MIT
+ * License URI: https://opensource.org/licenses/MIT
  * Text Domain: ai-ready-wp-plugin-boilerplate
  * Domain Path: /languages
  *

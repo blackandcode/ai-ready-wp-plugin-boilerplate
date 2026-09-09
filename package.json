@@ -2,6 +2,7 @@
   "name": "ai-ready-wp-plugin-boilerplate",
   "version": "1.1.0",
   "description": "Enterprise-grade WordPress plugin boilerplate designed for AI coding agents and human developers.",
+  "license": "MIT",
   "private": true,
   "engines": {
     "node": ">=24.16.0",

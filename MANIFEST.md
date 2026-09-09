@@ -26,6 +26,7 @@ This manifest provides a comprehensive directory and file inventory for the **Wo
 | `redocly.yaml` | Redocly CLI configuration for OpenAPI 3.1 specification linting. | Toolchain |
 | `.env.example` | Template for environment variables, Bruno credentials, and target version. | Environment |
 | `README.md` | High-conversion marketing and developer onboarding documentation. | Documentation |
+| `LICENSE` | MIT License terms and conditions. | Legal |
 | `readme.txt` | WordPress.org standard plugin readme with stable tag and descriptions. | Distribution |
 | `.distignore` | Distribution archive rules specifying files to exclude from production ZIP. | Distribution |
 | `.github/dependabot.yml` | Dependabot configuration for GitHub Actions, npm, and Composer. | Automation |
@@ -131,11 +132,16 @@ This manifest provides a comprehensive directory and file inventory for the **Wo
 | `src/frontend/apps/settings/react/components/SettingsShell.tsx` | Navigation sidebar with icons, card structure, and action footer. | Frontend (Settings) |
 | `src/frontend/apps/settings/react/components/GeneralSection.tsx` | Form controls for greeting message, feature toggle, and description. | Frontend (Settings) |
 | `src/frontend/apps/settings/react/components/AdvancedSection.tsx` | Form controls for REST debug, cache TTL, and data retention policy. | Frontend (Settings) |
-| `src/frontend/apps/settings/react/components/DiagnosticsSection.tsx` | System diagnostic table verifying PHP, WP core, and API status. | Frontend (Settings) |
-| `src/frontend/apps/settings/react/components/ApiReferenceSection.tsx` | React section component fetching and presenting the live OpenAPI reference. | Frontend (Settings) |
-| `src/frontend/apps/settings/react/components/ApiReferenceViewer.tsx` | Code-split React viewer rendering OpenAPI specification via Scalar. | Frontend (Settings) |
-| `src/frontend/apps/settings/react/components/StatusBadge.tsx` | WPDS status indicator badge. | Frontend (Settings) |
 | `src/frontend/apps/settings/templates/admin-settings-root.php` | HTML mount template for Settings app with action hooks. | Frontend (Settings) |
+| `src/frontend/apps/developer/index.ts` | Public exports and Settings extension definition (`developerAppExtension`). | Frontend (Developer) |
+| `src/frontend/apps/developer/react/index.tsx` | Webpack entrypoint mounting standalone Developer app to `#airwp-developer-root`. | Frontend (Developer) |
+| `src/frontend/apps/developer/react/App.tsx` | Root container for standalone Developer app with ErrorBoundary. | Frontend (Developer) |
+| `src/frontend/apps/developer/react/types.ts` | TypeScript types for Developer sub-tabs and metadata. | Frontend (Developer) |
+| `src/frontend/apps/developer/react/styles/developer.css` | Dedicated styles for horizontal sub-tabs, diagnostics table, and banner. | Frontend (Developer) |
+| `src/frontend/apps/developer/react/components/DeveloperShell.tsx` | Card-body presentation shell rendering horizontal sub-tabs and views. | Frontend (Developer) |
+| `src/frontend/apps/developer/react/components/DiagnosticsSection.tsx` | System diagnostic table verifying PHP, WP core, and API status. | Frontend (Developer) |
+| `src/frontend/apps/developer/react/components/ApiReferenceSection.tsx` | React section component fetching and presenting the live OpenAPI reference. | Frontend (Developer) |
+| `src/frontend/apps/developer/react/components/ApiReferenceViewer.tsx` | Code-split React viewer rendering OpenAPI specification via Scalar. | Frontend (Developer) |
 | `src/frontend/apps/hello-world/block.json` | Block API v3 metadata declaration and attribute definitions. | Frontend (HelloWorld) |
 | `src/frontend/apps/hello-world/types.ts` | Strongly typed attributes, context, and Interactivity store contracts. | Frontend (HelloWorld) |
 | `src/frontend/apps/hello-world/index.ts` | Block registration entrypoint registering edit and save. | Frontend (HelloWorld) |
@@ -156,6 +162,7 @@ This manifest provides a comprehensive directory and file inventory for the **Wo
 | `src/frontend/shared/components/SectionHeader.tsx` | Reusable section header with badge icon and actions. | Frontend Shared |
 | `src/frontend/shared/components/NoticeBanner.tsx` | Accessible dismissible banner (`role="status"`, `role="alert"`). | Frontend Shared |
 | `src/frontend/shared/components/LoadingSkeleton.tsx` | Accessible loading skeleton emitting `data-airwp-app-state="loading"`. | Frontend Shared |
+| `src/frontend/shared/components/StatusBadge.tsx` | WPDS status indicator badge for health and telemetry. | Frontend Shared |
 | `src/frontend/shared/components/ErrorBoundary.tsx` | Defensive error boundary catching render crashes with retry action. | Frontend Shared |
 
 ---
@@ -221,7 +228,8 @@ This manifest provides a comprehensive directory and file inventory for the **Wo
 | `tests/js/shared/useSettingsForm.test.ts` | Unit tests for useSettingsForm state reducer and immutability. | Tier 3 |
 | `tests/js/apps/settings/App.test.tsx` | Unit tests for Settings App container and API client delegation. | Tier 3 |
 | `tests/js/apps/settings/SettingsShell.test.tsx` | Unit tests for Settings React shell, tab navigation, and save buttons. | Tier 3 |
-| `tests/js/apps/settings/ApiReferenceSection.test.tsx` | Unit tests for ApiReferenceSection loading, error, retry, and viewer rendering states. | Tier 3 |
+| `tests/js/apps/developer/DeveloperShell.test.tsx` | Unit tests for Developer app horizontal sub-tabs and section switching. | Tier 3 |
+| `tests/js/apps/developer/ApiReferenceSection.test.tsx` | Unit tests for ApiReferenceSection loading, error, retry, and viewer rendering states. | Tier 3 |
 | `tests/js/blocks/hello-world/edit.test.tsx` | Unit tests for Gutenberg Hello World block edit component. | Tier 3 |
 | `tests/js/blocks/hello-world/save.test.tsx` | Unit tests for Hello World save directives. | Tier 3 |
 | `tests/node/versioning/version-sync.test.mjs` | Integration tests for automated SemVer synchronization engine. | Toolchain |
@@ -254,7 +262,7 @@ This manifest provides a comprehensive directory and file inventory for the **Wo
 
 | File | Purpose | Layer |
 |---|---|---|
-| `docs/README.md` | Master Documentation Hub index and reading pathways. | Documentation |
+| `docs/README.md` | Master Documentation Hub, technical architecture guide, testing pyramid, and reading pathways. | Documentation |
 | `docs/framework/README.md` | Framework kernel documentation hub. | Documentation |
 | `docs/framework/product-charter.md` | Authoritative single source of truth for plugin identity and core invariants. | Framework |
 | `docs/framework/architecture-and-layers.md` | Tripartite Hexagonal architecture specification and autoloader mappings. | Framework |
