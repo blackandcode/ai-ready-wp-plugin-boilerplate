@@ -8,9 +8,11 @@
 namespace AIReady\WPPluginBoilerplate\Backend;
 
 use WP_CLI;
+use AIReady\WPPluginBoilerplate\Backend\Apps\Developer\DeveloperBackendServiceProvider;
 use AIReady\WPPluginBoilerplate\Backend\Apps\Diagnostics\DiagnosticsBackendServiceProvider;
 use AIReady\WPPluginBoilerplate\Backend\Apps\HelloWorld\HelloWorldBackendServiceProvider;
 use AIReady\WPPluginBoilerplate\Backend\Apps\Settings\SettingsBackendServiceProvider;
+use AIReady\WPPluginBoilerplate\Backend\Cli\OpenApiCliCommand;
 use AIReady\WPPluginBoilerplate\Backend\Cli\PluginCliCommand;
 use AIReady\WPPluginBoilerplate\Framework\Container\Container;
 use AIReady\WPPluginBoilerplate\Framework\Container\ServiceProviderInterface;
@@ -41,6 +43,7 @@ class BackendServiceProvider implements ServiceProviderInterface {
 			new SettingsBackendServiceProvider(),
 			new DiagnosticsBackendServiceProvider(),
 			new HelloWorldBackendServiceProvider(),
+			new DeveloperBackendServiceProvider(),
 		);
 	}
 
@@ -82,6 +85,7 @@ class BackendServiceProvider implements ServiceProviderInterface {
 		// Register WP-CLI command.
 		if ( defined( 'WP_CLI' ) && WP_CLI ) {
 			WP_CLI::add_command( 'ai-ready', PluginCliCommand::class );
+			WP_CLI::add_command( 'ai-ready openapi', OpenApiCliCommand::class );
 		}
 	}
 

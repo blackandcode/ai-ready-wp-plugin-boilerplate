@@ -92,7 +92,7 @@ Before starting, verify that your local environment (Node.js >= 24.16, npm >= 11
 npm run pre-check
 ```
 
-If you encounter missing requirements or need installation instructions for macOS, Windows native, WSL2, or Linux, consult the [Development Prerequisites Guide](docs/boilerplate-development/development-prerequisites.md).
+If you encounter missing requirements or need installation instructions for macOS, Windows native, WSL2, or Linux, consult the [Development Prerequisites Guide](docs/developers/development-prerequisites.md).
 
 ### 1. Clone & Scaffold Your New Plugin
 
@@ -203,9 +203,9 @@ Changing version numbers is **never a manual text edit**. The boilerplate provid
 
 ```bash
 # Automated SemVer bumps:
-npm run update-version:patch    # 1.0.1 -> 1.0.1 (maintenance fixes & refactoring)
-npm run update-version:minor    # 1.0.1 -> 1.1.0 (new features & phase completions)
-npm run update-version:major    # 1.0.1 -> 2.0.0 (breaking changes & major baseline)
+npm run update-version:patch    # 1.1.0 -> 1.1.0 (maintenance fixes & refactoring)
+npm run update-version:minor    # 1.1.0 -> 1.1.0 (new features & phase completions)
+npm run update-version:major    # 1.1.0 -> 2.0.0 (breaking changes & major baseline)
 
 # Explicit target version with optional custom notes & decision rationale:
 npm run update-version -- 1.2.0 -m "Release highlights" -d "Approved v1.2.0 release"
@@ -242,13 +242,35 @@ npm run update-version -- patch --dry-run
 5. Promotes `CHANGELOG.md` `[Unreleased]` items into the formal release header (`## [X.Y.Z] - YYYY-MM-DD`).
 6. Enforces PHP version comparison ordering (`version_compare`).
 
-For deep-dive documentation, see [Versioning & Release Lifecycle](docs/boilerplate-development/versioning-and-releases.md).
+For deep-dive documentation, see [Versioning & Release Lifecycle](docs/developers/versioning-and-releases.md).
+
+---
+
+## Two-Pipeline CI/CD & Automated Release Packaging
+
+The boilerplate implements a secure, reproducible two-pipeline CI/CD and release model governed by [ADR-0010](docs/adr/0010-two-pipeline-ci-cd-and-release-readiness-architecture.md):
+
+1. **Continuous Delivery Readiness (`.github/workflows/ci.yml`):** Runs on every PR and push to `main`. Executes linters, PHP quality across PHP 8.3 and 8.5, compiles assets, builds the production distribution ZIP, validates the package contract, and runs official WordPress Plugin Check on the built archive.
+2. **Manual Release Dispatch (`.github/workflows/release.yml`):** Manual-only workflow triggered via `workflow_dispatch` on `main`. Verifies version consistency, re-evaluates the shared release gate, generates Sigstore-backed build provenance attestations, tags `vX.Y.Z`, and creates an immutable GitHub Release.
+3. **The Tested Artifact Is the Released Artifact:** The release workflow publishes the exact ZIP verified in CI, eliminating rebuild drift.
+
+```bash
+# Local CLI parity commands:
+npm run ci                  # Runs full local lint and test suites
+npm run release:check       # Validates version consistency and git readiness
+npm run release:build       # Compiles assets and builds dist/{slug}-{version}.zip
+npm run release:validate    # Validates ZIP against strict production package contract
+npm run release:notes       # Extracts version markdown notes from CHANGELOG.md
+npm run lint:actions        # Validates workflow YAML, syntax, and SHA pinning
+```
+
+For complete operational procedures and GitHub branch protection recommendations, see [Releasing & CI/CD Guide](docs/devops/releasing-and-distribution.md).
 
 ---
 
 ## Architecture Decision Records (ADRs)
 
-Architectural decisions are captured under `docs/adr/` as immutable historical records with explicit invariants, trade-offs, and verification criteria. Ephemeral phase plans (`docs/plans/`) govern *how* to build features, while ADRs define the durable architectural boundaries.
+Architectural decisions are captured under `docs/adr/` as immutable historical records with explicit invariants, trade-offs, and verification criteria. Ephemeral phase plans (`docs/specifications/plans/`) govern *how* to build features, while ADRs define the durable architectural boundaries.
 
 | Command | Purpose | Example |
 | --- | --- | --- |
@@ -257,7 +279,7 @@ Architectural decisions are captured under `docs/adr/` as immutable historical r
 | `npm run adr:status` | Updates the status of an existing ADR (`accepted`, `deprecated`, `superseded`) | `npm run adr:status -- --file docs/adr/0002-xyz.md --status superseded --by 0005` |
 | `npm run adr:detect` | Detects WordPress project architecture, dependencies, and ADR conventions | `npm run adr:detect` |
 
-For full lifecycle details and the pre-planning evaluation gate, see [Architecture Decision Records Guide](docs/general/architecture-decision-records-guide.md) and the [ADR Index](docs/adr/README.md).
+For full lifecycle details and the pre-planning evaluation gate, see [Architecture Decision Records Guide](docs/developers/architecture-decision-records-guide.md) and the [ADR Index](docs/adr/README.md).
 
 ---
 
@@ -278,40 +300,73 @@ The boilerplate includes full instruction sets for AI coding agents:
 
 Browse the master documentation index in the **[Documentation Hub](docs/README.md)** or explore each category directly:
 
-### General Foundations & Architecture (`docs/general/`)
+### 1. Framework Kernel & Architecture (`docs/framework/`)
 
-- [Product Charter & Architectural Invariants](docs/general/product-charter.md)
-- [Architecture & Layer Boundaries](docs/general/architecture-and-layers.md)
-- [Architecture Decision Records (ADRs) Guide](docs/general/architecture-decision-records-guide.md)
+- [Product Charter & Architectural Invariants](docs/framework/product-charter.md)
+- [Architecture & Layer Boundaries](docs/framework/architecture-and-layers.md)
+- [DI Container & Service Providers](docs/framework/container-and-service-providers.md)
+- [Plugin Kernel & Lifecycle Management](docs/framework/kernel-and-lifecycle.md)
+- [Domain Event Dispatcher](docs/framework/event-dispatcher.md)
+- [Safe Template Renderer](docs/framework/template-renderer.md)
+- [Domain & Application Services](docs/framework/domain-and-application-services.md)
+- [Frontend Presentation Bridge](docs/framework/frontend-bridge.md)
+- [Error Handling & Caching Utilities](docs/framework/error-handling-and-cache.md)
+- [OpenAPI 3.1 Generator Engine](docs/framework/openapi-generator-engine.md)
 
-### Boilerplate Development & Operations (`docs/boilerplate-development/`)
+### 2. Testing Hub & 5-Tier Pyramid (`docs/testing/`)
 
-- [Environment & Containerized Toolchain](docs/boilerplate-development/environment-and-toolchain.md)
-- [Development Prerequisites & Setup](docs/boilerplate-development/development-prerequisites.md)
-- [Coding Standards & Static Analysis](docs/boilerplate-development/coding-standards.md)
-- [Testing Strategy & Test Harnesses](docs/boilerplate-development/testing-strategy.md)
-- [Project Scaffolding & Rebranding CLI](docs/boilerplate-development/project-scaffolding-cli.md)
-- [Versioning & Release Lifecycle](docs/boilerplate-development/versioning-and-releases.md)
-- [Agent Skills & Sync Script](docs/boilerplate-development/agent-skills.md)
-- [Configuration Templates Reference](docs/boilerplate-development/configuration-reference.md)
-- [Command Catalog](docs/boilerplate-development/command-catalog.md)
-- [Project Bootstrap Checklist](docs/boilerplate-development/bootstrap-checklist.md)
-- [Cursor Playwright MCP Integration](docs/boilerplate-development/cursor-playwright-mcp.md)
+- [Testing Strategy & Quality Gate Pipeline](docs/testing/testing-strategy.md)
+- [Tier 1: Static Quality Analysis](docs/testing/tier1-static-quality.md)
+- [Tier 2: PHPUnit Unit & Integration Testing](docs/testing/tier2-phpunit-testing.md)
+- [Tier 3: Frontend Unit Testing (Jest & RTL)](docs/testing/tier3-frontend-unit-testing.md)
+- [Tier 4: Bruno REST API Contract Testing](docs/testing/tier4-bruno-rest-testing.md)
+- [Tier 5: Playwright Browser & Visual Regression](docs/testing/tier5-playwright-e2e-testing.md)
+- [Release Contract Testing](docs/testing/release-contract-testing.md)
 
-### Feature Development Guides (`docs/feature-development/`)
+### 3. Technical Specifications by App (`docs/apps/`)
 
-- [Phased Execution & Agent Workflow](docs/feature-development/phased-workflow-and-agents.md)
-- [Domain & Application Services](docs/feature-development/domain-and-application-services.md)
-- [REST API & Contracts (OpenAPI & Bruno)](docs/feature-development/rest-api-and-contracts.md)
-- [WordPress Admin UI/UX Standards](docs/feature-development/admin-ui-ux-standards.md)
-- [Blocks & Interactivity API](docs/feature-development/blocks-and-interactivity.md)
-- [WP-CLI Commands & Operations](docs/feature-development/wp-cli-commands.md)
-- [WordPress Abilities API (AI Agents)](docs/feature-development/abilities-api.md)
+- [Settings App Technical Documentation](docs/apps/settings/README.md)
+- [HelloWorld App Technical Documentation](docs/apps/hello-world/README.md)
+- [Diagnostics App Technical Documentation](docs/apps/diagnostics/README.md)
+- [Developer Tools App Technical Documentation](docs/apps/developer/README.md)
 
-### Preserved Registries & Specifications
+### 4. Developer Manuals & Tooling (`docs/developers/`)
+
+- [Development Prerequisites & Setup](docs/developers/development-prerequisites.md)
+- [Environment & Containerized Toolchain](docs/developers/environment-and-toolchain.md)
+- [Command Catalog](docs/developers/command-catalog.md)
+- [Project Bootstrap Checklist](docs/developers/bootstrap-checklist.md)
+- [Coding Standards & Static Analysis](docs/developers/coding-standards.md)
+- [Project Scaffolding & Rebranding CLI](docs/developers/project-scaffolding-cli.md)
+- [Versioning & Release Lifecycle](docs/developers/versioning-and-releases.md)
+- [OpenAPI 3.1 Tooling & Developer Manual](docs/developers/openapi-tooling.md)
+- [Agent Skills & Sync Script](docs/developers/agent-skills.md)
+- [Configuration Templates Reference](docs/developers/configuration-reference.md)
+- [Architecture Decision Records (ADRs) Guide](docs/developers/architecture-decision-records-guide.md)
+
+### 5. Functional Specifications & Plans (`docs/specifications/`)
+
+- [Phased Execution and Agent Workflow Guide](docs/specifications/phased-workflow-guide.md)
+- [App Functional Specifications](docs/specifications/apps/README.md)
+- [Phased Implementation Plans](docs/specifications/plans/README.md)
+
+### 6. REST API & OpenAPI Specification (`docs/api/`)
+
+- [REST API & OpenAPI 3.1 Specification Hub](docs/api/README.md)
+- [OpenAPI 3.1 Specification File](docs/api/openapi.yaml)
+
+### 7. DevOps & Release Architecture (`docs/devops/`)
+
+- [DevOps, CI/CD & Release Architecture Hub](docs/devops/README.md)
+- [GitHub Actions CI/CD Architecture](docs/devops/github-actions-ci-cd.md)
+- [Releasing & Release Distribution Architecture](docs/devops/releasing-and-distribution.md)
+- [Distribution Package Contract & .distignore](docs/devops/package-contract-and-distignore.md)
+- [Local Release Tooling & CLI Parity](docs/devops/local-release-tooling.md)
+
+### Preserved Registries & Historical Logs
 
 - [Architecture Decision Records Index](docs/adr/README.md)
-- [OpenAPI 3.1 Specification](docs/api/openapi.yaml)
+- [Implementation Audit Logs](docs/implementation-logs/)
 
 ---
 

@@ -10,6 +10,7 @@ namespace AIReady\WPPluginBoilerplate\Backend\Cli;
 use WP_CLI;
 use AIReady\WPPluginBoilerplate\Backend\Apps\Diagnostics\Cli\DiagnosticsCliCommand;
 use AIReady\WPPluginBoilerplate\Backend\Apps\Settings\Cli\SettingsCliCommand;
+use AIReady\WPPluginBoilerplate\Backend\Cli\OpenApiCliCommand;
 use AIReady\WPPluginBoilerplate\Framework\Kernel\Plugin;
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -36,11 +37,19 @@ class PluginCliCommand {
 	private DiagnosticsCliCommand $diagnostics_cli;
 
 	/**
+	 * OpenAPI command delegate.
+	 *
+	 * @var OpenApiCliCommand
+	 */
+	private OpenApiCliCommand $openapi_cli;
+
+	/**
 	 * Constructor.
 	 */
 	public function __construct() {
 		$this->settings_cli    = new SettingsCliCommand();
 		$this->diagnostics_cli = new DiagnosticsCliCommand();
+		$this->openapi_cli     = new OpenApiCliCommand();
 	}
 
 	/**
@@ -137,6 +146,56 @@ class PluginCliCommand {
 	 */
 	public function doctor( array $args, array $assoc_args ): void {
 		$this->diagnostics_cli->doctor( $args, $assoc_args );
+	}
+
+	/**
+	 * Generate OpenAPI 3.1 specification from registered REST routes.
+	 *
+	 * ## OPTIONS
+	 *
+	 * [--output=<path>]
+	 * : Destination file path (defaults to docs/api/openapi.yaml).
+	 *
+	 * [--namespace=<namespace>]
+	 * : REST namespace to inspect (defaults to ai-ready-wp/v1).
+	 *
+	 * ## EXAMPLES
+	 *
+	 *     wp ai-ready openapi-generate
+	 *
+	 * @subcommand openapi-generate
+	 *
+	 * @param array<int, string>   $args       Positional arguments.
+	 * @param array<string, mixed> $assoc_args Associative arguments.
+	 * @return void
+	 */
+	public function openapi_generate( array $args, array $assoc_args ): void {
+		$this->openapi_cli->generate( $args, $assoc_args );
+	}
+
+	/**
+	 * Verify that existing OpenAPI specification matches registered REST routes without drift.
+	 *
+	 * ## OPTIONS
+	 *
+	 * [--output=<path>]
+	 * : Destination file path to check (defaults to docs/api/openapi.yaml).
+	 *
+	 * [--namespace=<namespace>]
+	 * : REST namespace to inspect (defaults to ai-ready-wp/v1).
+	 *
+	 * ## EXAMPLES
+	 *
+	 *     wp ai-ready openapi-check
+	 *
+	 * @subcommand openapi-check
+	 *
+	 * @param array<int, string>   $args       Positional arguments.
+	 * @param array<string, mixed> $assoc_args Associative arguments.
+	 * @return void
+	 */
+	public function openapi_check( array $args, array $assoc_args ): void {
+		$this->openapi_cli->check( $args, $assoc_args );
 	}
 
 	/**

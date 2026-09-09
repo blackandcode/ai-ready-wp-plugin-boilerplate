@@ -23,8 +23,15 @@ This manifest provides a comprehensive directory and file inventory for the **Wo
 | `.editorconfig` | Cross-editor formatting standards (tabs for PHP/JS, spaces for MD/JSON/YML). | Standards |
 | `.gitignore` | Git ignore rules excluding vendor, node_modules, build, and credentials. | Git |
 | `.markdownlint-cli2.jsonc` | Markdownlint configuration ignoring build and vendor directories. | Documentation |
+| `redocly.yaml` | Redocly CLI configuration for OpenAPI 3.1 specification linting. | Toolchain |
 | `.env.example` | Template for environment variables, Bruno credentials, and target version. | Environment |
 | `README.md` | High-conversion marketing and developer onboarding documentation. | Documentation |
+| `readme.txt` | WordPress.org standard plugin readme with stable tag and descriptions. | Distribution |
+| `.distignore` | Distribution archive rules specifying files to exclude from production ZIP. | Distribution |
+| `.github/dependabot.yml` | Dependabot configuration for GitHub Actions, npm, and Composer. | Automation |
+| `.github/workflows/_release-readiness.yml` | Reusable shared workflow defining the canonical release-readiness gate. | CI/CD |
+| `.github/workflows/ci.yml` | Continuous integration workflow running on PRs and pushes to main. | CI/CD |
+| `.github/workflows/release.yml` | Manual release workflow with version validation, provenance attestation, and GitHub Release. | Release |
 | `AGENTS.md` | Universal agent marching orders and constraints across AI tools. | Agent Guidance |
 | `CHANGELOG.md` | Keep a Changelog compliant release history. | Release |
 | `MANIFEST.md` | This inventory file. | Documentation |
@@ -48,6 +55,14 @@ This manifest provides a comprehensive directory and file inventory for the **Wo
 | `src/framework/Support/Cache/TransientCache.php` | Transient caching utility with TTL clamping. | Framework |
 | `src/framework/View/TemplateRendererInterface.php` | Interface for safe template rendering and path resolution. | Framework |
 | `src/framework/View/TemplateRenderer.php` | Template renderer with directory traversal guards and scoped variables. | Framework |
+| `src/framework/Rest/OpenApi/OpenApiGenerator.php` | Facade orchestrating route inspection, OpenAPI 3.1 assembly, and YAML serialization. | Framework |
+| `src/framework/Rest/OpenApi/WordPressRouteInspector.php` | Introspects registered WordPress REST routes, schemas, and OpenAPI metadata. | Framework |
+| `src/framework/Rest/OpenApi/OpenApiPathNormalizer.php` | Normalizes WordPress regex route patterns into OpenAPI path templates. | Framework |
+| `src/framework/Rest/OpenApi/WordPressSchemaConverter.php` | Converts WordPress Draft-4 JSON schemas to OpenAPI 3.1 and extracts components. | Framework |
+| `src/framework/Rest/OpenApi/OpenApiMetadataValidator.php` | Validates route handler OpenAPI metadata blocks and ensures unique operation IDs. | Framework |
+| `src/framework/Rest/OpenApi/OpenApiDocumentFactory.php` | Assembles full OpenAPI 3.1 document structure with deterministic ordering. | Framework |
+| `src/framework/Rest/OpenApi/OpenApiYamlWriter.php` | Serializes OpenAPI document to YAML with atomic writes and standard header. | Framework |
+| `src/framework/Rest/OpenApi/Exception/OpenApiValidationException.php` | Exception thrown when OpenAPI metadata or route constraints are violated. | Framework |
 
 ---
 
@@ -91,6 +106,9 @@ This manifest provides a comprehensive directory and file inventory for the **Wo
 | `src/backend/Apps/HelloWorld/Application/HelloWorldService.php` | Service producing Hello World responses. | Application |
 | `src/backend/Apps/HelloWorld/Application/DTO/HelloWorldDTO.php` | DTO representing Hello World responses. | Application |
 | `src/backend/Apps/HelloWorld/Rest/HelloWorldController.php` | Public `GET /ai-ready-wp/v1/hello` REST controller. | Rest |
+| `src/backend/Apps/Developer/DeveloperBackendServiceProvider.php` | Service provider gating developer REST routes and tooling by plugin development mode. | Backend (Developer) |
+| `src/backend/Apps/Developer/Rest/DevOpenApiController.php` | Development-only REST controller serving live generated OpenAPI JSON spec. | Rest |
+| `src/backend/Cli/OpenApiCliCommand.php` | WP-CLI commands (`wp ai-ready openapi generate` / `check`) for specification generation and drift checks. | Cli |
 
 ---
 
@@ -98,13 +116,14 @@ This manifest provides a comprehensive directory and file inventory for the **Wo
 
 | File | Purpose | Layer |
 |---|---|---|
-| `src/frontend/Bridge/FrontendServiceProvider.php` | Master frontend provider booting presentation hooks, assets, and registries. | Frontend Bridge |
-| `src/frontend/Bridge/Settings/SettingsAdminMenu.php` | Admin top-level menu page and settings submenu registration. | Frontend Bridge |
-| `src/frontend/Bridge/Settings/SettingsAssets.php` | Enqueues React scripts, styles, and localized bootstrap data. | Frontend Bridge |
-| `src/frontend/Bridge/Settings/SettingsRoute.php` | Slug constants and screen matching helpers. | Frontend Bridge |
-| `src/frontend/Bridge/Settings/SettingsBootstrapData.php` | Builds configuration JSON for the React admin app. | Frontend Bridge |
-| `src/frontend/Bridge/Block/BlockRegistry.php` | Dynamic scanner discovering blocks in `src/frontend/apps/*/block.json`. | Frontend Bridge |
-| `src/frontend/Bridge/Pattern/PatternRegistry.php` | Dynamic scanner registering block patterns from `src/frontend/patterns/*.php`. | Frontend Bridge |
+| `src/frontend/Bridge/FrontendServiceProvider.php` | Master frontend provider aggregating app providers and registries. | Frontend Bridge |
+| `src/frontend/Bridge/Apps/Settings/SettingsFrontendServiceProvider.php` | Service provider booting Settings menu, assets, and presentation hooks. | Frontend Bridge |
+| `src/frontend/Bridge/Apps/Settings/SettingsAdminMenu.php` | Admin top-level menu page and settings submenu registration. | Frontend Bridge |
+| `src/frontend/Bridge/Apps/Settings/SettingsAssets.php` | Enqueues React scripts, styles, and localized bootstrap data. | Frontend Bridge |
+| `src/frontend/Bridge/Apps/Settings/SettingsRoute.php` | Slug constants and screen matching helpers. | Frontend Bridge |
+| `src/frontend/Bridge/Apps/Settings/SettingsBootstrapData.php` | Builds configuration JSON for the React admin app. | Frontend Bridge |
+| `src/frontend/Bridge/Registry/BlockRegistry.php` | Dynamic scanner discovering blocks in `src/frontend/apps/*/block.json`. | Frontend Bridge |
+| `src/frontend/Bridge/Registry/PatternRegistry.php` | Dynamic scanner registering block patterns from `src/frontend/patterns/*.php`. | Frontend Bridge |
 | `src/frontend/apps/settings/react/index.tsx` | Webpack entrypoint mounting React app to `#airwp-settings-root`. | Frontend (Settings) |
 | `src/frontend/apps/settings/react/App.tsx` | Orchestrating container managing state reducer, API client, and error boundary. | Frontend (Settings) |
 | `src/frontend/apps/settings/react/types.ts` | TypeScript types for bootstrap data, settings, and sections. | Frontend (Settings) |
@@ -113,6 +132,8 @@ This manifest provides a comprehensive directory and file inventory for the **Wo
 | `src/frontend/apps/settings/react/components/GeneralSection.tsx` | Form controls for greeting message, feature toggle, and description. | Frontend (Settings) |
 | `src/frontend/apps/settings/react/components/AdvancedSection.tsx` | Form controls for REST debug, cache TTL, and data retention policy. | Frontend (Settings) |
 | `src/frontend/apps/settings/react/components/DiagnosticsSection.tsx` | System diagnostic table verifying PHP, WP core, and API status. | Frontend (Settings) |
+| `src/frontend/apps/settings/react/components/ApiReferenceSection.tsx` | React section component fetching and presenting the live OpenAPI reference. | Frontend (Settings) |
+| `src/frontend/apps/settings/react/components/ApiReferenceViewer.tsx` | Code-split React viewer rendering OpenAPI specification via Scalar. | Frontend (Settings) |
 | `src/frontend/apps/settings/react/components/StatusBadge.tsx` | WPDS status indicator badge. | Frontend (Settings) |
 | `src/frontend/apps/settings/templates/admin-settings-root.php` | HTML mount template for Settings app with action hooks. | Frontend (Settings) |
 | `src/frontend/apps/hello-world/block.json` | Block API v3 metadata declaration and attribute definitions. | Frontend (HelloWorld) |
@@ -147,6 +168,13 @@ This manifest provides a comprehensive directory and file inventory for the **Wo
 | `tools/changelog/record-unreleased-change.mjs` | Deterministic CLI helper to stage unreleased changelog notes. | Toolchain |
 | `tools/environment/check-environment.mjs` | Pre-flight environment check CLI analyzing host, Docker, PHP, and ports. | Toolchain |
 | `tools/environment/environment-checker.mjs` | Core environment verification and OS remediation engine. | Toolchain |
+| `tools/release/build-package.mjs` | CLI packaging production distribution ZIP respecting .distignore. | Release |
+| `tools/release/extract-release-notes.mjs` | CLI extracting markdown release notes for a target version from CHANGELOG.md. | Release |
+| `tools/release/lint-actions.mjs` | Static GitHub Actions workflow validator and SHA-pinning linter. | Quality |
+| `tools/release/validate-package.mjs` | CLI enforcing package content contract against built ZIP archive. | Release |
+| `tools/release/validate-release.mjs` | CLI validating version parity, branch, and tag readiness before release. | Release |
+| `tools/release/lib/distignore.mjs` | Parser and glob matcher for .distignore exclusion rules. | Release |
+| `tools/release/lib/zip-utils.mjs` | Zero-dependency pure Node.js PKZIP writer, reader, and extractor. | Release |
 | `tools/rest-tests/run-rest-tests.mjs` | Cross-platform Bruno REST API test runner loading .env credentials. | Toolchain |
 | `tools/scaffolding/scaffold-plugin.mjs` | CLI for automated plugin scaffolding, renaming, and rebranding. | Toolchain |
 | `tools/scaffolding/scaffold-engine.mjs` | Core engine executing atomic token replacements and file renames. | Toolchain |
@@ -175,7 +203,14 @@ This manifest provides a comprehensive directory and file inventory for the **Wo
 | `tests/phpunit/unit/Backend/Apps/Settings/Application/SettingsApplicationServiceTest.php` | Unit tests for Settings application service orchestration. | Tier 2 |
 | `tests/phpunit/unit/Backend/Apps/Settings/Infrastructure/SettingsSchemaTest.php` | Unit tests for settings defaults and sanitization rules. | Tier 2 |
 | `tests/phpunit/unit/Backend/Apps/HelloWorld/HelloWorldServiceTest.php` | Unit tests for HelloWorld service and greeting VO. | Tier 2 |
-| `tests/phpunit/unit/Frontend/FrontendBridgeTest.php` | Unit tests for frontend bridge routes and screen matching. | Tier 2 |
+| `tests/phpunit/unit/Frontend/Apps/Settings/SettingsRouteTest.php` | Unit tests for SettingsRoute screen matching and service provider lifecycle. | Tier 2 |
+| `tests/phpunit/unit/Backend/Apps/Developer/DeveloperBackendServiceProviderTest.php` | Unit tests for developer service provider lifecycle and dev-mode route gating. | Tier 2 |
+| `tests/phpunit/unit/Framework/Rest/OpenApi/OpenApiPathNormalizerTest.php` | Unit tests for WordPress route regex to OpenAPI path template conversion. | Tier 2 |
+| `tests/phpunit/unit/Framework/Rest/OpenApi/WordPressSchemaConverterTest.php` | Unit tests for Draft-4 to OpenAPI 3.1 schema conversion and component extraction. | Tier 2 |
+| `tests/phpunit/unit/Framework/Rest/OpenApi/OpenApiMetadataValidatorTest.php` | Unit tests for operationId formatting, uniqueness, and OpenAPI metadata invariants. | Tier 2 |
+| `tests/phpunit/unit/Framework/Rest/OpenApi/OpenApiYamlWriterTest.php` | Unit tests for deterministic YAML dumping and atomic filesystem writing. | Tier 2 |
+| `tests/phpunit/unit/Framework/Rest/OpenApi/OpenApiDocumentFactoryTest.php` | Unit tests for OpenAPI 3.1 document structure assembly and lexical sorting. | Tier 2 |
+| `tests/phpunit/unit/Framework/Rest/OpenApi/OpenApiDriftTest.php` | Unit tests for in-memory and on-disk OpenAPI specification drift detection. | Tier 2 |
 | `tests/phpunit/integration/SampleIntegrationTest.php` | Integration test harness for WordPress runtime checks. | Tier 2 |
 | `tests/js/setup-tests.ts` | Jest test setup loading `@testing-library/jest-dom`. | Tier 3 |
 | `tests/js/shared/CardLayout.test.tsx` | Unit tests for compound WPDS CardLayout components. | Tier 3 |
@@ -186,11 +221,18 @@ This manifest provides a comprehensive directory and file inventory for the **Wo
 | `tests/js/shared/useSettingsForm.test.ts` | Unit tests for useSettingsForm state reducer and immutability. | Tier 3 |
 | `tests/js/apps/settings/App.test.tsx` | Unit tests for Settings App container and API client delegation. | Tier 3 |
 | `tests/js/apps/settings/SettingsShell.test.tsx` | Unit tests for Settings React shell, tab navigation, and save buttons. | Tier 3 |
+| `tests/js/apps/settings/ApiReferenceSection.test.tsx` | Unit tests for ApiReferenceSection loading, error, retry, and viewer rendering states. | Tier 3 |
 | `tests/js/blocks/hello-world/edit.test.tsx` | Unit tests for Gutenberg Hello World block edit component. | Tier 3 |
 | `tests/js/blocks/hello-world/save.test.tsx` | Unit tests for Hello World save directives. | Tier 3 |
 | `tests/node/versioning/version-sync.test.mjs` | Integration tests for automated SemVer synchronization engine. | Toolchain |
 | `tests/node/scaffolding/scaffold.test.mjs` | Integration tests for automated scaffolding & renaming CLI. | Toolchain |
 | `tests/node/environment/environment-checker.test.mjs` | Unit tests for pre-flight environment checker. | Toolchain |
+| `tests/node/release/distignore.test.mjs` | Unit tests for .distignore parsing and path filtering. | Toolchain |
+| `tests/node/release/zip-utils.test.mjs` | Unit tests for pure Node.js ZIP creation, listing, and extraction. | Toolchain |
+| `tests/node/release/extract-release-notes.test.mjs` | Unit tests for release notes extraction from CHANGELOG.md. | Toolchain |
+| `tests/node/release/validate-release.test.mjs` | Unit tests for release pre-flight version verification. | Toolchain |
+| `tests/node/release/validate-package.test.mjs` | Unit tests for distribution package contract validator. | Toolchain |
+| `tests/node/release/build-package.test.mjs` | Integration test for end-to-end package generation and verification. | Toolchain |
 | `tests/bruno/bruno.json` | Bruno REST API collection manifest. | Tier 4 |
 | `tests/bruno/collection.bru` | Root collection configuration with basic auth and pre-request vars. | Tier 4 |
 | `tests/bruno/environments/Local.bru` | Environment variables for local Bruno test execution. | Tier 4 |
@@ -203,3 +245,70 @@ This manifest provides a comprehensive directory and file inventory for the **Wo
 | `tests/e2e/playwright/setup/auth.setup.ts` | Playwright global authentication fixture logging in admin user. | Tier 5 |
 | `tests/e2e/playwright/pages/SettingsPage.ts` | Page Object Model encapsulating selectors and interactions for Settings screen. | Tier 5 |
 | `tests/e2e/playwright/tests/settings.spec.ts` | End-to-end tests for settings rendering, tab navigation, and visual regression snapshot. | Tier 5 |
+
+---
+
+## 7. Documentation Hub (`docs/`)
+
+| File | Purpose | Layer |
+|---|---|---|
+| `docs/README.md` | Master Documentation Hub index and reading pathways. | Documentation |
+| `docs/framework/README.md` | Framework kernel documentation hub. | Documentation |
+| `docs/framework/product-charter.md` | Authoritative single source of truth for plugin identity and core invariants. | Framework |
+| `docs/framework/architecture-and-layers.md` | Tripartite Hexagonal architecture specification and autoloader mappings. | Framework |
+| `docs/framework/container-and-service-providers.md` | In-tree micro-DI container and Service Provider registry. | Framework |
+| `docs/framework/kernel-and-lifecycle.md` | Plugin singleton orchestrator, compatibility checks, activation, and deactivation. | Framework |
+| `docs/framework/event-dispatcher.md` | Domain Event Dispatcher and WordPress action bridge. | Framework |
+| `docs/framework/template-renderer.md` | Safe template renderer with directory traversal guards and scoped variables. | Framework |
+| `docs/framework/domain-and-application-services.md` | Clean Hexagonal domain modeling and CQRS application services. | Framework |
+| `docs/framework/frontend-bridge.md` | Server-side presentation bridge, menus, assets, and registries. | Framework |
+| `docs/framework/error-handling-and-cache.md` | WordPressErrorMapper and TransientCache utilities. | Framework |
+| `docs/framework/openapi-generator-engine.md` | Code-driven OpenAPI 3.1 generator pipeline architecture. | Framework |
+| `docs/testing/README.md` | Testing hub index, 5-tier pyramid summary, and execution cheatsheet. | Testing |
+| `docs/testing/testing-strategy.md` | Comprehensive 5-Tier Testing Pyramid strategy and quality gate pipeline. | Testing |
+| `docs/testing/tier1-static-quality.md` | Static quality analysis: PHPCS, PHPStan, ESLint, Stylelint, Markdownlint, Actionlint. | Testing |
+| `docs/testing/tier2-phpunit-testing.md` | Fast in-memory PHPUnit unit tests and container integration testing. | Testing |
+| `docs/testing/tier3-frontend-unit-testing.md` | Frontend unit testing with Jest and React Testing Library. | Testing |
+| `docs/testing/tier4-bruno-rest-testing.md` | Black-box REST API contract testing with Bruno CLI. | Testing |
+| `docs/testing/tier5-playwright-e2e-testing.md` | Playwright browser automation, POM, and visual regression testing. | Testing |
+| `docs/testing/release-contract-testing.md` | Distribution package verification tests in tests/node/release/. | Testing |
+| `docs/apps/README.md` | App-Centric Architecture hub and inventory of apps. | Apps |
+| `docs/apps/settings/README.md` | Settings App technical documentation index. | Apps |
+| `docs/apps/settings/technical-spec.md` | Settings App technical specification and class architecture. | Apps |
+| `docs/apps/settings/rest-api-contracts.md` | Settings App REST API contracts and schemas. | Apps |
+| `docs/apps/hello-world/README.md` | HelloWorld App technical documentation index. | Apps |
+| `docs/apps/hello-world/technical-spec.md` | HelloWorld block specification and Interactivity store. | Apps |
+| `docs/apps/diagnostics/README.md` | Diagnostics App technical documentation index. | Apps |
+| `docs/apps/diagnostics/technical-spec.md` | Diagnostics telemetry specification and doctor CLI. | Apps |
+| `docs/apps/developer/README.md` | Developer Tools App technical documentation index. | Apps |
+| `docs/apps/developer/technical-spec.md` | Developer tools and in-admin API Reference viewer specification. | Apps |
+| `docs/developers/README.md` | Developer hub index and quickstart onboarding. | Developers |
+| `docs/developers/development-prerequisites.md` | Host system requirements across macOS, Linux, WSL2, and Windows. | Developers |
+| `docs/developers/environment-and-toolchain.md` | Docker orchestration via wp-env and automated lifecycle scripts. | Developers |
+| `docs/developers/command-catalog.md` | Authoritative directory of all verified commands. | Developers |
+| `docs/developers/bootstrap-checklist.md` | Pre-flight verification checklist for local development environments. | Developers |
+| `docs/developers/coding-standards.md` | WordPress Coding Standards and static analysis guidelines. | Developers |
+| `docs/developers/project-scaffolding-cli.md` | Automated plugin rebranding and scaffolding CLI guide. | Developers |
+| `docs/developers/versioning-and-releases.md` | Atomic SemVer release tool and unreleased changelogging guide. | Developers |
+| `docs/developers/openapi-tooling.md` | OpenAPI generation, drift checking, and Redocly linting manual. | Developers |
+| `docs/developers/agent-skills.md` | Bundled agent skills catalog and synchronization script. | Developers |
+| `docs/developers/configuration-reference.md` | Annotated configuration templates reference. | Developers |
+| `docs/developers/architecture-decision-records-guide.md` | Developer manual for evaluating, creating, and validating ADRs. | Developers |
+| `docs/specifications/README.md` | Functional specifications and phased implementation hub. | Specifications |
+| `docs/specifications/phased-workflow-guide.md` | Vertical slice decomposition and 4-document phase anatomy guide. | Specifications |
+| `docs/specifications/apps/README.md` | App functional specifications index. | Specifications |
+| `docs/specifications/apps/settings/functional-spec.md` | Settings App functional specification. | Specifications |
+| `docs/specifications/apps/hello-world/functional-spec.md` | HelloWorld block functional specification. | Specifications |
+| `docs/specifications/apps/diagnostics/functional-spec.md` | Diagnostics subsystem functional specification. | Specifications |
+| `docs/specifications/apps/developer/functional-spec.md` | Developer Tools & API viewer functional specification. | Specifications |
+| `docs/specifications/plans/README.md` | Phased implementation plans directory. | Specifications |
+| `docs/specifications/plans/01-starter-phase-template/` | Canonical 4-document phase starter template. | Specifications |
+| `docs/api/README.md` | Code-driven generated OpenAPI 3.1 specification hub. | API |
+| `docs/api/openapi.yaml` | The generated, authoritative OpenAPI 3.1 specification. | API |
+| `docs/devops/README.md` | DevOps, CI/CD, and release architecture hub. | DevOps |
+| `docs/devops/github-actions-ci-cd.md` | GitHub Actions CI/CD workflows and release-readiness gate. | DevOps |
+| `docs/devops/releasing-and-distribution.md` | Releasing, decoupled versioning, and distribution architecture. | DevOps |
+| `docs/devops/package-contract-and-distignore.md` | Package content contract and .distignore specification. | DevOps |
+| `docs/devops/local-release-tooling.md` | Local release CLI tooling and parity reference. | DevOps |
+| `docs/adr/README.md` | Architecture Decision Records index and status log. | Architecture |
+| `docs/plans/README.md` | Backward-compatibility pointer to docs/specifications/plans/. | Documentation |

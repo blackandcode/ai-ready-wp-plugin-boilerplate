@@ -12,4 +12,5 @@ export type {
 	PluginSettings,
 	SystemDiagnosticsData,
 	AirwpBootstrapData,
+	DevelopmentToolsData,
 } from '../../../shared/types';

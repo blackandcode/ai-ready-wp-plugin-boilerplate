@@ -66,8 +66,19 @@ class HelloWorldController extends WP_REST_Controller {
 					'methods'             => WP_REST_Server::READABLE,
 					'callback'            => array( $this, 'get_item' ),
 					'permission_callback' => array( $this, 'get_item_permissions_check' ),
-					'schema'              => array( $this, 'get_item_schema' ),
+					'openapi'             => array(
+						'operationId' => 'getHelloWorld',
+						'summary'     => 'Health check and greeting contract',
+						'description' => 'Returns greeting payload, system health status, and active plugin version.',
+						'tags'        => array( 'Hello World' ),
+						'responses'   => array(
+							200 => array(
+								'description' => 'Successful response with hello world greeting and system status.',
+							),
+						),
+					),
 				),
+				'schema' => array( $this, 'get_public_item_schema' ),
 			)
 		);
 	}
@@ -101,25 +112,26 @@ class HelloWorldController extends WP_REST_Controller {
 	public function get_item_schema(): array {
 		return array(
 			'$schema'    => 'http://json-schema.org/draft-04/schema#',
-			'title'      => 'hello_world',
+			'title'      => 'hello_world_response',
 			'type'       => 'object',
 			'properties' => array(
 				'message'   => array(
-					'description' => esc_html__( 'Greeting message', 'ai-ready-wp-plugin-boilerplate' ),
+					'description' => esc_html__( 'Greeting message from the boilerplate.', 'ai-ready-wp-plugin-boilerplate' ),
 					'type'        => 'string',
 				),
 				'timestamp' => array(
-					'description' => esc_html__( 'ISO 8601 UTC timestamp', 'ai-ready-wp-plugin-boilerplate' ),
+					'description' => esc_html__( 'ISO 8601 UTC timestamp of the health check.', 'ai-ready-wp-plugin-boilerplate' ),
 					'type'        => 'string',
 					'format'      => 'date-time',
 				),
 				'version'   => array(
-					'description' => esc_html__( 'Plugin semantic version', 'ai-ready-wp-plugin-boilerplate' ),
+					'description' => esc_html__( 'Active plugin semantic version.', 'ai-ready-wp-plugin-boilerplate' ),
 					'type'        => 'string',
 				),
 				'status'    => array(
-					'description' => esc_html__( 'Health check status', 'ai-ready-wp-plugin-boilerplate' ),
+					'description' => esc_html__( 'System health status code.', 'ai-ready-wp-plugin-boilerplate' ),
 					'type'        => 'string',
+					'enum'        => array( 'ok' ),
 				),
 			),
 		);

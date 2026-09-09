@@ -70,14 +70,45 @@ class SettingsController extends WP_REST_Controller {
 					'methods'             => WP_REST_Server::READABLE,
 					'callback'            => array( $this, 'get_item' ),
 					'permission_callback' => array( $this, 'permissions_check' ),
-					'schema'              => array( $this, 'get_item_schema' ),
+					'openapi'             => array(
+						'operationId' => 'getPluginSettings',
+						'summary'     => 'Get plugin settings',
+						'description' => 'Returns current plugin settings merged with default schema values.',
+						'tags'        => array( 'Settings' ),
+						'responses'   => array(
+							200 => array(
+								'description' => 'Current plugin settings.',
+							),
+							403 => array(
+								'description' => 'Insufficient permissions.',
+							),
+						),
+					),
 				),
 				array(
 					'methods'             => WP_REST_Server::CREATABLE,
 					'callback'            => array( $this, 'update_item' ),
 					'permission_callback' => array( $this, 'permissions_check' ),
-					'schema'              => array( $this, 'get_item_schema' ),
+					'args'                => $this->get_endpoint_args_for_item_schema( WP_REST_Server::CREATABLE ),
+					'openapi'             => array(
+						'operationId' => 'updatePluginSettings',
+						'summary'     => 'Update plugin settings',
+						'description' => 'Updates partial or full plugin settings payload.',
+						'tags'        => array( 'Settings' ),
+						'responses'   => array(
+							200 => array(
+								'description' => 'Updated plugin settings.',
+							),
+							400 => array(
+								'description' => 'Invalid settings parameters.',
+							),
+							403 => array(
+								'description' => 'Insufficient permissions.',
+							),
+						),
+					),
 				),
+				'schema' => array( $this, 'get_public_item_schema' ),
 			)
 		);
 	}
@@ -140,26 +171,59 @@ class SettingsController extends WP_REST_Controller {
 			'type'       => 'object',
 			'properties' => array(
 				'general'        => array(
-					'type'       => 'object',
-					'properties' => array(
-						'greeting_message' => array( 'type' => 'string' ),
-						'enable_feature'   => array( 'type' => 'boolean' ),
-						'description'      => array( 'type' => 'string' ),
+					'title'       => 'general_settings',
+					'description' => esc_html__( 'General plugin configuration settings.', 'ai-ready-wp-plugin-boilerplate' ),
+					'type'        => 'object',
+					'properties'  => array(
+						'greeting_message' => array(
+							'description' => esc_html__( 'Greeting message displayed across plugin interfaces.', 'ai-ready-wp-plugin-boilerplate' ),
+							'type'        => 'string',
+							'default'     => 'Hello from AI-Ready WP Plugin Boilerplate!',
+							'minLength'   => 1,
+							'maxLength'   => 255,
+						),
+						'enable_feature'   => array(
+							'description' => esc_html__( 'Toggle enabling or disabling primary plugin functionality.', 'ai-ready-wp-plugin-boilerplate' ),
+							'type'        => 'boolean',
+							'default'     => true,
+						),
+						'description'      => array(
+							'description' => esc_html__( 'Detailed description text for the plugin instance.', 'ai-ready-wp-plugin-boilerplate' ),
+							'type'        => 'string',
+							'default'     => 'A modern WordPress plugin powered by AI workflows.',
+							'maxLength'   => 1000,
+						),
 					),
 				),
 				'advanced'       => array(
-					'type'       => 'object',
-					'properties' => array(
-						'rest_debug' => array( 'type' => 'boolean' ),
-						'cache_ttl'  => array( 'type' => 'integer' ),
+					'title'       => 'advanced_settings',
+					'description' => esc_html__( 'Advanced developer and performance settings.', 'ai-ready-wp-plugin-boilerplate' ),
+					'type'        => 'object',
+					'properties'  => array(
+						'rest_debug' => array(
+							'description' => esc_html__( 'Enable verbose REST API debugging headers and telemetry.', 'ai-ready-wp-plugin-boilerplate' ),
+							'type'        => 'boolean',
+							'default'     => false,
+						),
+						'cache_ttl'  => array(
+							'description' => esc_html__( 'Cache time-to-live duration in seconds.', 'ai-ready-wp-plugin-boilerplate' ),
+							'type'        => 'integer',
+							'default'     => 3600,
+							'minimum'     => 0,
+							'maximum'     => 86400,
+						),
 					),
 				),
 				'data_retention' => array(
-					'type'       => 'object',
-					'properties' => array(
+					'title'       => 'data_retention_settings',
+					'description' => esc_html__( 'Data retention and cleanup policies upon uninstallation.', 'ai-ready-wp-plugin-boilerplate' ),
+					'type'        => 'object',
+					'properties'  => array(
 						'uninstall_action' => array(
-							'type' => 'string',
-							'enum' => array( 'preserve', 'delete_settings', 'delete_all' ),
+							'description' => esc_html__( 'Strategy for handling stored plugin data when uninstalling.', 'ai-ready-wp-plugin-boilerplate' ),
+							'type'        => 'string',
+							'enum'        => array( 'preserve', 'delete_settings', 'delete_all' ),
+							'default'     => 'preserve',
 						),
 					),
 				),

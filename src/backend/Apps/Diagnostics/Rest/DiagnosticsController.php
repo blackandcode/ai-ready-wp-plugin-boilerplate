@@ -67,8 +67,22 @@ class DiagnosticsController extends WP_REST_Controller {
 					'methods'             => WP_REST_Server::READABLE,
 					'callback'            => array( $this, 'get_item' ),
 					'permission_callback' => array( $this, 'get_item_permissions_check' ),
-					'schema'              => array( $this, 'get_item_schema' ),
+					'openapi'             => array(
+						'operationId' => 'getSystemDiagnostics',
+						'summary'     => 'Retrieve system diagnostics',
+						'description' => 'Returns host environment, PHP runtime, WordPress core, and REST verification metrics.',
+						'tags'        => array( 'Diagnostics' ),
+						'responses'   => array(
+							200 => array(
+								'description' => 'System diagnostic telemetry metrics.',
+							),
+							403 => array(
+								'description' => 'Insufficient permissions.',
+							),
+						),
+					),
 				),
+				'schema' => array( $this, 'get_public_item_schema' ),
 			)
 		);
 	}
@@ -114,27 +128,27 @@ class DiagnosticsController extends WP_REST_Controller {
 			'type'       => 'object',
 			'properties' => array(
 				'php_version'      => array(
-					'description' => esc_html__( 'PHP runtime version', 'ai-ready-wp-plugin-boilerplate' ),
+					'description' => esc_html__( 'PHP runtime version.', 'ai-ready-wp-plugin-boilerplate' ),
 					'type'        => 'string',
 				),
 				'wp_version'       => array(
-					'description' => esc_html__( 'WordPress core version', 'ai-ready-wp-plugin-boilerplate' ),
+					'description' => esc_html__( 'WordPress core version.', 'ai-ready-wp-plugin-boilerplate' ),
 					'type'        => 'string',
 				),
 				'environment_type' => array(
-					'description' => esc_html__( 'WordPress environment type', 'ai-ready-wp-plugin-boilerplate' ),
+					'description' => esc_html__( 'WordPress environment type.', 'ai-ready-wp-plugin-boilerplate' ),
 					'type'        => 'string',
 				),
 				'db_status'        => array(
-					'description' => esc_html__( 'Database connectivity status', 'ai-ready-wp-plugin-boilerplate' ),
+					'description' => esc_html__( 'Database connectivity status.', 'ai-ready-wp-plugin-boilerplate' ),
 					'type'        => 'string',
 				),
 				'rest_status'      => array(
-					'description' => esc_html__( 'REST API availability status', 'ai-ready-wp-plugin-boilerplate' ),
+					'description' => esc_html__( 'REST API availability status.', 'ai-ready-wp-plugin-boilerplate' ),
 					'type'        => 'string',
 				),
 				'plugin_version'   => array(
-					'description' => esc_html__( 'Plugin release version', 'ai-ready-wp-plugin-boilerplate' ),
+					'description' => esc_html__( 'Plugin release version.', 'ai-ready-wp-plugin-boilerplate' ),
 					'type'        => 'string',
 				),
 			),

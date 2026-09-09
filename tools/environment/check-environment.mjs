@@ -240,7 +240,7 @@ async function main() {
 			`  Follow the remediation actions above, then re-run ${ colors.bold }npm run pre-check${ colors.reset }.`
 		);
 		console.log(
-			`  Documentation: docs/boilerplate-development/development-prerequisites.md`
+			`  Documentation: docs/developers/development-prerequisites.md`
 		);
 	}
 	console.log(

@@ -2,10 +2,10 @@
 
 Before executing any phase or modification:
 
-1. **Read Charter & Consult Active ADRs:** Consult `docs/general/product-charter.md` and active records under `docs/adr/`. The product charter and accepted ADRs are the ultimate single source of truth for architectural boundaries, database choices, and design constraints.
+1. **Read Charter & Consult Active ADRs:** Consult `docs/framework/product-charter.md` and active records under `docs/adr/`. The product charter and accepted ADRs are the ultimate single source of truth for architectural boundaries, database choices, and design constraints.
 2. **Consult Active Phase Plan & Evaluate ADR Gate:**
    - Run the ADR-worthiness gate (`.cursor/rules/adr-evaluation.mdc`). If an architectural fork or boundary is touched, author/update an ADR in `docs/adr/` before executing implementation code.
-   - When working on an implementation phase, read the active directory under `docs/plans/` and review its `master-prompt.md`.
+   - When working on an implementation phase, read the active directory under `docs/specifications/plans/` (or legacy pointer `docs/plans/`) and review its `master-prompt.md`.
 3. **Execute Skills & Route Deterministically:**
    - Run the WordPress router and project triage skills (`.cursor/skills/wp-project-triage/`).
    - Load domain-specific skills required for the task (`wp-rest-api`, `wp-admin-ui-ux`, `ddd-best-practices`, `oop-best-practices`, `design-patterns-best-practices`, `tdd-best-practices`, `refactoring-best-practices`, `bruno-test-writer`, `wp-architecture-decision-records`).
@@ -31,3 +31,14 @@ Before executing any phase or modification:
 8. **Permanent Protection Invariants for Workspace Rules & In-Tree Skills:**
    - **Workspace Rules (`.cursor/rules/`):** Core workspace rules (`adr-evaluation.mdc`, `post-phase-documentation.mdc`, `changelog-unreleased.mdc`, `wp-admin-ui-ux.mdc`, `windows-coreutils-shell.mdc`) encode immutable architectural policies and workflows. Agents and automated scripts MUST NEVER delete, clear, or overwrite workspace rules.
    - **In-Tree Custom Skills (`.cursor/skills/`):** Custom skills developed in-tree (`versioning`, `changelog`, `wp-admin-ui-ux`) are protected from upstream overwriting or deletion. `tools/agent-skills/sync-agent-skills.mjs` enforces `PROTECTED_IN_TREE_SKILLS` to guarantee remote repository updates only manage external skills.
+9. **Two-Pipeline CI/CD and Release Readiness Invariants (ADR-0010):**
+   - **Continuous Release Readiness:** `main` must always remain releasable. Pull requests and pushes to `main` must pass the shared readiness gate (`_release-readiness.yml`).
+   - **No Version Bumping in Release Workflows:** The manual GitHub release workflow (`release.yml`) MUST NEVER commit, push, or bump versions on `main`. Version synchronization occurs strictly prior to release via `npm run update-version`.
+   - **Tested Artifact == Released Artifact:** The exact ZIP package tested and verified during the release gate must be the one published to GitHub Releases, never rebuilt from source.
+   - **Package Contract Enforcement:** Run `npm run release:validate` to ensure distributable packages strictly include required runtime files (`{slug}/`, main PHP, `vendor/autoload.php`, `src/`, `build/`, `readme.txt`, `uninstall.php`) and exclude tests, tools, dotfiles, and dev configurations.
+   - **Local CLI Parity:** Agents can reproduce CI and release gates locally using `npm run ci`, `npm run release:check`, `npm run release:build`, `npm run release:validate`, and `npm run lint:actions`. Consult `docs/devops/releasing-and-distribution.md`.
+
+10. **Code-Driven Generated OpenAPI Invariants (ADR-0011):**
+    - **Never Edit `docs/api/openapi.yaml` Manually:** Manual editing of the OpenAPI specification is strictly forbidden.
+    - **Source of Truth in Controllers:** All route parameter schemas, operation IDs, summaries, and item schemas must be declared inside `WP_REST_Controller` subclasses in `src/backend/Apps/<App>/Rest/`.
+    - **Regenerate & Verify Drift:** Regenerate using `npm run openapi:generate` (`wp ai-ready openapi generate`) and verify zero drift via `npm run openapi:check` and `npm run openapi:lint`.

@@ -6,8 +6,36 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.1.0] - 2026-09-09
+
 ### Added
 
+- Documentation Hub Restructuring: Reorganized `docs/` into seven cohesive architectural pillars aligned with the Tripartite App-Centric Architecture (ADR-0009): `docs/framework/`, `docs/testing/`, `docs/apps/`, `docs/developers/`, `docs/specifications/`, `docs/api/`, and `docs/devops/`.
+- Agent-Oriented Subdirectory Hubs: Added comprehensive `README.md` files in every documentation folder detailing architectural scope, component manifests, and non-negotiable coding agent guidance.
+- DevOps & Two-Pipeline CI/CD Documentation (`docs/devops/`): Added in-depth guides for GitHub Actions workflows, reusable release-readiness gate (`_release-readiness.yml`), decoupled versioning, Sigstore provenance, distribution package contracts, and local release tooling.
+- Code-Driven OpenAPI 3.1 Tooling & Engine Documentation: Authored deep dives for `src/framework/Rest/OpenApi/` (`docs/framework/openapi-generator-engine.md`), developer CLI workflows (`docs/developers/openapi-tooling.md`), and API hub overview (`docs/api/README.md`).
+- App Technical & Functional Specifications: Added dedicated technical and functional documentation for Settings App, HelloWorld block, Diagnostics subsystem, and Developer Tools App.
+- Code-Driven Generated OpenAPI 3.1 Architecture (ADR-0011): Replaced hand-authored specification with in-tree OpenAPI 3.1 generation from registered WordPress REST controllers, schemas, and endpoint metadata.
+- Core OpenAPI generation infrastructure (`src/framework/Rest/OpenApi/`): Implemented `OpenApiGenerator`, `WordPressRouteInspector`, `OpenApiPathNormalizer`, `WordPressSchemaConverter`, `OpenApiMetadataValidator`, `OpenApiDocumentFactory`, `OpenApiYamlWriter`, and `OpenApiValidationException`.
+- WP-CLI OpenAPI management commands (`src/backend/Cli/OpenApiCliCommand.php`): Implemented `wp ai-ready openapi generate` and `wp ai-ready openapi check` with npm script aliases.
+- Redocly CLI integration: Configured `redocly.yaml` and added `npm run openapi:lint` to CI release-readiness workflow (`.github/workflows/_release-readiness.yml`).
+- Development-only live OpenAPI endpoint (`src/backend/Apps/Developer/Rest/DevOpenApiController.php`): Registered `GET /wp-json/ai-ready-wp-dev/v1/openapi` gated by `wp_is_development_mode( 'plugin' )` and `manage_options` capability.
+- Interactive API Reference tab in Settings app: Integrated lazy-loaded, code-split Scalar viewer component in WordPress Admin when in development mode.
+- OpenAPI automated test coverage: Added PHPUnit unit tests for path normalization, schema conversion, metadata validation, YAML dumping, document factory, and drift checks, plus Jest unit tests for `ApiReferenceSection` and `SettingsShell` navigation.
+
+- Two-Pipeline CI/CD and Release Readiness Architecture (ADR-0010): Authored and accepted ADR-0010 establishing the shared reusable release-readiness gate, manual GitHub Releases, package contract verification, and Sigstore provenance attestations.
+- Reusable Shared Release Readiness Workflow (`.github/workflows/_release-readiness.yml`): Centralized definition of "release ready" executing linters, multi-PHP testing matrix (PHP 8.3 & 8.5), production asset compilation, distribution packaging, package contract verification, official WordPress Plugin Check on the distribution ZIP, and `$GITHUB_STEP_SUMMARY` reporting.
+- Continuous Delivery Readiness Pipeline (`.github/workflows/ci.yml`): Triggers on pull requests and pushes to `main`, invoking `_release-readiness.yml` and uploading candidate ZIPs with 7-day retention.
+- Manual Release Publishing Pipeline (`.github/workflows/release.yml`): Manual `workflow_dispatch` release workflow restricted to `main`, performing version pre-flight checks, running the shared readiness gate, generating Sigstore build provenance attestations, tagging `vX.Y.Z`, and publishing immutable GitHub Releases with notes extracted from `CHANGELOG.md`.
+- Dependabot Configuration (`.github/dependabot.yml`): Automated weekly dependency updates for GitHub Actions (with SHA pinning preserved), npm packages, and Composer dependencies.
+- Production Distribution Contract (`.distignore`): Defined strict archive boundaries keeping runtime source, build artifacts, vendor autoloader, readme, and license while excluding dev tools, tests, and configuration files.
+- WordPress Plugin Readme (`readme.txt`): Standard WordPress readme format with synchronized `Stable tag:` tracking and plugin metadata.
+- Local Release Toolchain Suite (`tools/release/`): Implemented `build-package.mjs` (zero-dependency pure Node.js PKZIP writer), `validate-package.mjs` (package contract validator), `validate-release.mjs` (pre-flight version consistency checker), `extract-release-notes.mjs` (changelog markdown extractor), `lint-actions.mjs` (workflow static validator and SHA-pinning linter), and helper libraries `lib/distignore.mjs` and `lib/zip-utils.mjs`.
+- Added convenience npm release commands: `npm run release:build`, `npm run release:validate`, `npm run release:check`, `npm run release:notes`, `npm run release:inspect`, `npm run lint:actions`, `npm run test:release`, and `npm run ci`.
+- Release Tooling Test Suites (`tests/node/release/`): Authoring 11 automated unit tests across `distignore.test.mjs`, `zip-utils.test.mjs`, `extract-release-notes.test.mjs`, `validate-release.test.mjs`, `validate-package.test.mjs`, and `build-package.test.mjs`.
+- Authoritative Release Guide (`docs/releasing.md`): Comprehensive documentation on the release lifecycle, decoupled versioning, package contract rules, step-by-step releasing procedures, supply-chain security, and GitHub branch rulesets.
+- App-Centric Frontend Bridge Architecture: Reorganized `src/frontend/Bridge/` to introduce `Apps/` subfolder (`src/frontend/Bridge/Apps/Settings/`) and `Registry/` folder (`src/frontend/Bridge/Registry/`), achieving 1:1 structural and namespace symmetry with `src/backend/Apps/`.
+- Introduced `SettingsFrontendServiceProvider` encapsulating Settings UI lifecycle hooks, menu registration, and asset enqueuers.
 - Extensible lifecycle action hooks in `SettingsAdminMenu` (`airwp_before_settings_page`, `airwp_render_settings_page`, `airwp_after_settings_page`, `airwp_settings_app_placeholder`) enabling decoupled placeholder rendering.
 - Direct app-level template resolution in `TemplateRenderer` resolving `apps/<app>/templates/<template>.php` from the frontend root.
 - Tripartite App-Centric Architecture (ADR-0009): Partitioned codebase into three clean, decoupled domains under `src/` (`src/framework/`, `src/backend/`, `src/frontend/`) with explicit Composer PSR-4 autoloading for `Framework\`, `Backend\`, and `Frontend\` namespaces.
@@ -46,8 +74,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Authored new comprehensive feature development guides for pure PHP Domain/Application services, Gutenberg Interactivity API, custom WP-CLI commands, and WordPress Abilities API.
 - Created docs/README.md master documentation hub with categorized navigation paths and mermaid architectural diagrams.
 
+### Fixed
+
+- Corrected class namespace import for `SettingsRoute` and `SettingsBootstrapData` in `tests/phpunit/unit/Frontend/FrontendBridgeTest.php` to align with the tripartite app structure.
+
 ### Changed
 
+- Updated repository links and reading paths across `README.md`, `AGENTS.md`, `MANIFEST.md`, `check-environment.mjs`, and ADR cross-references to point to the new seven-pillar documentation structure.
+- Consolidated phased implementation templates under `docs/specifications/plans/` while preserving `docs/plans/README.md` as a backward-compatible pointer.
+- Refactored `SettingsController`, `HelloWorldController`, and `DiagnosticsController` to declare route-level schemas, derive write arguments via `get_endpoint_args_for_item_schema()`, enrich JSON schemas with validation constraints, and embed standard `openapi` metadata blocks.
+- Superseded ADR-0004 with ADR-0011, establishing code-driven OpenAPI generation as single source of truth.
+- Protected `wp-openapi-spec-writer` in `tools/agent-skills/sync-agent-skills.mjs` (`PROTECTED_IN_TREE_SKILLS`).
+- Refactored `FrontendServiceProvider` as a master coordinator delegating to modular application frontend providers and registering cross-cutting dynamic registries.
+- Relocated and namespaced `BlockRegistry` and `PatternRegistry` under `AIReady\WPPluginBoilerplate\Frontend\Registry`.
+- Relocated PHPUnit unit tests for Settings route and frontend service provider to `tests/phpunit/unit/Frontend/Apps/Settings/SettingsRouteTest.php`.
 - Relocated Bruno API contract test collection from root `bruno/` to `tests/bruno/` and reconfigured `scripts/run-rest-tests.mjs` to execute suites and write HTML reports in `tests/bruno/reports/`.
 - Reconfigured Playwright, PHPUnit, and Jest test runners to output all execution artifacts (HTML reports, test traces, XML, `.auth/` storage sessions, `.phpunit.cache`, coverage) inside `tests/` instead of polluting the repository root.
 - Consolidated settings root mount markup into `src/frontend/apps/settings/templates/admin-settings-root.php`, replacing procedural includes with lifecycle action hooks.
@@ -66,10 +106,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Removed
 
+- Removed legacy documentation directories `docs/general/`, `docs/boilerplate-development/`, `docs/feature-development/`, and root `docs/releasing.md` to prevent documentation drift and eliminate duplication.
 - Purged root-level legacy leftover directories (`assets/`, `blocks/`, `patterns/`, `templates/`) and eliminated obsolete fallback directory lookups across `TemplateRenderer`, `BlockRegistry`, `PatternRegistry`, and `scaffold-engine.mjs`.
 - Removed redundant wrapper templates in `src/frontend/templates/` (`admin-settings-root.php` and `admin/admin-settings-root.php`).
 - Purged legacy pre-tripartite root directories inside `src/` (`src/Bootstrap/`, `src/Settings/`, `src/Diagnostics/`, `src/Admin/`, `src/Block/`, `src/Cli/`, `src/Abilities/`, `src/Rest/`, `src/Event/`, `src/Support/`), leaving `src/` exclusively partitioned into `src/framework/`, `src/backend/`, and `src/frontend/`.
-
 
 ## [1.0.1] - 2026-09-08
 
@@ -99,6 +139,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.0.0] - 2026-08-01
 
 ### Added
+
 - Enterprise-grade plugin kernel with micro Dependency Injection Container and Service Providers in `src/Bootstrap/`.
 - Gutenberg Block API v3 Hello World block with `InspectorControls`, attributes, and scoped styling in `blocks/hello-world/`.
 - Contract-first REST API controllers for `/hello` and `/settings` endpoints with schema validation.

@@ -62,7 +62,7 @@ src/
   - `apps/`: Isolated client applications (React admin apps in `settings/react/`, Gutenberg blocks in `hello-world/`).
   - `patterns/` & `templates/`: General block patterns and PHP shell templates.
   - `shared/`: Reusable React components, hooks, API client adapter (`SettingsApiClient`), and TypeScript types.
-  - `Bridge/`: Dedicated PHP subfolder containing `FrontendServiceProvider`, `Settings/` (menu, assets, route, bootstrap data), `Block/` (BlockRegistry), and `Pattern/` (PatternRegistry).
+  - `Bridge/`: Dedicated PHP subfolder containing `FrontendServiceProvider`, `Apps/Settings/` (`SettingsFrontendServiceProvider`, menu, assets, route, bootstrap data), and `Registry/` (`BlockRegistry`, `PatternRegistry`).
 - **Composer PSR-4 Mapping:**
   - `AIReady\WPPluginBoilerplate\Framework\` -> `src/framework/`
   - `AIReady\WPPluginBoilerplate\Backend\` -> `src/backend/`
@@ -131,4 +131,4 @@ src/
 - [ADR-0005: WPDS Admin Card and Sidebar Architecture](0005-wpds-admin-card-and-sidebar-architecture.md)
 - [ADR-0007: Hexagonal Domain Reorganization and Skills Integration](0007-hexagonal-domain-reorganization-and-skills-integration.md)
 - [ADR-0008: Frontend Architecture and Component Design Patterns](0008-frontend-architecture-and-component-design-patterns.md)
-- [Architecture & Layers Documentation](../general/architecture-and-layers.md)
+- [Architecture & Layers Documentation](../framework/architecture-and-layers.md)

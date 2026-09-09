@@ -13,5 +13,7 @@ module.exports = {
 		...defaultConfig.output,
 		path: path.resolve( __dirname, 'build' ),
 		filename: '[name].js',
+		chunkFilename: '[name].js',
+		publicPath: 'auto',
 	},
 };

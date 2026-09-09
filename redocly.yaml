@@ -1,0 +1,14 @@
+apis:
+  main:
+    root: docs/api/openapi.yaml
+
+extends:
+  - recommended
+
+rules:
+  operation-operationId: error
+  operation-summary: error
+  no-identical-paths: error
+  no-ambiguous-paths: error
+  operation-4xx-response: off
+  info-license: off

@@ -25,12 +25,14 @@ Decisions move through the following lifecycle states:
 | [ADR-0001](0001-record-architecture-decisions.md) | Record architecture decisions | Accepted | 2026-09-08 | — |
 | [ADR-0002](0002-in-tree-lightweight-dependency-injection-container.md) | In-tree lightweight dependency injection container | Accepted | 2026-09-08 | — |
 | [ADR-0003](0003-gutenberg-block-api-v3-standard.md) | Gutenberg Block API v3 standard | Accepted | 2026-09-08 | — |
-| [ADR-0004](0004-contract-first-rest-api-specification.md) | Contract-first REST API specification | Accepted | 2026-09-08 | — |
+| [ADR-0004](0004-contract-first-rest-api-specification.md) | Contract-first REST API specification | Superseded | 2026-09-08 | Superseded by [ADR-0011](0011-generated-openapi-specification-from-wordpress-rest-controllers.md) |
 | [ADR-0005](0005-wpds-admin-card-and-sidebar-architecture.md) | WPDS admin card and sidebar architecture | Accepted | 2026-09-08 | — |
 | [ADR-0006](0006-automated-project-scaffolding-cli.md) | Automated project scaffolding CLI | Accepted | 2026-09-08 | — |
 | [ADR-0007](0007-hexagonal-domain-reorganization-and-skills-integration.md) | Hexagonal domain reorganization and skills integration | Accepted | 2026-09-08 | — |
 | [ADR-0008](0008-frontend-architecture-and-component-design-patterns.md) | Frontend architecture and component design patterns | Accepted | 2026-09-09 | — |
 | [ADR-0009](0009-tripartite-app-centric-architecture.md) | Tripartite App-Centric Architecture (Framework, Backend, Frontend Bridge) | Accepted | 2026-09-09 | — |
+| [ADR-0010](0010-two-pipeline-ci-cd-and-release-readiness-architecture.md) | Two-Pipeline CI/CD and Release Readiness Architecture | Accepted | 2026-09-09 | — |
+| [ADR-0011](0011-generated-openapi-specification-from-wordpress-rest-controllers.md) | Generated OpenAPI 3.1 specification from WordPress REST controllers | Accepted | 2026-09-09 | Supersedes [ADR-0004](0004-contract-first-rest-api-specification.md) |
 
 ---
 

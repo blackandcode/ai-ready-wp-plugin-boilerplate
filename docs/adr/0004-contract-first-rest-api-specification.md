@@ -1,6 +1,7 @@
 # ADR-0004: Contract-first REST API specification
 
-- **Status:** accepted
+- **Status:** superseded
+- **Superseded by:** [ADR-0011](0011-generated-openapi-specification-from-wordpress-rest-controllers.md)
 - **Date:** 2026-09-08
 - **Deciders:** Core Architecture Team & AI Assistants
 - **Consulted:** API Security & Integrations Group

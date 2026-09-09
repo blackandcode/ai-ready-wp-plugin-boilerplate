@@ -21,7 +21,8 @@
     "phpunit/phpunit": "^11.5.0",
     "yoast/phpunit-polyfills": "^3.0.0",
     "php-stubs/wordpress-stubs": "^6.7",
-    "php-stubs/wp-cli-stubs": "^2.12"
+    "php-stubs/wp-cli-stubs": "^2.12",
+    "symfony/yaml": "^7.4"
   },
   "config": {
     "allow-plugins": {

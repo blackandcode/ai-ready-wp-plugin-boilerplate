@@ -8,6 +8,7 @@ const PROTECTED_IN_TREE_SKILLS = new Set( [
 	'versioning',
 	'changelog',
 	'wp-admin-ui-ux',
+	'wp-openapi-spec-writer',
 ] );
 
 const SOURCES = [

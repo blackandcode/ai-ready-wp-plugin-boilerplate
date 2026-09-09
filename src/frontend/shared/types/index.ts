@@ -36,6 +36,11 @@ export interface SystemDiagnosticsData {
 	plugin_version: string;
 }
 
+export interface DevelopmentToolsData {
+	pluginMode: boolean;
+	openApiEndpoint?: string;
+}
+
 export interface AirwpBootstrapData {
 	apiBase: string;
 	nonce: string;
@@ -49,6 +54,7 @@ export interface AirwpBootstrapData {
 		wpVersion: string;
 		environmentType: string;
 	};
+	development?: DevelopmentToolsData;
 }
 
 declare global {

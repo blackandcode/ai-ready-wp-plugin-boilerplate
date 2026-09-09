@@ -585,6 +585,20 @@ async function verifyResult( root, targetVersion ) {
 			`Verification failed: CHANGELOG.md has no ${ targetVersion } release entry.`
 		);
 	}
+
+	const readmePath = join( root, 'readme.txt' );
+	if ( await fileExists( readmePath ) ) {
+		const readme = await readFile( readmePath, 'utf8' );
+		const stableTagRegex = new RegExp(
+			`Stable tag:\\s*${ escapeRegex( targetVersion ) }`,
+			'i'
+		);
+		if ( ! stableTagRegex.test( readme ) ) {
+			throw new Error(
+				`Verification failed: readme.txt Stable tag does not match ${ targetVersion }.`
+			);
+		}
+	}
 }
 
 function parseSimpleEnv( content ) {

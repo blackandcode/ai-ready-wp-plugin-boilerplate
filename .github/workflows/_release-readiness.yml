@@ -1,0 +1,245 @@
+name: Release Readiness
+
+on:
+  workflow_call:
+    inputs:
+      ref:
+        description: 'Git commit ref to evaluate (defaults to current)'
+        required: false
+        type: string
+        default: ''
+      upload_artifact:
+        description: 'Whether to upload candidate distribution ZIP'
+        required: false
+        type: boolean
+        default: true
+      retention_days:
+        description: 'Retention days for uploaded artifacts'
+        required: false
+        type: number
+        default: 7
+    outputs:
+      slug:
+        description: 'Plugin slug'
+        value: ${{ jobs.package.outputs.slug }}
+      version:
+        description: 'Plugin version'
+        value: ${{ jobs.package.outputs.version }}
+      zip_name:
+        description: 'Distribution ZIP filename'
+        value: ${{ jobs.package.outputs.zip_name }}
+      sha256:
+        description: 'SHA256 checksum of distribution ZIP'
+        value: ${{ jobs.package.outputs.sha256 }}
+
+permissions:
+  contents: read
+
+jobs:
+  quality-js:
+    name: JS Quality & Node Tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          ref: ${{ inputs.ref }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@1d0ff469b7ec7b3cb9d8673fde0c81c44821de2a # v4.2.0
+        with:
+          node-version: 24
+          cache: 'npm'
+
+      - name: Install npm dependencies
+        run: npm ci
+
+      - name: Run JavaScript, CSS, and Markdown linting
+        run: npm run lint
+
+      - name: Lint OpenAPI specification
+        run: npm run openapi:lint
+
+      - name: Run Node test suite
+        run: npm run test
+
+  quality-php:
+    name: PHP Quality & Tests (${{ matrix.php }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        php: ['8.3', '8.5']
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          ref: ${{ inputs.ref }}
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@f3e473d116dcccaddc5834248c87452386958240 # 2.37.2
+        with:
+          php-version: ${{ matrix.php }}
+          coverage: none
+          tools: composer
+
+      - name: Install Composer dependencies
+        run: composer install --prefer-dist --no-progress
+
+      - name: Run PHP CodeSniffer (WPCS)
+        run: vendor/bin/phpcs
+
+      - name: Run PHPStan static analysis
+        run: vendor/bin/phpstan analyse
+
+      - name: Run PHPUnit test suite
+        run: vendor/bin/phpunit
+
+  package:
+    name: Build & Validate Distribution Package
+    runs-on: ubuntu-latest
+    needs: [quality-js, quality-php]
+    outputs:
+      slug: ${{ steps.build.outputs.slug }}
+      version: ${{ steps.build.outputs.version }}
+      zip_name: ${{ steps.build.outputs.zip_name }}
+      sha256: ${{ steps.build.outputs.sha256 }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          ref: ${{ inputs.ref }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@1d0ff469b7ec7b3cb9d8673fde0c81c44821de2a # v4.2.0
+        with:
+          node-version: 24
+          cache: 'npm'
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@f3e473d116dcccaddc5834248c87452386958240 # 2.37.2
+        with:
+          php-version: '8.3'
+          coverage: none
+          tools: composer
+
+      - name: Install dependencies
+        run: |
+          npm ci
+          composer install --prefer-dist --no-progress
+
+      - name: Release pre-flight check (manifest & version consistency)
+        run: npm run release:check -- --skip-branch-check
+
+      - name: Build production assets and distribution package
+        id: build
+        run: |
+          OUTPUT_JSON=$(node tools/release/build-package.mjs --json)
+          echo "$OUTPUT_JSON"
+          SLUG=$(echo "$OUTPUT_JSON" | node -e "const d=JSON.parse(require('fs').readFileSync(0)); console.log(d.slug);")
+          VERSION=$(echo "$OUTPUT_JSON" | node -e "const d=JSON.parse(require('fs').readFileSync(0)); console.log(d.version);")
+          ZIP_NAME="${SLUG}-${VERSION}.zip"
+          SHA256=$(echo "$OUTPUT_JSON" | node -e "const d=JSON.parse(require('fs').readFileSync(0)); console.log(d.sha256);")
+
+          echo "slug=${SLUG}" >> "$GITHUB_OUTPUT"
+          echo "version=${VERSION}" >> "$GITHUB_OUTPUT"
+          echo "zip_name=${ZIP_NAME}" >> "$GITHUB_OUTPUT"
+          echo "sha256=${SHA256}" >> "$GITHUB_OUTPUT"
+
+      - name: Validate distribution package against contract
+        run: npm run release:validate -- --archive "dist/${{ steps.build.outputs.zip_name }}"
+
+      - name: Extract package for downstream validation
+        run: |
+          mkdir -p dist-extracted
+          unzip -q "dist/${{ steps.build.outputs.zip_name }}" -d dist-extracted
+
+      - name: Upload candidate distribution package
+        if: ${{ inputs.upload_artifact }}
+        uses: actions/upload-artifact@4cec3d8aa04e39d1a68397de0c4cd6fb99baeddf # v4.6.1
+        with:
+          name: ${{ steps.build.outputs.zip_name }}
+          path: |
+            dist/${{ steps.build.outputs.zip_name }}
+            dist/${{ steps.build.outputs.zip_name }}.sha256
+          retention-days: ${{ inputs.retention_days }}
+
+      - name: Upload extracted package for Plugin Check
+        uses: actions/upload-artifact@4cec3d8aa04e39d1a68397de0c4cd6fb99baeddf # v4.6.1
+        with:
+          name: extracted-plugin-package
+          path: dist-extracted/
+          retention-days: 1
+
+  plugin-check:
+    name: WordPress Plugin Check
+    runs-on: ubuntu-latest
+    needs: [package]
+    steps:
+      - name: Download extracted distribution package
+        uses: actions/download-artifact@cc203385981b70ca67e1cc392babf9cc229d5806 # v4.1.9
+        with:
+          name: extracted-plugin-package
+          path: dist-extracted/
+
+      - name: Run official WordPress Plugin Check
+        uses: wordpress/plugin-check-action@2f0853fe5ef58cb026210b427b3fa9bb1852c5aa # v1.4.1
+        with:
+          build-dir: "./dist-extracted/${{ needs.package.outputs.slug }}"
+
+  summary:
+    name: Release Readiness Summary
+    runs-on: ubuntu-latest
+    needs: [quality-js, quality-php, package, plugin-check]
+    if: always()
+    steps:
+      - name: Generate Release Readiness Step Summary
+        run: |
+          JS_STATUS="${{ needs.quality-js.result == 'success' && 'PASS' || 'FAIL' }}"
+          PHP_STATUS="${{ needs.quality-php.result == 'success' && 'PASS' || 'FAIL' }}"
+          PKG_STATUS="${{ needs.package.result == 'success' && 'PASS' || 'FAIL' }}"
+          PC_STATUS="${{ needs.plugin-check.result == 'success' && 'PASS' || 'FAIL' }}"
+
+          ALL_PASS=true
+          if [ "$JS_STATUS" != "PASS" ] || [ "$PHP_STATUS" != "PASS" ] || [ "$PKG_STATUS" != "PASS" ] || [ "$PC_STATUS" != "PASS" ]; then
+            ALL_PASS=false
+          fi
+
+          cat << 'EOF' >> "$GITHUB_STEP_SUMMARY"
+          # 🚀 Release Readiness Assessment
+
+          | Metric / Target | Value |
+          |:---|:---|
+          | **Plugin Slug** | `${{ needs.package.outputs.slug }}` |
+          | **Plugin Version** | `${{ needs.package.outputs.version }}` |
+          | **Distribution Archive** | `${{ needs.package.outputs.zip_name }}` |
+          | **SHA256 Checksum** | `${{ needs.package.outputs.sha256 }}` |
+          | **WordPress Compatibility** | `7.0+` |
+          | **PHP Matrix** | `8.3` and `8.5` |
+
+          ## 🛡️ Release Gate Verification
+
+          | Verification Gate | Result |
+          |:---|:---|
+          | JavaScript Lint & Node Tests | ${{ needs.quality-js.result == 'success' && '✅ PASS' || '❌ FAIL' }} |
+          | PHP Coding Standards (WPCS) & PHPStan | ${{ needs.quality-php.result == 'success' && '✅ PASS' || '❌ FAIL' }} |
+          | PHPUnit Matrix (PHP 8.3 & 8.5) | ${{ needs.quality-php.result == 'success' && '✅ PASS' || '❌ FAIL' }} |
+          | Distribution Package Contract | ${{ needs.package.result == 'success' && '✅ PASS' || '❌ FAIL' }} |
+          | Official WordPress Plugin Check | ${{ needs.plugin-check.result == 'success' && '✅ PASS' || '❌ FAIL' }} |
+
+          EOF
+
+          if [ "$ALL_PASS" = "true" ]; then
+            cat << 'EOF' >> "$GITHUB_STEP_SUMMARY"
+
+          > ### 🎉 STATUS: READY FOR RELEASE
+          > The package contract is verified, all static analysis and unit tests passed across PHP 8.3 and 8.5, and official WordPress Plugin Check confirmed distribution compliance.
+          EOF
+          else
+            cat << 'EOF' >> "$GITHUB_STEP_SUMMARY"
+
+          > ### 🚫 STATUS: NOT RELEASE READY
+          > One or more release-readiness gates failed. Inspect the failed job logs above before attempting a release.
+          EOF
+            exit 1
+          fi

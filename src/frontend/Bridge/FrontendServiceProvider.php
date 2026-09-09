@@ -9,10 +9,9 @@ namespace AIReady\WPPluginBoilerplate\Frontend;
 
 use AIReady\WPPluginBoilerplate\Framework\Container\Container;
 use AIReady\WPPluginBoilerplate\Framework\Container\ServiceProviderInterface;
-use AIReady\WPPluginBoilerplate\Frontend\Block\BlockRegistry;
-use AIReady\WPPluginBoilerplate\Frontend\Pattern\PatternRegistry;
-use AIReady\WPPluginBoilerplate\Frontend\Settings\SettingsAdminMenu;
-use AIReady\WPPluginBoilerplate\Frontend\Settings\SettingsAssets;
+use AIReady\WPPluginBoilerplate\Frontend\Apps\Settings\SettingsFrontendServiceProvider;
+use AIReady\WPPluginBoilerplate\Frontend\Registry\BlockRegistry;
+use AIReady\WPPluginBoilerplate\Frontend\Registry\PatternRegistry;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -24,13 +23,31 @@ if ( ! defined( 'ABSPATH' ) ) {
 class FrontendServiceProvider implements ServiceProviderInterface {
 
 	/**
+	 * Sub-providers for presentation applications.
+	 *
+	 * @var ServiceProviderInterface[]
+	 */
+	private array $app_providers = array();
+
+	/**
+	 * Constructor.
+	 */
+	public function __construct() {
+		$this->app_providers = array(
+			new SettingsFrontendServiceProvider(),
+		);
+	}
+
+	/**
 	 * Register frontend presentation services.
 	 *
 	 * @param Container $container DI container.
 	 * @return void
 	 */
-	public function register( Container $container ): void { // phpcs:ignore VariableAnalysis.CodeAnalysis.VariableAnalysis.UnusedVariable
-		// Presentation services use static registrations.
+	public function register( Container $container ): void {
+		foreach ( $this->app_providers as $provider ) {
+			$provider->register( $container );
+		}
 	}
 
 	/**
@@ -39,13 +56,14 @@ class FrontendServiceProvider implements ServiceProviderInterface {
 	 * @return void
 	 */
 	public function boot(): void {
-		// Admin UI: menu & scripts.
-		SettingsAdminMenu::boot();
-		add_action( 'admin_menu', array( SettingsAdminMenu::class, 'register_menu' ) );
-		SettingsAssets::register();
+		foreach ( $this->app_providers as $provider ) {
+			$provider->boot();
+		}
 
 		// Gutenberg blocks & patterns.
-		add_action( 'init', array( BlockRegistry::class, 'register_blocks' ) );
-		add_action( 'init', array( PatternRegistry::class, 'register_patterns' ) );
+		if ( function_exists( 'add_action' ) ) {
+			add_action( 'init', array( BlockRegistry::class, 'register_blocks' ) );
+			add_action( 'init', array( PatternRegistry::class, 'register_patterns' ) );
+		}
 	}
 }
