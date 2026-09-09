@@ -4,7 +4,7 @@ Tags: boilerplate, enterprise, modern, ddd, react
 Requires at least: 7.1
 Tested up to: 7.1
 Requires PHP: 8.3
-Stable tag: 1.1.2
+Stable tag: 1.2.0
 License: MIT
 License URI: https://opensource.org/licenses/MIT
 
@@ -33,7 +33,7 @@ Yes, it requires WordPress 7.1 or greater and is designed for modern WordPress v
 
 == Changelog ==
 
-= 1.1.2 =
+= 1.2.0 =
 * Automated version synchronization and changelog management.
 * Enhanced architecture decision records governance.
 

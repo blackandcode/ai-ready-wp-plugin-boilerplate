@@ -8,6 +8,8 @@
 namespace AIReady\WPPluginBoilerplate\Frontend\Apps\Settings;
 
 use AIReady\WPPluginBoilerplate\Backend\Apps\Settings\Infrastructure\WordPressSettingsRepository;
+use AIReady\WPPluginBoilerplate\Framework\Environment\DevelopmentMode;
+use AIReady\WPPluginBoilerplate\Framework\Environment\WordPressDevelopmentMode;
 use AIReady\WPPluginBoilerplate\Framework\Kernel\Plugin;
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -25,18 +27,13 @@ class SettingsBootstrapData {
 	 * @return bool
 	 */
 	public static function is_plugin_dev_mode(): bool {
-		if ( function_exists( 'wp_is_development_mode' ) && wp_is_development_mode( 'plugin' ) ) {
-			return true;
+		$container = Plugin::instance()->get_container();
+		if ( null !== $container && $container->has( DevelopmentMode::class ) ) {
+			return $container->get( DevelopmentMode::class )->is_plugin_development();
 		}
 
-		if ( function_exists( 'wp_get_development_mode' ) ) {
-			$mode = wp_get_development_mode();
-			if ( 'all' === $mode || 'plugin' === $mode ) {
-				return true;
-			}
-		}
-
-		return false;
+		$dev_mode = new WordPressDevelopmentMode();
+		return $dev_mode->is_plugin_development();
 	}
 
 	/**

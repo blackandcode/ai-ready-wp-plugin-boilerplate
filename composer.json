@@ -10,6 +10,7 @@
     "psr-4": {
       "AIReady\\WPPluginBoilerplate\\Framework\\": "src/framework/",
       "AIReady\\WPPluginBoilerplate\\Backend\\": "src/backend/",
+      "AIReady\\WPPluginBoilerplate\\Development\\": "src/development/",
       "AIReady\\WPPluginBoilerplate\\Frontend\\": "src/frontend/Bridge/"
     }
   },

@@ -28,7 +28,7 @@ This document details the software design, block attributes, Interactivity API c
   "$schema": "https://schemas.wp.org/trunk/block.json",
   "apiVersion": 3,
   "name": "ai-ready-wp/hello-world",
-  "version": "1.1.2",
+  "version": "1.2.0",
   "title": "AI-Ready Hello World",
   "category": "widgets",
   "icon": "smiley",

@@ -343,7 +343,7 @@ test( 'fails with clear message when no target version or bump is provided and n
 
 test( 'recordUnreleasedChange pure function adds entries under correct category', () => {
 	const initial =
-		'# Changelog\n\n## [Unreleased]\n\n## [1.1.2] - 2026-08-01\n';
+		'# Changelog\n\n## [Unreleased]\n\n## [1.2.0] - 2026-08-01\n';
 	const updated1 = recordUnreleasedChange( initial, {
 		type: 'Added',
 		message: 'First new feature',

@@ -6,6 +6,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.2.0] - 2026-09-09
+
+### Added
+
+- ADR-0013: Runtime Architecture, Code Quality and Security Hardening documenting quadripartite architecture, development decoupling, and security baselines
+- DevelopmentMode abstraction (`DevelopmentMode`, `WordPressDevelopmentMode`, `FakeDevelopmentMode`) under `src/framework/Environment/` controlling feature availability and provider registration
+- Dedicated Development subsystem under `src/development/` (`DevelopmentServiceProvider`, `DeveloperCliServiceProvider`, `DevOpenApiController`, `OpenApiCliCommand`, and `Development\OpenApi\` generator pipeline)
+- Automated architectural test suite (`tests/phpunit/unit/Architecture/`) enforcing dependency direction, development isolation, REST security contracts, and native block registry invariants
+- Deterministic security static checker (`tools/security/audit-security-baseline.mjs`) with unit tests, wired into `npm run lint:security` and `npm run test:security`
+
+### Changed
+
+- Refactored `Plugin.php` composition root and provider lifecycles to eliminate constructor side effects and conditionally boot `DevelopmentServiceProvider` only when development mode is active
+- Hardened REST API controllers with explicit schema validation callbacks, strict `manage_options` capabilities, and removed loose authentication bypasses
+- Refactored `BlockRegistry` to use native `wp_register_block_types_from_metadata_collection` with compiled `build/blocks-manifest.php`
+- Relocated OpenAPI generator pipeline to `src/development/OpenApi/` as a development-only consumer of runtime REST declarations
+- Hardened `uninstall.php` to use `$wpdb->prepare()` for dynamic database cleanup queries
+
 ## [1.1.2] - 2026-09-09
 
 ### Added

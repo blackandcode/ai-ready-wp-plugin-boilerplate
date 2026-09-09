@@ -92,7 +92,7 @@ Changing version numbers is **never a manual text edit**. The boilerplate provid
 ```bash
 # Automated SemVer bumps:
 npm run update-version:patch    # e.g. 1.0.0 -> 1.0.1 (maintenance fixes & refactoring)
-npm run update-version:minor    # e.g. 1.0.0 -> 1.1.2 (new features & phase completions)
+npm run update-version:minor    # e.g. 1.0.0 -> 1.2.0 (new features & phase completions)
 npm run update-version:major    # e.g. 1.0.0 -> 2.0.0 (breaking changes & major baseline)
 
 # Explicit target version with custom notes & decision rationale:
@@ -119,7 +119,7 @@ npm run update-version -- patch --dry-run
 ### Human Developer vs AI Agent Workflow
 
 - **Human Developers (Manual Preferred):** Developers work iteratively, stage notes with `npm run changelog:add`, and manually trigger releases when ready.
-- **AI Coding Agents (Prompt-Aware):** Agents inspect the user's initial prompt. If and only if the user explicitly requested a version bump (e.g. "bump version", "release v1.1.2"), the agent executes `npm run update-version`. Otherwise, the agent strictly logs changes under `## [Unreleased]` and leaves release execution to the developer.
+- **AI Coding Agents (Prompt-Aware):** Agents inspect the user's initial prompt. If and only if the user explicitly requested a version bump (e.g. "bump version", "release v1.2.0"), the agent executes `npm run update-version`. Otherwise, the agent strictly logs changes under `## [Unreleased]` and leaves release execution to the developer.
 
 ### What `npm run update-version` Coordinates Atomically
 

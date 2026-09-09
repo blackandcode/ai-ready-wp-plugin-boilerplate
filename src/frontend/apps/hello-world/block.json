@@ -2,7 +2,7 @@
   "$schema": "https://schemas.wp.org/trunk/block.json",
   "apiVersion": 3,
   "name": "ai-ready-wp/hello-world",
-  "version": "1.1.2",
+  "version": "1.2.0",
   "title": "Hello World",
   "category": "widgets",
   "icon": "smiley",
@@ -41,8 +41,8 @@
       "padding": true
     }
   },
-  "editorScript": "file:../../../../build/blocks/hello-world/index.js",
-  "viewScriptModule": "file:../../../../build/blocks/hello-world/view.js",
+  "editorScript": "file:./index.js",
+  "viewScriptModule": "file:./view.js",
   "editorStyle": "file:./editor.css",
   "style": "file:./style.css"
 }

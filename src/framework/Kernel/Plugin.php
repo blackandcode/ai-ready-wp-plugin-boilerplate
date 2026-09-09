@@ -8,8 +8,11 @@
 namespace AIReady\WPPluginBoilerplate\Framework\Kernel;
 
 use AIReady\WPPluginBoilerplate\Backend\BackendServiceProvider;
+use AIReady\WPPluginBoilerplate\Development\DevelopmentServiceProvider;
 use AIReady\WPPluginBoilerplate\Framework\Container\Container;
 use AIReady\WPPluginBoilerplate\Framework\Container\ServiceProviderRegistry;
+use AIReady\WPPluginBoilerplate\Framework\Environment\DevelopmentMode;
+use AIReady\WPPluginBoilerplate\Framework\Environment\WordPressDevelopmentMode;
 use AIReady\WPPluginBoilerplate\Frontend\FrontendServiceProvider;
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -24,7 +27,7 @@ class Plugin {
 	/**
 	 * Plugin version.
 	 */
-	public const VERSION = '1.1.2';
+	public const VERSION = '1.2.0';
 
 	/**
 	 * Singleton instance.
@@ -55,6 +58,13 @@ class Plugin {
 	private ?ServiceProviderRegistry $registry = null;
 
 	/**
+	 * Development mode adapter.
+	 *
+	 * @var DevelopmentMode|null
+	 */
+	private ?DevelopmentMode $development_mode = null;
+
+	/**
 	 * Get singleton instance.
 	 *
 	 * @return Plugin
@@ -82,8 +92,15 @@ class Plugin {
 
 	/**
 	 * Boot the plugin services.
+	 *
+	 * @param DevelopmentMode|null $development_mode Optional development mode override.
+	 * @return void
 	 */
-	public function boot(): void {
+	public function boot( ?DevelopmentMode $development_mode = null ): void {
+		if ( null !== $development_mode ) {
+			$this->development_mode = $development_mode;
+		}
+
 		if ( $this->booted ) {
 			return;
 		}
@@ -108,15 +125,21 @@ class Plugin {
 		}
 
 		$this->container = new Container();
-		$this->registry  = new ServiceProviderRegistry( $this->container );
 
-		// Register backend (headless apps) and frontend (UI bridge) providers.
-		if ( class_exists( BackendServiceProvider::class ) ) {
-			$this->registry->add_provider( new BackendServiceProvider() );
+		if ( null === $this->development_mode ) {
+			$this->development_mode = new WordPressDevelopmentMode();
 		}
 
-		if ( class_exists( FrontendServiceProvider::class ) ) {
-			$this->registry->add_provider( new FrontendServiceProvider() );
+		$this->container->instance( DevelopmentMode::class, $this->development_mode );
+		$this->registry = new ServiceProviderRegistry( $this->container );
+
+		// Register runtime providers.
+		$this->registry->add_provider( new BackendServiceProvider() );
+		$this->registry->add_provider( new FrontendServiceProvider() );
+
+		// Conditionally register development provider when plugin development mode is active.
+		if ( $this->development_mode->is_plugin_development() ) {
+			$this->registry->add_provider( new DevelopmentServiceProvider() );
 		}
 
 		$this->registry->register_all();
@@ -148,5 +171,24 @@ class Plugin {
 	 */
 	public function get_registry(): ?ServiceProviderRegistry {
 		return $this->registry;
+	}
+
+	/**
+	 * Get the development mode instance.
+	 *
+	 * @return DevelopmentMode|null
+	 */
+	public function get_development_mode(): ?DevelopmentMode {
+		return $this->development_mode;
+	}
+
+	/**
+	 * Set the development mode instance (primarily for testing).
+	 *
+	 * @param DevelopmentMode $development_mode Development mode instance.
+	 * @return void
+	 */
+	public function set_development_mode( DevelopmentMode $development_mode ): void {
+		$this->development_mode = $development_mode;
 	}
 }

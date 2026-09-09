@@ -72,8 +72,10 @@ class DiagnosticsBackendServiceProvider implements ServiceProviderInterface {
 	 * @return void
 	 */
 	public function boot(): void {
-		add_action( 'rest_api_init', array( $this, 'register_routes' ) );
-		add_action( 'wp_abilities_api_init', array( DiagnosticsAbilities::class, 'register' ) );
+		if ( function_exists( 'add_action' ) ) {
+			add_action( 'rest_api_init', array( $this, 'register_routes' ) );
+			add_action( 'wp_abilities_api_init', array( DiagnosticsAbilities::class, 'register' ) );
+		}
 	}
 
 	/**

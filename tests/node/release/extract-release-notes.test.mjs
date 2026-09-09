@@ -19,10 +19,10 @@ All notable changes to this project are documented in this file.
 ### Fixed
 - Fixed null pointer in DI container.
 
-## [1.1.2] - 2026-08-01
+## [1.2.0] - 2026-08-01
 
 ### Added
-- Initial v1.1.2 changes.
+- Initial v1.2.0 changes.
 `;
 
 test( 'extractReleaseNotes extracts release markdown cleanly between version headers', () => {

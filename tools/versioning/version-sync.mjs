@@ -661,7 +661,7 @@ export async function synchronizeVersion( {
 	}
 	if ( ! targetVersion ) {
 		throw new Error(
-			'Target version is required. Provide a version (e.g. "1.1.2"), a bump type ("--bump patch|minor|major"), or set TARGET_VERSION in .env.'
+			'Target version is required. Provide a version (e.g. "1.2.0"), a bump type ("--bump patch|minor|major"), or set TARGET_VERSION in .env.'
 		);
 	}
 

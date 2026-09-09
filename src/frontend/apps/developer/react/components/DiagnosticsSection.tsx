@@ -30,7 +30,7 @@ export function DiagnosticsSection( {
 						) }
 					</th>
 					<td>
-						<code>{ version || '1.1.2' }</code>
+						<code>{ version || '1.2.0' }</code>
 					</td>
 				</tr>
 				<tr>

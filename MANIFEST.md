@@ -11,7 +11,7 @@ This manifest provides a comprehensive directory and file inventory for the **Wo
 | `ai-ready-wp-plugin-boilerplate.php` | Main WordPress plugin entrypoint with headers, constants, and hooks. | Bootstrap |
 | `uninstall.php` | Cleanup handler executing data retention policy on uninstallation. | Lifecycle |
 | `package.json` | Node dependencies, build scripts, test suites, and scaffolding commands. | Toolchain |
-| `composer.json` | PHP dependencies, tripartite PSR-4 autoload mapping (`Framework\`, `Backend\`, `Frontend\`), and linters. | Toolchain |
+| `composer.json` | PHP dependencies, quadripartite PSR-4 autoload mapping (`Framework\`, `Backend\`, `Development\`, `Frontend\`), and linters. | Toolchain |
 | `.wp-env.json` | Docker orchestration for local WordPress (latest) and PHP 8.3 development. | Environment |
 | `webpack.config.js` | Webpack build configuration compiling React apps (`src/frontend/apps/settings/`) and Gutenberg blocks (`src/frontend/apps/hello-world/`). | Asset Build |
 | `tsconfig.json` | TypeScript compiler configuration with strict checking and React JSX support. | Asset Build |
@@ -48,6 +48,9 @@ This manifest provides a comprehensive directory and file inventory for the **Wo
 | `src/framework/Container/Container.php` | Micro in-tree Dependency Injection container. | Framework |
 | `src/framework/Container/ServiceProviderInterface.php` | Interface contract for all modular service providers. | Framework |
 | `src/framework/Container/ServiceProviderRegistry.php` | Registry managing provider registration and booting. | Framework |
+| `src/framework/Environment/DevelopmentMode.php` | Contract defining development mode introspection. | Framework |
+| `src/framework/Environment/WordPressDevelopmentMode.php` | WordPress core adapter for plugin development mode. | Framework |
+| `src/framework/Environment/FakeDevelopmentMode.php` | Deterministic in-memory test double for development mode. | Framework |
 | `src/framework/Kernel/Plugin.php` | Singleton orchestrator managing lifecycle, DI container, and master providers. | Framework |
 | `src/framework/Kernel/Compatibility.php` | Runtime verification of PHP 8.3+ and WordPress 7.1+ requirements. | Framework |
 | `src/framework/Kernel/Activation.php` | Plugin activation routines, default settings seed, rewrite flush. | Framework |
@@ -58,14 +61,6 @@ This manifest provides a comprehensive directory and file inventory for the **Wo
 | `src/framework/Support/Cache/TransientCache.php` | Transient caching utility with TTL clamping. | Framework |
 | `src/framework/View/TemplateRendererInterface.php` | Interface for safe template rendering and path resolution. | Framework |
 | `src/framework/View/TemplateRenderer.php` | Template renderer with directory traversal guards and scoped variables. | Framework |
-| `src/framework/Rest/OpenApi/OpenApiGenerator.php` | Facade orchestrating route inspection, OpenAPI 3.1 assembly, and YAML serialization. | Framework |
-| `src/framework/Rest/OpenApi/WordPressRouteInspector.php` | Introspects registered WordPress REST routes, schemas, and OpenAPI metadata. | Framework |
-| `src/framework/Rest/OpenApi/OpenApiPathNormalizer.php` | Normalizes WordPress regex route patterns into OpenAPI path templates. | Framework |
-| `src/framework/Rest/OpenApi/WordPressSchemaConverter.php` | Converts WordPress Draft-4 JSON schemas to OpenAPI 3.1 and extracts components. | Framework |
-| `src/framework/Rest/OpenApi/OpenApiMetadataValidator.php` | Validates route handler OpenAPI metadata blocks and ensures unique operation IDs. | Framework |
-| `src/framework/Rest/OpenApi/OpenApiDocumentFactory.php` | Assembles full OpenAPI 3.1 document structure with deterministic ordering. | Framework |
-| `src/framework/Rest/OpenApi/OpenApiYamlWriter.php` | Serializes OpenAPI document to YAML with atomic writes and standard header. | Framework |
-| `src/framework/Rest/OpenApi/Exception/OpenApiValidationException.php` | Exception thrown when OpenAPI metadata or route constraints are violated. | Framework |
 
 ---
 
@@ -74,7 +69,7 @@ This manifest provides a comprehensive directory and file inventory for the **Wo
 | File | Purpose | Layer |
 |---|---|---|
 | `src/backend/BackendServiceProvider.php` | Master backend provider registering and booting all backend apps. | Backend |
-| `src/backend/Cli/PluginCliCommand.php` | Master WP-CLI command aggregator. | Backend |
+| `src/backend/Cli/PluginCliCommand.php` | Master WP-CLI command aggregator for runtime subcommands. | Backend |
 | `src/backend/Apps/Settings/SettingsBackendServiceProvider.php` | Service provider booting Settings App backend services. | Backend (Settings) |
 | `src/backend/Apps/Settings/Domain/Model/PluginSettings.php` | Aggregate root encapsulating settings state, invariants, and events. | Domain |
 | `src/backend/Apps/Settings/Domain/ValueObject/GreetingMessage.php` | Value object encapsulating greeting message invariants. | Domain |
@@ -109,13 +104,29 @@ This manifest provides a comprehensive directory and file inventory for the **Wo
 | `src/backend/Apps/HelloWorld/Application/HelloWorldService.php` | Service producing Hello World responses. | Application |
 | `src/backend/Apps/HelloWorld/Application/DTO/HelloWorldDTO.php` | DTO representing Hello World responses. | Application |
 | `src/backend/Apps/HelloWorld/Rest/HelloWorldController.php` | Public `GET /ai-ready-wp/v1/hello` REST controller. | Rest |
-| `src/backend/Apps/Developer/DeveloperBackendServiceProvider.php` | Service provider gating developer REST routes and tooling by plugin development mode. | Backend (Developer) |
-| `src/backend/Apps/Developer/Rest/DevOpenApiController.php` | Development-only REST controller serving live generated OpenAPI JSON spec. | Rest |
-| `src/backend/Cli/OpenApiCliCommand.php` | WP-CLI commands (`wp ai-ready openapi generate` / `check`) for specification generation and drift checks. | Cli |
 
 ---
 
-## 4. Consolidated Frontend Presentation (`src/frontend/`)
+## 4. Development Subsystem (`src/development/`)
+
+| File | Purpose | Layer |
+|---|---|---|
+| `src/development/DevelopmentServiceProvider.php` | Service provider booting development routes, CLI commands, and services. | Development |
+| `src/development/Rest/DevOpenApiController.php` | Development REST controller serving generated OpenAPI 3.1 specification. | Development Rest |
+| `src/development/Cli/DeveloperCliServiceProvider.php` | Service provider registering development WP-CLI commands. | Development Cli |
+| `src/development/Cli/OpenApiCliCommand.php` | WP-CLI commands (`wp ai-ready openapi generate` / `check`) for specification generation and drift checks. | Development Cli |
+| `src/development/OpenApi/OpenApiGenerator.php` | Facade orchestrating route inspection, OpenAPI 3.1 assembly, and YAML serialization. | Development Tooling |
+| `src/development/OpenApi/WordPressRouteInspector.php` | Introspects registered WordPress REST routes, schemas, and OpenAPI metadata. | Development Tooling |
+| `src/development/OpenApi/OpenApiPathNormalizer.php` | Normalizes WordPress regex route patterns into OpenAPI path templates. | Development Tooling |
+| `src/development/OpenApi/WordPressSchemaConverter.php` | Converts WordPress Draft-4 JSON schemas to OpenAPI 3.1 and extracts components. | Development Tooling |
+| `src/development/OpenApi/OpenApiMetadataValidator.php` | Validates route handler OpenAPI metadata blocks and ensures unique operation IDs. | Development Tooling |
+| `src/development/OpenApi/OpenApiDocumentFactory.php` | Assembles full OpenAPI 3.1 document structure with deterministic ordering. | Development Tooling |
+| `src/development/OpenApi/OpenApiYamlWriter.php` | Serializes OpenAPI document to YAML with atomic writes and standard header. | Development Tooling |
+| `src/development/OpenApi/Exception/OpenApiValidationException.php` | Exception thrown when OpenAPI metadata or route constraints are violated. | Development Tooling |
+
+---
+
+## 5. Consolidated Frontend Presentation (`src/frontend/`)
 
 | File | Purpose | Layer |
 |---|---|---|
@@ -125,7 +136,7 @@ This manifest provides a comprehensive directory and file inventory for the **Wo
 | `src/frontend/Bridge/Apps/Settings/SettingsAssets.php` | Enqueues React scripts, styles, and localized bootstrap data. | Frontend Bridge |
 | `src/frontend/Bridge/Apps/Settings/SettingsRoute.php` | Slug constants and screen matching helpers. | Frontend Bridge |
 | `src/frontend/Bridge/Apps/Settings/SettingsBootstrapData.php` | Builds configuration JSON for the React admin app. | Frontend Bridge |
-| `src/frontend/Bridge/Registry/BlockRegistry.php` | Dynamic scanner discovering blocks in `src/frontend/apps/*/block.json`. | Frontend Bridge |
+| `src/frontend/Bridge/Registry/BlockRegistry.php` | Native adapter registering blocks via `wp_register_block_types_from_metadata_collection`. | Frontend Bridge |
 | `src/frontend/Bridge/Registry/PatternRegistry.php` | Dynamic scanner registering block patterns from `src/frontend/patterns/*.php`. | Frontend Bridge |
 | `src/frontend/apps/settings/react/index.tsx` | Webpack entrypoint mounting React app to `#airwp-settings-root`. | Frontend (Settings) |
 | `src/frontend/apps/settings/react/App.tsx` | Orchestrating container managing state reducer, API client, and error boundary. | Frontend (Settings) |
@@ -169,7 +180,7 @@ This manifest provides a comprehensive directory and file inventory for the **Wo
 
 ---
 
-## 5. Automation & Scaffolding Tools (`tools/`)
+## 6. Automation & Scaffolding Tools (`tools/`)
 
 | File | Purpose | Layer |
 |---|---|---|
@@ -191,24 +202,30 @@ This manifest provides a comprehensive directory and file inventory for the **Wo
 | `tools/rest-tests/run-rest-tests.mjs` | Cross-platform Bruno REST API test runner loading .env credentials. | Toolchain |
 | `tools/scaffolding/scaffold-plugin.mjs` | CLI for automated plugin scaffolding, renaming, and rebranding. | Toolchain |
 | `tools/scaffolding/scaffold-engine.mjs` | Core engine executing atomic token replacements and file renames. | Toolchain |
+| `tools/security/audit-security-baseline.mjs` | Deterministic static checker enforcing repository-wide security baseline. | Quality |
 | `tools/versioning/increase-plugin-version.mjs` | Automated SemVer release tool updating all project metadata. | Toolchain |
 | `tools/versioning/version-sync.mjs` | Version synchronization engine with rollback and changelog promotion. | Toolchain |
 | `tools/wp-env/after-start.mjs` | Lifecycle script provisioning admin and Bruno test users after `wp-env start`. | Environment |
 
 ---
 
-## 6. Testing Harnesses & Suites (`tests/`)
+## 7. Testing Harnesses & Suites (`tests/`)
 
 | File | Purpose | Tier |
 |---|---|---|
 | `tests/phpunit/bootstrap.php` | PHPUnit bootstrap initializing autoloader and constants. | Tier 2 |
 | `tests/phpunit/unit/Framework/Container/ContainerTest.php` | Unit tests for DI container bindings, singletons, and exceptions. | Tier 2 |
+| `tests/phpunit/unit/Framework/Environment/DevelopmentModeTest.php` | Unit tests for DevelopmentMode abstraction and implementations. | Tier 2 |
 | `tests/phpunit/unit/Framework/Kernel/PluginTest.php` | Unit tests for Plugin singleton, versioning, and boot idempotency. | Tier 2 |
 | `tests/phpunit/unit/Framework/Kernel/CompatibilityTest.php` | Unit tests for PHP and WordPress version compatibility checks. | Tier 2 |
 | `tests/phpunit/unit/Framework/Event/EventDispatcherTest.php` | Unit tests for event dispatcher and subscriber calls. | Tier 2 |
 | `tests/phpunit/unit/Framework/Support/TransientCacheTest.php` | Unit tests for transient key hashing and TTL bounds. | Tier 2 |
 | `tests/phpunit/unit/Framework/Support/WordPressErrorMapperTest.php` | Unit tests for exception-to-WP_Error conversion. | Tier 2 |
 | `tests/phpunit/unit/Framework/View/TemplateRendererTest.php` | Unit tests for TemplateRenderer security guards and template evaluation. | Tier 2 |
+| `tests/phpunit/unit/Architecture/DependencyDirectionTest.php` | Architectural tests verifying one-way dependency rules and subsystem isolation. | Tier 2 |
+| `tests/phpunit/unit/Architecture/DevelopmentIsolationTest.php` | Architectural tests verifying development provider isolation in production. | Tier 2 |
+| `tests/phpunit/unit/Architecture/RestSecurityContractTest.php` | Architectural tests verifying permission callbacks and authorization rules. | Tier 2 |
+| `tests/phpunit/unit/Architecture/BlockRegistryTest.php` | Architectural tests verifying native metadata collection without glob or source scanning. | Tier 2 |
 | `tests/phpunit/unit/Backend/Apps/Settings/Domain/PluginSettingsTest.php` | Unit tests for Settings aggregate root and invariants. | Tier 2 |
 | `tests/phpunit/unit/Backend/Apps/Settings/Domain/GreetingMessageTest.php` | Unit tests for GreetingMessage value object normalization and invariants. | Tier 2 |
 | `tests/phpunit/unit/Backend/Apps/Settings/Domain/CacheTtlTest.php` | Unit tests for CacheTtl value object bounds and clamping. | Tier 2 |
@@ -217,13 +234,13 @@ This manifest provides a comprehensive directory and file inventory for the **Wo
 | `tests/phpunit/unit/Backend/Apps/Settings/Infrastructure/SettingsSchemaTest.php` | Unit tests for settings defaults and sanitization rules. | Tier 2 |
 | `tests/phpunit/unit/Backend/Apps/HelloWorld/HelloWorldServiceTest.php` | Unit tests for HelloWorld service and greeting VO. | Tier 2 |
 | `tests/phpunit/unit/Frontend/Apps/Settings/SettingsRouteTest.php` | Unit tests for SettingsRoute screen matching and service provider lifecycle. | Tier 2 |
-| `tests/phpunit/unit/Backend/Apps/Developer/DeveloperBackendServiceProviderTest.php` | Unit tests for developer service provider lifecycle and dev-mode route gating. | Tier 2 |
-| `tests/phpunit/unit/Framework/Rest/OpenApi/OpenApiPathNormalizerTest.php` | Unit tests for WordPress route regex to OpenAPI path template conversion. | Tier 2 |
-| `tests/phpunit/unit/Framework/Rest/OpenApi/WordPressSchemaConverterTest.php` | Unit tests for Draft-4 to OpenAPI 3.1 schema conversion and component extraction. | Tier 2 |
-| `tests/phpunit/unit/Framework/Rest/OpenApi/OpenApiMetadataValidatorTest.php` | Unit tests for operationId formatting, uniqueness, and OpenAPI metadata invariants. | Tier 2 |
-| `tests/phpunit/unit/Framework/Rest/OpenApi/OpenApiYamlWriterTest.php` | Unit tests for deterministic YAML dumping and atomic filesystem writing. | Tier 2 |
-| `tests/phpunit/unit/Framework/Rest/OpenApi/OpenApiDocumentFactoryTest.php` | Unit tests for OpenAPI 3.1 document structure assembly and lexical sorting. | Tier 2 |
-| `tests/phpunit/unit/Framework/Rest/OpenApi/OpenApiDriftTest.php` | Unit tests for in-memory and on-disk OpenAPI specification drift detection. | Tier 2 |
+| `tests/phpunit/unit/Frontend/Bridge/Registry/BlockRegistryTest.php` | Unit tests for native BlockRegistry execution and path resolution. | Tier 2 |
+| `tests/phpunit/unit/Development/OpenApi/OpenApiPathNormalizerTest.php` | Unit tests for WordPress route regex to OpenAPI path template conversion. | Tier 2 |
+| `tests/phpunit/unit/Development/OpenApi/WordPressSchemaConverterTest.php` | Unit tests for Draft-4 to OpenAPI 3.1 schema conversion and component extraction. | Tier 2 |
+| `tests/phpunit/unit/Development/OpenApi/OpenApiMetadataValidatorTest.php` | Unit tests for operationId formatting, uniqueness, and OpenAPI metadata invariants. | Tier 2 |
+| `tests/phpunit/unit/Development/OpenApi/OpenApiYamlWriterTest.php` | Unit tests for deterministic YAML dumping and atomic filesystem writing. | Tier 2 |
+| `tests/phpunit/unit/Development/OpenApi/OpenApiDocumentFactoryTest.php` | Unit tests for OpenAPI 3.1 document structure assembly and lexical sorting. | Tier 2 |
+| `tests/phpunit/unit/Development/OpenApi/OpenApiDriftTest.php` | Unit tests for in-memory and on-disk OpenAPI specification drift detection. | Tier 2 |
 | `tests/phpunit/integration/SampleIntegrationTest.php` | Integration test harness for WordPress runtime checks. | Tier 2 |
 | `tests/js/setup-tests.ts` | Jest test setup loading `@testing-library/jest-dom`. | Tier 3 |
 | `tests/js/shared/CardLayout.test.tsx` | Unit tests for compound WPDS CardLayout components. | Tier 3 |
@@ -251,6 +268,7 @@ This manifest provides a comprehensive directory and file inventory for the **Wo
 | `tests/node/release/validate-package.test.mjs` | Unit tests for distribution package contract validator. | Toolchain |
 | `tests/node/release/build-package.test.mjs` | Integration test for end-to-end package generation and verification. | Toolchain |
 | `tests/node/release/asset-externalization.test.mjs` | Unit and integration tests for asset externalization and .asset.php parsing. | Toolchain |
+| `tests/node/security/audit-security-baseline.test.mjs` | Unit tests for deterministic security static checker. | Toolchain |
 | `tests/bruno/bruno.json` | Bruno REST API collection manifest. | Tier 4 |
 | `tests/bruno/collection.bru` | Root collection configuration with basic auth and pre-request vars. | Tier 4 |
 | `tests/bruno/environments/Local.bru` | Environment variables for local Bruno test execution. | Tier 4 |
@@ -268,7 +286,7 @@ This manifest provides a comprehensive directory and file inventory for the **Wo
 
 ---
 
-## 7. Documentation Hub (`docs/`)
+## 8. Documentation Hub (`docs/`)
 
 | File | Purpose | Layer |
 |---|---|---|
@@ -334,3 +352,5 @@ This manifest provides a comprehensive directory and file inventory for the **Wo
 | `docs/devops/package-contract-and-distignore.md` | Package content contract and .distignore specification. | DevOps |
 | `docs/devops/local-release-tooling.md` | Local release CLI tooling and parity reference. | DevOps |
 | `docs/adr/README.md` | Architecture Decision Records index and status log. | Architecture |
+| `docs/adr/0013-runtime-architecture-code-quality-and-security-hardening.md` | Architectural record defining runtime context, development decoupling, native blocks, and security. | Architecture |
+| `docs/implementation-logs/2026-09-09-runtime-architecture-and-security-hardening.md` | Implementation report for runtime architecture and security hardening. | Implementation |

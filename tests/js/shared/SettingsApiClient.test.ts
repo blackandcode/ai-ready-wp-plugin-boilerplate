@@ -30,7 +30,7 @@ describe( 'SettingsApiClient Adapter', () => {
 		environment_type: 'local',
 		db_status: 'connected',
 		rest_status: 'healthy',
-		plugin_version: '1.1.2',
+		plugin_version: '1.2.0',
 	};
 
 	it( 'retrieves settings via GET', async () => {
@@ -86,7 +86,7 @@ describe( 'SettingsApiClient Adapter', () => {
 		const mockBootstrap: AirwpBootstrapData = {
 			apiBase: '/ai-ready-wp/v1',
 			nonce: 'secret-nonce-123',
-			version: '1.1.2',
+			version: '1.2.0',
 			currentUserCan: { manageOptions: true },
 		};
 

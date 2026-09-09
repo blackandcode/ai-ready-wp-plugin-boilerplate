@@ -60,7 +60,9 @@ class HelloWorldBackendServiceProvider implements ServiceProviderInterface {
 	 * @return void
 	 */
 	public function boot(): void {
-		add_action( 'rest_api_init', array( $this, 'register_routes' ) );
+		if ( function_exists( 'add_action' ) ) {
+			add_action( 'rest_api_init', array( $this, 'register_routes' ) );
+		}
 	}
 
 	/**

@@ -17,9 +17,10 @@ if ( file_exists( dirname( __DIR__, 2 ) . '/vendor/autoload.php' ) ) {
 spl_autoload_register(
 	static function ( $class ) {
 		$map = array(
-			'AIReady\\WPPluginBoilerplate\\Framework\\' => dirname( __DIR__, 2 ) . '/src/framework/',
-			'AIReady\\WPPluginBoilerplate\\Backend\\'   => dirname( __DIR__, 2 ) . '/src/backend/',
-			'AIReady\\WPPluginBoilerplate\\Frontend\\'  => dirname( __DIR__, 2 ) . '/src/frontend/Bridge/',
+			'AIReady\\WPPluginBoilerplate\\Framework\\'   => dirname( __DIR__, 2 ) . '/src/framework/',
+			'AIReady\\WPPluginBoilerplate\\Backend\\'     => dirname( __DIR__, 2 ) . '/src/backend/',
+			'AIReady\\WPPluginBoilerplate\\Development\\' => dirname( __DIR__, 2 ) . '/src/development/',
+			'AIReady\\WPPluginBoilerplate\\Frontend\\'    => dirname( __DIR__, 2 ) . '/src/frontend/Bridge/',
 		);
 
 		foreach ( $map as $prefix => $base_dir ) {

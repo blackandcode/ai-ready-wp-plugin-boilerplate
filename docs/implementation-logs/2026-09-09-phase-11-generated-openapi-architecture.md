@@ -3,7 +3,7 @@
 - **Date:** 2026-09-09
 - **Governing ADR:** [ADR-0011: Generated OpenAPI 3.1 specification from WordPress REST controllers](../adr/0011-generated-openapi-specification-from-wordpress-rest-controllers.md) (superseding [ADR-0004](../adr/0004-contract-first-rest-api-specification.md))
 - **Status:** Completed
-- **Version Status:** Staged under `## [Unreleased]` in `CHANGELOG.md` (Version `1.1.2`; manual bump via `npm run update-version:minor` or `npm run update-version:patch` when ready)
+- **Version Status:** Staged under `## [Unreleased]` in `CHANGELOG.md` (Version `1.2.0`; manual bump via `npm run update-version:minor` or `npm run update-version:patch` when ready)
 
 ---
 

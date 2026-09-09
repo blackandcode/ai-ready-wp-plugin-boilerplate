@@ -25,7 +25,7 @@ We replace the manual contract-first model with a **Code-Driven Generated OpenAP
 1. **Single Authoring Source of Truth:**
    Registered WordPress `WP_REST_Controller` instances, standard JSON schemas (`get_item_schema()`), and endpoint-level `openapi` operation metadata serve as the single, authoritative source of truth for the plugin's REST contract.
 2. **Deterministic OpenAPI 3.1 Generation:**
-   A dedicated framework pipeline (`src/framework/Rest/OpenApi/`) introspects registered routes for namespace `ai-ready-wp/v1`, converts JSON schemas to OpenAPI 3.1 components, normalizes route regexes to OpenAPI path templates, and outputs deterministic, byte-identical YAML to `docs/api/openapi.yaml`.
+   A dedicated development pipeline (`src/development/OpenApi/`, amended from framework per ADR-0013) introspects registered routes for namespace `ai-ready-wp/v1`, converts JSON schemas to OpenAPI 3.1 components, normalizes route regexes to OpenAPI path templates, and outputs deterministic, byte-identical YAML to `docs/api/openapi.yaml`.
 3. **Committed Reference Artifact:**
    `docs/api/openapi.yaml` remains a tracked, committed Git artifact so that coding agents, external client libraries, and documentation tools can inspect the API contract without executing PHP. Manual edits to `docs/api/openapi.yaml` are strictly prohibited; it is generated via `wp ai-ready openapi generate`.
 4. **Automated Drift & Compliance Quality Gates:**

@@ -35,7 +35,11 @@ function airwp_uninstall_plugin(): void {
 		// Clean up any cached transients prefixed with airwp_.
 		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 		$wpdb->query(
-			"DELETE FROM {$wpdb->options} WHERE option_name LIKE '\_transient\_airwp\_%' OR option_name LIKE '\_transient\_timeout\_airwp\_%'"
+			$wpdb->prepare(
+				"DELETE FROM {$wpdb->options} WHERE option_name LIKE %s OR option_name LIKE %s",
+				$wpdb->esc_like( '_transient_airwp_' ) . '%',
+				$wpdb->esc_like( '_transient_timeout_airwp_' ) . '%'
+			)
 		);
 	}
 }

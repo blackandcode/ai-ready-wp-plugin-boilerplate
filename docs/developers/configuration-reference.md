@@ -9,7 +9,7 @@ This document provides complete, annotated configuration templates for reference
 ```json
 {
   "name": "ai-ready-wp-plugin-boilerplate",
-  "version": "1.1.2",
+  "version": "1.2.0",
   "private": true,
   "engines": {
     "node": ">=24.16.0",

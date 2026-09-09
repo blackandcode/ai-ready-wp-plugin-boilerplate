@@ -46,11 +46,11 @@ Decide whether the release is `patch`, `minor`, or `major`:
 # Preview changes without modifying files
 npm run update-version -- minor --dry-run
 
-# Apply version increment (e.g. 1.1.2 -> 1.1.2)
+# Apply version increment (e.g. 1.2.0 -> 1.2.0)
 npm run update-version -- minor
 ```
 
-This synchronizes `package.json`, `package-lock.json`, `composer.json`, main plugin header `Version:`, `AIRWP_VERSION` constant, `readme.txt` `Stable tag:`, and converts staged `## [Unreleased]` bullets into `## [1.1.2] - YYYY-MM-DD`.
+This synchronizes `package.json`, `package-lock.json`, `composer.json`, main plugin header `Version:`, `AIRWP_VERSION` constant, `readme.txt` `Stable tag:`, and converts staged `## [Unreleased]` bullets into `## [1.2.0] - YYYY-MM-DD`.
 
 ### Step 3: Run Local Release Verification
 
@@ -80,7 +80,7 @@ Submit a pull request with the updated version and changelog. Ensure that `CI/CD
 2. Select **Release Plugin** in the left sidebar.
 3. Click **Run workflow**:
    - Branch: `main`
-   - Target version: `1.1.2` (must match `package.json` exactly)
+   - Target version: `1.2.0` (must match `package.json` exactly)
    - Mark as pre-release: (leave unchecked for standard releases)
 4. Click **Run workflow**.
 
@@ -89,7 +89,7 @@ The workflow will:
 1. Verify branch is `main` and all versions match.
 2. Re-run the full release-readiness matrix on the exact commit SHA.
 3. Generate Sigstore-backed build provenance attestation (`actions/attest-build-provenance`).
-4. Tag commit as `v1.1.2`.
+4. Tag commit as `v1.2.0`.
 5. Create a draft release, upload the ZIP package, SHA256 checksum, and changelog release notes, then publish it as an immutable release.
 
 ---
