@@ -1,0 +1,232 @@
+# GENERATED FILE - DO NOT EDIT.
+# Source: registered WordPress REST routes, schemas, and OpenAPI metadata.
+# Regenerate: wp ai-ready openapi generate
+
+openapi: 3.1.0
+info:
+  title: 'AI-Ready WP Plugin Boilerplate REST API'
+  version: 1.1.1
+  description: 'Authoritative OpenAPI 3.1 contract specification for AI-Ready WP Plugin Boilerplate endpoints.'
+servers:
+  -
+    url: /wp-json/ai-ready-wp/v1
+    description: 'Relative WordPress REST API namespace root'
+paths:
+  /diagnostics:
+    get:
+      operationId: getSystemDiagnostics
+      summary: 'Retrieve system diagnostics'
+      description: 'Returns host environment, PHP runtime, WordPress core, and REST verification metrics.'
+      tags:
+        - Diagnostics
+      security:
+        -
+          basicAuth: []
+      responses:
+        200:
+          description: 'System diagnostic telemetry metrics.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SystemDiagnostics'
+        403:
+          description: 'Insufficient permissions.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /hello:
+    get:
+      operationId: getHelloWorld
+      summary: 'Health check and greeting contract'
+      description: 'Returns greeting payload, system health status, and active plugin version.'
+      tags:
+        - 'Hello World'
+      security: []
+      responses:
+        200:
+          description: 'Successful response with hello world greeting and system status.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HelloWorldResponse'
+  /settings:
+    get:
+      operationId: getPluginSettings
+      summary: 'Get plugin settings'
+      description: 'Returns current plugin settings merged with default schema values.'
+      tags:
+        - Settings
+      security:
+        -
+          basicAuth: []
+      responses:
+        200:
+          description: 'Current plugin settings.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PluginSettings'
+        403:
+          description: 'Insufficient permissions.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    post:
+      operationId: updatePluginSettings
+      summary: 'Update plugin settings'
+      description: 'Updates partial or full plugin settings payload.'
+      tags:
+        - Settings
+      security:
+        -
+          basicAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PluginSettings'
+      responses:
+        200:
+          description: 'Updated plugin settings.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PluginSettings'
+        400:
+          description: 'Invalid settings parameters.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        403:
+          description: 'Insufficient permissions.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+components:
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+      description: 'WordPress Application Password authentication'
+  schemas:
+    AdvancedSettings:
+      type: object
+      description: 'Advanced developer and performance settings.'
+      properties:
+        rest_debug:
+          type: boolean
+          description: 'Enable verbose REST API debugging headers and telemetry.'
+          default: false
+        cache_ttl:
+          type: integer
+          description: 'Cache time-to-live duration in seconds.'
+          default: 3600
+          minimum: 0
+          maximum: 86400
+    DataRetentionSettings:
+      type: object
+      description: 'Data retention and cleanup policies upon uninstallation.'
+      properties:
+        uninstall_action:
+          type: string
+          description: 'Strategy for handling stored plugin data when uninstalling.'
+          default: preserve
+          enum:
+            - preserve
+            - delete_settings
+            - delete_all
+    ErrorResponse:
+      type: object
+      required:
+        - code
+        - message
+        - data
+      properties:
+        code:
+          type: string
+          description: 'WordPress REST error code string.'
+          example: rest_forbidden
+        message:
+          type: string
+          description: 'Human-readable error explanation message.'
+          example: 'You do not have sufficient permissions to access plugin settings.'
+        data:
+          type: object
+          description: 'Additional error metadata including HTTP status.'
+          properties:
+            status:
+              type: integer
+              description: 'HTTP response status code.'
+              example: 403
+    GeneralSettings:
+      type: object
+      description: 'General plugin configuration settings.'
+      properties:
+        greeting_message:
+          type: string
+          description: 'Greeting message displayed across plugin interfaces.'
+          default: 'Hello from AI-Ready WP Plugin Boilerplate!'
+          minLength: 1
+          maxLength: 255
+        enable_feature:
+          type: boolean
+          description: 'Toggle enabling or disabling primary plugin functionality.'
+          default: true
+        description:
+          type: string
+          description: 'Detailed description text for the plugin instance.'
+          default: 'A modern WordPress plugin powered by AI workflows.'
+          maxLength: 1000
+    HelloWorldResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          description: 'Greeting message from the boilerplate.'
+        timestamp:
+          type: string
+          description: 'ISO 8601 UTC timestamp of the health check.'
+          format: date-time
+        version:
+          type: string
+          description: 'Active plugin semantic version.'
+        status:
+          type: string
+          description: 'System health status code.'
+          enum:
+            - ok
+    PluginSettings:
+      type: object
+      properties:
+        general:
+          $ref: '#/components/schemas/GeneralSettings'
+        advanced:
+          $ref: '#/components/schemas/AdvancedSettings'
+        data_retention:
+          $ref: '#/components/schemas/DataRetentionSettings'
+    SystemDiagnostics:
+      type: object
+      properties:
+        php_version:
+          type: string
+          description: 'PHP runtime version.'
+        wp_version:
+          type: string
+          description: 'WordPress core version.'
+        environment_type:
+          type: string
+          description: 'WordPress environment type.'
+        db_status:
+          type: string
+          description: 'Database connectivity status.'
+        rest_status:
+          type: string
+          description: 'REST API availability status.'
+        plugin_version:
+          type: string
+          description: 'Plugin release version.'

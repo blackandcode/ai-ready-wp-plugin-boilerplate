@@ -1,0 +1,54 @@
+# WordPress Admin React UI/UX & Visual Design Standards
+
+Always follow these guidelines when creating or modifying React admin user interfaces in WordPress plugins.
+
+---
+
+## 1. Core Visual Principles & Layout
+
+1. **WordPress Native Feel:**
+   - Align with the WordPress Design System (WPDS) design tokens and `@wordpress/components`.
+   - Use standard WordPress admin colors (`--wp-admin-theme-color`, `#1d2327`, `#646970`, `#dcdcde`).
+   - Avoid dark/custom standalone themes unless explicitly requested by the user.
+
+2. **Heading & Title Hierarchy:**
+   - PHP templates render the single primary `<h1>` (`<h1 class="wp-heading-inline">Page Title</h1>`).
+   - Do NOT duplicate page titles in React components. React sub-headers should use `<h2>` or `<h3>` inside `CardHeader`.
+
+3. **Card & Panel Structures:**
+   - Wrap settings panels, form sections, and runtime status displays in WPDS `Card`, `CardHeader`, `CardBody`, and `CardFooter`.
+   - `CardHeader`: Include an icon badge, clear section title, and descriptive subtitle.
+   - `CardBody`: Clean form layout with vertical spacing between fields.
+   - `CardFooter`: Sticky or bottom action bar displaying save status ("Unsaved changes" / "All changes saved") and primary action buttons.
+
+4. **Navigation:**
+   - Use vertical sidebar tabs for multi-section settings instead of flat lists or plain unstyled buttons.
+   - Each tab must include an icon from `@wordpress/icons` and a descriptive label.
+
+---
+
+## 2. Form Controls, Micro-copy & Status Indicators
+
+1. **Field Polish & Help Text:**
+   - Every input (`TextControl`, `SelectControl`, `ToggleControl`, etc.) MUST include a clear `label` and a descriptive `help` property explaining the setting's impact.
+   - Wrap all user-visible text strings in `@wordpress/i18n` translation calls (`__('Text', 'mermaid-diagrams')`).
+
+2. **Status Badges & Indicators:**
+   - Use dedicated status badge components (`MdmBadge`) for statuses (`publish`, `draft`, `private`, `trash`).
+   - Use icon indicators and standard color coding (`#e7f5ea` green for publish, `#f0f0f1` gray for draft, `#fcf0f0` red for trash/errors).
+
+3. **Pagination & Tables:**
+   - Tables must be wrapped in `.mdm-table-wrap` and use WP admin table styles (`widefat striped`).
+   - Include item count summaries ("Showing 1–20 of 45 items") alongside page controls in pagination bars.
+
+---
+
+## 3. Visual Verification with Playwright
+
+1. **Mandatory Visual Inspection:**
+   - Whenever editing React admin components or CSS, execute Playwright E2E visual tests:
+     ```bash
+     npm run test:e2e -- --update-snapshots
+     ```
+   - Read and visually inspect generated screenshot files in `tests/e2e/playwright/__screenshots__/` using image tools.
+   - Perform at least 2–3 iterative refinement passes if visual flaws, misalignments, or missing help text are detected.

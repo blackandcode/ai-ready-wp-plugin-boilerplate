@@ -1,0 +1,20 @@
+name: CI/CD — Release Readiness
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  readiness-gate:
+    name: Evaluate Release Readiness
+    uses: ./.github/workflows/_release-readiness.yml
+    with:
+      upload_artifact: true
+      retention_days: 7

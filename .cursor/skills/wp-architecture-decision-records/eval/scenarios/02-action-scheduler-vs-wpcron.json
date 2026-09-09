@@ -1,0 +1,23 @@
+{
+  "name": "Action Scheduler vs WP-Cron for payment webhook synchronization",
+  "classification": "ADR_REQUIRED",
+  "skills": ["wp-architecture-decision-records", "wp-plugin-development", "wp-wpcli-and-ops"],
+  "query": "We are adding background payment reconciliation to sync transaction statuses from Stripe. We currently use WP-Cron for small tasks, but payments are mission-critical and must not be dropped when site traffic is low. Should we adopt Action Scheduler?",
+  "expected_behavior": [
+    "Step 1: Inspect repository and detect existing background job patterns via detect-project.mjs",
+    "Step 2: Trigger ADR-worthiness gate -> ADR_REQUIRED (financial consistency, high reliability requirement, cross-cutting)",
+    "Step 3: Capture decision drivers: execution reliability on low-traffic sites, automatic retries with backoff, admin queue visibility",
+    "Step 4: Present Intent Summary comparing native WP-Cron vs Action Scheduler vs external worker",
+    "Step 5: Select 'adr-madr.md' template",
+    "Step 6: Draft ADR deciding on Action Scheduler as the background processor",
+    "Step 7: Define durable constraints: All background jobs must be idempotent; jobs must pass record IDs rather than serialized objects",
+    "Step 8: Define verification: Integration test verifying Action Scheduler hook dispatch; WP-CLI command wp action-scheduler status",
+    "Step 9: Run validate-adr.mjs to ensure compliance"
+  ],
+  "success_criteria": [
+    "ADR_REQUIRED classification triggered",
+    "Idempotency architectural constraint explicitly mandated",
+    "Verification incorporates WP-CLI diagnostic checks",
+    "ADR successfully created with clean validation"
+  ]
+}

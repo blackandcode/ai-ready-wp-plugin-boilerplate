@@ -1,0 +1,32 @@
+meta {
+  name: Get Live Dev OpenAPI Specification
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/wp-json/ai-ready-wp-dev/v1/openapi
+  body: none
+  auth: inherit
+}
+
+assert {
+  res.status: eq 200
+  res.body.openapi: eq 3.1.0
+  res.body.info.title: isDefined
+  res.body.paths: isDefined
+}
+
+tests {
+  test("returns 200 OK with valid OpenAPI 3.1 contract", function() {
+    expect(res.getStatus()).to.equal(200);
+    const body = res.getBody();
+    expect(body.openapi).to.equal('3.1.0');
+    expect(body.info).to.be.an('object');
+    expect(body.paths).to.be.an('object');
+    expect(body.paths).to.have.property('/settings');
+    expect(body.paths).to.have.property('/hello');
+    expect(body.paths).to.have.property('/diagnostics');
+    expect(body.paths).to.not.have.property('/openapi');
+  });
+}

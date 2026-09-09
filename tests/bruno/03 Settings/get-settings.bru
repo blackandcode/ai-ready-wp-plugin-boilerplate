@@ -1,0 +1,36 @@
+meta {
+  name: Get Plugin Settings
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{apiRoot}}/settings
+  body: none
+  auth: inherit
+}
+
+assert {
+  res.status: eq 200
+  res.body.general: isDefined
+  res.body.advanced: isDefined
+  res.body.data_retention: isDefined
+}
+
+tests {
+  test("status code is 200 OK", function() {
+    expect(res.getStatus()).to.equal(200);
+  });
+
+  test("response conforms to PluginSettings schema", function() {
+    const body = res.getBody();
+    expect(body).to.be.an('object');
+    expect(body).to.have.property('general');
+    expect(body.general).to.have.property('greeting_message').that.is.a('string');
+    expect(body.general).to.have.property('enable_feature').that.is.a('boolean');
+    expect(body).to.have.property('advanced');
+    expect(body.advanced).to.have.property('cache_ttl').that.is.a('number');
+    expect(body).to.have.property('data_retention');
+    expect(['preserve', 'delete_settings', 'delete_all']).to.include(body.data_retention.uninstall_action);
+  });
+}

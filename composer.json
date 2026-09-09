@@ -1,0 +1,43 @@
+{
+  "name": "wordpress-ai/ai-ready-wp-plugin-boilerplate",
+  "description": "Enterprise-grade WordPress plugin boilerplate designed for AI coding agents and human developers.",
+  "type": "wordpress-plugin",
+  "license": "MIT",
+  "require": {
+    "php": ">=8.3"
+  },
+  "autoload": {
+    "psr-4": {
+      "AIReady\\WPPluginBoilerplate\\Framework\\": "src/framework/",
+      "AIReady\\WPPluginBoilerplate\\Backend\\": "src/backend/",
+      "AIReady\\WPPluginBoilerplate\\Frontend\\": "src/frontend/Bridge/"
+    }
+  },
+  "require-dev": {
+    "dealerdirect/phpcodesniffer-composer-installer": "^1.0.0",
+    "wp-coding-standards/wpcs": "^3.1.0",
+    "phpstan/phpstan": "^2.1.0",
+    "szepeviktor/phpstan-wordpress": "^2.0.0",
+    "phpunit/phpunit": "^11.5.0",
+    "yoast/phpunit-polyfills": "^3.0.0",
+    "php-stubs/wordpress-stubs": "^6.7",
+    "php-stubs/wp-cli-stubs": "^2.12",
+    "symfony/yaml": "^7.4"
+  },
+  "config": {
+    "allow-plugins": {
+      "dealerdirect/phpcodesniffer-composer-installer": true
+    }
+  },
+  "scripts": {
+    "lint": "vendor/bin/phpcs",
+    "lint:fix": "vendor/bin/phpcbf",
+    "test": "vendor/bin/phpunit",
+    "analyse": "vendor/bin/phpstan analyse",
+    "check": [
+      "@lint",
+      "@analyse",
+      "@test"
+    ]
+  }
+}

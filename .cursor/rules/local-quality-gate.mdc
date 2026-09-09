@@ -1,0 +1,96 @@
+---
+description: Mandatory local quality gate and autonomous self-healing verification loop
+alwaysApply: true
+---
+
+# Mandatory Local Quality Gate & Autonomous Self-Healing Loop
+
+## Core Directive (100% Invariant)
+
+On **EVERY** coding session or task that modifies repository files (PHP source, React/TypeScript assets, styles, documentation, configuration, or tests), the AI coding agent **MUST** run the local quality gate:
+
+```bash
+npm run check
+```
+
+(or `npm run pre-commit`) and verify that all **6 CI-parity checks** pass cleanly before concluding the task.
+
+---
+
+## 1. CI/CD Parity Mapping
+
+The local quality gate mirrors the exact verification executed on GitHub Actions (`_release-readiness.yml`):
+
+| Step | Verification | Command | Focus |
+|---|---|---|---|
+| 1 | **Linting** | `npm run lint` | ESLint, Stylelint, Markdownlint, and GitHub Actions workflows |
+| 2 | **OpenAPI Lint** | `npm run openapi:lint` | Redocly OpenAPI 3.1 syntax and schema validation |
+| 3 | **Node Tests** | `npm run test` | Jest component tests and all Node toolchain suites |
+| 4 | **PHPCS (WPCS)** | `vendor/bin/phpcs` | WordPress Coding Standards (`WordPress-Core`, `WordPress-Extra`, `WordPress-Docs`) |
+| 5 | **PHPStan** | `vendor/bin/phpstan analyse` | Level 6+ static typing with WordPress stubs |
+| 6 | **PHPUnit** | `vendor/bin/phpunit` | In-memory PHP unit tests |
+
+---
+
+## 2. Autonomous Self-Healing Loop Protocol
+
+When running `npm run check`, if any step reports errors, the agent **MUST NOT** halt, abort, ask the user to fix the errors, or skip verification. The agent **MUST** execute the autonomous self-healing loop:
+
+```mermaid
+flowchart TD
+    RunGate["1. Run npm run check"] --> CheckPassed{"All 6 Checks Green?"}
+    CheckPassed -->|"No (Error Detected)"| ParseError["2. Parse Error Output & Trace Root Cause"]
+    ParseError --> AutoFix["3. Apply Local Fix to Code, Types, or Tests"]
+    AutoFix --> TargetedCheck["4. Rerun Targeted Check (e.g. check:js or check:php)"]
+    TargetedCheck --> RunGate
+    CheckPassed -->|"Yes (100% Green)"| Closeout["5. Proceed to CHANGELOG Staging & Closeout"]
+```
+
+### Self-Healing Remediation Actions:
+
+1. **WordPress Coding Standards (WPCS / PHPCS):**
+   - Automatically format code: `composer lint:fix`
+   - Manually resolve remaining docblock, naming convention, or escaping/sanitization issues.
+2. **PHPStan Static Analysis:**
+   - Add explicit PHPDoc type annotations (`@param`, `@return`, `@var`).
+   - Add null checks and strict type comparisons.
+3. **JavaScript / React Linting:**
+   - Automatically format JavaScript: `npm run lint:js -- --fix`
+   - Manually resolve unused variables or accessibility issues.
+4. **Markdown Formatting:**
+   - Fix blank lines around lists (MD032), code fences (MD031), or heading spaces.
+5. **Test Regressions:**
+   - If unit tests fail, inspect assertion diffs.
+   - Fix bugs in implementation or update tests if intentional contract changes were made.
+6. **OpenAPI Schema Drift or Lint Failures:**
+   - Regenerate specification if controllers were changed: `npm run openapi:generate`
+   - Verify zero drift via `npm run openapi:check` and validate with `npm run openapi:lint`.
+
+---
+
+## 3. Targeted Iteration Subsets
+
+During active coding iterations, agents may run focused subsets to shorten feedback cycles:
+
+```bash
+# Frontend & Toolchain focus:
+npm run check:js
+
+# Backend PHP focus:
+npm run check:php
+
+# Quick linting pass (skips test suites):
+npm run pre-commit -- --skip-tests
+```
+
+**Final Gate Invariant:** Before concluding the turn, full `npm run check` (all 6 steps) must pass with exit code `0`.
+
+---
+
+## 4. Execution Sequence at Session Conclusion
+
+Every coding session follows this strict final sequence:
+
+1. **Self-Healing Quality Pass:** Run `npm run check` until all 6 steps pass.
+2. **Unreleased Changelog Staging:** Use `npm run changelog:add -- -t <Category> "<Outcome>"` per `.cursor/rules/changelog-unreleased.mdc`.
+3. **Verification Complete:** Conclude the turn and provide a concise summary to the user.

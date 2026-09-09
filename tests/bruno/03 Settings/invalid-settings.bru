@@ -1,0 +1,36 @@
+meta {
+  name: Reject Invalid Settings
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{apiRoot}}/settings
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "general": {
+      "greeting_message": ""
+    }
+  }
+}
+
+assert {
+  res.status: eq 400
+}
+
+tests {
+  test("returns 400 Bad Request for empty greeting message", function() {
+    expect(res.getStatus()).to.equal(400);
+  });
+
+  test("returns structured WordPress error body", function() {
+    const body = res.getBody();
+    expect(body).to.be.an('object');
+    expect(body).to.have.property('code');
+    expect(body.code).to.be.oneOf(['airwp_invalid_setting', 'rest_invalid_param']);
+  });
+}

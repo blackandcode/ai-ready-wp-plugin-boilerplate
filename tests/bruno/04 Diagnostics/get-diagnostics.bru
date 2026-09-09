@@ -1,0 +1,36 @@
+meta {
+  name: Get System Diagnostics
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{apiRoot}}/diagnostics
+  body: none
+  auth: inherit
+}
+
+assert {
+  res.status: eq 200
+  res.body.php_version: isDefined
+  res.body.wp_version: isDefined
+  res.body.environment_type: isDefined
+  res.body.db_status: isDefined
+  res.body.rest_status: isDefined
+  res.body.plugin_version: isDefined
+}
+
+tests {
+  test("status code is 200 OK", function() {
+    expect(res.getStatus()).to.equal(200);
+  });
+
+  test("telemetry fields are present and valid", function() {
+    const body = res.getBody();
+    expect(body.php_version).to.be.a('string');
+    expect(body.wp_version).to.be.a('string');
+    expect(body.environment_type).to.be.a('string');
+    expect(body.db_status).to.equal('connected');
+    expect(body.rest_status).to.equal('available');
+  });
+}

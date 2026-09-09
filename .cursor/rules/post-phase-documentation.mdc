@@ -1,0 +1,100 @@
+---
+description: Post-phase documentation, implementation logging, and prompt-aware versioning closeout workflow
+alwaysApply: true
+---
+
+# Post-Phase Documentation & Versioning Closeout
+
+Run this checklist **only after** the active plan phase is fully implemented: required code is done, tests and acceptance checks pass, evidence is captured, and the phase is ready to hand off. Do **not** run mid-implementation or while work is still in progress.
+
+---
+
+## PROMPT-AWARE VERSIONING & UNRELEASED CHANGELOG INVARIANT
+
+Whenever executing phase closeout, the agent must check the user's initial prompt to decide whether to increment the version:
+
+### 1. Mandatory Unreleased Changelog Staging (100% Invariant)
+Regardless of whether a version bump is executed, the agent **MUST** record all completed changes under `## [Unreleased]` in `CHANGELOG.md` using the `changelog` skill (`.cursor/skills/changelog/SKILL.md`) or `npm run changelog:add`.
+
+### 2. Prompt Check for Version Increment
+Inspect the user's initial prompt at the start of the session:
+- **Case A: Explicit Version Bump Requested in Prompt**
+  If the prompt explicitly asks to increase/bump version or release (e.g. "bump version", "release v1.1.0", "finish phase with minor bump"):
+  1. Determine bump type:
+     - **Minor bump** (`minor`): Completed standard implementation phase or major feature addition.
+     - **Patch bump** (`patch`): Maintenance fixes, refactoring, or incremental iteration within a phase.
+     - **Major bump** (`major`): Breaking architectural shift or major product baseline release.
+  2. Execute version synchronization directly via CLI arguments (**never modify or write `.env` for versioning**):
+     ```bash
+     # Preview
+     npm run update-version -- <patch|minor|major> --dry-run
+     # Apply
+     npm run update-version -- <patch|minor|major> -d "Phase closeout approval"
+     # Verify
+     npm run test:versioning
+     ```
+  3. The versioning engine automatically scoops up staged `## [Unreleased]` items into the release heading.
+
+- **Case B: No Version Bump Requested in Prompt (Default & Preferred)**
+  - **Do NOT** execute a version bump.
+  - **Do NOT** modify `.env`.
+  - All changes remain safely staged under `## [Unreleased]` in `CHANGELOG.md`.
+  - In the session completion summary, inform the user how they can manually execute the release when ready (e.g. `npm run update-version:minor` or `npm run update-version:patch`).
+
+---
+
+## Phase Lifecycle & Implementation Logging
+
+For **every** plan phase, the agent must manage implementation logs in `docs/implementation-logs/`:
+
+1. **Pre-Implementation Phase Start:**
+   - Create a pre-implementation report file under `docs/implementation-logs/YYYY-MM-DD-phase-XX-<short-name>.md`.
+   - Include a pre-implementation checklist extracted from the phase `technical-spec.md` and `tests-and-acceptance.md`.
+
+2. **Post-Implementation Phase Finalization:**
+   - Complete the implementation report in `docs/implementation-logs/YYYY-MM-DD-phase-XX-<short-name>.md` with:
+     - Pre-implementation checklist status (all items checked).
+     - Version transition details (e.g., `1.0.0` → `1.1.0` if executed, or `1.0.0` with staged unreleased changes).
+     - Key decisions made or confirmed.
+     - Files created and modified.
+     - Verification results, commands run, and test outputs.
+     - Post-implementation comparison table vs initial specification.
+
+---
+
+## Documentation Synchronization Checklist
+
+### 1. Maintain Architecture Decision Records (ADRs)
+If architecturally significant decisions or boundaries were introduced or modified during the phase:
+- Ensure corresponding records are authored and accepted in `docs/adr/` using `npm run adr:new` and the `wp-architecture-decision-records` skill.
+- Run `npm run adr:validate -- --strict` to verify referential integrity.
+- If a decision alters fundamental architectural boundaries, synchronize `docs/general/product-charter.md`.
+
+### 2. Update `CHANGELOG.md`
+Ensure all user-visible and developer-facing changes are documented under `## [Unreleased]` or promoted to the release header.
+
+### 3. Update Domain Specifications & Docs
+Update only what the session actually changed:
+
+| Trigger | Target |
+|---|---|
+| Resolved or new open spike | `docs/specifications/plans/` technical-spec |
+| API/schema/contract change | `docs/rest-api.yaml`, Bruno/OpenAPI specs |
+| Architecture boundary change | Relevant spec under `docs/`, `docs/adr/` |
+| Pinned version/license change | Source lock and integration docs cited by the phase |
+| Handoff differs from plan | Active feature plan in `docs/specifications/plans/` |
+
+### 4. Update `MANIFEST.md`
+If files were added, removed, or renamed across the repository, update `MANIFEST.md`.
+
+---
+
+## Closeout Summary Output
+
+End the session with a closeout summary containing:
+- Phase completion status (Yes/No)
+- Version increment status (e.g. `1.0.0` → `1.1.0` OR "Staged under `[Unreleased]` — manual release via `npm run update-version:minor`")
+- Updated documentation paths
+- Link to implementation report in `docs/implementation-logs/`
+- Verification test status
+- Remaining risks or notes for the next phase

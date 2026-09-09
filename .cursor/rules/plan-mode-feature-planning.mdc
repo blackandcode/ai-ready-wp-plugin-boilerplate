@@ -1,0 +1,99 @@
+---
+description: Feature planning and architecture guidance for AI agents in Plan Mode or drafting new features
+alwaysApply: true
+---
+
+# Plan Mode & Feature Planning Guidance
+
+This rule guides AI coding agents when operating in **Plan Mode**, designing implementation approaches, or drafting plans for **new features** and substantial architectural expansions.
+
+---
+
+## 1. Scope & Trigger Protocol
+
+### When This Rule Applies
+- Designing or implementing a **new feature**, app, or substantial capability (e.g. new admin screen, REST endpoint, custom post type, external integration, background job).
+- Drafting an implementation plan under `docs/specifications/plans/`.
+- Entering Cursor Plan Mode (`Shift+Tab` or `/plan`) for multi-step feature work.
+
+### When to Skip This Structured Planning
+- **Bug fixes** on existing functionality.
+- Minor visual, styling, or cosmetic tweaks conforming to existing WPDS components.
+- Routine edge-case null checks, typo corrections, or dependency patch updates.
+- In these cases, avoid heavy planning overhead: inspect the code, apply the fix, verify tests, and conclude.
+
+---
+
+## 2. Proactive Clarification & Question-Asking Protocol
+
+When planning a new feature, missing information or ambiguous requirements can lead to architectural drift. Follow this decision sequence:
+
+1. **Inspect Context First:** Search the codebase, `docs/`, active ADRs (`docs/adr/`), and specifications (`docs/specifications/`) to see if an established convention or pattern answers the question.
+2. **Make Intelligent Inferences:** For minor technical details, leverage boilerplate conventions (e.g., using existing DI container patterns, standard WP capabilities like `manage_options`, or existing WPDS components).
+3. **Ask When Ambiguous:** If critical requirements cannot be confidently determined or reasonably inferred—such as:
+   - Fundamental user workflows or business goals,
+   - Data storage paradigms (e.g., WordPress options vs. custom DB table vs. custom post type),
+   - Permission or authorization models (who has access),
+   - Third-party API credentials, webhook endpoints, or integration contracts,
+   - Significant architectural trade-offs between two viable approaches,
+   **the agent MUST proactively ask the user clarifying questions** (using structured questions via `AskQuestion` or clear multiple-choice options) before finalizing the plan or writing code. Never make unverified guesses on core architectural decisions.
+
+---
+
+## 3. Autonomous & Flexible Plan Formulation
+
+The canonical feature plan template lives at:
+`docs/specifications/plans/feature-plan-template.md`
+
+> 💡 **Context, Not a Straightjacket:**
+> The template provides comprehensive context, architectural boundaries, and recommended dimensions for an enterprise WordPress feature. The agent is **not** required to rigidly copy-paste every header verbatim. Rather, formulate a plan that is **most practical, concise, and actionable** for the specific feature while ensuring the key architectural pillars below are thoroughly addressed.
+
+---
+
+## 4. Key Architectural Pillars for Feature Plans
+
+Every robust feature plan in this boilerplate should account for these six dimensions:
+
+### 4.1 Functional Specification (Outcomes & Boundaries)
+- **Problem & JTBD:** Why is this being built and what outcome does it deliver?
+- **User Experience & UI States:** Empty state, loading state, error/validation feedback, and success notifications.
+- **Permissions & Security:** Required WordPress capabilities (`current_user_can()`), nonce verification (`wp_rest` / `X-WP-Nonce`), sanitization (`sanitize_text_field`), and output escaping (`esc_html`, `esc_attr`).
+- **Scope Boundaries:** Explicitly define what is in-scope vs. deferred out-of-scope to avoid scope creep.
+
+### 4.2 Architectural Governance & ADR Gate
+- Consult `docs/adr/README.md` and evaluate against `.cursor/rules/adr-evaluation.mdc`.
+- Identify whether the scope requires a new ADR (`npm run adr:new -- -t "<Title>"`) or is governed by existing ADRs (`ADR-0002`, `ADR-0007`, `ADR-0009`, `ADR-0010`, `ADR-0011`).
+- Avoid duplicate text: link to the ADR for architectural rationale and document only binding invariants in the plan.
+
+### 4.3 Clean Hexagonal Architecture & Dependency Injection
+- **Domain Layer:** Pure PHP entities, value objects, and domain exceptions free of WordPress procedural functions (`get_option`, `wpdb`, etc.).
+- **Infrastructure Layer:** Repositories and adapters bridging domain contracts to WordPress storage.
+- **Service Providers:** Register all container bindings and hooks inside dedicated service providers (`src/backend/Apps/<App>/<App>ServiceProvider.php`). Never write procedural hooks in the root plugin file.
+
+### 4.4 Code-Driven Generated OpenAPI (ADR-0011)
+- Never manually edit `docs/api/openapi.yaml`.
+- All route arguments, schemas, and endpoint metadata must be declared inside `WP_REST_Controller` subclasses.
+- Regenerate schemas with `npm run openapi:generate` and check for drift with `npm run openapi:check`.
+
+### 4.5 WordPress Design System (WPDS) Admin Standards
+- React admin interfaces must follow `.cursor/rules/wp-admin-ui-ux.mdc` and ADR-0005 / ADR-0008.
+- Use WPDS `Card`, `CardHeader`, `CardBody`, and `CardFooter` containers.
+- Use `@wordpress/components`, vertical navigation tabs with `@wordpress/icons`, and `@wordpress/i18n` translation wrappers (`__()`).
+
+### 4.6 Five-Tier Testing Pyramid & Acceptance Criteria
+- Formulate test coverage across the five tiers:
+  1. **Tier 1:** Static analysis (`composer lint && composer analyse && npm run lint`).
+  2. **Tier 2:** Pure PHP unit tests (`composer test:unit`).
+  3. **Tier 3:** Frontend Jest tests (`npm run test:unit`).
+  4. **Tier 4:** Bruno REST contract tests (`npm run test:rest`).
+  5. **Tier 5:** Playwright E2E browser tests (`npm run test:e2e`).
+- Define discrete, verifiable acceptance criteria (`AC-01`, `AC-02`, etc.).
+
+---
+
+## 5. Post-Implementation Lifecycle Awareness
+
+Ensure the plan accounts for the standard phase closeout workflow (`.cursor/rules/post-phase-documentation.mdc`):
+1. **Unreleased Changelog Staging (Mandatory Invariant):** Record concise bullets under `## [Unreleased]` in `CHANGELOG.md` using `npm run changelog:add`.
+2. **Prompt-Aware Version Bumps:** Check the user's initial prompt. Only bump version if explicitly requested (e.g. `npm run update-version:minor`); otherwise leave changes safely staged under `## [Unreleased]`.
+3. **Implementation Audit Logging:** Complete pre- and post-implementation logs under `docs/implementation-logs/`.

@@ -1,0 +1,37 @@
+# Architecture Decision Records
+
+This directory contains the **Architecture Decision Records (ADRs)** for this project.
+
+ADRs capture significant architectural decisions, their context, rationale, consequences, durable constraints, and verification mechanisms. They represent the **durable architectural memory** of the codebase.
+
+---
+
+## Decision Lifecycle
+
+Decisions move through the following lifecycle states:
+
+- **Proposed:** The ADR is currently under review and open for feedback. It does not yet constrain production implementation.
+- **Accepted:** The ADR has been approved. Its architectural constraints and invariants are binding on all future code and AI agents.
+- **Rejected:** The ADR was evaluated and declined. The record remains intact as historical documentation of why the approach was not taken.
+- **Deprecated:** The decision is no longer enforced or relevant, but has not been directly superseded by a single replacement record.
+- **Superseded:** A newer accepted ADR has replaced this decision. The record links forward to its replacement, and the replacement links back.
+
+---
+
+## Architectural Decision Log
+
+| Number | Title | Status | Date | Supersedes / Superseded by |
+|:---:|:---|:---:|:---:|:---|
+| [ADR-0001](0001-record-architecture-decisions.md) | Record architecture decisions | Accepted | {{DATE}} | — |
+
+---
+
+## How to Propose an ADR
+
+1. Check whether an existing accepted ADR already governs the architectural area.
+2. Determine if the decision is **architecturally significant** (cross-cutting, difficult to reverse, data-model significant, security/performance sensitive).
+3. Run the creation script or activate the `wp-architecture-decision-records` agent skill:
+   ```bash
+   node /path/to/scripts/new-adr.mjs --title "Your Decision Title"
+   ```
+4. Complete the intent capture and review checklist before submitting for team or agent consensus.

@@ -1,0 +1,20 @@
+{
+  "name": "Agent-readiness: autonomous agent consumes accepted ADR without human clarification",
+  "classification": "AGENT_READINESS_VERIFIED",
+  "skills": ["wp-architecture-decision-records", "wp-plugin-development"],
+  "query": "An autonomous coding agent is tasked with building a webhook consumer. It is given only the repository and an accepted ADR (ADR-0004: 'Process external webhooks asynchronously via Action Scheduler with HMAC signature validation and 3 retries'). Can the agent implement the feature correctly without asking questions?",
+  "expected_behavior": [
+    "Step 1: Agent reads ADR-0004 Context, Decision, and Architectural Constraints",
+    "Step 2: Identifies durable invariants: (a) Validate HMAC-SHA256 signature synchronously on receipt, (b) Immediately return HTTP 200 OK, (c) Dispatch processing payload to Action Scheduler, (d) Ensure callback action handler is idempotent",
+    "Step 3: Notes non-goals: Real-time synchronous third-party API callbacks are explicitly out of scope",
+    "Step 4: Implements the endpoint route conforming strictly to the invariants",
+    "Step 5: Executes the verification test command cited in the ADR (composer test:unit tests/phpunit/unit/WebhookTest.php)",
+    "Step 6: Confirms all invariants pass with zero undocumented assumptions"
+  ],
+  "success_criteria": [
+    "ADR provides all necessary architectural constraints without tribal knowledge gaps",
+    "Invariants are durable and unambiguous",
+    "Feature implementation adheres 100% to the recorded decision",
+    "Verification command passes"
+  ]
+}

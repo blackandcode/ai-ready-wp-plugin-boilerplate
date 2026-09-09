@@ -1,0 +1,21 @@
+{
+  "name": "Introducing third-party Composer SDK with PHP-Scoper prefixing",
+  "classification": "ADR_REQUIRED",
+  "skills": ["wp-architecture-decision-records", "wp-plugin-development"],
+  "query": "We want to pull in the official Stripe PHP SDK via Composer to handle billing. How should we manage this dependency to prevent collisions with other WordPress plugins?",
+  "expected_behavior": [
+    "Step 1: Inspect composer.json via detect-project.mjs",
+    "Step 2: Trigger ADR-worthiness gate -> ADR_REQUIRED (introducing major external third-party production dependency)",
+    "Step 3: Capture risk: WordPress shared runtime dependency collision (another plugin loading conflicting Stripe SDK version)",
+    "Step 4: Present Intent Summary evaluating: Unscoped Composer dependency vs Bundled PHP-Scoper prefixed dependency vs Pure HTTP API wrapper",
+    "Step 5: Select 'adr-madr.md' template",
+    "Step 6: Draft ADR deciding to bundle Stripe SDK with PHP-Scoper namespace prefixing",
+    "Step 7: Record architectural constraints: No un-scoped vendor code in production releases; all SDK calls isolated behind PaymentGatewayInterface",
+    "Step 8: Define verification: Automated build script check verifying that all vendor classes are prefixed with plugin root namespace"
+  ],
+  "success_criteria": [
+    "Identifies dependency collision risk inherent to WordPress ecosystem",
+    "Mandates PHP namespace prefixing / scoping as durable constraint",
+    "Validates with validate-adr.mjs"
+  ]
+}

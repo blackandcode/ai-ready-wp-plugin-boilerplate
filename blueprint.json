@@ -1,0 +1,33 @@
+{
+  "$schema": "https://playground.wordpress.net/blueprint-schema.json",
+  "meta": {
+    "title": "AI-Ready WP Plugin Sandbox",
+    "author": "Development Team",
+    "description": "Interactive zero-install sandbox for AI-Ready WP Plugin Boilerplate."
+  },
+  "landingPage": "/wp-admin/admin.php?page=airwp-settings",
+  "preferredVersions": {
+    "php": "8.3",
+    "wp": "latest"
+  },
+  "features": {
+    "networking": true
+  },
+  "steps": [
+    {
+      "step": "login",
+      "username": "admin",
+      "password": "password"
+    },
+    {
+      "step": "activateTheme",
+      "themeFolderName": "twentytwentyfive"
+    },
+    {
+      "step": "setSiteOptions",
+      "options": {
+        "blogname": "AI-Ready WP Plugin Sandbox"
+      }
+    }
+  ]
+}

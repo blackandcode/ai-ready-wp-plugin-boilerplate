@@ -1,0 +1,14 @@
+#!/usr/bin/env sh
+# AI-Ready WordPress Plugin Boilerplate - Pre-commit Hook
+# Delegates to cross-platform Node runner
+
+if [ -n "$SKIP_PRE_COMMIT" ]; then
+	exit 0
+fi
+
+if ! command -v node >/dev/null 2>&1; then
+	echo "Error: Node.js is required to run the pre-commit hook." >&2
+	exit 1
+fi
+
+exec node tools/git-hooks/pre-commit.mjs "$@"

@@ -1,0 +1,22 @@
+{
+  "name": "Superseding existing accepted ADR when scale invalidates original decision",
+  "classification": "EXISTING_ADR_MAY_REQUIRE_SUPERSESSION",
+  "skills": ["wp-architecture-decision-records", "wp-plugin-development"],
+  "query": "Six months ago we accepted ADR-0002 deciding to use Action Scheduler for webhook syncing. However, order webhook traffic has exploded to 500,000 jobs per day, hitting the 'Reconsider when queue volume exceeds 100,000 jobs/day' trigger in ADR-0002. Database queue bloat is slowing down WP-Admin. We now need to migrate webhooks to a dedicated custom database table queue. How do we document this?",
+  "expected_behavior": [
+    "Step 1: Read ADR-0002 and identify that its 'Reconsider When' trigger has fired",
+    "Step 2: Evaluate ADR-worthiness gate -> Return EXISTING_ADR_MAY_REQUIRE_SUPERSESSION",
+    "Step 3: Do NOT silently rewrite ADR-0002",
+    "Step 4: Draft new ADR-0005: 'Migrate high-volume webhooks to dedicated custom table queue'",
+    "Step 5: In ADR-0005, set Supersedes: [ADR-0002](0002-adopt-action-scheduler.md)",
+    "Step 6: Use set-adr-status.mjs to update ADR-0002 status to 'superseded' with link to ADR-0005",
+    "Step 7: Synchronize index table in README.md showing ADR-0002 as Superseded and ADR-0005 as Accepted",
+    "Step 8: Run validate-adr.mjs to verify bidirectional supersession integrity"
+  ],
+  "success_criteria": [
+    "Recognizes that Reconsider trigger has fired",
+    "Preserves historical integrity of original ADR without destructive edits",
+    "Establishes clean bidirectional forward and backward links",
+    "Updates index table"
+  ]
+}

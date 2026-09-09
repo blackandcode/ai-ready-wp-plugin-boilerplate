@@ -1,0 +1,22 @@
+{
+  "name": "wp-architecture-decision-records",
+  "version": "1.0.0",
+  "description": "Agent skill for managing Architecture Decision Records in WordPress plugin engineering ecosystems.",
+  "type": "module",
+  "scripts": {
+    "test": "node eval/harness/run.mjs",
+    "validate": "node scripts/validate-adr.mjs"
+  },
+  "keywords": [
+    "wordpress",
+    "architecture-decision-records",
+    "adr",
+    "agent-skills",
+    "plugin-development"
+  ],
+  "author": "WordPress Plugin Development Ecosystem",
+  "license": "GPL-2.0-or-later",
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

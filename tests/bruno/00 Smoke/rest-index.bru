@@ -1,0 +1,16 @@
+meta {
+  name: WordPress REST index
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/wp-json/
+  body: none
+  auth: none
+}
+
+assert {
+  res.status: eq 200
+  res.body.name: isString
+}

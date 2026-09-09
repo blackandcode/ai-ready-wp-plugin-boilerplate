@@ -1,0 +1,6 @@
+interface:
+  display_name: "WP Admin UI UX"
+  short_description: "Design and review WP admin pages."
+  icon: "layout-dashboard"
+  color: "#3858E9"
+  default_prompt: "Use $wp-admin-ui-ux to design or review a WordPress admin settings, grid, or edit page with screenshot evidence."

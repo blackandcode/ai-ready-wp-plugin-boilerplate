@@ -1,0 +1,50 @@
+# Directories
+/.git
+/.githooks
+/.github
+/.cursor
+/.agents
+/.codex
+/docs
+/tests
+/tools
+/node_modules
+/.wp-env
+/dist
+
+# Configuration & dotfiles
+/.editorconfig
+/.env
+/.env.*
+/.gitignore
+/.markdownlint-cli2.jsonc
+/.wp-env.json
+
+# Toolchain configurations
+/jest.config.js
+/playwright.config.ts
+/phpcs.xml.dist
+/phpstan.neon.dist
+/phpunit.xml.dist
+/tsconfig.json
+/webpack.config.js
+
+# Manifests & package management files
+/package.json
+/package-lock.json
+/composer.json
+/composer.lock
+
+# Documentation & agent guidance files
+/AGENTS.md
+/MANIFEST.md
+/CHANGELOG.md
+
+# Packaging
+.distignore
+*.zip
+*.tar.gz
+*.tgz
+*.log
+.DS_Store
+Thumbs.db

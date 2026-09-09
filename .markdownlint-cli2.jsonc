@@ -1,0 +1,25 @@
+{
+  "config": {
+    "MD013": false,
+    "MD024": {
+      "siblings_only": true
+    },
+    "MD033": false,
+    "MD060": false
+  },
+  "ignores": [
+    "node_modules/**",
+    "vendor/**",
+    "build/**",
+    ".auth/**",
+    "tests/**/.auth/**",
+    "test-results/**",
+    "tests/test-results/**",
+    "playwright-report/**",
+    "tests/playwright-report/**",
+    "coverage/**",
+    "tests/coverage/**",
+    "bruno/reports/**",
+    "tests/bruno/reports/**"
+  ]
+}

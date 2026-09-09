@@ -1,0 +1,19 @@
+{
+  "name": "Negative Gate: Fixing typo in admin settings UI template",
+  "classification": "ADR_NOT_NEEDED",
+  "skills": ["wp-architecture-decision-records", "wp-admin-ui-ux"],
+  "query": "Fix a spelling error in the admin settings tab: change 'Licence Key' to 'License Key' in the settings template.",
+  "expected_behavior": [
+    "Step 1: Inspect the requested task",
+    "Step 2: Evaluate ADR-worthiness gate against negative criteria",
+    "Step 3: Determine that the change is a cosmetic text correction with zero architectural significance, zero reversal cost, and no API impact",
+    "Step 4: Return ADR_NOT_NEEDED",
+    "Step 5: Do NOT generate or propose an ADR file",
+    "Step 6: Proceed directly to editing the template file or dispatching to wp-admin-ui-ux"
+  ],
+  "success_criteria": [
+    "ADR_NOT_NEEDED correctly returned",
+    "Zero ADR files generated",
+    "No ADR spam created"
+  ]
+}

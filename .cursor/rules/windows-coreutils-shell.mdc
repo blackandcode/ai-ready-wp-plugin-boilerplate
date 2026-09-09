@@ -1,0 +1,72 @@
+---
+description: Native Windows shell conventions — prefer Microsoft Coreutils in cmd.exe and PowerShell over Windows-specific CLI tools.
+alwaysApply: true
+---
+
+# Windows Shell — Microsoft Coreutils
+
+This project runs on **native Windows** with **Microsoft Coreutils** on PATH. Apply this rule only when invoking **cmd.exe** or **PowerShell** — not WSL, Git Bash, or Linux/macOS shells.
+
+## Principles
+
+- Prefer **Coreutils** over Windows-specific equivalents (`Copy-Item`, `Remove-Item`, `Get-Content`, `Select-String`, `dir`, etc.) when they make the command clearer, safer, or more portable.
+- Prefer **`rg` / `rg.exe`** for code search when available; otherwise **`grep` / `grep.exe`**.
+- Do **not** assume Bash, WSL, Linux paths, `/dev/null`, POSIX permissions, **`sed`**, or **`awk`** are available.
+
+## Shell-specific invocation
+
+**PowerShell** — invoke Coreutils with **`.exe`** to avoid cmdlet aliases:
+
+```powershell
+grep.exe pattern file.txt
+find.exe src -type f -name '*.ts'
+cat.exe README.md
+cp.exe a.txt b.txt
+rm.exe old.txt
+sort.exe data.txt
+tee.exe output.log
+```
+
+**cmd.exe** — bare names are fine (Linux-style):
+
+```cmd
+grep pattern file.txt
+find src -type f -name *.ts
+cat README.md
+```
+
+## Paths, pipelines, and safety
+
+- Use **`NUL`** instead of `/dev/null` (e.g. `command > NUL 2>&1`).
+- For paths with spaces or special characters, use **null-delimited** pipelines:
+
+```powershell
+find.exe src -type f -name '*.ts' -print0 | xargs.exe -0 wc.exe -l
+```
+
+- Before bulk **delete**, **move**, or **rename**, list or preview matching files first.
+
+## Available Coreutils (prefer these names)
+
+| Category | Utilities |
+|----------|-----------|
+| Navigation / paths | `arch`, `basename`, `dirname`, `la`, `ls`, `pwd`, `readlink`, `realpath`, `pathchk` |
+| Files / directories | `cat`, `cp`, `csplit`, `df`, `du`, `link`, `ln`, `mkdir`, `mktemp`, `mv`, `rm`, `rmdir`, `stat`, `touch`, `truncate`, `unlink` |
+| Search / pipelines | `find`, `grep`, `xargs`, `tee`, `test`, `true`, `false`, `env`, `printenv`, `printf`, `echo`, `sleep`, `yes` |
+| Text processing | `comm`, `cut`, `fmt`, `fold`, `head`, `join`, `nl`, `od`, `pr`, `ptx`, `sort`, `split`, `tac`, `tail`, `tr`, `unexpand`, `uniq`, `wc` |
+| Checksums / encoding | `b2sum`, `base32`, `base64`, `basenc`, `cksum`, `md5sum`, `sha1sum`, `sha224sum`, `sha256sum`, `sha384sum`, `sha512sum`, `sum` |
+| Data / numeric | `date`, `expr`, `factor`, `numfmt`, `seq`, `shuf`, `tsort` |
+| System info | `hostname`, `nproc`, `uptime` |
+
+## Quick reference
+
+| Task | Prefer | Avoid (when Coreutils suffices) |
+|------|--------|----------------------------------|
+| List files | `ls`, `la` | `dir`, `Get-ChildItem` |
+| Read file | `cat`, `head`, `tail` | `type`, `Get-Content` |
+| Copy / move / delete | `cp`, `mv`, `rm` | `copy`, `move`, `del`, `Copy-Item`, `Remove-Item` |
+| Search file contents | `rg`, then `grep` | `findstr`, `Select-String` |
+| Find files by name | `find` | PowerShell `Get-ChildItem -Recurse` |
+| Line count | `wc -l` | PowerShell `(Get-Content …).Count` |
+| Sort / unique | `sort`, `uniq` | PowerShell `Sort-Object` |
+| Discard output | redirect to `NUL` | `/dev/null` |

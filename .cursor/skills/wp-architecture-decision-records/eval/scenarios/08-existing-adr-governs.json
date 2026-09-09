@@ -1,0 +1,19 @@
+{
+  "name": "Existing accepted ADR governs implementation task",
+  "classification": "EXISTING_ADR_GOVERNS",
+  "skills": ["wp-architecture-decision-records", "wp-plugin-development"],
+  "query": "A developer asks to implement a new order notification job. An accepted ADR (ADR-0002) already states: 'All background jobs must use Action Scheduler with idempotent handlers.' How should the agent proceed?",
+  "expected_behavior": [
+    "Step 1: Consult existing ADRs in docs/adr/ and read ADR-0002",
+    "Step 2: Note that ADR-0002 has status 'accepted' and establishes the background processing invariant",
+    "Step 3: Evaluate ADR-worthiness gate -> Return EXISTING_ADR_GOVERNS",
+    "Step 4: Do NOT draft a new ADR",
+    "Step 5: Enforce the architectural constraints of ADR-0002: schedule the task using as_schedule_single_action() and ensure the callback is idempotent",
+    "Step 6: Cite ADR-0002 in docblock entry point"
+  ],
+  "success_criteria": [
+    "Identifies existing governing accepted ADR",
+    "Prevents duplicate ADR creation",
+    "Faithfully applies established architectural invariants to new code"
+  ]
+}

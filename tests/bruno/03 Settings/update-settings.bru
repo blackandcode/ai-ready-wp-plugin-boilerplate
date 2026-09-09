@@ -1,0 +1,35 @@
+meta {
+  name: Update Plugin Settings
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{apiRoot}}/settings
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "general": {
+      "greeting_message": "Updated greetings from Bruno automated test suite!"
+    }
+  }
+}
+
+assert {
+  res.status: eq 200
+  res.body.general.greeting_message: eq Updated greetings from Bruno automated test suite!
+}
+
+tests {
+  test("status code is 200 OK after update", function() {
+    expect(res.getStatus()).to.equal(200);
+  });
+
+  test("greeting_message was updated correctly", function() {
+    const body = res.getBody();
+    expect(body.general.greeting_message).to.equal("Updated greetings from Bruno automated test suite!");
+  });
+}
