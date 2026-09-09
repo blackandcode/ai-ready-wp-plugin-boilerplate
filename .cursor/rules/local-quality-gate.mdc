@@ -13,7 +13,7 @@ On **EVERY** coding session or task that modifies repository files (PHP source, 
 npm run check
 ```
 
-(or `npm run pre-commit`) and verify that all **6 CI-parity checks** pass cleanly before concluding the task.
+(or `npm run pre-commit`) and verify that all **10 CI-parity checks** pass cleanly before concluding the task.
 
 ---
 
@@ -25,10 +25,14 @@ The local quality gate mirrors the exact verification executed on GitHub Actions
 |---|---|---|---|
 | 1 | **Linting** | `npm run lint` | ESLint, Stylelint, Markdownlint, and GitHub Actions workflows |
 | 2 | **OpenAPI Lint** | `npm run openapi:lint` | Redocly OpenAPI 3.1 syntax and schema validation |
-| 3 | **Node Tests** | `npm run test` | Jest component tests and all Node toolchain suites |
-| 4 | **PHPCS (WPCS)** | `vendor/bin/phpcs` | WordPress Coding Standards (`WordPress-Core`, `WordPress-Extra`, `WordPress-Docs`) |
-| 5 | **PHPStan** | `vendor/bin/phpstan analyse` | Level 6+ static typing with WordPress stubs |
-| 6 | **PHPUnit** | `vendor/bin/phpunit` | In-memory PHP unit tests |
+| 3 | **Build Assets** | `npm run build` | Production frontend bundles and blocks manifest compilation |
+| 4 | **Node Tests** | `npm run test` | Jest component tests and all Node toolchain suites |
+| 5 | **PHPCS (WPCS)** | `vendor/bin/phpcs` | WordPress Coding Standards (`WordPress-Core`, `WordPress-Extra`, `WordPress-Docs`) |
+| 6 | **PHPStan** | `vendor/bin/phpstan analyse` | Level 6+ static typing with WordPress stubs |
+| 7 | **PHPUnit** | `vendor/bin/phpunit` | In-memory PHP unit tests |
+| 8 | **Release Consistency** | `npm run release:check -- --skip-branch-check --skip-tag-check` | Version, header, constant, and manifest synchronization |
+| 9 | **Package Contract** | `npm run release:package` | Distribution ZIP packaging and 40+ package contract checks |
+| 10 | **PHP Smoke Test** | `npm run release:smoke` | Standalone packaged plugin PHP bootstrap verification |
 
 ---
 
@@ -38,7 +42,7 @@ When running `npm run check`, if any step reports errors, the agent **MUST NOT**
 
 ```mermaid
 flowchart TD
-    RunGate["1. Run npm run check"] --> CheckPassed{"All 6 Checks Green?"}
+    RunGate["1. Run npm run check"] --> CheckPassed{"All 10 Checks Green?"}
     CheckPassed -->|"No (Error Detected)"| ParseError["2. Parse Error Output & Trace Root Cause"]
     ParseError --> AutoFix["3. Apply Local Fix to Code, Types, or Tests"]
     AutoFix --> TargetedCheck["4. Rerun Targeted Check (e.g. check:js or check:php)"]
@@ -79,11 +83,14 @@ npm run check:js
 # Backend PHP focus:
 npm run check:php
 
+# Fast commit mode (skips packaging & smoke test):
+npm run check -- --skip-package
+
 # Quick linting pass (skips test suites):
 npm run pre-commit -- --skip-tests
 ```
 
-**Final Gate Invariant:** Before concluding the turn, full `npm run check` (all 6 steps) must pass with exit code `0`.
+**Final Gate Invariant:** Before concluding the turn, full `npm run check` (all 10 steps) must pass with exit code `0`.
 
 ---
 
@@ -91,6 +98,6 @@ npm run pre-commit -- --skip-tests
 
 Every coding session follows this strict final sequence:
 
-1. **Self-Healing Quality Pass:** Run `npm run check` until all 6 steps pass.
+1. **Self-Healing Quality Pass:** Run `npm run check` until all 10 steps pass.
 2. **Unreleased Changelog Staging:** Use `npm run changelog:add -- -t <Category> "<Outcome>"` per `.cursor/rules/changelog-unreleased.mdc`.
 3. **Verification Complete:** Conclude the turn and provide a concise summary to the user.

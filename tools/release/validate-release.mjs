@@ -14,7 +14,7 @@ Validates release prerequisites, version consistency across manifests and header
 git branch constraints, and tag uniqueness prior to publishing.
 
 Arguments:
-  [version]                    Target semantic version (e.g. 1.3.2). Defaults to package.json version.
+  [version]                    Target semantic version (e.g. 1.3.3). Defaults to package.json version.
 
 Options:
   -v, --version <X.Y.Z>        Target version (flag form).

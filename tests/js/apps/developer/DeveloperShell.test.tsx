@@ -16,7 +16,7 @@ jest.mock(
 const mockBootstrap: AirwpBootstrapData = {
 	apiBase: '/ai-ready-wp/v1',
 	nonce: 'test-nonce',
-	version: '1.3.2',
+	version: '1.3.3',
 	currentUserCan: { manageOptions: true },
 	environment: {
 		phpVersion: '8.3.33',

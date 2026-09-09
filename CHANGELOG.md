@@ -6,6 +6,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.3.3] - 2026-09-09
+
+### Added
+
+- Added `tools/release/smoke-test-package.mjs` and `npm run release:smoke` script to verify standalone PHP bootstrap on packaged distribution archives with accompanying unit test `tests/node/release/smoke-test-package.test.mjs`
+
+### Changed
+
+- Expanded local pre-commit quality gate (`tools/git-hooks/pre-commit.mjs`, `npm run check`) from 6 to 10 checks to achieve full CI parity with `_release-readiness.yml` including build, release check, package build & validation, and standalone PHP smoke test, with `--skip-package` fast iteration mode
+
+### Fixed
+
+- Fixed GitHub Actions CI asset externalization test failure by compiling frontend assets before `npm run test` in `_release-readiness.yml` and making `tests/node/release/asset-externalization.test.mjs` self-healing
+
 ## [1.3.2] - 2026-09-09
 
 ### Fixed

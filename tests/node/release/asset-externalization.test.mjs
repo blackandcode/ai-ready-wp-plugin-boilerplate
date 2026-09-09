@@ -1,4 +1,6 @@
 import assert from 'node:assert/strict';
+import { execSync } from 'node:child_process';
+import { existsSync } from 'node:fs';
 import { mkdtemp, mkdir, rm, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { dirname, join, resolve } from 'node:path';
@@ -43,6 +45,12 @@ test( 'parseAssetPhp throws on invalid syntax', () => {
 } );
 
 test( 'verifyAssets passes on valid built project assets', async () => {
+	const buildDir = join( projectRoot, 'build' );
+	const manifestPath = join( buildDir, 'blocks-manifest.php' );
+	if ( ! existsSync( buildDir ) || ! existsSync( manifestPath ) ) {
+		execSync( 'npm run build', { cwd: projectRoot, stdio: 'pipe' } );
+	}
+
 	const result = await verifyAssets( projectRoot );
 	assert.equal( result.valid, true );
 	assert.equal( result.entrypoints.length, EXPECTED_ENTRYPOINTS.length );

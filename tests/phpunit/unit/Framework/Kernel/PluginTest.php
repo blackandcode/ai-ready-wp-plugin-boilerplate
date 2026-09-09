@@ -32,7 +32,7 @@ class PluginTest extends TestCase {
 	 * Test plugin version constant.
 	 */
 	public function test_plugin_version_constant(): void {
-		$this->assertSame( '1.3.2', Plugin::VERSION );
+		$this->assertSame( '1.3.3', Plugin::VERSION );
 	}
 
 	/**

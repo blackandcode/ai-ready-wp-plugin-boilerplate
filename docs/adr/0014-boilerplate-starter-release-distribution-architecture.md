@@ -37,7 +37,7 @@ We maintain two distinct, manually dispatched release pipelines:
 | Dimension | Production Plugin Release | Boilerplate Starter Release |
 |:---|:---|:---|
 | **Workflow** | `.github/workflows/plugin-release.yml` | `.github/workflows/boilerplate-release.yml` |
-| **Release Tag** | `vX.Y.Z` (e.g. `v1.3.2`) | `boilerplate-vX.Y.Z` (e.g. `boilerplate-v1.3.2`) |
+| **Release Tag** | `vX.Y.Z` (e.g. `v1.3.3`) | `boilerplate-vX.Y.Z` (e.g. `boilerplate-v1.3.3`) |
 | **Archive Name** | `{slug}-{version}.zip` | `{slug}-starter-{version}.zip` |
 | **Release Title** | `v{version}` | `AI-Ready WP Plugin Boilerplate Starter v{version}` |
 | **Primary Scope** | Live WordPress sites / WP.org | Developers, Starter Template, `npx` installer |

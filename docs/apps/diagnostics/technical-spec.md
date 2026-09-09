@@ -51,7 +51,7 @@ Queries the WordPress host environment:
     "connected": true
   },
   "plugin": {
-    "version": "1.3.2",
+    "version": "1.3.3",
     "active_apps": ["Settings", "Diagnostics", "HelloWorld", "Developer"]
   },
   "status": "healthy"

@@ -3,7 +3,7 @@
 - **Date:** 2026-09-09
 - **Governing ADR:** [ADR-0010: Two-Pipeline CI/CD and Release Readiness Architecture](../adr/0010-two-pipeline-ci-cd-and-release-readiness-architecture.md)
 - **Status:** Completed
-- **Version Status:** Staged under `## [Unreleased]` in `CHANGELOG.md` (Version `1.3.2`; manual bump via `npm run update-version:minor` or `npm run update-version:patch` when ready)
+- **Version Status:** Staged under `## [Unreleased]` in `CHANGELOG.md` (Version `1.3.3`; manual bump via `npm run update-version:minor` or `npm run update-version:patch` when ready)
 
 ---
 

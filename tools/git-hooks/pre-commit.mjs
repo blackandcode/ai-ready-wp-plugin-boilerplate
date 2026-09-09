@@ -15,8 +15,9 @@ Executes local quality checks matching GitHub Actions CI parity
 (_release-readiness.yml quality-js and quality-php jobs) before commits.
 
 Options:
-  --js-only         Run only JavaScript/Node checks (lint, openapi, tests).
+  --js-only         Run only JavaScript/Node checks (lint, openapi, build, tests).
   --php-only        Run only PHP checks (phpcs, phpstan, phpunit).
+  --skip-package    Skip distribution package build, validation, and smoke tests.
   --skip-tests      Run linters and static analysis, skipping unit test suites.
   --root <path>     Repository root directory. Default: current directory.
   --quiet, -q       Minimal output; only display failures.
@@ -73,8 +74,9 @@ function getComposerCmd() {
  * @param {Object}  options
  * @param {boolean} [options.jsOnly]
  * @param {boolean} [options.phpOnly]
+ * @param {boolean} [options.skipPackage]
  * @param {boolean} [options.skipTests]
- * @return {Array<{ id: string, name: string, group: 'js'|'php', isTest: boolean, cmd: string, args: string[], remediation: string }>} Steps.
+ * @return {Array<{ id: string, name: string, group: 'js'|'php'|'package', isTest: boolean, cmd: string, args: string[], remediation: string }>} Steps.
  */
 export function buildSteps( root, options = {} ) {
 	const npmCmd = getNpmCmd();
@@ -101,6 +103,15 @@ export function buildSteps( root, options = {} ) {
 			cmd: npmCmd,
 			args: [ 'run', 'openapi:lint' ],
 			remediation: 'Run "npm run openapi:lint" to inspect Redocly errors or regenerate from controllers.',
+		},
+		{
+			id: 'build-assets',
+			name: 'Frontend assets compilation (npm run build)',
+			group: 'js',
+			isTest: false,
+			cmd: npmCmd,
+			args: [ 'run', 'build' ],
+			remediation: 'Run "npm run build" to inspect asset compilation or block manifest errors.',
 		},
 		{
 			id: 'test-node-jest',
@@ -140,6 +151,33 @@ export function buildSteps( root, options = {} ) {
 			args: phpunitBin.includes( 'vendor' ) ? [] : [ 'test' ],
 			remediation: 'Run "vendor/bin/phpunit" to debug failing PHP unit tests.',
 		},
+		{
+			id: 'release-check',
+			name: 'Release consistency check (npm run release:check)',
+			group: 'package',
+			isTest: false,
+			cmd: npmCmd,
+			args: [ 'run', 'release:check', '--', '--skip-branch-check', '--skip-tag-check' ],
+			remediation: 'Run "npm run release:check" to inspect version, constant, or manifest inconsistencies.',
+		},
+		{
+			id: 'package-build-validate',
+			name: 'Package build & contract validation (npm run release:package)',
+			group: 'package',
+			isTest: false,
+			cmd: npmCmd,
+			args: [ 'run', 'release:package' ],
+			remediation: 'Run "npm run release:package" to debug packaging or package contract violations.',
+		},
+		{
+			id: 'package-smoke',
+			name: 'Packaged plugin PHP smoke test (npm run release:smoke)',
+			group: 'package',
+			isTest: false,
+			cmd: npmCmd,
+			args: [ 'run', 'release:smoke' ],
+			remediation: 'Run "npm run release:smoke" to inspect standalone PHP bootstrap failures.',
+		},
 	];
 
 	return allSteps.filter( ( step ) => {
@@ -150,6 +188,9 @@ export function buildSteps( root, options = {} ) {
 			return false;
 		}
 		if ( options.skipTests && step.isTest ) {
+			return false;
+		}
+		if ( options.skipPackage && step.group === 'package' ) {
 			return false;
 		}
 		return true;
@@ -186,9 +227,10 @@ function executeStep( step, cwd ) {
  *
  * @param {Object}  options
  * @param {string}  [options.root]      Project root.
- * @param {boolean} [options.jsOnly]    Run only JS checks.
- * @param {boolean} [options.phpOnly]   Run only PHP checks.
- * @param {boolean} [options.skipTests] Skip test suites.
+ * @param {boolean} [options.jsOnly]      Run only JS checks.
+ * @param {boolean} [options.phpOnly]     Run only PHP checks.
+ * @param {boolean} [options.skipPackage] Skip package build, validation, and smoke tests.
+ * @param {boolean} [options.skipTests]   Skip test suites.
  * @param {boolean} [options.quiet]     Minimal output.
  * @return {{ success: boolean, results: Array<{ id: string, name: string, status: 'passed'|'failed', durationMs: number, error?: string }>, totalDurationMs: number }}
  */
@@ -297,6 +339,7 @@ if ( isDirectCall ) {
 		options: {
 			'js-only': { type: 'boolean', default: false },
 			'php-only': { type: 'boolean', default: false },
+			'skip-package': { type: 'boolean', default: false },
 			'skip-tests': { type: 'boolean', default: false },
 			root: { type: 'string', default: process.cwd() },
 			quiet: { type: 'boolean', short: 'q', default: false },
@@ -314,6 +357,7 @@ if ( isDirectCall ) {
 		root: values.root,
 		jsOnly: values[ 'js-only' ],
 		phpOnly: values[ 'php-only' ],
+		skipPackage: values[ 'skip-package' ],
 		skipTests: values[ 'skip-tests' ],
 		quiet: values.quiet,
 	} );

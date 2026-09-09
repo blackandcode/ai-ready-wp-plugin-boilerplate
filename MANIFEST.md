@@ -192,11 +192,12 @@ This manifest provides a comprehensive directory and file inventory for the **Wo
 | `tools/environment/check-environment.mjs` | Pre-flight environment check CLI analyzing host, Docker, PHP, and ports. | Toolchain |
 | `tools/environment/environment-checker.mjs` | Core environment verification and OS remediation engine. | Toolchain |
 | `tools/git-hooks/install-hooks.mjs` | Configures Git core.hooksPath to .githooks or uninstalls in-tree hooks. | Toolchain |
-| `tools/git-hooks/pre-commit.mjs` | Cross-platform pre-commit runner executing 6 CI-parity quality checks. | Toolchain |
+| `tools/git-hooks/pre-commit.mjs` | Cross-platform pre-commit runner executing 10 CI-parity quality checks. | Toolchain |
 | `tools/release/build-package.mjs` | CLI packaging production distribution ZIP respecting .distignore. | Release |
 | `tools/release/build-boilerplate-package.mjs` | Isolated staging builder for boilerplate starter template ZIP archive. | Release |
 | `tools/release/extract-release-notes.mjs` | CLI extracting markdown release notes for a target version from CHANGELOG.md. | Release |
 | `tools/release/lint-actions.mjs` | Static GitHub Actions workflow validator and version-tagging linter. | Quality |
+| `tools/release/smoke-test-package.mjs` | CLI executing standalone PHP bootstrap smoke test on packaged distribution archive. | Release |
 | `tools/release/validate-package.mjs` | CLI enforcing package content contract against built ZIP archive. | Release |
 | `tools/release/validate-boilerplate-package.mjs` | Contract validator for boilerplate starter template ZIP archive. | Release |
 | `tools/release/validate-release.mjs` | CLI validating version parity, branch, and tag readiness before release. | Release |
@@ -272,6 +273,7 @@ This manifest provides a comprehensive directory and file inventory for the **Wo
 | `tests/node/release/build-package.test.mjs` | Integration test for end-to-end package generation and verification. | Toolchain |
 | `tests/node/release/boilerplate-package.test.mjs` | Unit and integration tests for boilerplate package builder, contract validator, and exclusion filters. | Toolchain |
 | `tests/node/release/asset-externalization.test.mjs` | Unit and integration tests for asset externalization and .asset.php parsing. | Toolchain |
+| `tests/node/release/smoke-test-package.test.mjs` | Unit tests for standalone PHP bootstrap smoke test runner. | Toolchain |
 | `tests/node/security/audit-security-baseline.test.mjs` | Unit tests for deterministic security static checker. | Toolchain |
 | `tests/bruno/bruno.json` | Bruno REST API collection manifest. | Tier 4 |
 | `tests/bruno/collection.bru` | Root collection configuration with basic auth and pre-request vars. | Tier 4 |

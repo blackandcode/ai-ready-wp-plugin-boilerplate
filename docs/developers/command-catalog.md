@@ -165,7 +165,7 @@ npm run release:validate
 npm run release:check
 
 # Extract release notes for a target version from CHANGELOG.md
-npm run release:notes -- --version 1.3.2
+npm run release:notes -- --version 1.3.3
 
 # Execute release contract unit and integration test suite
 npm run test:release

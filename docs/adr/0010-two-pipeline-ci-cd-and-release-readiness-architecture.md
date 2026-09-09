@@ -50,7 +50,7 @@ A modular GitHub Actions architecture where:
 
 ### Option 2: Monolithic Release Pipeline Triggered Automatically by Git Tag Pushes (`v*`)
 
-Developers push git tags (`git push origin v1.3.2`), which triggers a standalone release workflow that builds the ZIP and publishes the release.
+Developers push git tags (`git push origin v1.3.3`), which triggers a standalone release workflow that builds the ZIP and publishes the release.
 
 - **Good, because:** Familiar traditional open-source workflow.
 - **Bad, because:** Fails the "main is always releasable" requirement; tags can be created on feature branches or outdated commits.

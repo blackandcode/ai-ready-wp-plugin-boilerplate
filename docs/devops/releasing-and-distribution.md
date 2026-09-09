@@ -16,7 +16,7 @@ The repository provides two separate release pipelines tailored to different aud
 | Dimension | Production Plugin Release | Boilerplate Starter Release |
 |:---|:---|:---|
 | **Workflow** | `.github/workflows/plugin-release.yml` | `.github/workflows/boilerplate-release.yml` |
-| **Git Tag** | `vX.Y.Z` (e.g. `v1.3.2`) | `boilerplate-vX.Y.Z` (e.g. `boilerplate-v1.3.2`) |
+| **Git Tag** | `vX.Y.Z` (e.g. `v1.3.3`) | `boilerplate-vX.Y.Z` (e.g. `boilerplate-v1.3.3`) |
 | **Archive Artifact** | `ai-ready-wp-plugin-boilerplate-X.Y.Z.zip` | `ai-ready-wp-plugin-boilerplate-starter-X.Y.Z.zip` |
 | **Target Audience** | Live client sites, WordPress.org Plugin Directory | Developers, Starter Template, `npx` installer tools |
 | **Contents** | Pure production runtime only | Full repo source + pre-compiled assets + Composer autoloader |
@@ -68,11 +68,11 @@ Decide whether the release is `patch`, `minor`, or `major`:
 # Preview changes without modifying files
 npm run update-version -- minor --dry-run
 
-# Apply version increment (e.g. 1.3.2 -> 1.3.2)
+# Apply version increment (e.g. 1.3.3 -> 1.3.3)
 npm run update-version -- minor
 ```
 
-This synchronizes `package.json`, `package-lock.json`, `composer.json`, main plugin header `Version:`, `AIRWP_VERSION` constant, `readme.txt` `Stable tag:`, and converts staged `## [Unreleased]` bullets into `## [1.3.2] - YYYY-MM-DD`.
+This synchronizes `package.json`, `package-lock.json`, `composer.json`, main plugin header `Version:`, `AIRWP_VERSION` constant, `readme.txt` `Stable tag:`, and converts staged `## [Unreleased]` bullets into `## [1.3.3] - YYYY-MM-DD`.
 
 ### Step 3: Run Local Release Verification
 
@@ -104,7 +104,7 @@ Submit a pull request with the updated version and changelog. Ensure that `CI/CD
 2. Select **Plugin Production Release** in the left sidebar.
 3. Click **Run workflow**:
    - Branch: `main`
-   - Target version: `1.3.2` (must match `package.json` exactly)
+   - Target version: `1.3.3` (must match `package.json` exactly)
    - Perform dry run: (check this to test all validations without tagging or releasing)
    - Mark as pre-release: (leave unchecked for standard releases)
 4. Click **Run workflow**.
@@ -115,7 +115,7 @@ The workflow will:
 2. Re-run the full release-readiness matrix on the exact commit SHA in isolated staging.
 3. Execute the standalone packaged plugin PHP smoke test and WordPress Plugin Check.
 4. If `dry_run` is selected, output the dry-run summary and finish cleanly.
-5. If official release (`dry_run: false`), generate Sigstore-backed build provenance attestation (`actions/attest-build-provenance`), tag commit as `v1.3.2`, create draft release, upload the ZIP package, SHA256 checksum, `.files.json` inventory report, and changelog release notes, then publish it as an immutable release.
+5. If official release (`dry_run: false`), generate Sigstore-backed build provenance attestation (`actions/attest-build-provenance`), tag commit as `v1.3.3`, create draft release, upload the ZIP package, SHA256 checksum, `.files.json` inventory report, and changelog release notes, then publish it as an immutable release.
 
 ### Step 5B: Trigger Boilerplate Template Release Workflow
 
@@ -123,7 +123,7 @@ The workflow will:
 2. Select **Boilerplate Template Release** in the left sidebar.
 3. Click **Run workflow**:
    - Branch: `main`
-   - Target version: `1.3.2` (must match `package.json` exactly)
+   - Target version: `1.3.3` (must match `package.json` exactly)
    - Perform dry run: (check this to test all validations without tagging or releasing)
    - Mark as pre-release: (leave unchecked for standard releases)
 4. Click **Run workflow**.
@@ -134,7 +134,7 @@ The workflow will:
 2. Assemble the full template starter package in isolated staging, compile assets, and generate production Composer autoloader.
 3. Validate starter package contract and execute standalone PHP smoke test.
 4. If `dry_run` is selected, output the dry-run summary and finish cleanly.
-5. If official release (`dry_run: false`), generate Sigstore build provenance attestation, tag commit as `boilerplate-v1.3.2`, upload `ai-ready-wp-plugin-boilerplate-starter-1.2.0.zip`, SHA256 checksum, and `.files.json` inventory, and publish the release.
+5. If official release (`dry_run: false`), generate Sigstore build provenance attestation, tag commit as `boilerplate-v1.3.3`, upload `ai-ready-wp-plugin-boilerplate-starter-1.2.0.zip`, SHA256 checksum, and `.files.json` inventory, and publish the release.
 
 ---
 
