@@ -113,3 +113,115 @@ Stable tag: 1.8.0
 		await rm( tempDir, { recursive: true, force: true } );
 	}
 } );
+
+test( 'validateRelease validates Plugin::VERSION, block.json, compatibility baselines, and composer.json', async () => {
+	const tempDir = await mkdtemp(
+		join( tmpdir(), 'airwp-validate-release-full-' )
+	);
+
+	try {
+		await writeFile(
+			join( tempDir, 'package.json' ),
+			JSON.stringify( { name: 'test-plugin', version: '2.0.0' }, null, 2 )
+		);
+
+		await writeFile(
+			join( tempDir, 'test-plugin.php' ),
+			`<?php
+/**
+ * Plugin Name: Test Plugin
+ * Version: 2.0.0
+ * Requires at least: 7.1
+ * Requires PHP: 8.3
+ * Text Domain: test-plugin
+ */
+define( 'TEST_PLUGIN_VERSION', '2.0.0' );
+`
+		);
+
+		await mkdir( join( tempDir, 'src/framework/Kernel' ), {
+			recursive: true,
+		} );
+		await writeFile(
+			join( tempDir, 'src/framework/Kernel/Plugin.php' ),
+			`<?php
+namespace AIReady\\WPPluginBoilerplate\\Framework\\Kernel;
+class Plugin {
+    public const VERSION = '2.0.0';
+}
+`
+		);
+
+		await mkdir( join( tempDir, 'src/frontend/apps/hello-world' ), {
+			recursive: true,
+		} );
+		await writeFile(
+			join( tempDir, 'src/frontend/apps/hello-world/block.json' ),
+			JSON.stringify( { name: 'test/block', version: '2.0.0' }, null, 2 )
+		);
+
+		await writeFile(
+			join( tempDir, 'readme.txt' ),
+			`=== Test Plugin ===
+Requires at least: 7.1
+Requires PHP: 8.3
+Stable tag: 2.0.0
+`
+		);
+
+		await writeFile(
+			join( tempDir, 'composer.json' ),
+			JSON.stringify( { require: { php: '>=8.3' } }, null, 2 )
+		);
+
+		await writeFile(
+			join( tempDir, 'CHANGELOG.md' ),
+			`# Changelog
+## [2.0.0] - 2026-09-09
+### Added
+- Complete release 2.0.0
+`
+		);
+
+		const result = await validateRelease( {
+			root: tempDir,
+			version: '2.0.0',
+			skipBranchCheck: true,
+			skipTagCheck: true,
+		} );
+
+		assert.equal( result.valid, true );
+		assert.equal(
+			result.checks.some(
+				( c ) => c.name.includes( 'Plugin::VERSION' ) && c.pass
+			),
+			true
+		);
+		assert.equal(
+			result.checks.some(
+				( c ) => c.name.includes( 'block.json' ) && c.pass
+			),
+			true
+		);
+		assert.equal(
+			result.checks.some(
+				( c ) => c.name.includes( 'Requires at least' ) && c.pass
+			),
+			true
+		);
+		assert.equal(
+			result.checks.some(
+				( c ) => c.name.includes( 'Requires PHP' ) && c.pass
+			),
+			true
+		);
+		assert.equal(
+			result.checks.some(
+				( c ) => c.name.includes( 'composer.json' ) && c.pass
+			),
+			true
+		);
+	} finally {
+		await rm( tempDir, { recursive: true, force: true } );
+	}
+} );

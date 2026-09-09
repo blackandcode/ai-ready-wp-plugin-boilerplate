@@ -6,6 +6,34 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.3.2] - 2026-09-09
+
+### Fixed
+
+- Protected test fixtures and versioning tests in tools/versioning/version-sync.mjs from version scanning and aligned sample-plugin test assertions
+
+## [1.3.1] - 2026-09-09
+
+### Fixed
+
+- Fixed lower target version test fixture assertion in tests/node/versioning/version-sync.test.mjs
+
+## [1.3.0] - 2026-09-09
+
+### Added
+
+- Isolated staging release builder (dist/.staging/), production allowlist assembly, and .files.json release inventory report in tools/release/build-package.mjs
+- Plugin Production Release workflow (.github/workflows/plugin-release.yml) with dry-run support (dry_run: true) and packaged plugin PHP smoke test in _release-readiness.yml
+- ADR-0014: Boilerplate Starter Release Distribution Architecture documenting dual-release model, starter package invariants, and installer decoupling
+- Boilerplate Starter Release packaging toolchain (tools/release/build-boilerplate-package.mjs, tools/release/validate-boilerplate-package.mjs, tests/node/release/boilerplate-package.test.mjs, and npm run boilerplate:build / validate scripts)
+- Boilerplate Template Release workflow (.github/workflows/boilerplate-release.yml) with dry_run flag, standalone PHP smoke test, Sigstore attestation, and boilerplate-v<version> tag
+
+### Changed
+
+- Overhauled tools/release/validate-package.mjs with top-level allowlist checking, dev artifact leak prevention, and Composer require-dev package detection
+- Expanded tools/release/validate-release.mjs with Plugin::VERSION, block.json, and WP 7.1 / PHP 8.3 baseline checks
+- Synchronized .distignore and DEFAULT_DISTIGNORE to exclude src/development/, uncompiled React/TypeScript source, build/admin/developer/, and root dev configs
+
 ## [1.2.0] - 2026-09-09
 
 ### Added

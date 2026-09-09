@@ -3,7 +3,7 @@
 - **Date:** 2026-09-09
 - **Governing ADR:** [ADR-0013: Runtime Architecture, Code Quality and Security Hardening](../adr/0013-runtime-architecture-code-quality-and-security-hardening.md) (Amending [ADR-0002](../adr/0002-in-tree-lightweight-dependency-injection-container.md), [ADR-0003](../adr/0003-gutenberg-block-api-v3-standard.md), [ADR-0009](../adr/0009-tripartite-app-centric-architecture.md), and [ADR-0011](../adr/0011-generated-openapi-specification-from-wordpress-rest-controllers.md))
 - **Status:** Completed
-- **Version Status:** Staged under `## [Unreleased]` in `CHANGELOG.md` (Version `1.2.0`; manual bump via `npm run update-version:minor` or `npm run update-version:patch` when ready)
+- **Version Status:** Staged under `## [Unreleased]` in `CHANGELOG.md` (Version `1.3.2`; manual bump via `npm run update-version:minor` or `npm run update-version:patch` when ready)
 
 ---
 

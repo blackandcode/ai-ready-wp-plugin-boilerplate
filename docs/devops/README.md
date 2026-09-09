@@ -24,7 +24,7 @@ flowchart TD
     end
 
     subgraph Trigger2 ["Manual Release Dispatch"]
-        Manual["workflow_dispatch on main"] --> Rel["release.yml"]
+        Manual["workflow_dispatch on main"] --> Rel["plugin-release.yml"]
     end
 
     subgraph ReusableGate ["Shared Release Readiness Gate (_release-readiness.yml)"]
@@ -46,7 +46,7 @@ flowchart TD
 
 ## 2. Directory Contents & Guides
 
-- [github-actions-ci-cd.md](github-actions-ci-cd.md): Detailed documentation of `.github/workflows/_release-readiness.yml`, `ci.yml`, `release.yml`, Dependabot SHA-pinning automation, and the multi-PHP testing matrix.
+- [github-actions-ci-cd.md](github-actions-ci-cd.md): Detailed documentation of `.github/workflows/_release-readiness.yml`, `ci.yml`, `plugin-release.yml`, Dependabot SHA-pinning automation, and the multi-PHP testing matrix.
 - [releasing-and-distribution.md](releasing-and-distribution.md): Complete release guide covering decoupled versioning, step-by-step releasing procedures, Sigstore provenance attestations, and GitHub branch protection rulesets.
 - [package-contract-and-distignore.md](package-contract-and-distignore.md): Specification of the distribution package contract (mandatory production files vs forbidden development leaks) and `.distignore` matching rules.
 - [local-release-tooling.md](local-release-tooling.md): Developer and agent manual for in-tree release CLI commands (`npm run release:build`, `npm run release:validate`, `npm run release:check`, `npm run release:notes`, `npm run lint:actions`).

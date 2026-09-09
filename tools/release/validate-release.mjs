@@ -14,7 +14,7 @@ Validates release prerequisites, version consistency across manifests and header
 git branch constraints, and tag uniqueness prior to publishing.
 
 Arguments:
-  [version]                    Target semantic version (e.g. 1.2.0). Defaults to package.json version.
+  [version]                    Target semantic version (e.g. 1.3.2). Defaults to package.json version.
 
 Options:
   -v, --version <X.Y.Z>        Target version (flag form).
@@ -119,6 +119,31 @@ export async function validateRelease( {
 			pass: constantVersion === targetVersion,
 			detail: `${ mainPhpFile } constant has "${ constantVersion }", expected "${ targetVersion }"`,
 		} );
+
+		// Header compatibility fields
+		const reqAtLeastMatch = phpSource.match(
+			/\*\s*Requires at least:\s*([^\r\n]+)/i
+		);
+		if ( reqAtLeastMatch ) {
+			const reqAtLeast = reqAtLeastMatch[ 1 ].trim();
+			checks.push( {
+				name: `${ mainPhpFile } Requires at least matches 7.1`,
+				pass: reqAtLeast === '7.1',
+				detail: `${ mainPhpFile } has Requires at least "${ reqAtLeast }", expected "7.1"`,
+			} );
+		}
+
+		const reqPhpMatch = phpSource.match(
+			/\*\s*Requires PHP:\s*([^\r\n]+)/i
+		);
+		if ( reqPhpMatch ) {
+			const reqPhp = reqPhpMatch[ 1 ].trim();
+			checks.push( {
+				name: `${ mainPhpFile } Requires PHP matches 8.3`,
+				pass: reqPhp === '8.3',
+				detail: `${ mainPhpFile } has Requires PHP "${ reqPhp }", expected "8.3"`,
+			} );
+		}
 	} catch ( err ) {
 		checks.push( {
 			name: 'Main plugin PHP file validation',
@@ -127,7 +152,42 @@ export async function validateRelease( {
 		} );
 	}
 
-	// 3. readme.txt Stable tag
+	// 2b. Plugin::VERSION constant in src/framework/Kernel/Plugin.php (if exists)
+	const pluginClassPath = join( root, 'src/framework/Kernel/Plugin.php' );
+	try {
+		const pluginSource = await readFile( pluginClassPath, 'utf8' );
+		const classVersionMatch = pluginSource.match(
+			/public\s+const\s+VERSION\s*=\s*['"]([^'"]+)['"]/
+		);
+		const classVersion = classVersionMatch
+			? classVersionMatch[ 1 ].trim()
+			: null;
+		checks.push( {
+			name: 'Plugin::VERSION constant matches target',
+			pass: classVersion === targetVersion,
+			detail: `Plugin::VERSION has "${ classVersion }", expected "${ targetVersion }"`,
+		} );
+	} catch {
+		// Optional if file does not exist
+	}
+
+	// 2c. Block metadata version in src/frontend/apps/hello-world/block.json (if exists)
+	const blockJsonPath = join(
+		root,
+		'src/frontend/apps/hello-world/block.json'
+	);
+	try {
+		const blockJson = JSON.parse( await readFile( blockJsonPath, 'utf8' ) );
+		checks.push( {
+			name: 'hello-world block.json version matches target',
+			pass: blockJson.version === targetVersion,
+			detail: `block.json has version "${ blockJson.version }", expected "${ targetVersion }"`,
+		} );
+	} catch {
+		// Optional if file does not exist
+	}
+
+	// 3. readme.txt Stable tag and compatibility
 	const readmePath = join( root, 'readme.txt' );
 	try {
 		const readmeSource = await readFile( readmePath, 'utf8' );
@@ -138,12 +198,55 @@ export async function validateRelease( {
 			pass: stableTag === targetVersion,
 			detail: `readme.txt has Stable tag "${ stableTag }", expected "${ targetVersion }"`,
 		} );
+
+		const readmeReqAtLeast = readmeSource.match(
+			/Requires\s*at\s*least:\s*([^\r\n]+)/i
+		);
+		if ( readmeReqAtLeast ) {
+			const val = readmeReqAtLeast[ 1 ].trim();
+			checks.push( {
+				name: 'readme.txt Requires at least matches 7.1',
+				pass: val === '7.1',
+				detail: `readme.txt has Requires at least "${ val }", expected "7.1"`,
+			} );
+		}
+
+		const readmeReqPhp = readmeSource.match(
+			/Requires\s*PHP:\s*([^\r\n]+)/i
+		);
+		if ( readmeReqPhp ) {
+			const val = readmeReqPhp[ 1 ].trim();
+			checks.push( {
+				name: 'readme.txt Requires PHP matches 8.3',
+				pass: val === '8.3',
+				detail: `readme.txt has Requires PHP "${ val }", expected "8.3"`,
+			} );
+		}
 	} catch {
 		checks.push( {
 			name: 'readme.txt Stable tag matches target',
 			pass: false,
 			detail: `readme.txt not found at ${ readmePath }`,
 		} );
+	}
+
+	// 3b. composer.json require.php (if exists)
+	const composerPath = join( root, 'composer.json' );
+	try {
+		const composerData = JSON.parse(
+			await readFile( composerPath, 'utf8' )
+		);
+		if ( composerData.require && composerData.require.php ) {
+			const phpReq = composerData.require.php;
+			const satisfies = phpReq.includes( '8.3' );
+			checks.push( {
+				name: 'composer.json PHP requirement satisfies >=8.3',
+				pass: satisfies,
+				detail: `composer.json has php "${ phpReq }", expected ">=8.3"`,
+			} );
+		}
+	} catch {
+		// Optional if composer.json not found
 	}
 
 	// 4. CHANGELOG.md release entry

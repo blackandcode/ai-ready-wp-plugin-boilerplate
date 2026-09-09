@@ -106,3 +106,82 @@ test( 'validatePackage flags missing required files and forbidden development fi
 		await rm( tempDir, { recursive: true, force: true } );
 	}
 } );
+
+test( 'validatePackage flags leaked development subsystem, typescript files, and require-dev packages', async () => {
+	const tempDir = await mkdtemp(
+		join( tmpdir(), 'airwp-validate-package-leaks-' )
+	);
+	const zipPath = join( tempDir, 'dist/test-plugin-1.0.0.zip' );
+
+	try {
+		await writeFile(
+			join( tempDir, 'package.json' ),
+			JSON.stringify( { name: 'test-plugin', version: '1.0.0' }, null, 2 )
+		);
+
+		await writeFile(
+			join( tempDir, 'test-plugin.php' ),
+			`<?php
+/**
+ * Plugin Name: Test Plugin
+ * Version: 1.0.0
+ * Text Domain: test-plugin
+ */
+`
+		);
+
+		const entries = [
+			{ path: 'test-plugin/test-plugin.php', data: '<?php' },
+			{
+				path: 'test-plugin/readme.txt',
+				data: '=== Test ===\nStable tag: 1.0.0',
+			},
+			{ path: 'test-plugin/uninstall.php', data: '<?php' },
+			{ path: 'test-plugin/vendor/autoload.php', data: '<?php' },
+			{ path: 'test-plugin/src/framework/Plugin.php', data: '<?php' },
+			{ path: 'test-plugin/build/app.js', data: 'console.log();' },
+			{
+				path: 'test-plugin/build/app.asset.php',
+				data: "<?php return array('dependencies' => array('wp-element'), 'version' => '1.0.0');",
+			},
+			// Leaked development files
+			{ path: 'test-plugin/src/development/Cli/Command.php', data: '<?php' },
+			{ path: 'test-plugin/src/frontend/App.tsx', data: 'export default () => null;' },
+			{ path: 'test-plugin/redocly.yaml', data: 'openapi: 3.1.0' },
+			{ path: 'test-plugin/vendor/bin/phpunit', data: '#!/bin/sh' },
+			{ path: 'test-plugin/vendor/phpunit/phpunit/src/Runner.php', data: '<?php' },
+		];
+
+		await createZip( entries, zipPath );
+
+		const result = await validatePackage( zipPath, { root: tempDir } );
+		assert.equal( result.valid, false );
+
+		const failedCheckNames = result.checks
+			.filter( ( c ) => ! c.pass )
+			.map( ( c ) => c.name );
+
+		assert.equal(
+			failedCheckNames.some( ( n ) => n.includes( 'Development subsystem' ) ),
+			true
+		);
+		assert.equal(
+			failedCheckNames.some( ( n ) => n.includes( 'Raw TypeScript' ) ),
+			true
+		);
+		assert.equal(
+			failedCheckNames.some( ( n ) => n.includes( 'Redocly' ) ),
+			true
+		);
+		assert.equal(
+			failedCheckNames.some( ( n ) => n.includes( 'Composer binaries' ) ),
+			true
+		);
+		assert.equal(
+			failedCheckNames.some( ( n ) => n.includes( 'require-dev' ) ),
+			true
+		);
+	} finally {
+		await rm( tempDir, { recursive: true, force: true } );
+	}
+} );

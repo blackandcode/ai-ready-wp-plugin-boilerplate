@@ -18,20 +18,23 @@ Every release ZIP must contain:
 - `{plugin-slug}/{plugin-slug}.php`: Main plugin entry file with metadata headers.
 - `{plugin-slug}/vendor/autoload.php`: Composer production autoloader (with zero dev-dependencies).
 - `{plugin-slug}/src/`: Runtime PHP classes across Framework, Backend, and Frontend Bridge.
-- `{plugin-slug}/build/`: Compiled production JavaScript and CSS assets.
+- `{plugin-slug}/build/`: Compiled production JavaScript and CSS assets (`build/admin/settings/`, `build/blocks/`, `build/blocks-manifest.php`).
 - `{plugin-slug}/readme.txt`: WordPress-standard plugin readme with `Stable tag:` matching the release version.
 - `{plugin-slug}/uninstall.php`: Lifecycle uninstallation handler.
+- `{plugin-slug}/LICENSE`: License text.
 
 ### 1.2 Forbidden Development Artifacts
 
 The package validator strictly fails if any of the following leak into the archive:
 
-- **Version Control & Workflows:** `.git/`, `.github/`.
+- **Version Control & Workflows:** `.git/`, `.github/`, `.githooks/`.
 - **Editor & Agent Config:** `.cursor/`, `.agents/`, `.codex/`.
 - **Development Tooling & Tests:** `node_modules/`, `tools/`, `tests/`, `docs/`.
-- **Configuration Files:** `.env*`, `package.json`, `package-lock.json`, `composer.json`, `composer.lock`, `tsconfig.json`, `phpunit.xml*`, `phpcs.xml*`, `phpstan.neon*`, `webpack.config.js`.
-- **Markdown & Meta Files:** `AGENTS.md`, `MANIFEST.md`, `CHANGELOG.md`, `.distignore`.
-- **Uncompiled Source Assets:** Raw TypeScript/SCSS in `src/frontend/apps/*/react/` that has already been compiled into `build/`.
+- **Development Subsystems & Uncompiled Sources:** `src/development/`, `src/frontend/apps/*/react/`, `src/frontend/shared/`, raw `*.ts` / `*.tsx` files.
+- **Developer Admin Builds & Maps:** `build/admin/developer/`, `*.map`.
+- **Development Vendor Leaks:** `vendor/bin/`, require-dev packages (`phpunit`, `phpstan`, `wpcs`, `dealerdirect`, `yoast`, `php-stubs`, `symfony`).
+- **Configuration Files:** `.env*`, `.wp-env*`, `package.json`, `package-lock.json`, `composer.json`, `composer.lock`, `tsconfig.json`, `phpunit.xml*`, `phpcs.xml*`, `phpstan.neon*`, `webpack.config.js`, `redocly.yaml`, `blueprint.json`, `wp-cli.yml`.
+- **Markdown & Meta Files:** `AGENTS.md`, `MANIFEST.md`, `CHANGELOG.md`, `README.md`, `.distignore`.
 
 ---
 

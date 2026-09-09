@@ -4,7 +4,7 @@ Tags: boilerplate, enterprise, modern, ddd, react
 Requires at least: 7.1
 Tested up to: 7.1
 Requires PHP: 8.3
-Stable tag: 1.2.0
+Stable tag: 1.3.2
 License: MIT
 License URI: https://opensource.org/licenses/MIT
 
@@ -19,7 +19,7 @@ AI-Ready WP Plugin Boilerplate provides a modern, robust architecture for WordPr
 1. Upload the plugin files to the `/wp-content/plugins/ai-ready-wp-plugin-boilerplate` directory, or install through the WordPress plugins screen directly.
 2. Activate the plugin through the 'Plugins' screen in WordPress.
 3. Access the plugin settings under the WordPress admin menu.
-4. Read documentation in the `docs/` directory to start building your plugin.
+4. Full developer documentation and human-readable source code: https://github.com/wordpress-ai/ai-ready-wp-plugin-boilerplate
 
 == Frequently Asked Questions ==
 
@@ -33,7 +33,7 @@ Yes, it requires WordPress 7.1 or greater and is designed for modern WordPress v
 
 == Changelog ==
 
-= 1.2.0 =
+= 1.3.2 =
 * Automated version synchronization and changelog management.
 * Enhanced architecture decision records governance.
 

@@ -12,7 +12,7 @@ Usage:
 Extracts markdown release notes for a specified version from CHANGELOG.md.
 
 Arguments:
-  [version]                    Target semantic version (e.g. 1.2.0).
+  [version]                    Target semantic version (e.g. 1.3.2).
 
 Options:
   -v, --version <X.Y.Z>        Target version (flag form).
@@ -26,7 +26,7 @@ Options:
  * Extracts release notes for a target version from changelog content.
  *
  * @param {string} changelogSource Raw CHANGELOG.md content
- * @param {string} targetVersion   Semantic version string (e.g. "1.2.0")
+ * @param {string} targetVersion   Semantic version string (e.g. "1.3.2")
  * @return {{ version: string, date: string, notes: string }} Extracted notes
  */
 export function extractReleaseNotes( changelogSource, targetVersion ) {

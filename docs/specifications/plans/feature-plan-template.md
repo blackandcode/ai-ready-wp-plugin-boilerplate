@@ -16,7 +16,7 @@
   - Frontend: `src/frontend/apps/[AppName]/`
   - REST Namespace: `src/backend/Apps/[AppName]/Rest/`
 - **Pre-Implementation Log:** `docs/implementation-logs/YYYY-MM-DD-phase-XX-[short-name].md`
-- **Target Release Milestone:** `[e.g., v1.2.0]`
+- **Target Release Milestone:** `[e.g., v1.3.2]`
 
 ---
 

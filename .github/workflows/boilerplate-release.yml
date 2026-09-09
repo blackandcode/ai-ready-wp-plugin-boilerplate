@@ -1,0 +1,248 @@
+name: Boilerplate Template Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Target boilerplate version to release (e.g. 1.2.0). Must match package.json and CHANGELOG.md'
+        required: true
+        type: string
+      dry_run:
+        description: 'Perform dry run (build, package, validate, smoke-test, without tagging or publishing GitHub Release)'
+        required: false
+        type: boolean
+        default: false
+      prerelease:
+        description: 'Mark release as a pre-release'
+        required: false
+        type: boolean
+        default: false
+
+concurrency:
+  group: release-boilerplate-template
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  validate-preconditions:
+    name: Validate Release Preconditions
+    runs-on: ubuntu-latest
+    steps:
+      - name: Verify execution on main branch
+        if: github.ref != 'refs/heads/main'
+        run: |
+          echo "::error::Boilerplate releases must be dispatched strictly from the 'main' branch. Current ref is '${{ github.ref }}'."
+          exit 1
+
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Validate release version consistency
+        run: |
+          npm run release:check -- --version "${{ inputs.version }}" --skip-tag-check
+          TAG_NAME="boilerplate-v${{ inputs.version }}"
+          if git tag -l | grep -q "^${TAG_NAME}$"; then
+            echo "::error::Git tag ${TAG_NAME} already exists in the repository."
+            exit 1
+          fi
+          echo "Tag ${TAG_NAME} is available for boilerplate release."
+
+      - name: Extract release notes from CHANGELOG.md
+        run: npm run release:notes -- --version "${{ inputs.version }}" --output release-notes.md
+
+      - name: Upload release notes artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-notes
+          path: release-notes.md
+          retention-days: 1
+
+  build-and-test:
+    name: Build & Validate Boilerplate Package
+    runs-on: ubuntu-latest
+    needs: [validate-preconditions]
+    outputs:
+      slug: ${{ steps.build.outputs.slug }}
+      version: ${{ steps.build.outputs.version }}
+      zip_name: ${{ steps.build.outputs.zip_name }}
+      sha256: ${{ steps.build.outputs.sha256 }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup PHP 8.3
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          extensions: mbstring, intl, dom, xml, libxml
+          tools: composer:v2
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: |
+          npm ci
+          composer install --prefer-dist --no-progress --no-interaction
+
+      - name: Build assets and boilerplate starter archive
+        id: build
+        run: |
+          npm run build
+          OUTPUT_JSON=$(npm run boilerplate:build -- --skip-build --json)
+          echo "$OUTPUT_JSON"
+          SLUG=$(echo "$OUTPUT_JSON" | node -e "const d=JSON.parse(require('fs').readFileSync(0)); console.log(d.slug);")
+          VERSION=$(echo "$OUTPUT_JSON" | node -e "const d=JSON.parse(require('fs').readFileSync(0)); console.log(d.version);")
+          ZIP_NAME="${SLUG}-starter-${VERSION}.zip"
+          SHA256=$(echo "$OUTPUT_JSON" | node -e "const d=JSON.parse(require('fs').readFileSync(0)); console.log(d.sha256);")
+
+          echo "slug=${SLUG}" >> "$GITHUB_OUTPUT"
+          echo "version=${VERSION}" >> "$GITHUB_OUTPUT"
+          echo "zip_name=${ZIP_NAME}" >> "$GITHUB_OUTPUT"
+          echo "sha256=${SHA256}" >> "$GITHUB_OUTPUT"
+
+      - name: Validate boilerplate starter package against contract
+        run: npm run boilerplate:validate -- --archive "dist/${{ steps.build.outputs.zip_name }}"
+
+      - name: Extract package for smoke test
+        run: |
+          rm -rf dist-extracted
+          mkdir -p dist-extracted
+          unzip -q -o "dist/${{ steps.build.outputs.zip_name }}" -d dist-extracted
+
+      - name: Packaged Boilerplate Plugin PHP Smoke Test
+        run: |
+          SLUG="${{ steps.build.outputs.slug }}"
+          php -r '
+          define( "ABSPATH", __DIR__ . "/" );
+          if ( ! function_exists( "plugin_dir_path" ) ) { function plugin_dir_path( $f ) { return dirname( $f ) . "/"; } }
+          if ( ! function_exists( "plugin_dir_url" ) ) { function plugin_dir_url( $f ) { return "http://example.com/"; } }
+          if ( ! function_exists( "register_activation_hook" ) ) { function register_activation_hook( $f, $c ) {} }
+          if ( ! function_exists( "register_deactivation_hook" ) ) { function register_deactivation_hook( $f, $c ) {} }
+          if ( ! function_exists( "add_action" ) ) { function add_action( $t, $c ) {} }
+
+          require_once "dist-extracted/" . $argv[1] . "/vendor/autoload.php";
+          require_once "dist-extracted/" . $argv[1] . "/" . $argv[1] . ".php";
+          \AIReady\WPPluginBoilerplate\Framework\Kernel\Plugin::instance()->boot();
+          echo "Boilerplate plugin bootstrap succeeded in standalone environment\n";
+          ' "${SLUG}"
+
+      - name: Upload candidate distribution package
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ steps.build.outputs.zip_name }}
+          path: |
+            dist/${{ steps.build.outputs.zip_name }}
+            dist/${{ steps.build.outputs.zip_name }}.sha256
+            dist/${{ steps.build.outputs.zip_name }}.files.json
+          retention-days: 1
+
+  publish-release:
+    name: Publish Boilerplate GitHub Release
+    runs-on: ubuntu-latest
+    needs: [validate-preconditions, build-and-test]
+    if: ${{ !inputs.dry_run }}
+    permissions:
+      contents: write
+      attestations: write
+      id-token: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Download release notes artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: release-notes
+
+      - name: Download release candidate distribution package
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ needs.build-and-test.outputs.zip_name }}
+          path: dist/
+
+      - name: Generate Sigstore Build Provenance Attestation
+        uses: actions/attest-build-provenance@v2
+        with:
+          subject-path: "dist/${{ needs.build-and-test.outputs.zip_name }}"
+
+      - name: Configure Git Identity
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Create and Push Boilerplate Git Tag
+        run: |
+          TAG_NAME="boilerplate-v${{ inputs.version }}"
+          echo "Creating Git tag ${TAG_NAME} pointing to commit ${{ github.sha }}..."
+          git tag -a "${TAG_NAME}" -m "Boilerplate Template Release ${TAG_NAME}" "${{ github.sha }}"
+          git push origin "${TAG_NAME}"
+
+      - name: Publish Immutable GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          TAG_NAME="boilerplate-v${{ inputs.version }}"
+          RELEASE_TITLE="AI-Ready WP Plugin Boilerplate Starter v${{ inputs.version }}"
+          ZIP_FILE="dist/${{ needs.build-and-test.outputs.zip_name }}"
+          SHA_FILE="dist/${{ needs.build-and-test.outputs.zip_name }}.sha256"
+          FILES_JSON="dist/${{ needs.build-and-test.outputs.zip_name }}.files.json"
+
+          PRERELEASE_FLAG=""
+          if [ "${{ inputs.prerelease }}" = "true" ]; then
+            PRERELEASE_FLAG="--prerelease"
+          fi
+
+          echo "Creating draft release for ${TAG_NAME}..."
+          gh release create "${TAG_NAME}" \
+            --title "${RELEASE_TITLE}" \
+            --notes-file release-notes.md \
+            --draft \
+            ${PRERELEASE_FLAG} \
+            "${ZIP_FILE}" \
+            "${SHA_FILE}" \
+            "${FILES_JSON}"
+
+          echo "Publishing release (finalizing immutability)..."
+          gh release edit "${TAG_NAME}" --draft=false
+
+          echo "Successfully published Boilerplate Release ${TAG_NAME}!"
+
+  dry-run-summary:
+    name: Dry Run Completion Summary
+    runs-on: ubuntu-latest
+    needs: [validate-preconditions, build-and-test]
+    if: ${{ inputs.dry_run }}
+    steps:
+      - name: Generate Dry Run Step Summary
+        run: |
+          cat << 'EOF' >> "$GITHUB_STEP_SUMMARY"
+          # 🧪 Boilerplate Template Release — Dry Run Complete
+
+          | Metric / Target | Value |
+          |:---|:---|
+          | **Boilerplate Version** | `${{ inputs.version }}` |
+          | **Execution Mode** | `Dry Run` (No tags pushed, No GitHub Release published) |
+          | **Package Slug** | `${{ needs.build-and-test.outputs.slug }}` |
+          | **Distribution Archive** | `${{ needs.build-and-test.outputs.zip_name }}` |
+          | **SHA256 Checksum** | `${{ needs.build-and-test.outputs.sha256 }}` |
+          | **Validation Status** | `PASSED` |
+
+          > ### ✅ DRY RUN SUCCESSFUL
+          > All pre-flight checks, starter package contract validation, and standalone PHP smoke test passed cleanly.
+          > The boilerplate starter archive is verified ready for distribution.
+          EOF

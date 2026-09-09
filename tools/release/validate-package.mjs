@@ -51,6 +51,10 @@ const FORBIDDEN_PATTERNS = [
 		name: 'Environment secrets and files (.env*)',
 		pattern: /(?:^|\/)\.env(?:$|\..*)/,
 	},
+	{
+		name: 'WordPress environment orchestration (.wp-env*)',
+		pattern: /(?:^|\/)\.wp-env(?:\.json|\/|$)/,
+	},
 	{ name: 'PHPUnit configuration (phpunit.xml*)', pattern: /phpunit\.xml/ },
 	{ name: 'PHPCS configuration (phpcs.xml*)', pattern: /phpcs\.xml/ },
 	{ name: 'PHPStan configuration (phpstan.neon*)', pattern: /phpstan\.neon/ },
@@ -68,6 +72,18 @@ const FORBIDDEN_PATTERNS = [
 		pattern: /webpack\.config\.js$/,
 	},
 	{
+		name: 'Redocly OpenAPI configuration (redocly.yaml)',
+		pattern: /redocly\.ya?ml$/,
+	},
+	{
+		name: 'WordPress Playground blueprint (blueprint.json)',
+		pattern: /blueprint\.json$/,
+	},
+	{
+		name: 'WP-CLI environment configuration (wp-cli.yml)',
+		pattern: /wp-cli\.ya?ml$/,
+	},
+	{
 		name: 'npm package manifests (package.json / package-lock.json)',
 		pattern: /package(?:-lock)?\.json$/,
 	},
@@ -76,10 +92,42 @@ const FORBIDDEN_PATTERNS = [
 		pattern: /composer\.(json|lock)$/,
 	},
 	{
-		name: 'Agent instruction files (AGENTS.md / MANIFEST.md)',
+		name: 'Agent instruction and repository files (AGENTS.md / MANIFEST.md)',
 		pattern: /(?:AGENTS|MANIFEST)\.md$/,
 	},
+	{
+		name: 'Repository documentation (README.md / CHANGELOG.md)',
+		pattern: /(?:README|CHANGELOG)\.md$/,
+	},
 	{ name: 'Distignore file (.distignore)', pattern: /\.distignore$/ },
+	{
+		name: 'Development subsystem (src/development/)',
+		pattern: /(?:^|\/)src\/development\//,
+	},
+	{
+		name: 'Developer admin build assets (build/admin/developer/)',
+		pattern: /(?:^|\/)build\/admin\/developer\//,
+	},
+	{
+		name: 'Raw TypeScript / TSX source files (*.ts, *.tsx)',
+		pattern: /\.(?:ts|tsx)$/,
+	},
+	{
+		name: 'JavaScript / CSS source maps (*.map)',
+		pattern: /\.map$/,
+	},
+	{
+		name: 'Test files or fixtures (*.test.*, *.spec.*)',
+		pattern: /\.(?:test|spec)\.[a-zA-Z0-9]+$/,
+	},
+	{
+		name: 'Composer binaries directory (vendor/bin/)',
+		pattern: /(?:^|\/)vendor\/bin\//,
+	},
+	{
+		name: 'Leaked Composer development packages (require-dev)',
+		pattern: /(?:^|\/)vendor\/(?:phpunit|phpstan|wp-coding-standards|dealerdirect|yoast|php-stubs|symfony)\//,
+	},
 ];
 
 /**
@@ -146,6 +194,51 @@ export async function validatePackage(
 						nonPrefixed.length
 				  } entries outside "${ prefix }": ${ nonPrefixed
 						.slice( 0, 3 )
+						.join( ', ' ) }`,
+	} );
+
+	// 1b. Allowlist conformance check: every entry must belong to an approved runtime path
+	function isApprovedRuntimePath( relPath, mainPhpFile ) {
+		if (
+			relPath === mainPhpFile ||
+			relPath === 'uninstall.php' ||
+			relPath === 'readme.txt' ||
+			relPath === 'LICENSE' ||
+			relPath === 'LICENSE.txt' ||
+			relPath === 'LICENSE.md'
+		) {
+			return true;
+		}
+		if (
+			relPath.startsWith( 'languages/' ) ||
+			relPath.startsWith( 'src/framework/' ) ||
+			relPath.startsWith( 'src/backend/' ) ||
+			relPath.startsWith( 'src/frontend/Bridge/' ) ||
+			relPath.startsWith( 'src/frontend/patterns/' ) ||
+			relPath.startsWith( 'src/frontend/templates/' ) ||
+			/^src\/frontend\/apps\/[^/]+\/templates\//.test( relPath ) ||
+			/^src\/[^/]+\.php$/.test( relPath ) ||
+			relPath.startsWith( 'build/' ) ||
+			relPath.startsWith( 'vendor/' )
+		) {
+			return true;
+		}
+		return false;
+	}
+
+	const unapprovedEntries = filenames
+		.filter( ( f ) => f.startsWith( prefix ) )
+		.map( ( f ) => f.slice( prefix.length ) )
+		.filter( ( rel ) => ! isApprovedRuntimePath( rel, meta.mainPhpFile ) );
+
+	checks.push( {
+		name: 'All package entries conform to production allowlist',
+		pass: unapprovedEntries.length === 0,
+		detail:
+			unapprovedEntries.length === 0
+				? 'All entries match approved production paths'
+				: `Found unapproved production entries: ${ unapprovedEntries
+						.slice( 0, 5 )
 						.join( ', ' ) }`,
 	} );
 

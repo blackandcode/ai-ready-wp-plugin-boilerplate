@@ -14,7 +14,8 @@ The GitHub Actions system is divided into reusable and trigger workflows:
 |:---|:---|:---|:---|
 | `.github/workflows/_release-readiness.yml` | `Release Readiness` | `workflow_call` | Shared, reusable definition of "release ready". Runs linters, multi-PHP tests, asset compilation, `.distignore` packaging, contract validation, and official WordPress Plugin Check. |
 | `.github/workflows/ci.yml` | `CI/CD — Release Readiness` | `push` / `pull_request` on `main` | Continuous integration pipeline invoking `_release-readiness.yml`. Retains candidate ZIP for 7 days. |
-| `.github/workflows/release.yml` | `Release Plugin` | `workflow_dispatch` (manual) | Audited release pipeline on `main`. Verifies version consistency, invokes `_release-readiness.yml`, attests Sigstore provenance, and publishes immutable GitHub Release. |
+| `.github/workflows/plugin-release.yml` | `Plugin Production Release` | `workflow_dispatch` (manual) | Audited release pipeline on `main`. Verifies version consistency, supports dry-run testing, invokes `_release-readiness.yml`, attests Sigstore provenance, and publishes immutable GitHub Release. |
+| `.github/workflows/boilerplate-release.yml` | `Boilerplate Template Release` | `workflow_dispatch` (manual) | Assembles full starter template package (excluding `node_modules` and `.git`), executes standalone PHP smoke test, attests provenance, and publishes release with `boilerplate-v<version>` tag. |
 | `.github/dependabot.yml` | Dependabot | Scheduled (weekly) | Maintains `github-actions` (with version tags), `npm`, and `composer` dependencies. |
 
 ---

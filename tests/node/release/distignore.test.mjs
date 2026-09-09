@@ -108,3 +108,54 @@ test( 'isPathIgnored correctly flags ignored and non-ignored project files', () 
 	assert.equal( isPathIgnored( 'readme.txt', false, rules ), false );
 	assert.equal( isPathIgnored( 'uninstall.php', false, rules ), false );
 } );
+
+test( 'isPathIgnored correctly flags development subsystem and config files with production rules', async () => {
+	const rules = await loadDistignore( process.cwd() );
+
+	// Development subsystem & uncompiled frontend files must be ignored
+	assert.equal(
+		isPathIgnored( 'src/development/Cli/OpenApiCliCommand.php', false, rules ),
+		true
+	);
+	assert.equal(
+		isPathIgnored( 'src/frontend/apps/settings/react/App.tsx', false, rules ),
+		true
+	);
+	assert.equal(
+		isPathIgnored( 'src/frontend/shared/index.ts', false, rules ),
+		true
+	);
+	assert.equal(
+		isPathIgnored( 'build/admin/developer/index.js', false, rules ),
+		true
+	);
+
+	// Root dev configs must be ignored
+	assert.equal( isPathIgnored( 'blueprint.json', false, rules ), true );
+	assert.equal( isPathIgnored( 'redocly.yaml', false, rules ), true );
+	assert.equal( isPathIgnored( 'wp-cli.yml', false, rules ), true );
+	assert.equal( isPathIgnored( 'README.md', false, rules ), true );
+	assert.equal( isPathIgnored( 'vendor/bin/phpunit', false, rules ), true );
+	assert.equal(
+		isPathIgnored( 'build/admin/settings/index.js.map', false, rules ),
+		true
+	);
+
+	// Runtime files must NOT be ignored
+	assert.equal(
+		isPathIgnored( 'ai-ready-wp-plugin-boilerplate.php', false, rules ),
+		false
+	);
+	assert.equal(
+		isPathIgnored( 'src/framework/Kernel/Plugin.php', false, rules ),
+		false
+	);
+	assert.equal(
+		isPathIgnored( 'build/admin/settings/index.js', false, rules ),
+		false
+	);
+	assert.equal(
+		isPathIgnored( 'build/blocks-manifest.php', false, rules ),
+		false
+	);
+} );

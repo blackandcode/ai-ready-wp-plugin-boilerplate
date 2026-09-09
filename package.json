@@ -1,6 +1,6 @@
 {
   "name": "ai-ready-wp-plugin-boilerplate",
-  "version": "1.2.0",
+  "version": "1.3.2",
   "description": "Enterprise-grade WordPress plugin boilerplate designed for AI coding agents and human developers.",
   "license": "MIT",
   "private": true,
@@ -68,6 +68,8 @@
     "release:inspect": "node tools/release/validate-package.mjs",
     "release:check": "node tools/release/validate-release.mjs",
     "release:notes": "node tools/release/extract-release-notes.mjs",
+    "boilerplate:build": "node tools/release/build-boilerplate-package.mjs",
+    "boilerplate:validate": "node tools/release/validate-boilerplate-package.mjs",
     "ci": "npm run lint && npm run test",
     "adr:new": "node .cursor/skills/wp-architecture-decision-records/scripts/new-adr.mjs",
     "adr:validate": "node .cursor/skills/wp-architecture-decision-records/scripts/validate-adr.mjs",

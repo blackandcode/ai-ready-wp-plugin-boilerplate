@@ -12,6 +12,14 @@
 /.wp-env
 /dist
 
+# Development Subsystem & Source
+/src/development
+/src/frontend/**/*.ts
+/src/frontend/**/*.tsx
+/src/frontend/apps/*/react
+/src/frontend/shared
+/build/admin/developer
+
 # Configuration & dotfiles
 /.editorconfig
 /.env
@@ -19,6 +27,9 @@
 /.gitignore
 /.markdownlint-cli2.jsonc
 /.wp-env.json
+/blueprint.json
+/redocly.yaml
+/wp-cli.yml
 
 # Toolchain configurations
 /jest.config.js
@@ -39,12 +50,15 @@
 /AGENTS.md
 /MANIFEST.md
 /CHANGELOG.md
+/README.md
 
-# Packaging
+# Packaging & development vendor artifacts
 .distignore
+/vendor/bin
 *.zip
 *.tar.gz
 *.tgz
 *.log
+*.map
 .DS_Store
 Thumbs.db

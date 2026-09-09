@@ -45,7 +45,7 @@ class DiagnosticsService {
 			(string) ( $metrics['environment_type'] ?? 'local' ),
 			(string) ( $metrics['db_status'] ?? 'connected' ),
 			(string) ( $metrics['rest_status'] ?? 'available' ),
-			(string) ( $metrics['plugin_version'] ?? '1.2.0' )
+			(string) ( $metrics['plugin_version'] ?? '1.3.2' )
 		);
 	}
 }

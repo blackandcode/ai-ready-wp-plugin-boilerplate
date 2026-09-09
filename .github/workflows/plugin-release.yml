@@ -1,12 +1,17 @@
-name: Release Plugin
+name: Plugin Production Release
 
 on:
   workflow_dispatch:
     inputs:
       version:
-        description: 'Target version to release (e.g. 1.0.1). Must match package.json and CHANGELOG.md'
+        description: 'Target plugin version to release (e.g. 1.2.0). Must match package.json and CHANGELOG.md'
         required: true
         type: string
+      dry_run:
+        description: 'Perform dry run (build, package, validate, smoke-test, without tagging or publishing GitHub Release)'
+        required: false
+        type: boolean
+        default: false
       prerelease:
         description: 'Mark release as a pre-release'
         required: false
@@ -69,6 +74,7 @@ jobs:
     name: Publish Official GitHub Release
     runs-on: ubuntu-latest
     needs: [validate-preconditions, readiness-gate]
+    if: ${{ !inputs.dry_run }}
     permissions:
       contents: write
       attestations: write
@@ -131,3 +137,28 @@ jobs:
           gh release edit "${TAG_NAME}" --draft=false
 
           echo "Successfully published GitHub Release ${TAG_NAME}!"
+
+  dry-run-summary:
+    name: Dry Run Completion Summary
+    runs-on: ubuntu-latest
+    needs: [validate-preconditions, readiness-gate]
+    if: ${{ inputs.dry_run }}
+    steps:
+      - name: Generate Dry Run Step Summary
+        run: |
+          cat << 'EOF' >> "$GITHUB_STEP_SUMMARY"
+          # 🧪 Plugin Production Release — Dry Run Complete
+
+          | Metric / Target | Value |
+          |:---|:---|
+          | **Plugin Version** | `${{ inputs.version }}` |
+          | **Execution Mode** | `Dry Run` (No tags pushed, No GitHub Release published) |
+          | **Package Slug** | `${{ needs.readiness-gate.outputs.slug }}` |
+          | **Distribution Archive** | `${{ needs.readiness-gate.outputs.zip_name }}` |
+          | **SHA256 Checksum** | `${{ needs.readiness-gate.outputs.sha256 }}` |
+          | **Release Readiness** | `PASSED` |
+
+          > ### ✅ DRY RUN SUCCESSFUL
+          > All pre-flight checks, package contract validation, standalone PHP smoke test, and WordPress Plugin Check passed cleanly.
+          > The plugin archive is verified production-ready.
+          EOF

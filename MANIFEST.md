@@ -32,7 +32,8 @@ This manifest provides a comprehensive directory and file inventory for the **Wo
 | `.github/dependabot.yml` | Dependabot configuration for GitHub Actions, npm, and Composer. | Automation |
 | `.github/workflows/_release-readiness.yml` | Reusable shared workflow defining the canonical release-readiness gate. | CI/CD |
 | `.github/workflows/ci.yml` | Continuous integration workflow running on PRs and pushes to main. | CI/CD |
-| `.github/workflows/release.yml` | Manual release workflow with version validation, provenance attestation, and GitHub Release. | Release |
+| `.github/workflows/plugin-release.yml` | Manual plugin production release workflow with version validation, dry-run support, provenance attestation, and GitHub Release. | Release |
+| `.github/workflows/boilerplate-release.yml` | Manual boilerplate template release workflow with version validation, dry-run support, standalone PHP smoke test, provenance attestation, and GitHub Release. | Release |
 | `AGENTS.md` | Universal agent marching orders and constraints across AI tools. | Agent Guidance |
 | `.cursor/rules/local-quality-gate.mdc` | Always-applied agent rule enforcing local quality gate and autonomous self-healing. | Agent Guidance |
 | `.githooks/pre-commit` | POSIX Git pre-commit hook script delegating to tools/git-hooks/pre-commit.mjs. | Git |
@@ -193,9 +194,11 @@ This manifest provides a comprehensive directory and file inventory for the **Wo
 | `tools/git-hooks/install-hooks.mjs` | Configures Git core.hooksPath to .githooks or uninstalls in-tree hooks. | Toolchain |
 | `tools/git-hooks/pre-commit.mjs` | Cross-platform pre-commit runner executing 6 CI-parity quality checks. | Toolchain |
 | `tools/release/build-package.mjs` | CLI packaging production distribution ZIP respecting .distignore. | Release |
+| `tools/release/build-boilerplate-package.mjs` | Isolated staging builder for boilerplate starter template ZIP archive. | Release |
 | `tools/release/extract-release-notes.mjs` | CLI extracting markdown release notes for a target version from CHANGELOG.md. | Release |
 | `tools/release/lint-actions.mjs` | Static GitHub Actions workflow validator and version-tagging linter. | Quality |
 | `tools/release/validate-package.mjs` | CLI enforcing package content contract against built ZIP archive. | Release |
+| `tools/release/validate-boilerplate-package.mjs` | Contract validator for boilerplate starter template ZIP archive. | Release |
 | `tools/release/validate-release.mjs` | CLI validating version parity, branch, and tag readiness before release. | Release |
 | `tools/release/lib/distignore.mjs` | Parser and glob matcher for .distignore exclusion rules. | Release |
 | `tools/release/lib/zip-utils.mjs` | Zero-dependency pure Node.js PKZIP writer, reader, and extractor. | Release |
@@ -267,6 +270,7 @@ This manifest provides a comprehensive directory and file inventory for the **Wo
 | `tests/node/release/validate-release.test.mjs` | Unit tests for release pre-flight version verification. | Toolchain |
 | `tests/node/release/validate-package.test.mjs` | Unit tests for distribution package contract validator. | Toolchain |
 | `tests/node/release/build-package.test.mjs` | Integration test for end-to-end package generation and verification. | Toolchain |
+| `tests/node/release/boilerplate-package.test.mjs` | Unit and integration tests for boilerplate package builder, contract validator, and exclusion filters. | Toolchain |
 | `tests/node/release/asset-externalization.test.mjs` | Unit and integration tests for asset externalization and .asset.php parsing. | Toolchain |
 | `tests/node/security/audit-security-baseline.test.mjs` | Unit tests for deterministic security static checker. | Toolchain |
 | `tests/bruno/bruno.json` | Bruno REST API collection manifest. | Tier 4 |
@@ -353,4 +357,5 @@ This manifest provides a comprehensive directory and file inventory for the **Wo
 | `docs/devops/local-release-tooling.md` | Local release CLI tooling and parity reference. | DevOps |
 | `docs/adr/README.md` | Architecture Decision Records index and status log. | Architecture |
 | `docs/adr/0013-runtime-architecture-code-quality-and-security-hardening.md` | Architectural record defining runtime context, development decoupling, native blocks, and security. | Architecture |
+| `docs/adr/0014-boilerplate-starter-release-distribution-architecture.md` | Architectural record defining dual-release architecture and boilerplate starter distribution. | Architecture |
 | `docs/implementation-logs/2026-09-09-runtime-architecture-and-security-hardening.md` | Implementation report for runtime architecture and security hardening. | Implementation |

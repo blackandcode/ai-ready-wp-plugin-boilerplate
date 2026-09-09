@@ -92,11 +92,11 @@ Changing version numbers is **never a manual text edit**. The boilerplate provid
 ```bash
 # Automated SemVer bumps:
 npm run update-version:patch    # e.g. 1.0.0 -> 1.0.1 (maintenance fixes & refactoring)
-npm run update-version:minor    # e.g. 1.0.0 -> 1.2.0 (new features & phase completions)
+npm run update-version:minor    # e.g. 1.0.0 -> 1.3.2 (new features & phase completions)
 npm run update-version:major    # e.g. 1.0.0 -> 2.0.0 (breaking changes & major baseline)
 
 # Explicit target version with custom notes & decision rationale:
-npm run update-version -- 1.2.0 -m "Release highlights" -d "Approved v1.2.0 release"
+npm run update-version -- 1.3.2 -m "Release highlights" -d "Approved v1.3.2 release"
 
 # Dry-run preview (inspect planned replacements without writing files):
 npm run update-version:dry-run
@@ -119,7 +119,7 @@ npm run update-version -- patch --dry-run
 ### Human Developer vs AI Agent Workflow
 
 - **Human Developers (Manual Preferred):** Developers work iteratively, stage notes with `npm run changelog:add`, and manually trigger releases when ready.
-- **AI Coding Agents (Prompt-Aware):** Agents inspect the user's initial prompt. If and only if the user explicitly requested a version bump (e.g. "bump version", "release v1.2.0"), the agent executes `npm run update-version`. Otherwise, the agent strictly logs changes under `## [Unreleased]` and leaves release execution to the developer.
+- **AI Coding Agents (Prompt-Aware):** Agents inspect the user's initial prompt. If and only if the user explicitly requested a version bump (e.g. "bump version", "release v1.3.2"), the agent executes `npm run update-version`. Otherwise, the agent strictly logs changes under `## [Unreleased]` and leaves release execution to the developer.
 
 ### What `npm run update-version` Coordinates Atomically
 
@@ -140,7 +140,7 @@ The boilerplate implements a secure, reproducible two-pipeline CI/CD and release
 
 1. **Continuous Delivery Readiness (`.github/workflows/ci.yml`):**
    Runs on every pull request and push to `main`. Executes linters, PHP quality checks across PHP 8.3 and 8.5, compiles assets, builds the production distribution ZIP, validates the package contract, and executes the official WordPress Plugin Check on the built archive.
-2. **Manual Release Dispatch (`.github/workflows/release.yml`):**
+2. **Manual Release Dispatch (`.github/workflows/plugin-release.yml`):**
    Manual-only workflow triggered via `workflow_dispatch` on `main`. Verifies version consistency, re-evaluates the shared release gate, generates Sigstore-backed build provenance attestations, tags `vX.Y.Z`, and creates an immutable GitHub Release.
 3. **The Tested Artifact Is the Released Artifact:**
    The release workflow publishes the exact ZIP verified in CI, eliminating rebuild drift.
@@ -296,7 +296,7 @@ User stories, interaction design, and phased execution plans:
 
 CI/CD automation, supply-chain security, and immutable releases governed by **ADR-0010**:
 
-- [GitHub Actions CI/CD Architecture](devops/github-actions-ci-cd.md): Detailed documentation of `.github/workflows/_release-readiness.yml`, `ci.yml`, `release.yml`, Dependabot SHA-pinning automation, and the multi-PHP testing matrix.
+- [GitHub Actions CI/CD Architecture](devops/github-actions-ci-cd.md): Detailed documentation of `.github/workflows/_release-readiness.yml`, `ci.yml`, `plugin-release.yml`, Dependabot SHA-pinning automation, and the multi-PHP testing matrix.
 - [Releasing & Release Distribution Architecture](devops/releasing-and-distribution.md): Complete release guide covering decoupled versioning, step-by-step releasing procedures, Sigstore provenance attestations, and GitHub branch protection rulesets.
 - [Distribution Package Contract & .distignore](devops/package-contract-and-distignore.md): Specification of the distribution package contract (mandatory production files vs forbidden development leaks) and `.distignore` matching rules.
 - [Local Release Tooling & CLI Parity](devops/local-release-tooling.md): Developer and agent manual for in-tree release CLI commands (`npm run release:build`, `npm run release:validate`, `npm run release:check`, `npm run release:notes`, `npm run lint:actions`).
