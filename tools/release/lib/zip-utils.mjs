@@ -17,8 +17,10 @@ export function toDosDateTime( date = new Date() ) {
 	const minutes = date.getMinutes();
 	const seconds = date.getSeconds();
 
-	const dosTime = ( ( hours << 11 ) | ( minutes << 5 ) | ( seconds >> 1 ) ) & 0xffff;
-	const dosDate = ( ( ( year - 1980 ) << 9 ) | ( month << 5 ) | day ) & 0xffff;
+	const dosTime =
+		( ( hours << 11 ) | ( minutes << 5 ) | ( seconds >> 1 ) ) & 0xffff;
+	const dosDate =
+		( ( ( year - 1980 ) << 9 ) | ( month << 5 ) | day ) & 0xffff;
 
 	return { dosTime, dosDate };
 }
@@ -26,8 +28,8 @@ export function toDosDateTime( date = new Date() ) {
 /**
  * Creates a standard PKZIP archive from a list of entries with zero external dependencies.
  *
- * @param {Array<{ path: string, data: Buffer|string, mtime?: Date }>} entries File entries to pack
- * @param {string} outputPath Target ZIP file path
+ * @param {Array<{ path: string, data: Buffer|string, mtime?: Date }>} entries    File entries to pack
+ * @param {string}                                                     outputPath Target ZIP file path
  * @return {Promise<{ zipPath: string, size: number, sha256: string, totalEntries: number }>} Archive details
  */
 export async function createZip( entries, outputPath ) {
@@ -36,7 +38,9 @@ export async function createZip( entries, outputPath ) {
 	let currentOffset = 0;
 
 	// Sort entries alphabetically for deterministic, reproducible ZIP builds
-	const sortedEntries = [ ...entries ].sort( ( a, b ) => a.path.localeCompare( b.path ) );
+	const sortedEntries = [ ...entries ].sort( ( a, b ) =>
+		a.path.localeCompare( b.path )
+	);
 
 	for ( const entry of sortedEntries ) {
 		const normPath = entry.path.replace( /\\/g, '/' );
@@ -55,7 +59,9 @@ export async function createZip( entries, outputPath ) {
 		const uncompressedSize = rawData.length;
 
 		let method = 8; // Deflate
-		let compressedData = isDir ? Buffer.alloc( 0 ) : deflateRawSync( rawData );
+		let compressedData = isDir
+			? Buffer.alloc( 0 )
+			: deflateRawSync( rawData );
 
 		// If compression didn't save bytes, store uncompressed
 		if ( ! isDir && compressedData.length >= uncompressedSize ) {
@@ -98,7 +104,9 @@ export async function createZip( entries, outputPath ) {
 		cdh.writeUInt16LE( 0, 32 ); // file comment length
 		cdh.writeUInt16LE( 0, 34 ); // disk number start
 		cdh.writeUInt16LE( 0, 36 ); // internal file attributes
-		const externalAttr = isDir ? ( ( 0o040755 << 16 ) >>> 0 ) : ( ( 0o100644 << 16 ) >>> 0 );
+		const externalAttr = isDir
+			? ( 0o040755 << 16 ) >>> 0
+			: ( 0o100644 << 16 ) >>> 0;
 		cdh.writeUInt32LE( externalAttr, 38 ); // external file attributes
 		cdh.writeUInt32LE( currentOffset, 42 ); // relative offset of local header
 		filenameBuf.copy( cdh, 46 );
@@ -150,7 +158,9 @@ export async function listZip( zipPath ) {
 	const eocdIdx = buf.lastIndexOf( eocdSignature );
 
 	if ( eocdIdx === -1 ) {
-		throw new Error( `Invalid ZIP archive: End of Central Directory record not found in ${ zipPath }` );
+		throw new Error(
+			`Invalid ZIP archive: End of Central Directory record not found in ${ zipPath }`
+		);
 	}
 
 	const totalEntries = buf.readUInt16LE( eocdIdx + 10 );
@@ -162,7 +172,9 @@ export async function listZip( zipPath ) {
 	for ( let i = 0; i < totalEntries; i++ ) {
 		const sig = buf.readUInt32LE( pos );
 		if ( sig !== 0x02014b50 ) {
-			throw new Error( `Corrupt Central Directory header at offset ${ pos } in ${ zipPath }` );
+			throw new Error(
+				`Corrupt Central Directory header at offset ${ pos } in ${ zipPath }`
+			);
 		}
 
 		const method = buf.readUInt16LE( pos + 10 );
@@ -196,7 +208,7 @@ export async function listZip( zipPath ) {
 /**
  * Extracts all files from a ZIP archive into a target directory.
  *
- * @param {string} zipPath Path to the ZIP file
+ * @param {string} zipPath   Path to the ZIP file
  * @param {string} targetDir Destination directory
  * @return {Promise<Array<string>>} List of extracted relative file paths
  */
@@ -220,7 +232,10 @@ export async function extractZip( zipPath, targetDir ) {
 		const localExtraLen = buf.readUInt16LE( localOffset + 28 );
 		const dataOffset = localOffset + 30 + localNameLen + localExtraLen;
 
-		const rawData = buf.subarray( dataOffset, dataOffset + entry.compressedSize );
+		const rawData = buf.subarray(
+			dataOffset,
+			dataOffset + entry.compressedSize
+		);
 		let uncompressedData;
 
 		if ( entry.method === 8 ) {
@@ -228,7 +243,9 @@ export async function extractZip( zipPath, targetDir ) {
 		} else if ( entry.method === 0 ) {
 			uncompressedData = rawData;
 		} else {
-			throw new Error( `Unsupported ZIP compression method ${ entry.method } for ${ entry.filename }` );
+			throw new Error(
+				`Unsupported ZIP compression method ${ entry.method } for ${ entry.filename }`
+			);
 		}
 
 		await writeFile( outPath, uncompressedData );

@@ -84,10 +84,18 @@ class SettingsAssets {
 			);
 		}
 
+		$payload = SettingsBootstrapData::get_payload();
+
+		wp_localize_script(
+			$handle,
+			'airwpAdminBootstrap',
+			$payload
+		);
+
 		wp_localize_script(
 			$handle,
 			'airwpSettingsBootstrap',
-			SettingsBootstrapData::get_payload()
+			$payload
 		);
 	}
 }

@@ -39,7 +39,9 @@ export async function getPluginMetadata( root ) {
 	const phpSource = await readFile( join( root, mainPhpFile ), 'utf8' );
 
 	let slug = mainPhpFile.replace( /\.php$/, '' );
-	const textDomainMatch = phpSource.match( /\*\s*Text Domain:\s*([^\r\n]+)/i );
+	const textDomainMatch = phpSource.match(
+		/\*\s*Text Domain:\s*([^\r\n]+)/i
+	);
 	if ( textDomainMatch ) {
 		slug = textDomainMatch[ 1 ].trim();
 	}
@@ -54,8 +56,8 @@ export async function getPluginMetadata( root ) {
 /**
  * Recursively collects eligible files respecting .distignore.
  *
- * @param {string} root Directory to scan
- * @param {Array} distignoreRules Compiled distignore patterns
+ * @param {string} root            Directory to scan
+ * @param {Array}  distignoreRules Compiled distignore patterns
  * @return {Promise<Array<string>>} List of relative file paths
  */
 async function collectFiles( root, distignoreRules ) {
@@ -88,7 +90,11 @@ async function collectFiles( root, distignoreRules ) {
 /**
  * Builds the distribution package ZIP and .sha256 checksum file.
  *
- * @param {object} options Build options
+ * @param {Object} options              Build options
+ * @param          options.root
+ * @param          options.outDir
+ * @param          options.skipBuild
+ * @param          options.skipComposer
  * @return {Promise<{ zipPath: string, sha256Path: string, size: number, sha256: string, totalFiles: number, slug: string, version: string }>} Result
  */
 export async function buildPackage( {
@@ -105,7 +111,9 @@ export async function buildPackage( {
 		try {
 			execSync( 'npm run build', { cwd: root, stdio: 'pipe' } );
 		} catch ( err ) {
-			throw new Error( `Production build failed ("npm run build"): ${ err.message }` );
+			throw new Error(
+				`Production build failed ("npm run build"): ${ err.message }`
+			);
 		}
 	}
 
@@ -115,10 +123,13 @@ export async function buildPackage( {
 		try {
 			execSync( 'composer --version', { stdio: 'ignore' } );
 			// If composer binary is available:
-			execSync( 'composer install --no-dev --prefer-dist --optimize-autoloader', {
-				cwd: root,
-				stdio: 'pipe',
-			} );
+			execSync(
+				'composer install --no-dev --prefer-dist --optimize-autoloader',
+				{
+					cwd: root,
+					stdio: 'pipe',
+				}
+			);
 			composerRestorationNeeded = true;
 		} catch {
 			// Composer CLI not on PATH; proceed with existing vendor autoloader
@@ -133,7 +144,9 @@ export async function buildPackage( {
 		const files = await collectFiles( root, distignoreRules );
 
 		if ( files.length === 0 ) {
-			throw new Error( 'No eligible files found to package. Check .distignore rules.' );
+			throw new Error(
+				'No eligible files found to package. Check .distignore rules.'
+			);
 		}
 
 		// 5. Build ZIP entries prefixed with {slug}/
@@ -158,7 +171,11 @@ export async function buildPackage( {
 		// 7. Write SHA256 checksum file
 		const sha256Filename = `${ zipFilename }.sha256`;
 		const sha256Path = join( targetOutDir, sha256Filename );
-		await writeFile( sha256Path, `${ zipResult.sha256 }  ${ zipFilename }\n`, 'utf8' );
+		await writeFile(
+			sha256Path,
+			`${ zipResult.sha256 }  ${ zipFilename }\n`,
+			'utf8'
+		);
 
 		return {
 			zipPath,
@@ -182,7 +199,11 @@ export async function buildPackage( {
 }
 
 // CLI execution
-if ( process.argv[ 1 ] && resolve( process.argv[ 1 ] ) === resolve( new URL( import.meta.url ).pathname ) ) {
+if (
+	process.argv[ 1 ] &&
+	resolve( process.argv[ 1 ] ) ===
+		resolve( new URL( import.meta.url ).pathname )
+) {
 	const { values } = parseArgs( {
 		options: {
 			root: { type: 'string', default: process.cwd() },
@@ -219,7 +240,9 @@ if ( process.argv[ 1 ] && resolve( process.argv[ 1 ] ) === resolve( new URL( imp
 			console.log( `   Checksum:   ${ result.sha256Path }` );
 			console.log( `   SHA256:     ${ result.sha256 }` );
 			console.log( `   Size:       ${ sizeKb } KB (${ sizeMb } MB)` );
-			console.log( `   Files:      ${ result.totalFiles } entries in "${ result.slug }/"\n` );
+			console.log(
+				`   Files:      ${ result.totalFiles } entries in "${ result.slug }/"\n`
+			);
 		}
 	} catch ( error ) {
 		console.error( `Error: ${ error.message }` );

@@ -23,6 +23,19 @@ if ( existsSync( envPath ) ) {
 
 const baseURL = process.env.WP_BASE_URL ?? 'http://localhost:8888';
 
+if (
+	! process.env.PLAYWRIGHT_BROWSERS_PATH ||
+	! existsSync( process.env.PLAYWRIGHT_BROWSERS_PATH )
+) {
+	const defaultCache = resolve(
+		process.env.HOME || '',
+		'.cache/ms-playwright'
+	);
+	if ( existsSync( defaultCache ) ) {
+		process.env.PLAYWRIGHT_BROWSERS_PATH = defaultCache;
+	}
+}
+
 export default defineConfig( {
 	testDir: './tests/e2e/playwright',
 	testMatch: [ '**/*.spec.ts' ],
@@ -47,7 +60,10 @@ export default defineConfig( {
 					'html',
 					{ open: 'never', outputFolder: 'tests/playwright-report' },
 				],
-				[ 'junit', { outputFile: 'tests/test-results/playwright/e2e.xml' } ],
+				[
+					'junit',
+					{ outputFile: 'tests/test-results/playwright/e2e.xml' },
+				],
 		  ]
 		: [
 				[ 'list' ],

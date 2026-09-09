@@ -6,6 +6,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Resolved GitHub Actions release readiness workflow failures: Migrated external GitHub Actions in `.github/workflows/_release-readiness.yml` and `release.yml` from commit hashes to semantic version tags (`actions/checkout@v4`, `actions/setup-node@v4`, `actions/upload-artifact@v4`, `actions/download-artifact@v4`, `shivammathur/setup-php@v2`, `actions/attest-build-provenance@v2`, and `wordpress/plugin-check-action@v1`).
+- Updated `tools/release/lint-actions.mjs` to validate semantic version tags instead of 40-character commit SHAs.
+- Configured ignore rules in `.github/dependabot.yml` for incompatible major ecosystem packages (`react@19`, `react-dom@19`, `typescript@7`, `@wordpress/components@40`, and `@wordpress/block-editor@17`).
+- Resolved Settings API Reference tab invisibility in WordPress Admin: Aligned localized window property names between `SettingsAssets.php` (`airwpAdminBootstrap` and `airwpSettingsBootstrap`) and `index.tsx`, ensuring bootstrap metadata and development status hydrate cleanly into the React container.
+- Resolved direct browser inspection of `/ai-ready-wp-dev/v1/openapi`: Updated `DevOpenApiController::permissions_check()` to validate authenticated WordPress administrator cookie sessions (`wp_validate_auth_cookie`) when accessing directly in browser address bars without a REST nonce.
+- Added relative path resolution in `ApiReferenceSection`: Supported `path: '/ai-ready-wp-dev/v1/openapi'` alongside `endpoint` URL to leverage WordPress `wp-api-fetch` core middlewares and prevent cross-origin/port issues in local and proxied development environments.
+
+### Added
+
+- Bruno REST automated test suite for OpenAPI live endpoint: Added `tests/bruno/05 Developer/get-dev-openapi.bru` (verifying 200 OK, valid OpenAPI 3.1 structure, routes) and `tests/bruno/05 Developer/dev-openapi-unauthenticated.bru` (verifying 403 Forbidden).
+- Playwright E2E test coverage for API Reference UI & REST verification: Enhanced `tests/e2e/playwright/tests/settings.spec.ts` and `SettingsPage.ts` with test assertions for the API Reference sidebar tab, developer guidance banner, Scalar contract viewer, and direct REST API session requests.
+
 ## [1.1.0] - 2026-09-09
 
 ### Added

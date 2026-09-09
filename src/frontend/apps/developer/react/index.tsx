@@ -1,8 +1,14 @@
+/**
+ * Developer Application Standalone Entrypoint.
+ *
+ * @package
+ */
+
 import { createRoot } from '@wordpress/element';
-import { App } from './App';
+import { DeveloperApp } from './App';
 
 document.addEventListener( 'DOMContentLoaded', () => {
-	const container = document.getElementById( 'airwp-settings-root' );
+	const container = document.getElementById( 'airwp-developer-root' );
 	if ( ! container ) {
 		return;
 	}
@@ -14,6 +20,7 @@ document.addEventListener( 'DOMContentLoaded', () => {
 				airwpSettingsBootstrap?: typeof window.airwpAdminBootstrap;
 			}
 		 )?.airwpSettingsBootstrap;
+
 	const root = createRoot( container );
-	root.render( <App bootstrap={ bootstrap } /> );
+	root.render( <DeveloperApp bootstrap={ bootstrap } /> );
 } );

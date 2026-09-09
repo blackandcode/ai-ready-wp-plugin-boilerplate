@@ -34,7 +34,9 @@ const args = [
 ];
 
 if ( isHtml ) {
-	mkdirSync( resolve( process.cwd(), 'tests/bruno/reports' ), { recursive: true } );
+	mkdirSync( resolve( process.cwd(), 'tests/bruno/reports' ), {
+		recursive: true,
+	} );
 	args.push( '--reporter-html', 'reports/test-results.html' );
 }
 

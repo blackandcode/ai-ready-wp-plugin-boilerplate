@@ -4,6 +4,8 @@
  * @package
  */
 
+import type { ComponentType } from 'react';
+
 export interface GeneralSettings {
 	greeting_message: string;
 	enable_feature: boolean;
@@ -39,6 +41,7 @@ export interface SystemDiagnosticsData {
 export interface DevelopmentToolsData {
 	pluginMode: boolean;
 	openApiEndpoint?: string;
+	openApiPath?: string;
 }
 
 export interface AirwpBootstrapData {
@@ -57,8 +60,19 @@ export interface AirwpBootstrapData {
 	development?: DevelopmentToolsData;
 }
 
+export interface SettingsAppExtension {
+	id: string;
+	label: string;
+	icon: any;
+	subtitle: string;
+	component: ComponentType< { bootstrap?: AirwpBootstrapData } >;
+	hasFooter?: boolean;
+	isVisible?: ( bootstrap?: AirwpBootstrapData ) => boolean;
+}
+
 declare global {
 	interface Window {
 		airwpAdminBootstrap?: AirwpBootstrapData;
+		airwpSettingsBootstrap?: AirwpBootstrapData;
 	}
 }

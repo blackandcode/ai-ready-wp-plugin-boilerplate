@@ -20,13 +20,33 @@ if ( ! defined( 'ABSPATH' ) ) {
 class SettingsBootstrapData {
 
 	/**
+	 * Determine whether plugin development mode is active.
+	 *
+	 * @return bool
+	 */
+	public static function is_plugin_dev_mode(): bool {
+		if ( function_exists( 'wp_is_development_mode' ) && wp_is_development_mode( 'plugin' ) ) {
+			return true;
+		}
+
+		if ( function_exists( 'wp_get_development_mode' ) ) {
+			$mode = wp_get_development_mode();
+			if ( 'all' === $mode || 'plugin' === $mode ) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	/**
 	 * Build payload array.
 	 *
 	 * @return array<string, mixed>
 	 */
 	public static function get_payload(): array {
 		$repository  = new WordPressSettingsRepository();
-		$plugin_mode = function_exists( 'wp_is_development_mode' ) && wp_is_development_mode( 'plugin' );
+		$plugin_mode = self::is_plugin_dev_mode();
 
 		$development = array(
 			'pluginMode' => $plugin_mode,
@@ -34,6 +54,7 @@ class SettingsBootstrapData {
 
 		if ( $plugin_mode ) {
 			$development['openApiEndpoint'] = esc_url_raw( rest_url( 'ai-ready-wp-dev/v1/openapi' ) );
+			$development['openApiPath']     = '/ai-ready-wp-dev/v1/openapi';
 		}
 
 		return array(

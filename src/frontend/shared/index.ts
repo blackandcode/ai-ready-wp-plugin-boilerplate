@@ -17,6 +17,7 @@ export {
 // UI Components
 export { CardLayout } from './components/CardLayout';
 export { SectionHeader } from './components/SectionHeader';
+export { StatusBadge, type StatusBadgeProps } from './components/StatusBadge';
 export {
 	NoticeBanner,
 	type NoticeBannerProps,
@@ -48,4 +49,5 @@ export type {
 	PluginSettings,
 	SystemDiagnosticsData,
 	AirwpBootstrapData,
+	SettingsAppExtension,
 } from './types';

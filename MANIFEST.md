@@ -170,7 +170,7 @@ This manifest provides a comprehensive directory and file inventory for the **Wo
 | `tools/environment/environment-checker.mjs` | Core environment verification and OS remediation engine. | Toolchain |
 | `tools/release/build-package.mjs` | CLI packaging production distribution ZIP respecting .distignore. | Release |
 | `tools/release/extract-release-notes.mjs` | CLI extracting markdown release notes for a target version from CHANGELOG.md. | Release |
-| `tools/release/lint-actions.mjs` | Static GitHub Actions workflow validator and SHA-pinning linter. | Quality |
+| `tools/release/lint-actions.mjs` | Static GitHub Actions workflow validator and version-tagging linter. | Quality |
 | `tools/release/validate-package.mjs` | CLI enforcing package content contract against built ZIP archive. | Release |
 | `tools/release/validate-release.mjs` | CLI validating version parity, branch, and tag readiness before release. | Release |
 | `tools/release/lib/distignore.mjs` | Parser and glob matcher for .distignore exclusion rules. | Release |
@@ -242,6 +242,8 @@ This manifest provides a comprehensive directory and file inventory for the **Wo
 | `tests/bruno/03 Settings/update-settings.bru` | Verification of authenticated `/ai-ready-wp/v1/settings` POST. | Tier 4 |
 | `tests/bruno/03 Settings/invalid-settings.bru` | Verification of 400 Bad Request on invalid settings payloads. | Tier 4 |
 | `tests/bruno/04 Diagnostics/get-diagnostics.bru` | Verification of authenticated `/ai-ready-wp/v1/diagnostics` GET endpoint. | Tier 4 |
+| `tests/bruno/05 Developer/get-dev-openapi.bru` | Verification of authenticated `/ai-ready-wp-dev/v1/openapi` live spec discovery contract. | Tier 4 |
+| `tests/bruno/05 Developer/dev-openapi-unauthenticated.bru` | Verification of 403 Forbidden on unauthenticated access to development OpenAPI route. | Tier 4 |
 | `tests/e2e/playwright/setup/auth.setup.ts` | Playwright global authentication fixture logging in admin user. | Tier 5 |
 | `tests/e2e/playwright/pages/SettingsPage.ts` | Page Object Model encapsulating selectors and interactions for Settings screen. | Tier 5 |
 | `tests/e2e/playwright/tests/settings.spec.ts` | End-to-end tests for settings rendering, tab navigation, and visual regression snapshot. | Tier 5 |

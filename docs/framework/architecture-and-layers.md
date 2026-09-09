@@ -22,7 +22,7 @@ ai-ready-wp-plugin-boilerplate/
 │   │   ├── _release-readiness.yml           # Reusable release-readiness verification gate
 │   │   ├── ci.yml                           # PR and push CI pipeline
 │   │   └── release.yml                      # Manual release dispatch with Sigstore provenance
-│   └── dependabot.yml                       # Dependency automation with commit-SHA pinning
+│   └── dependabot.yml                       # Dependency automation with version-tagged actions
 ├── build/                                   # Compiled Webpack output (admin/settings, blocks/hello-world)
 ├── docs/                                    # Documentation Hub
 │   ├── framework/                           # Framework kernel, charter, architecture, DI, lifecycle, bridge

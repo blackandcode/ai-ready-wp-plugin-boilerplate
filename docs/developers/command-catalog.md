@@ -69,7 +69,7 @@ npm run lint:css
 # Lint markdown documentation
 npm run lint:md
 
-# Lint GitHub Actions workflows for SHA pinning and permissions
+# Lint GitHub Actions workflows for version tagging and permissions
 npm run lint:actions
 
 # PHP Coding Standards (WordPress-Core, Extra, Docs)

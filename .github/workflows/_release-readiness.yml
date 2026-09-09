@@ -41,12 +41,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        uses: actions/checkout@v4
         with:
           ref: ${{ inputs.ref }}
 
       - name: Setup Node.js
-        uses: actions/setup-node@1d0ff469b7ec7b3cb9d8673fde0c81c44821de2a # v4.2.0
+        uses: actions/setup-node@v4
         with:
           node-version: 24
           cache: 'npm'
@@ -72,12 +72,12 @@ jobs:
         php: ['8.3', '8.5']
     steps:
       - name: Checkout repository
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        uses: actions/checkout@v4
         with:
           ref: ${{ inputs.ref }}
 
       - name: Setup PHP
-        uses: shivammathur/setup-php@f3e473d116dcccaddc5834248c87452386958240 # 2.37.2
+        uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php }}
           coverage: none
@@ -106,18 +106,18 @@ jobs:
       sha256: ${{ steps.build.outputs.sha256 }}
     steps:
       - name: Checkout repository
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        uses: actions/checkout@v4
         with:
           ref: ${{ inputs.ref }}
 
       - name: Setup Node.js
-        uses: actions/setup-node@1d0ff469b7ec7b3cb9d8673fde0c81c44821de2a # v4.2.0
+        uses: actions/setup-node@v4
         with:
           node-version: 24
           cache: 'npm'
 
       - name: Setup PHP
-        uses: shivammathur/setup-php@f3e473d116dcccaddc5834248c87452386958240 # 2.37.2
+        uses: shivammathur/setup-php@v2
         with:
           php-version: '8.3'
           coverage: none
@@ -156,7 +156,7 @@ jobs:
 
       - name: Upload candidate distribution package
         if: ${{ inputs.upload_artifact }}
-        uses: actions/upload-artifact@4cec3d8aa04e39d1a68397de0c4cd6fb99baeddf # v4.6.1
+        uses: actions/upload-artifact@v4
         with:
           name: ${{ steps.build.outputs.zip_name }}
           path: |
@@ -165,7 +165,7 @@ jobs:
           retention-days: ${{ inputs.retention_days }}
 
       - name: Upload extracted package for Plugin Check
-        uses: actions/upload-artifact@4cec3d8aa04e39d1a68397de0c4cd6fb99baeddf # v4.6.1
+        uses: actions/upload-artifact@v4
         with:
           name: extracted-plugin-package
           path: dist-extracted/
@@ -177,13 +177,13 @@ jobs:
     needs: [package]
     steps:
       - name: Download extracted distribution package
-        uses: actions/download-artifact@cc203385981b70ca67e1cc392babf9cc229d5806 # v4.1.9
+        uses: actions/download-artifact@v4
         with:
           name: extracted-plugin-package
           path: dist-extracted/
 
       - name: Run official WordPress Plugin Check
-        uses: wordpress/plugin-check-action@2f0853fe5ef58cb026210b427b3fa9bb1852c5aa # v1.4.1
+        uses: wordpress/plugin-check-action@v1
         with:
           build-dir: "./dist-extracted/${{ needs.package.outputs.slug }}"
 

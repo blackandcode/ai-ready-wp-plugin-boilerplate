@@ -1,6 +1,6 @@
 version: 2
 updates:
-  # Maintain GitHub Actions dependencies with SHA-pinning support
+  # Maintain GitHub Actions dependencies with semantic version tags
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
@@ -18,6 +18,17 @@ updates:
       prefix: "deps"
       include: "scope"
     open-pull-requests-limit: 10
+    ignore:
+      - dependency-name: "react"
+        versions: ["19.x", ">= 19"]
+      - dependency-name: "react-dom"
+        versions: ["19.x", ">= 19"]
+      - dependency-name: "typescript"
+        versions: ["7.x", ">= 7"]
+      - dependency-name: "@wordpress/components"
+        versions: ["40.x", ">= 40"]
+      - dependency-name: "@wordpress/block-editor"
+        versions: ["17.x", ">= 17"]
 
   # Maintain Composer PHP runtime and dev dependencies
   - package-ecosystem: "composer"

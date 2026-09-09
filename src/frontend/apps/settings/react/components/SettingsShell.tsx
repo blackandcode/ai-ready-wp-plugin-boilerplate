@@ -1,3 +1,12 @@
+/**
+ * Settings Application Presentation Shell.
+ *
+ * Implements the card-based settings layout with left sidebar navigation,
+ * rendering core tabs and dynamic embedded application extensions.
+ *
+ * @package
+ */
+
 import { useState } from '@wordpress/element';
 import {
 	Card,
@@ -7,21 +16,21 @@ import {
 	Button,
 	Icon,
 } from '@wordpress/components';
-import { cog, shield, info, code } from '@wordpress/icons';
+import { cog, shield } from '@wordpress/icons';
 import { __ } from '@wordpress/i18n';
 import { GeneralSection } from './GeneralSection';
 import { AdvancedSection } from './AdvancedSection';
-import { DiagnosticsSection } from './DiagnosticsSection';
-import { ApiReferenceSection } from './ApiReferenceSection';
-import type { PluginSettings, AirwpBootstrapData } from '../types';
+import { developerAppExtension } from '../../../developer';
+import type {
+	PluginSettings,
+	AirwpBootstrapData,
+	SettingsAppExtension,
+} from '../types';
 
-export type SettingsTab =
-	| 'general'
-	| 'advanced'
-	| 'diagnostics'
-	| 'api-reference';
+export type CoreSettingsTab = 'general' | 'advanced';
+export type SettingsTab = CoreSettingsTab | string;
 
-interface SettingsShellProps {
+export interface SettingsShellProps {
 	settings: PluginSettings;
 	bootstrap?: AirwpBootstrapData;
 	isDirty: boolean;
@@ -29,6 +38,7 @@ interface SettingsShellProps {
 	onUpdate: ( updated: PluginSettings ) => void;
 	onSave: () => void;
 	onReset: () => void;
+	extensions?: SettingsAppExtension[];
 }
 
 interface TabDefinition {
@@ -57,26 +67,9 @@ const BASE_TABS: TabDefinition[] = [
 			'ai-ready-wp-plugin-boilerplate'
 		),
 	},
-	{
-		id: 'diagnostics',
-		label: __( 'System Diagnostics', 'ai-ready-wp-plugin-boilerplate' ),
-		icon: info,
-		subtitle: __(
-			'Host environment, PHP runtime, WordPress core, and REST verification.',
-			'ai-ready-wp-plugin-boilerplate'
-		),
-	},
 ];
 
-const API_REFERENCE_TAB: TabDefinition = {
-	id: 'api-reference',
-	label: __( 'API Reference', 'ai-ready-wp-plugin-boilerplate' ),
-	icon: code,
-	subtitle: __(
-		'Interactive OpenAPI 3.1 documentation generated from registered plugin routes.',
-		'ai-ready-wp-plugin-boilerplate'
-	),
-};
+const DEFAULT_EXTENSIONS: SettingsAppExtension[] = [ developerAppExtension ];
 
 export function SettingsShell( {
 	settings,
@@ -86,20 +79,35 @@ export function SettingsShell( {
 	onUpdate,
 	onSave,
 	onReset,
+	extensions = DEFAULT_EXTENSIONS,
 }: SettingsShellProps ) {
 	const [ activeTab, setActiveTab ] = useState< SettingsTab >( 'general' );
 
-	const showApiReference = Boolean(
-		bootstrap?.development?.pluginMode &&
-			bootstrap?.development?.openApiEndpoint
-	);
+	const activeExtensions = extensions.filter( ( ext ) => {
+		if ( typeof ext.isVisible === 'function' ) {
+			return ext.isVisible( bootstrap );
+		}
+		return true;
+	} );
 
-	const visibleTabs = showApiReference
-		? [ ...BASE_TABS, API_REFERENCE_TAB ]
-		: BASE_TABS;
+	const extensionTabs: TabDefinition[] = activeExtensions.map( ( ext ) => ( {
+		id: ext.id,
+		label: ext.label,
+		icon: ext.icon,
+		subtitle: ext.subtitle,
+	} ) );
+
+	const visibleTabs: TabDefinition[] = [ ...BASE_TABS, ...extensionTabs ];
 
 	const currentTabMeta =
 		visibleTabs.find( ( t ) => t.id === activeTab ) || visibleTabs[ 0 ];
+
+	const currentExtension = activeExtensions.find(
+		( ext ) => ext.id === activeTab
+	);
+
+	const showFooter =
+		! currentExtension || currentExtension.hasFooter === true;
 
 	return (
 		<div className="airwp-settings-layout">
@@ -169,66 +177,55 @@ export function SettingsShell( {
 							/>
 						) }
 
-						{ activeTab === 'diagnostics' && (
-							<DiagnosticsSection
-								environment={ bootstrap?.environment }
-								version={ bootstrap?.version }
-							/>
-						) }
-
-						{ activeTab === 'api-reference' && (
-							<ApiReferenceSection
-								endpoint={
-									bootstrap?.development?.openApiEndpoint
-								}
-								nonce={ bootstrap?.nonce }
+						{ currentExtension && (
+							<currentExtension.component
+								bootstrap={ bootstrap }
 							/>
 						) }
 					</CardBody>
 
-					{ activeTab !== 'diagnostics' &&
-						activeTab !== 'api-reference' && (
-							<CardFooter className="airwp-card-footer">
-								<div
-									className={ `airwp-save-status ${
-										isDirty ? 'is-dirty' : ''
-									}` }
+					{ showFooter && (
+						<CardFooter className="airwp-card-footer">
+							<div
+								className={ `airwp-save-status ${
+									isDirty ? 'is-dirty' : ''
+								}` }
+							>
+								{ isDirty
+									? __(
+											'You have unsaved changes',
+											'ai-ready-wp-plugin-boilerplate'
+									  )
+									: __(
+											'All changes saved',
+											'ai-ready-wp-plugin-boilerplate'
+									  ) }
+							</div>
+							<div style={ { display: 'flex', gap: '8px' } }>
+								<Button
+									variant="tertiary"
+									disabled={ ! isDirty || isSaving }
+									onClick={ onReset }
 								>
-									{ isDirty
-										? __(
-												'You have unsaved changes',
-												'ai-ready-wp-plugin-boilerplate'
-										  )
-										: __(
-												'All changes saved',
-												'ai-ready-wp-plugin-boilerplate'
-										  ) }
-								</div>
-								<div style={ { display: 'flex', gap: '8px' } }>
-									<Button
-										variant="tertiary"
-										disabled={ ! isDirty || isSaving }
-										onClick={ onReset }
-									>
-										{ __(
-											'Reset',
-											'ai-ready-wp-plugin-boilerplate'
-										) }
-									</Button>
-									<Button
-										variant="primary"
-										isBusy={ isSaving }
-										disabled={ ! isDirty || isSaving }
-										onClick={ onSave }
-									>
-										{ __(
-											'Save Settings',
-											'ai-ready-wp-plugin-boilerplate'
-										) }
-									</Button>
-								</div>
-							</CardFooter>
-						) }
+									{ __(
+										'Reset',
+										'ai-ready-wp-plugin-boilerplate'
+									) }
+								</Button>
+								<Button
+									variant="primary"
+									isBusy={ isSaving }
+									disabled={ ! isDirty || isSaving }
+									onClick={ onSave }
+								>
+									{ __(
+										'Save Settings',
+										'ai-ready-wp-plugin-boilerplate'
+									) }
+								</Button>
+							</div>
+						</CardFooter>
+					) }
 				</Card>
 			</main>
 		</div>

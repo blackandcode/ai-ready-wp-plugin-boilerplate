@@ -26,22 +26,29 @@ Options:
  * Extracts release notes for a target version from changelog content.
  *
  * @param {string} changelogSource Raw CHANGELOG.md content
- * @param {string} targetVersion Semantic version string (e.g. "1.1.0")
+ * @param {string} targetVersion   Semantic version string (e.g. "1.1.0")
  * @return {{ version: string, date: string, notes: string }} Extracted notes
  */
 export function extractReleaseNotes( changelogSource, targetVersion ) {
 	if ( ! targetVersion ) {
-		throw new Error( 'Target version is required to extract release notes.' );
+		throw new Error(
+			'Target version is required to extract release notes.'
+		);
 	}
 
 	const versionPattern = new RegExp(
-		`##\\s*\\[${ targetVersion.replace( /[.*+?^${}()|[\\]\\]/g, '\\$&' ) }\\](?:\\s*-\\s*([0-9]{4}-[0-9]{2}-[0-9]{2}))?`,
+		`##\\s*\\[${ targetVersion.replace(
+			/[.*+?^${}()|[\\]\\]/g,
+			'\\$&'
+		) }\\](?:\\s*-\\s*([0-9]{4}-[0-9]{2}-[0-9]{2}))?`,
 		'm'
 	);
 
 	const match = versionPattern.exec( changelogSource );
 	if ( ! match ) {
-		throw new Error( `Version [${ targetVersion }] not found in CHANGELOG.md.` );
+		throw new Error(
+			`Version [${ targetVersion }] not found in CHANGELOG.md.`
+		);
 	}
 
 	const date = match[ 1 ] || '';
@@ -50,12 +57,16 @@ export function extractReleaseNotes( changelogSource, targetVersion ) {
 
 	// Stop at next version heading "## ["
 	const nextReleaseMatch = remainder.match( /\n##\s*\[/ );
-	const endIndex = nextReleaseMatch ? startIndex + nextReleaseMatch.index : changelogSource.length;
+	const endIndex = nextReleaseMatch
+		? startIndex + nextReleaseMatch.index
+		: changelogSource.length;
 
 	const notes = changelogSource.slice( startIndex, endIndex ).trim();
 
 	if ( ! notes ) {
-		throw new Error( `Release entry for [${ targetVersion }] is empty in CHANGELOG.md.` );
+		throw new Error(
+			`Release entry for [${ targetVersion }] is empty in CHANGELOG.md.`
+		);
 	}
 
 	return {
@@ -66,7 +77,11 @@ export function extractReleaseNotes( changelogSource, targetVersion ) {
 }
 
 // CLI execution
-if ( process.argv[ 1 ] && resolve( process.argv[ 1 ] ) === resolve( new URL( import.meta.url ).pathname ) ) {
+if (
+	process.argv[ 1 ] &&
+	resolve( process.argv[ 1 ] ) ===
+		resolve( new URL( import.meta.url ).pathname )
+) {
 	const { values, positionals } = parseArgs( {
 		options: {
 			version: { type: 'string', short: 'v' },
@@ -87,7 +102,9 @@ if ( process.argv[ 1 ] && resolve( process.argv[ 1 ] ) === resolve( new URL( imp
 	const version = values.version || positionals[ 0 ];
 
 	if ( ! version ) {
-		console.error( 'Error: Target version is required. Provide as positional argument or --version <X.Y.Z>.' );
+		console.error(
+			'Error: Target version is required. Provide as positional argument or --version <X.Y.Z>.'
+		);
 		console.error( 'Run with --help for usage details.' );
 		process.exit( 1 );
 	}
@@ -100,7 +117,9 @@ if ( process.argv[ 1 ] && resolve( process.argv[ 1 ] ) === resolve( new URL( imp
 		if ( values.output ) {
 			const outputPath = resolve( process.cwd(), values.output );
 			await writeFile( outputPath, result.notes + '\n', 'utf8' );
-			console.log( `Release notes for v${ result.version } written to ${ values.output }` );
+			console.log(
+				`Release notes for v${ result.version } written to ${ values.output }`
+			);
 		} else if ( values.json ) {
 			console.log( JSON.stringify( result, null, 2 ) );
 		} else {

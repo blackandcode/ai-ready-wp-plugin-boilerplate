@@ -1,11 +1,11 @@
 import { render, screen, waitFor, fireEvent } from '@testing-library/react';
-import { ApiReferenceSection } from '../../../../src/frontend/apps/settings/react/components/ApiReferenceSection';
+import { ApiReferenceSection } from '../../../../src/frontend/apps/developer/react/components/ApiReferenceSection';
 import apiFetch from '@wordpress/api-fetch';
 
 jest.mock( '@wordpress/api-fetch' );
 
 jest.mock(
-	'../../../../src/frontend/apps/settings/react/components/ApiReferenceViewer',
+	'../../../../src/frontend/apps/developer/react/components/ApiReferenceViewer',
 	() => ( {
 		__esModule: true,
 		default: ( { spec }: { spec: Record< string, unknown > } ) => (
@@ -109,6 +109,30 @@ describe( 'ApiReferenceSection Component', () => {
 		).toBeInTheDocument();
 		expect( mockedApiFetch ).toHaveBeenCalledWith( {
 			url: 'https://example.com/wp-json/ai-ready-wp-dev/v1/openapi',
+			headers: { 'X-WP-Nonce': 'test-nonce' },
+		} );
+	} );
+
+	it( 'fetches using relative path when provided', async () => {
+		mockedApiFetch.mockResolvedValueOnce( {
+			openapi: '3.1.0',
+			info: { title: 'AI-Ready WP Plugin Boilerplate REST API' },
+			paths: {},
+		} );
+
+		render(
+			<ApiReferenceSection
+				path="/ai-ready-wp-dev/v1/openapi"
+				nonce="test-nonce"
+			/>
+		);
+
+		await waitFor( () => {
+			expect( screen.getByTestId( 'scalar-viewer' ) ).toBeInTheDocument();
+		} );
+
+		expect( mockedApiFetch ).toHaveBeenCalledWith( {
+			path: '/ai-ready-wp-dev/v1/openapi',
 			headers: { 'X-WP-Nonce': 'test-nonce' },
 		} );
 	} );

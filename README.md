@@ -261,7 +261,7 @@ npm run release:check       # Validates version consistency and git readiness
 npm run release:build       # Compiles assets and builds dist/{slug}-{version}.zip
 npm run release:validate    # Validates ZIP against strict production package contract
 npm run release:notes       # Extracts version markdown notes from CHANGELOG.md
-npm run lint:actions        # Validates workflow YAML, syntax, and SHA pinning
+npm run lint:actions        # Validates workflow YAML, syntax, and version tagging
 ```
 
 For complete operational procedures and GitHub branch protection recommendations, see [Releasing & CI/CD Guide](docs/devops/releasing-and-distribution.md).

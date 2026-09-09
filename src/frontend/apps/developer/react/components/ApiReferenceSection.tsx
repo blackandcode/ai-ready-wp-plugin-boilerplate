@@ -21,17 +21,19 @@ import apiFetch from '@wordpress/api-fetch';
 const ApiReferenceViewer = lazy(
 	() =>
 		import(
-			/* webpackChunkName: "admin/settings/openapi-viewer" */ './ApiReferenceViewer'
+			/* webpackChunkName: "admin/developer/openapi-viewer" */ './ApiReferenceViewer'
 		)
 );
 
-interface ApiReferenceSectionProps {
+export interface ApiReferenceSectionProps {
 	endpoint?: string;
+	path?: string;
 	nonce?: string;
 }
 
 export function ApiReferenceSection( {
 	endpoint,
+	path,
 	nonce,
 }: ApiReferenceSectionProps ) {
 	const [ spec, setSpec ] = useState< Record< string, unknown > | null >(
@@ -41,7 +43,7 @@ export function ApiReferenceSection( {
 	const [ error, setError ] = useState< string | null >( null );
 
 	const fetchSpec = useCallback( async () => {
-		if ( ! endpoint ) {
+		if ( ! endpoint && ! path ) {
 			setError(
 				__(
 					'OpenAPI development endpoint is not configured.',
@@ -56,10 +58,18 @@ export function ApiReferenceSection( {
 		setError( null );
 
 		try {
-			const data = await apiFetch< Record< string, unknown > >( {
-				url: endpoint,
-				headers: nonce ? { 'X-WP-Nonce': nonce } : {},
-			} );
+			const fetchOptions = path
+				? {
+						path,
+						headers: nonce ? { 'X-WP-Nonce': nonce } : {},
+				  }
+				: {
+						url: endpoint,
+						headers: nonce ? { 'X-WP-Nonce': nonce } : {},
+				  };
+
+			const data =
+				await apiFetch< Record< string, unknown > >( fetchOptions );
 			setSpec( data );
 		} catch ( err: any ) {
 			setError(
@@ -72,7 +82,7 @@ export function ApiReferenceSection( {
 		} finally {
 			setIsLoading( false );
 		}
-	}, [ endpoint, nonce ] );
+	}, [ endpoint, path, nonce ] );
 
 	useEffect( () => {
 		fetchSpec();
@@ -151,7 +161,7 @@ export function ApiReferenceSection( {
 								<Spinner />
 								<p>
 									{ __(
-										'Rendering API viewer…',
+										'Rendering API documentation viewer…',
 										'ai-ready-wp-plugin-boilerplate'
 									) }
 								</p>

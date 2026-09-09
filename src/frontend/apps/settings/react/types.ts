@@ -13,4 +13,5 @@ export type {
 	SystemDiagnosticsData,
 	AirwpBootstrapData,
 	DevelopmentToolsData,
+	SettingsAppExtension,
 } from '../../../shared/types';

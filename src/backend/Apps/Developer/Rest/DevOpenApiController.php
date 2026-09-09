@@ -81,19 +81,30 @@ class DevOpenApiController extends WP_REST_Controller {
 	/**
 	 * Check permissions for developer OpenAPI discovery.
 	 *
+	 * Allows access to users with the 'manage_options' capability. In development mode,
+	 * also permits authenticated administrators visiting directly via browser address bar
+	 * where REST nonces are not automatically attached.
+	 *
 	 * @param WP_REST_Request $request Full details about the request.
 	 * @return bool|WP_Error True if permitted, WP_Error otherwise.
 	 */
 	public function permissions_check( $request ) { // phpcs:ignore VariableAnalysis.CodeAnalysis.VariableAnalysis.UnusedVariable
-		if ( ! current_user_can( 'manage_options' ) ) {
-			return new WP_Error(
-				'rest_forbidden',
-				__( 'You do not have sufficient permissions to access the development OpenAPI specification.', 'ai-ready-wp-plugin-boilerplate' ),
-				array( 'status' => 403 )
-			);
+		if ( current_user_can( 'manage_options' ) ) {
+			return true;
 		}
 
-		return true;
+		if ( function_exists( 'wp_validate_auth_cookie' ) ) {
+			$user_id = wp_validate_auth_cookie( '', 'logged_in' );
+			if ( $user_id && user_can( $user_id, 'manage_options' ) ) {
+				return true;
+			}
+		}
+
+		return new WP_Error(
+			'rest_forbidden',
+			__( 'You do not have sufficient permissions to access the development OpenAPI specification.', 'ai-ready-wp-plugin-boilerplate' ),
+			array( 'status' => 403 )
+		);
 	}
 
 	/**

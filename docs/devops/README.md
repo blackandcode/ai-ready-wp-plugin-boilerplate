@@ -58,7 +58,7 @@ flowchart TD
 | Command | Action |
 |:---|:---|
 | `npm run ci` | Runs full static analysis and unit/toolchain test suites locally. |
-| `npm run lint:actions` | Validates GitHub Actions workflows for SHA pinning and permissions. |
+| `npm run lint:actions` | Validates GitHub Actions workflows for version tagging and permissions. |
 | `npm run release:check` | Verifies version parity, branch readiness, and unreleased changelog notes. |
 | `npm run release:build` | Compiles production assets and packages distribution ZIP via `.distignore`. |
 | `npm run release:validate` | Asserts built ZIP satisfies the strict package content contract. |
@@ -70,6 +70,6 @@ flowchart TD
 
 When maintaining or executing DevOps and release tasks:
 
-1. **Commit SHA Pinning Invariant:** Every third-party GitHub Action reference in `.github/workflows/` must be pinned to an immutable 40-character commit SHA with a version comment (e.g. `actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2`). Run `npm run lint:actions` to verify.
+1. **Version Tagging Invariant:** Every third-party GitHub Action reference in `.github/workflows/` must reference an official semantic version tag (e.g. `actions/checkout@v4`). Run `npm run lint:actions` to verify.
 2. **Never Edit Git History in Release Workflows:** Release workflows must never execute `git commit` or `git push` version bumps to `main`. Version bumping must always occur locally beforehand via `npm run update-version`.
 3. **Verify Package Contract Locally:** When modifying build scripts, Webpack configs, or dependencies, always run `npm run release:build && npm run release:validate` locally to ensure no development files leak into distribution archives.

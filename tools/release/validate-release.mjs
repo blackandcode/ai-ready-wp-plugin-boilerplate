@@ -35,20 +35,30 @@ Options:
 export async function findMainPluginFile( root ) {
 	const files = await readdir( root );
 	for ( const file of files ) {
-		if ( file.endsWith( '.php' ) && ! [ 'uninstall.php', 'index.php' ].includes( file ) ) {
+		if (
+			file.endsWith( '.php' ) &&
+			! [ 'uninstall.php', 'index.php' ].includes( file )
+		) {
 			const content = await readFile( join( root, file ), 'utf8' );
 			if ( content.includes( 'Plugin Name:' ) ) {
 				return file;
 			}
 		}
 	}
-	throw new Error( `Could not locate main plugin PHP file containing "Plugin Name:" in ${ root }` );
+	throw new Error(
+		`Could not locate main plugin PHP file containing "Plugin Name:" in ${ root }`
+	);
 }
 
 /**
  * Validates release readiness and version consistency.
  *
- * @param {object} options Validation options
+ * @param {Object} options                 Validation options
+ * @param          options.root
+ * @param          options.version
+ * @param          options.expectedBranch
+ * @param          options.skipBranchCheck
+ * @param          options.skipTagCheck
  * @return {Promise<{ valid: boolean, targetVersion: string, checks: Array<{ name: string, pass: boolean, detail: string }> }>}
  */
 export async function validateRelease( {
@@ -67,12 +77,16 @@ export async function validateRelease( {
 		const pkg = JSON.parse( await readFile( packageJsonPath, 'utf8' ) );
 		packageJsonVersion = pkg.version;
 	} catch ( err ) {
-		throw new Error( `Failed to read package.json at ${ packageJsonPath }: ${ err.message }` );
+		throw new Error(
+			`Failed to read package.json at ${ packageJsonPath }: ${ err.message }`
+		);
 	}
 
 	const targetVersion = explicitVersion || packageJsonVersion;
 	if ( ! targetVersion ) {
-		throw new Error( 'Target version could not be determined from arguments or package.json.' );
+		throw new Error(
+			'Target version could not be determined from arguments or package.json.'
+		);
 	}
 
 	checks.push( {
@@ -94,8 +108,12 @@ export async function validateRelease( {
 			detail: `${ mainPhpFile } header has "${ headerVersion }", expected "${ targetVersion }"`,
 		} );
 
-		const constantMatch = phpSource.match( /define\(\s*['"][A-Z0-9_]+_VERSION['"]\s*,\s*['"]([^'"]+)['"]\s*\)/ );
-		const constantVersion = constantMatch ? constantMatch[ 1 ].trim() : null;
+		const constantMatch = phpSource.match(
+			/define\(\s*['"][A-Z0-9_]+_VERSION['"]\s*,\s*['"]([^'"]+)['"]\s*\)/
+		);
+		const constantVersion = constantMatch
+			? constantMatch[ 1 ].trim()
+			: null;
 		checks.push( {
 			name: `${ mainPhpFile } version constant matches target`,
 			pass: constantVersion === targetVersion,
@@ -132,11 +150,20 @@ export async function validateRelease( {
 	const changelogPath = join( root, 'CHANGELOG.md' );
 	try {
 		const changelogSource = await readFile( changelogPath, 'utf8' );
-		const entryMatch = changelogSource.match( new RegExp( `##\\s*\\[${ targetVersion.replace( /[.*+?^${}()|[\\]\\]/g, '\\$&' ) }\\]` ) );
+		const entryMatch = changelogSource.match(
+			new RegExp(
+				`##\\s*\\[${ targetVersion.replace(
+					/[.*+?^${}()|[\\]\\]/g,
+					'\\$&'
+				) }\\]`
+			)
+		);
 		checks.push( {
 			name: 'CHANGELOG.md contains release heading',
 			pass: Boolean( entryMatch ),
-			detail: entryMatch ? `CHANGELOG.md has entry for [${ targetVersion }]` : `Missing "## [${ targetVersion }]" entry in CHANGELOG.md`,
+			detail: entryMatch
+				? `CHANGELOG.md has entry for [${ targetVersion }]`
+				: `Missing "## [${ targetVersion }]" entry in CHANGELOG.md`,
 		} );
 	} catch ( err ) {
 		checks.push( {
@@ -149,7 +176,10 @@ export async function validateRelease( {
 	// 5. Git branch validation
 	if ( ! skipBranchCheck ) {
 		try {
-			const currentBranch = execSync( 'git rev-parse --abbrev-ref HEAD', { cwd: root, encoding: 'utf8' } ).trim();
+			const currentBranch = execSync( 'git rev-parse --abbrev-ref HEAD', {
+				cwd: root,
+				encoding: 'utf8',
+			} ).trim();
 			checks.push( {
 				name: `Git branch is "${ expectedBranch }"`,
 				pass: currentBranch === expectedBranch,
@@ -168,14 +198,19 @@ export async function validateRelease( {
 	if ( ! skipTagCheck ) {
 		const tagName = `v${ targetVersion }`;
 		try {
-			const existingTags = execSync( 'git tag -l', { cwd: root, encoding: 'utf8' } )
+			const existingTags = execSync( 'git tag -l', {
+				cwd: root,
+				encoding: 'utf8',
+			} )
 				.split( '\n' )
 				.map( ( t ) => t.trim() );
 			const tagExists = existingTags.includes( tagName );
 			checks.push( {
 				name: `Git tag ${ tagName } does not exist`,
 				pass: ! tagExists,
-				detail: tagExists ? `Tag "${ tagName }" already exists in git repository` : `Tag "${ tagName }" is available`,
+				detail: tagExists
+					? `Tag "${ tagName }" already exists in git repository`
+					: `Tag "${ tagName }" is available`,
 			} );
 		} catch {
 			// If git fails, skip or warn
@@ -197,7 +232,11 @@ export async function validateRelease( {
 }
 
 // CLI execution
-if ( process.argv[ 1 ] && resolve( process.argv[ 1 ] ) === resolve( new URL( import.meta.url ).pathname ) ) {
+if (
+	process.argv[ 1 ] &&
+	resolve( process.argv[ 1 ] ) ===
+		resolve( new URL( import.meta.url ).pathname )
+) {
 	const { values, positionals } = parseArgs( {
 		options: {
 			version: { type: 'string', short: 'v' },
@@ -231,7 +270,9 @@ if ( process.argv[ 1 ] && resolve( process.argv[ 1 ] ) === resolve( new URL( imp
 		if ( values.json ) {
 			console.log( JSON.stringify( result, null, 2 ) );
 		} else {
-			console.log( `\n=== Release Pre-Flight Checks: v${ result.targetVersion } ===\n` );
+			console.log(
+				`\n=== Release Pre-Flight Checks: v${ result.targetVersion } ===\n`
+			);
 			for ( const check of result.checks ) {
 				const symbol = check.pass ? '✅' : '❌';
 				console.log( `${ symbol } ${ check.name }` );
@@ -241,9 +282,13 @@ if ( process.argv[ 1 ] && resolve( process.argv[ 1 ] ) === resolve( new URL( imp
 			}
 			console.log( '' );
 			if ( result.valid ) {
-				console.log( '🎉 All release pre-flight checks passed! Target is releasable.\n' );
+				console.log(
+					'🎉 All release pre-flight checks passed! Target is releasable.\n'
+				);
 			} else {
-				console.error( '🚫 Release pre-flight validation failed. Correct the errors above.\n' );
+				console.error(
+					'🚫 Release pre-flight validation failed. Correct the errors above.\n'
+				);
 				process.exit( 1 );
 			}
 		}

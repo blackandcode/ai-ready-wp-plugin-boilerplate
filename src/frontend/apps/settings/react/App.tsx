@@ -19,6 +19,7 @@ import {
 	type ISettingsApiClient,
 	type PluginSettings,
 	type AirwpBootstrapData,
+	type SettingsAppExtension,
 } from '../../../shared';
 import { SettingsShell } from './components/SettingsShell';
 import './styles/settings.css';
@@ -41,11 +42,13 @@ const DEFAULT_SETTINGS: PluginSettings = {
 export interface AppProps {
 	bootstrap?: AirwpBootstrapData;
 	apiClient?: ISettingsApiClient;
+	extensions?: SettingsAppExtension[];
 }
 
 export function App( {
 	bootstrap,
 	apiClient = defaultSettingsApiClient,
+	extensions,
 }: AppProps ) {
 	const initial = bootstrap?.initialSettings || DEFAULT_SETTINGS;
 	const form = useSettingsForm( initial );
@@ -157,6 +160,7 @@ export function App( {
 						onUpdate={ form.setSettings }
 						onSave={ handleSave }
 						onReset={ handleReset }
+						extensions={ extensions }
 					/>
 				) }
 			</div>

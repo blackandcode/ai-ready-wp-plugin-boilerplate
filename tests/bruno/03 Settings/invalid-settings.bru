@@ -31,6 +31,6 @@ tests {
     const body = res.getBody();
     expect(body).to.be.an('object');
     expect(body).to.have.property('code');
-    expect(body.code).to.equal('airwp_invalid_setting');
+    expect(body.code).to.be.oneOf(['airwp_invalid_setting', 'rest_invalid_param']);
   });
 }

@@ -6,7 +6,9 @@ import test from 'node:test';
 import { validateRelease } from '../../../tools/release/validate-release.mjs';
 
 test( 'validateRelease passes when all files and headers match target version', async () => {
-	const tempDir = await mkdtemp( join( tmpdir(), 'airwp-validate-release-' ) );
+	const tempDir = await mkdtemp(
+		join( tmpdir(), 'airwp-validate-release-' )
+	);
 
 	try {
 		await writeFile(
@@ -51,14 +53,19 @@ Stable tag: 2.0.0
 
 		assert.equal( result.valid, true );
 		assert.equal( result.targetVersion, '2.0.0' );
-		assert.equal( result.checks.every( ( c ) => c.pass ), true );
+		assert.equal(
+			result.checks.every( ( c ) => c.pass ),
+			true
+		);
 	} finally {
 		await rm( tempDir, { recursive: true, force: true } );
 	}
 } );
 
 test( 'validateRelease detects version mismatches in headers or readme', async () => {
-	const tempDir = await mkdtemp( join( tmpdir(), 'airwp-validate-release-mismatch-' ) );
+	const tempDir = await mkdtemp(
+		join( tmpdir(), 'airwp-validate-release-mismatch-' )
+	);
 
 	try {
 		await writeFile(

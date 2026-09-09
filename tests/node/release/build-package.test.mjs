@@ -12,7 +12,11 @@ test( 'buildPackage creates compliant ZIP archive respecting .distignore and pac
 	try {
 		await writeFile(
 			join( tempDir, 'package.json' ),
-			JSON.stringify( { name: 'sample-plugin', version: '1.4.0' }, null, 2 )
+			JSON.stringify(
+				{ name: 'sample-plugin', version: '1.4.0' },
+				null,
+				2
+			)
 		);
 
 		await writeFile(
@@ -42,13 +46,22 @@ Stable tag: 1.4.0
 		);
 
 		await mkdir( join( tempDir, 'src' ), { recursive: true } );
-		await writeFile( join( tempDir, 'src/Plugin.php' ), '<?php class Plugin {}' );
+		await writeFile(
+			join( tempDir, 'src/Plugin.php' ),
+			'<?php class Plugin {}'
+		);
 
 		await mkdir( join( tempDir, 'build' ), { recursive: true } );
-		await writeFile( join( tempDir, 'build/index.js' ), 'console.log("built");' );
+		await writeFile(
+			join( tempDir, 'build/index.js' ),
+			'console.log("built");'
+		);
 
 		await mkdir( join( tempDir, 'vendor' ), { recursive: true } );
-		await writeFile( join( tempDir, 'vendor/autoload.php' ), '<?php // autoloader' );
+		await writeFile(
+			join( tempDir, 'vendor/autoload.php' ),
+			'<?php // autoloader'
+		);
 
 		// Files that should be IGNORED
 		await mkdir( join( tempDir, '.git' ), { recursive: true } );
@@ -60,14 +73,17 @@ Stable tag: 1.4.0
 		await mkdir( join( tempDir, 'tools' ), { recursive: true } );
 		await writeFile( join( tempDir, 'tools/script.mjs' ), '// tool' );
 
-		await writeFile( join( tempDir, '.distignore' ), `
+		await writeFile(
+			join( tempDir, '.distignore' ),
+			`
 /.git
 /tests
 /tools
 /package.json
 .distignore
 *.zip
-` );
+`
+		);
 
 		const result = await buildPackage( {
 			root: tempDir,
@@ -83,12 +99,20 @@ Stable tag: 1.4.0
 
 		// Verify SHA256 checksum file
 		const shaContent = await readFile( result.sha256Path, 'utf8' );
-		assert.match( shaContent, new RegExp( `^${ result.sha256 }\\s+sample-plugin-1\\.4\\.0\\.zip` ) );
+		assert.match(
+			shaContent,
+			new RegExp( `^${ result.sha256 }\\s+sample-plugin-1\\.4\\.0\\.zip` )
+		);
 
 		// Validate package contract against the built ZIP
-		const validation = await validatePackage( result.zipPath, { root: tempDir } );
+		const validation = await validatePackage( result.zipPath, {
+			root: tempDir,
+		} );
 		assert.equal( validation.valid, true );
-		assert.equal( validation.checks.every( ( c ) => c.pass ), true );
+		assert.equal(
+			validation.checks.every( ( c ) => c.pass ),
+			true
+		);
 	} finally {
 		await rm( tempDir, { recursive: true, force: true } );
 	}

@@ -3,7 +3,11 @@ import { mkdtemp, readFile, rm } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import test from 'node:test';
-import { createZip, extractZip, listZip } from '../../../tools/release/lib/zip-utils.mjs';
+import {
+	createZip,
+	extractZip,
+	listZip,
+} from '../../../tools/release/lib/zip-utils.mjs';
 
 test( 'createZip, listZip, and extractZip work deterministically without external dependencies', async () => {
 	const tempDir = await mkdtemp( join( tmpdir(), 'airwp-zip-test-' ) );
@@ -13,9 +17,15 @@ test( 'createZip, listZip, and extractZip work deterministically without externa
 	try {
 		const entries = [
 			{ path: 'my-plugin/my-plugin.php', data: '<?php echo "Hello";' },
-			{ path: 'my-plugin/readme.txt', data: '=== My Plugin ===\nStable tag: 1.0.0' },
+			{
+				path: 'my-plugin/readme.txt',
+				data: '=== My Plugin ===\nStable tag: 1.0.0',
+			},
 			{ path: 'my-plugin/src/Core.php', data: '<?php class Core {}' },
-			{ path: 'my-plugin/build/app.js', data: 'console.log("built asset");' },
+			{
+				path: 'my-plugin/build/app.js',
+				data: 'console.log("built asset");',
+			},
 		];
 
 		const buildResult = await createZip( entries, zipPath );
@@ -39,10 +49,16 @@ test( 'createZip, listZip, and extractZip work deterministically without externa
 		const extracted = await extractZip( zipPath, extractDir );
 		assert.equal( extracted.length, 4 );
 
-		const extractedPhp = await readFile( join( extractDir, 'my-plugin/my-plugin.php' ), 'utf8' );
+		const extractedPhp = await readFile(
+			join( extractDir, 'my-plugin/my-plugin.php' ),
+			'utf8'
+		);
 		assert.equal( extractedPhp, '<?php echo "Hello";' );
 
-		const extractedReadme = await readFile( join( extractDir, 'my-plugin/readme.txt' ), 'utf8' );
+		const extractedReadme = await readFile(
+			join( extractDir, 'my-plugin/readme.txt' ),
+			'utf8'
+		);
 		assert.equal( extractedReadme, '=== My Plugin ===\nStable tag: 1.0.0' );
 	} finally {
 		await rm( tempDir, { recursive: true, force: true } );

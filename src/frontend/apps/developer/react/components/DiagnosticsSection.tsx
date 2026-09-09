@@ -1,8 +1,16 @@
+/**
+ * System Diagnostics Section.
+ *
+ * Displays host environment, PHP runtime, WordPress core, and REST verification.
+ *
+ * @package
+ */
+
 import { __ } from '@wordpress/i18n';
-import { StatusBadge } from './StatusBadge';
+import { StatusBadge } from '../../../../shared';
 import type { AirwpBootstrapData } from '../types';
 
-interface DiagnosticsSectionProps {
+export interface DiagnosticsSectionProps {
 	environment?: AirwpBootstrapData[ 'environment' ];
 	version?: string;
 }

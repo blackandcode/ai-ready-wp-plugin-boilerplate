@@ -168,7 +168,10 @@ export async function detectCurrentPlugin( root ) {
 	// Detect current REST namespace from controllers
 	let currentRestNamespace = 'ai-ready-wp/v1';
 	const restCandidates = [
-		join( root, 'src/backend/Apps/HelloWorld/Rest/HelloWorldController.php' ),
+		join(
+			root,
+			'src/backend/Apps/HelloWorld/Rest/HelloWorldController.php'
+		),
 		join( root, 'src/backend/Apps/Settings/Rest/SettingsController.php' ),
 		join( root, 'src/Rest/Controller/HelloWorldController.php' ),
 		join( root, 'src/Rest/Controller/SettingsController.php' ),
@@ -188,7 +191,10 @@ export async function detectCurrentPlugin( root ) {
 
 	// Detect current block name from block.json (src/frontend/apps/hello-world/block.json)
 	let currentBlockName = 'ai-ready-wp/hello-world';
-	const blockJsonPath = join( root, 'src/frontend/apps/hello-world/block.json' );
+	const blockJsonPath = join(
+		root,
+		'src/frontend/apps/hello-world/block.json'
+	);
 	if ( await fileExists( blockJsonPath ) ) {
 		try {
 			const blockJson = JSON.parse(

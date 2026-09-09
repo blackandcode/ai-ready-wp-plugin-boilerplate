@@ -85,7 +85,22 @@ export function compilePattern( pattern ) {
 			}
 		} else if ( char === '?' ) {
 			regexStr += '[^/]';
-		} else if ( [ '.', '+', '^', '$', '(', ')', '[', ']', '{', '}', '|', '\\' ].includes( char ) ) {
+		} else if (
+			[
+				'.',
+				'+',
+				'^',
+				'$',
+				'(',
+				')',
+				'[',
+				']',
+				'{',
+				'}',
+				'|',
+				'\\',
+			].includes( char )
+		) {
 			regexStr += '\\' + char;
 		} else {
 			regexStr += char;
@@ -148,13 +163,15 @@ export async function loadDistignore( root ) {
 /**
  * Tests whether a relative path should be ignored according to the parsed patterns.
  *
- * @param {string} relativePath Path relative to project root (forward slashes)
- * @param {boolean} isDirectory Whether the path is a directory
- * @param {Array} patterns Compiled distignore patterns
+ * @param {string}  relativePath Path relative to project root (forward slashes)
+ * @param {boolean} isDirectory  Whether the path is a directory
+ * @param {Array}   patterns     Compiled distignore patterns
  * @return {boolean} True if the path should be ignored
  */
 export function isPathIgnored( relativePath, isDirectory, patterns ) {
-	const normalized = relativePath.replace( /\\/g, '/' ).replace( /^\/+|\/+$/g, '' );
+	const normalized = relativePath
+		.replace( /\\/g, '/' )
+		.replace( /^\/+|\/+$/g, '' );
 	if ( ! normalized ) {
 		return false;
 	}

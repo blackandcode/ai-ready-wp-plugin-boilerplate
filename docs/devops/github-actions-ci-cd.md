@@ -15,7 +15,7 @@ The GitHub Actions system is divided into reusable and trigger workflows:
 | `.github/workflows/_release-readiness.yml` | `Release Readiness` | `workflow_call` | Shared, reusable definition of "release ready". Runs linters, multi-PHP tests, asset compilation, `.distignore` packaging, contract validation, and official WordPress Plugin Check. |
 | `.github/workflows/ci.yml` | `CI/CD — Release Readiness` | `push` / `pull_request` on `main` | Continuous integration pipeline invoking `_release-readiness.yml`. Retains candidate ZIP for 7 days. |
 | `.github/workflows/release.yml` | `Release Plugin` | `workflow_dispatch` (manual) | Audited release pipeline on `main`. Verifies version consistency, invokes `_release-readiness.yml`, attests Sigstore provenance, and publishes immutable GitHub Release. |
-| `.github/dependabot.yml` | Dependabot | Scheduled (weekly) | Maintains `github-actions` (with SHA pinning), `npm`, and `composer` dependencies. |
+| `.github/dependabot.yml` | Dependabot | Scheduled (weekly) | Maintains `github-actions` (with version tags), `npm`, and `composer` dependencies. |
 
 ---
 
@@ -29,7 +29,7 @@ The reusable workflow executes eight coordinated stages:
    ├── PHPStan (Level 6+)
    ├── ESLint & Stylelint
    ├── Markdownlint
-   └── Actionlint (SHA pinning check)
+   └── Actionlint (version tagging check)
        │
        ▼
 2. Multi-PHP Unit Testing Matrix
@@ -70,15 +70,15 @@ Unlike common implementations that run Plugin Check against the root Git reposit
 
 ## 3. Supply-Chain Hardening & Dependabot
 
-1. **Commit SHA Pinning:** Every third-party action reference is pinned to an immutable 40-character commit SHA with a version comment:
+1. **Semantic Version Tagging:** Every third-party action reference uses an official semantic version tag:
 
    ```yaml
-   uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+   uses: actions/checkout@v4
    ```
 
 2. **Dependabot Configuration (`.github/dependabot.yml`):**
    - Configured with `package-ecosystem: "github-actions"`.
-   - Automatically opens pull requests to update action SHAs while preserving comments.
+   - Automatically opens pull requests to update action version tags.
 3. **Least Privilege:**
    - Root permissions default to `contents: read`.
    - Elevated scopes (`attestations: write`, `id-token: write`) are only granted to specific release jobs.

@@ -13,7 +13,7 @@ Tier 1 static quality checks run instantaneously without executing plugin code o
 - **ESLint:** Enforces `@wordpress/eslint-plugin` rules across JavaScript and TypeScript.
 - **Stylelint:** Enforces `@wordpress/stylelint-config` rules across CSS/SCSS stylesheets.
 - **Markdownlint:** Enforces Markdown consistency and prevents syntax errors (`markdownlint-cli2`).
-- **GitHub Actions Linter (`lint-actions.mjs`):** Validates workflow files for 40-character SHA pinning, least-privilege token permissions, and syntax integrity.
+- **GitHub Actions Linter (`lint-actions.mjs`):** Validates workflow files for semantic version tagging, least-privilege token permissions, and syntax integrity.
 
 ---
 
@@ -76,7 +76,7 @@ npm run lint:css
 # Lint markdown files across docs/ and repository root
 npm run lint:md
 
-# Lint GitHub Actions workflows for SHA pinning
+# Lint GitHub Actions workflows for version tagging and permissions
 npm run lint:actions
 ```
 

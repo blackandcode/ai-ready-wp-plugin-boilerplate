@@ -111,12 +111,19 @@ test( 'scaffoldPlugin replaces hyphenated prefix, PascalCase, camelCase tokens, 
 	const root = await createFixture();
 	try {
 		// Add mock REST controller and block.json
-		await mkdir( join( root, 'src/backend/Apps/HelloWorld/Rest' ), { recursive: true } );
+		await mkdir( join( root, 'src/backend/Apps/HelloWorld/Rest' ), {
+			recursive: true,
+		} );
 		await writeFile(
-			join( root, 'src/backend/Apps/HelloWorld/Rest/HelloWorldController.php' ),
+			join(
+				root,
+				'src/backend/Apps/HelloWorld/Rest/HelloWorldController.php'
+			),
 			"<?php\nclass HelloWorldController {\n  protected $namespace = 'dynamic-api/v1';\n}\n"
 		);
-		await mkdir( join( root, 'src/frontend/apps/hello-world' ), { recursive: true } );
+		await mkdir( join( root, 'src/frontend/apps/hello-world' ), {
+			recursive: true,
+		} );
 		await writeFile(
 			join( root, 'src/frontend/apps/hello-world/block.json' ),
 			JSON.stringify( { name: 'dynamic-vendor/dynamic-block' } )
@@ -152,7 +159,10 @@ test( 'scaffoldPlugin replaces hyphenated prefix, PascalCase, camelCase tokens, 
 		assert.match( uiContent, /dpAdminBootstrap/ );
 
 		const controllerContent = await readFile(
-			join( root, 'src/backend/Apps/HelloWorld/Rest/HelloWorldController.php' ),
+			join(
+				root,
+				'src/backend/Apps/HelloWorld/Rest/HelloWorldController.php'
+			),
 			'utf8'
 		);
 		assert.match( controllerContent, /dp\/v1/ );

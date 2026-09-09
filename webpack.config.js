@@ -6,6 +6,7 @@ module.exports = {
 	entry: {
 		...defaultConfig.entry(),
 		'admin/settings/index': './src/frontend/apps/settings/react/index.tsx',
+		'admin/developer/index': './src/frontend/apps/developer/react/index.tsx',
 		'blocks/hello-world/index': './src/frontend/apps/hello-world/index.ts',
 		'blocks/hello-world/view': './src/frontend/apps/hello-world/view.ts',
 	},

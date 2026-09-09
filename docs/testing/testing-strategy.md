@@ -23,7 +23,7 @@ flowchart TD
 
 | Tier | Category | Focus Area | Runtime / Runner |
 |:---|:---|:---|:---|
-| **Tier 1** | Static Quality | Code formatting, type safety, Markdown syntax, workflow SHA pinning | PHPCS (WPCS), PHPStan Level 6, ESLint, Stylelint, Markdownlint, `lint:actions` |
+| **Tier 1** | Static Quality | Code formatting, type safety, Markdown syntax, workflow version tagging | PHPCS (WPCS), PHPStan Level 6, ESLint, Stylelint, Markdownlint, `lint:actions` |
 | **Tier 2** | PHP Unit & Integration | Domain invariants, Value Objects, Aggregates, Event Dispatcher, WP APIs | PHPUnit 11 inside WSL / wp-env container |
 | **Tier 3** | Frontend Unit | React components, API hooks, Gutenberg block directives | Jest + `@testing-library/react` via `@wordpress/scripts` |
 | **Tier 4** | REST Contract E2E | Black-box HTTP validation, error codes, auth | Bruno CLI (`@usebruno/cli`) with Application Passwords |

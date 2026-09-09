@@ -7,7 +7,9 @@ import { validatePackage } from '../../../tools/release/validate-package.mjs';
 import { createZip } from '../../../tools/release/lib/zip-utils.mjs';
 
 test( 'validatePackage accepts compliant distribution package', async () => {
-	const tempDir = await mkdtemp( join( tmpdir(), 'airwp-validate-package-' ) );
+	const tempDir = await mkdtemp(
+		join( tmpdir(), 'airwp-validate-package-' )
+	);
 	const zipPath = join( tempDir, 'dist/test-plugin-1.0.0.zip' );
 
 	try {
@@ -29,7 +31,10 @@ test( 'validatePackage accepts compliant distribution package', async () => {
 
 		const entries = [
 			{ path: 'test-plugin/test-plugin.php', data: '<?php' },
-			{ path: 'test-plugin/readme.txt', data: '=== Test ===\nStable tag: 1.0.0' },
+			{
+				path: 'test-plugin/readme.txt',
+				data: '=== Test ===\nStable tag: 1.0.0',
+			},
 			{ path: 'test-plugin/uninstall.php', data: '<?php' },
 			{ path: 'test-plugin/vendor/autoload.php', data: '<?php' },
 			{ path: 'test-plugin/src/Plugin.php', data: '<?php' },
@@ -40,14 +45,19 @@ test( 'validatePackage accepts compliant distribution package', async () => {
 
 		const result = await validatePackage( zipPath, { root: tempDir } );
 		assert.equal( result.valid, true );
-		assert.equal( result.checks.every( ( c ) => c.pass ), true );
+		assert.equal(
+			result.checks.every( ( c ) => c.pass ),
+			true
+		);
 	} finally {
 		await rm( tempDir, { recursive: true, force: true } );
 	}
 } );
 
 test( 'validatePackage flags missing required files and forbidden development files', async () => {
-	const tempDir = await mkdtemp( join( tmpdir(), 'airwp-validate-package-bad-' ) );
+	const tempDir = await mkdtemp(
+		join( tmpdir(), 'airwp-validate-package-bad-' )
+	);
 	const zipPath = join( tempDir, 'dist/test-plugin-1.0.0.zip' );
 
 	try {
@@ -70,7 +80,10 @@ test( 'validatePackage flags missing required files and forbidden development fi
 		// Missing vendor/autoload.php, missing uninstall.php, and includes forbidden .git and tests/
 		const entries = [
 			{ path: 'test-plugin/test-plugin.php', data: '<?php' },
-			{ path: 'test-plugin/readme.txt', data: '=== Test ===\nStable tag: 1.0.0' },
+			{
+				path: 'test-plugin/readme.txt',
+				data: '=== Test ===\nStable tag: 1.0.0',
+			},
 			{ path: 'test-plugin/src/Plugin.php', data: '<?php' },
 			{ path: 'test-plugin/build/app.js', data: 'console.log();' },
 			{ path: 'test-plugin/.git/HEAD', data: 'ref: refs/heads/main' },

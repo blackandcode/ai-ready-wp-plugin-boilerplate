@@ -13,7 +13,10 @@ const fixtureRoot = join(
 	projectRoot,
 	'tests/fixtures/versioning/sample-plugin'
 );
-const cliPath = join( projectRoot, 'tools/versioning/increase-plugin-version.mjs' );
+const cliPath = join(
+	projectRoot,
+	'tools/versioning/increase-plugin-version.mjs'
+);
 const changelogCliPath = join(
 	projectRoot,
 	'tools/changelog/record-unreleased-change.mjs'

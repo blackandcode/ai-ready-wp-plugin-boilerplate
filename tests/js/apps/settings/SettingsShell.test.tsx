@@ -1,15 +1,33 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import { SettingsShell } from '../../../../src/frontend/apps/settings/react/components/SettingsShell';
-import type { PluginSettings } from '../../../../src/frontend/apps/settings/react/types';
+import type {
+	PluginSettings,
+	SettingsAppExtension,
+} from '../../../../src/frontend/apps/settings/react/types';
 
-jest.mock(
-	'../../../../src/frontend/apps/settings/react/components/ApiReferenceSection',
-	() => ( {
-		ApiReferenceSection: () => (
-			<div data-testid="api-reference-section">API Reference Section</div>
-		),
-	} )
-);
+jest.mock( '../../../../src/frontend/apps/developer', () => {
+	const React = require( 'react' );
+	return {
+		developerAppExtension: {
+			id: 'developer',
+			label: 'Developer Tools',
+			icon: () => React.createElement( 'span', null, 'Icon' ),
+			subtitle: 'Diagnostics and OpenAPI reference.',
+			component: () => (
+				<div data-testid="developer-app-extension">
+					Developer App Content
+				</div>
+			),
+			hasFooter: false,
+			isVisible: ( bootstrap: any ) =>
+				Boolean(
+					bootstrap?.development?.pluginMode &&
+						( bootstrap?.development?.openApiEndpoint ||
+							bootstrap?.development?.openApiPath )
+				),
+		},
+	};
+} );
 
 const mockSettings: PluginSettings = {
 	general: {
@@ -96,7 +114,7 @@ describe( 'SettingsShell Component', () => {
 		expect( handleSave ).toHaveBeenCalledTimes( 1 );
 	} );
 
-	it( 'does not show API Reference tab when development mode is absent or false', () => {
+	it( 'does not show Developer Tools tab when development mode is absent or false', () => {
 		render(
 			<SettingsShell
 				settings={ mockSettings }
@@ -106,11 +124,10 @@ describe( 'SettingsShell Component', () => {
 				onSave={ jest.fn() }
 				onReset={ jest.fn() }
 				bootstrap={ {
-					restUrl: 'https://example.com/wp-json/',
-					restNonce: 'test-nonce',
+					apiBase: 'https://example.com/wp-json/ai-ready-wp/v1',
+					nonce: 'test-nonce',
 					version: '1.1.0',
-					env: 'production',
-					assetsUrl: 'https://example.com/assets/',
+					currentUserCan: { manageOptions: true },
 					development: {
 						pluginMode: false,
 					},
@@ -119,11 +136,11 @@ describe( 'SettingsShell Component', () => {
 		);
 
 		expect(
-			screen.queryByRole( 'button', { name: /API Reference/i } )
+			screen.queryByRole( 'button', { name: /Developer Tools/i } )
 		).not.toBeInTheDocument();
 	} );
 
-	it( 'shows API Reference tab and hides save footer when in plugin development mode', () => {
+	it( 'shows Developer Tools tab and mounts embedded app while hiding save footer when in dev mode', () => {
 		render(
 			<SettingsShell
 				settings={ mockSettings }
@@ -133,30 +150,78 @@ describe( 'SettingsShell Component', () => {
 				onSave={ jest.fn() }
 				onReset={ jest.fn() }
 				bootstrap={ {
-					restUrl: 'https://example.com/wp-json/',
-					restNonce: 'test-nonce',
+					apiBase: 'https://example.com/wp-json/ai-ready-wp/v1',
+					nonce: 'test-nonce',
 					version: '1.1.0',
-					env: 'development',
-					assetsUrl: 'https://example.com/assets/',
+					currentUserCan: { manageOptions: true },
 					development: {
 						pluginMode: true,
-						openApiEndpoint: 'https://example.com/wp-json/ai-ready-wp-dev/v1/openapi',
+						openApiEndpoint:
+							'https://example.com/wp-json/ai-ready-wp-dev/v1/openapi',
+						openApiPath: '/ai-ready-wp-dev/v1/openapi',
 					},
 				} }
 			/>
 		);
 
-		const apiTab = screen.getByRole( 'button', { name: /API Reference/i } );
-		expect( apiTab ).toBeInTheDocument();
+		const devTab = screen.getByRole( 'button', {
+			name: /Developer Tools/i,
+		} );
+		expect( devTab ).toBeInTheDocument();
 
-		fireEvent.click( apiTab );
+		fireEvent.click( devTab );
 
-		// Footer buttons should be hidden on API Reference tab.
+		expect(
+			screen.getByTestId( 'developer-app-extension' )
+		).toBeInTheDocument();
+
+		// Footer buttons should be hidden when viewing embedded app with hasFooter: false.
 		expect(
 			screen.queryByRole( 'button', { name: /Save Settings/i } )
 		).not.toBeInTheDocument();
 		expect(
-			screen.queryByRole( 'button', { name: /Reset Defaults/i } )
+			screen.queryByRole( 'button', { name: /Reset/i } )
 		).not.toBeInTheDocument();
+	} );
+
+	it( 'supports custom third-party extensions passed via extensions prop', () => {
+		const customExtension: SettingsAppExtension = {
+			id: 'custom-app',
+			label: 'Custom App',
+			icon: () => <span>CustomIcon</span>,
+			subtitle: 'Custom embedded app description',
+			component: () => (
+				<div data-testid="custom-app-view">Custom App View</div>
+			),
+			hasFooter: true,
+		};
+
+		render(
+			<SettingsShell
+				settings={ mockSettings }
+				isDirty={ true }
+				isSaving={ false }
+				onUpdate={ jest.fn() }
+				onSave={ jest.fn() }
+				onReset={ jest.fn() }
+				extensions={ [ customExtension ] }
+			/>
+		);
+
+		const customTab = screen.getByRole( 'button', {
+			name: /Custom App/i,
+		} );
+		expect( customTab ).toBeInTheDocument();
+
+		fireEvent.click( customTab );
+
+		expect( screen.getByTestId( 'custom-app-view' ) ).toBeInTheDocument();
+		expect(
+			screen.getByRole( 'heading', { name: 'Custom App' } )
+		).toBeInTheDocument();
+		// Since hasFooter is true, footer save button remains accessible
+		expect(
+			screen.getByRole( 'button', { name: /Save Settings/i } )
+		).toBeInTheDocument();
 	} );
 } );

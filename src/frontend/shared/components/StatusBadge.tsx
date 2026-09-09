@@ -1,4 +1,10 @@
-interface StatusBadgeProps {
+/**
+ * Status indicator badge component.
+ *
+ * @package
+ */
+
+export interface StatusBadgeProps {
 	status: 'success' | 'warning' | 'neutral';
 	children: React.ReactNode;
 }

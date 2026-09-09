@@ -42,12 +42,32 @@ class DeveloperBackendServiceProvider implements ServiceProviderInterface {
 	}
 
 	/**
+	 * Determine whether plugin development mode is active.
+	 *
+	 * @return bool
+	 */
+	public static function is_dev_mode(): bool {
+		if ( function_exists( 'wp_is_development_mode' ) && wp_is_development_mode( 'plugin' ) ) {
+			return true;
+		}
+
+		if ( function_exists( 'wp_get_development_mode' ) ) {
+			$mode = wp_get_development_mode();
+			if ( 'all' === $mode || 'plugin' === $mode ) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	/**
 	 * Register development REST routes when plugin development mode is active.
 	 *
 	 * @return void
 	 */
 	public function register_routes(): void {
-		if ( ! function_exists( 'wp_is_development_mode' ) || ! wp_is_development_mode( 'plugin' ) ) {
+		if ( ! self::is_dev_mode() ) {
 			return;
 		}
 

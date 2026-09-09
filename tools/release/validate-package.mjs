@@ -28,30 +28,60 @@ Options:
 const FORBIDDEN_PATTERNS = [
 	{ name: 'Git repository files (.git/)', pattern: /(?:^|\/)\.git\// },
 	{ name: 'GitHub workflow files (.github/)', pattern: /(?:^|\/)\.github\// },
-	{ name: 'Cursor AI configuration (.cursor/)', pattern: /(?:^|\/)\.cursor\// },
-	{ name: 'Agent configuration (.agents/ or .codex/)', pattern: /(?:^|\/)\.(agents|codex)\// },
+	{
+		name: 'Cursor AI configuration (.cursor/)',
+		pattern: /(?:^|\/)\.cursor\//,
+	},
+	{
+		name: 'Agent configuration (.agents/ or .codex/)',
+		pattern: /(?:^|\/)\.(agents|codex)\//,
+	},
 	{ name: 'Node modules (node_modules/)', pattern: /(?:^|\/)node_modules\// },
 	{ name: 'Test suites and fixtures (tests/)', pattern: /(?:^|\/)tests\// },
-	{ name: 'Development and release tools (tools/)', pattern: /(?:^|\/)tools\// },
+	{
+		name: 'Development and release tools (tools/)',
+		pattern: /(?:^|\/)tools\//,
+	},
 	{ name: 'Documentation files (docs/)', pattern: /(?:^|\/)docs\// },
-	{ name: 'Environment secrets and files (.env*)', pattern: /(?:^|\/)\.env(?:$|\..*)/ },
+	{
+		name: 'Environment secrets and files (.env*)',
+		pattern: /(?:^|\/)\.env(?:$|\..*)/,
+	},
 	{ name: 'PHPUnit configuration (phpunit.xml*)', pattern: /phpunit\.xml/ },
 	{ name: 'PHPCS configuration (phpcs.xml*)', pattern: /phpcs\.xml/ },
 	{ name: 'PHPStan configuration (phpstan.neon*)', pattern: /phpstan\.neon/ },
 	{ name: 'Jest configuration (jest.config*)', pattern: /jest\.config/ },
-	{ name: 'Playwright configuration (playwright.config*)', pattern: /playwright\.config/ },
-	{ name: 'TypeScript configuration (tsconfig.json)', pattern: /tsconfig\.json$/ },
-	{ name: 'Webpack configuration (webpack.config.js)', pattern: /webpack\.config\.js$/ },
-	{ name: 'npm package manifests (package.json / package-lock.json)', pattern: /package(?:-lock)?\.json$/ },
-	{ name: 'Composer package manifests (composer.json / composer.lock)', pattern: /composer\.(json|lock)$/ },
-	{ name: 'Agent instruction files (AGENTS.md / MANIFEST.md)', pattern: /(?:AGENTS|MANIFEST)\.md$/ },
+	{
+		name: 'Playwright configuration (playwright.config*)',
+		pattern: /playwright\.config/,
+	},
+	{
+		name: 'TypeScript configuration (tsconfig.json)',
+		pattern: /tsconfig\.json$/,
+	},
+	{
+		name: 'Webpack configuration (webpack.config.js)',
+		pattern: /webpack\.config\.js$/,
+	},
+	{
+		name: 'npm package manifests (package.json / package-lock.json)',
+		pattern: /package(?:-lock)?\.json$/,
+	},
+	{
+		name: 'Composer package manifests (composer.json / composer.lock)',
+		pattern: /composer\.(json|lock)$/,
+	},
+	{
+		name: 'Agent instruction files (AGENTS.md / MANIFEST.md)',
+		pattern: /(?:AGENTS|MANIFEST)\.md$/,
+	},
 	{ name: 'Distignore file (.distignore)', pattern: /\.distignore$/ },
 ];
 
 /**
  * Discovers the distribution archive to validate.
  *
- * @param {string} root Project root
+ * @param {string} root              Project root
  * @param {string} [explicitArchive] Optional archive path
  * @return {Promise<string>} Resolved ZIP archive path
  */
@@ -65,12 +95,16 @@ export async function findArchive( root, explicitArchive ) {
 	try {
 		files = await readdir( distDir );
 	} catch {
-		throw new Error( `Directory "${ distDir }" does not exist. Run "npm run release:build" first.` );
+		throw new Error(
+			`Directory "${ distDir }" does not exist. Run "npm run release:build" first.`
+		);
 	}
 
 	const zipFiles = files.filter( ( f ) => f.endsWith( '.zip' ) );
 	if ( zipFiles.length === 0 ) {
-		throw new Error( `No .zip archives found in ${ distDir }. Run "npm run release:build" first.` );
+		throw new Error(
+			`No .zip archives found in ${ distDir }. Run "npm run release:build" first.`
+		);
 	}
 
 	// Pick the first or most recently modified
@@ -80,11 +114,15 @@ export async function findArchive( root, explicitArchive ) {
 /**
  * Validates the contents of a ZIP archive against the package contract.
  *
- * @param {string} archivePath Path to the ZIP file
- * @param {object} [options]
+ * @param {string} archivePath  Path to the ZIP file
+ * @param {Object} [options]
+ * @param          options.root
  * @return {Promise<{ valid: boolean, archive: string, slug: string, version: string, checks: Array<{ name: string, pass: boolean, detail: string }>, totalEntries: number }>}
  */
-export async function validatePackage( archivePath, { root = process.cwd() } = {} ) {
+export async function validatePackage(
+	archivePath,
+	{ root = process.cwd() } = {}
+) {
 	const meta = await getPluginMetadata( root );
 	const entries = await listZip( archivePath );
 	const filenames = entries.map( ( e ) => e.filename.replace( /\\/g, '/' ) );
@@ -97,9 +135,14 @@ export async function validatePackage( archivePath, { root = process.cwd() } = {
 	checks.push( {
 		name: `All entries reside within top-level "${ meta.slug }/" directory`,
 		pass: nonPrefixed.length === 0,
-		detail: nonPrefixed.length === 0
-			? `All ${ filenames.length } entries start with "${ prefix }"`
-			: `Found ${ nonPrefixed.length } entries outside "${ prefix }": ${ nonPrefixed.slice( 0, 3 ).join( ', ' ) }`,
+		detail:
+			nonPrefixed.length === 0
+				? `All ${ filenames.length } entries start with "${ prefix }"`
+				: `Found ${
+						nonPrefixed.length
+				  } entries outside "${ prefix }": ${ nonPrefixed
+						.slice( 0, 3 )
+						.join( ', ' ) }`,
 	} );
 
 	// 2. Required file: Main PHP file
@@ -108,7 +151,9 @@ export async function validatePackage( archivePath, { root = process.cwd() } = {
 	checks.push( {
 		name: `Main plugin file present (${ meta.mainPhpFile })`,
 		pass: hasMainPhp,
-		detail: hasMainPhp ? `Found ${ expectedMainPhp }` : `Missing required main file ${ expectedMainPhp }`,
+		detail: hasMainPhp
+			? `Found ${ expectedMainPhp }`
+			: `Missing required main file ${ expectedMainPhp }`,
 	} );
 
 	// 3. Required file: vendor/autoload.php
@@ -117,23 +162,33 @@ export async function validatePackage( archivePath, { root = process.cwd() } = {
 	checks.push( {
 		name: 'Composer autoloader present (vendor/autoload.php)',
 		pass: hasVendorAutoload,
-		detail: hasVendorAutoload ? `Found ${ expectedVendorAutoload }` : `Missing required autoloader ${ expectedVendorAutoload }`,
+		detail: hasVendorAutoload
+			? `Found ${ expectedVendorAutoload }`
+			: `Missing required autoloader ${ expectedVendorAutoload }`,
 	} );
 
 	// 4. Required directory: build/ with compiled assets
-	const hasBuildAssets = filenames.some( ( f ) => f.startsWith( `${ prefix }build/` ) && ! f.endsWith( '/' ) );
+	const hasBuildAssets = filenames.some(
+		( f ) => f.startsWith( `${ prefix }build/` ) && ! f.endsWith( '/' )
+	);
 	checks.push( {
 		name: 'Compiled production assets present (build/)',
 		pass: hasBuildAssets,
-		detail: hasBuildAssets ? `Found compiled assets under ${ prefix }build/` : `Missing compiled assets under ${ prefix }build/`,
+		detail: hasBuildAssets
+			? `Found compiled assets under ${ prefix }build/`
+			: `Missing compiled assets under ${ prefix }build/`,
 	} );
 
 	// 5. Required directory: src/ with PHP runtime sources
-	const hasSrcFiles = filenames.some( ( f ) => f.startsWith( `${ prefix }src/` ) && f.endsWith( '.php' ) );
+	const hasSrcFiles = filenames.some(
+		( f ) => f.startsWith( `${ prefix }src/` ) && f.endsWith( '.php' )
+	);
 	checks.push( {
 		name: 'PHP source classes present (src/)',
 		pass: hasSrcFiles,
-		detail: hasSrcFiles ? `Found PHP classes under ${ prefix }src/` : `Missing PHP sources under ${ prefix }src/`,
+		detail: hasSrcFiles
+			? `Found PHP classes under ${ prefix }src/`
+			: `Missing PHP sources under ${ prefix }src/`,
 	} );
 
 	// 6. Required file: uninstall.php
@@ -142,7 +197,9 @@ export async function validatePackage( archivePath, { root = process.cwd() } = {
 	checks.push( {
 		name: 'Plugin uninstall handler present (uninstall.php)',
 		pass: hasUninstall,
-		detail: hasUninstall ? `Found ${ expectedUninstall }` : `Missing ${ expectedUninstall }`,
+		detail: hasUninstall
+			? `Found ${ expectedUninstall }`
+			: `Missing ${ expectedUninstall }`,
 	} );
 
 	// 7. Required file: readme.txt
@@ -151,18 +208,25 @@ export async function validatePackage( archivePath, { root = process.cwd() } = {
 	checks.push( {
 		name: 'WordPress readme.txt present',
 		pass: hasReadme,
-		detail: hasReadme ? `Found ${ expectedReadme }` : `Missing ${ expectedReadme }`,
+		detail: hasReadme
+			? `Found ${ expectedReadme }`
+			: `Missing ${ expectedReadme }`,
 	} );
 
 	// 8. Forbidden files and patterns
 	for ( const forbidden of FORBIDDEN_PATTERNS ) {
-		const matchedFiles = filenames.filter( ( f ) => forbidden.pattern.test( f ) );
+		const matchedFiles = filenames.filter( ( f ) =>
+			forbidden.pattern.test( f )
+		);
 		checks.push( {
 			name: `Excludes forbidden: ${ forbidden.name }`,
 			pass: matchedFiles.length === 0,
-			detail: matchedFiles.length === 0
-				? 'None found'
-				: `Leaked into archive: ${ matchedFiles.slice( 0, 3 ).join( ', ' ) }`,
+			detail:
+				matchedFiles.length === 0
+					? 'None found'
+					: `Leaked into archive: ${ matchedFiles
+							.slice( 0, 3 )
+							.join( ', ' ) }`,
 		} );
 	}
 
@@ -179,7 +243,11 @@ export async function validatePackage( archivePath, { root = process.cwd() } = {
 }
 
 // CLI execution
-if ( process.argv[ 1 ] && resolve( process.argv[ 1 ] ) === resolve( new URL( import.meta.url ).pathname ) ) {
+if (
+	process.argv[ 1 ] &&
+	resolve( process.argv[ 1 ] ) ===
+		resolve( new URL( import.meta.url ).pathname )
+) {
 	const { values, positionals } = parseArgs( {
 		options: {
 			archive: { type: 'string', short: 'a' },
@@ -206,7 +274,11 @@ if ( process.argv[ 1 ] && resolve( process.argv[ 1 ] ) === resolve( new URL( imp
 		if ( values.json ) {
 			console.log( JSON.stringify( result, null, 2 ) );
 		} else {
-			console.log( `\n=== Package Contract Validation: ${ basename( archivePath ) } ===\n` );
+			console.log(
+				`\n=== Package Contract Validation: ${ basename(
+					archivePath
+				) } ===\n`
+			);
 			for ( const check of result.checks ) {
 				const symbol = check.pass ? '✅' : '❌';
 				console.log( `${ symbol } ${ check.name }` );
@@ -216,9 +288,13 @@ if ( process.argv[ 1 ] && resolve( process.argv[ 1 ] ) === resolve( new URL( imp
 			}
 			console.log( `\nTotal archive entries: ${ result.totalEntries }` );
 			if ( result.valid ) {
-				console.log( '🎉 Package contract validation PASSED! The ZIP is production-ready.\n' );
+				console.log(
+					'🎉 Package contract validation PASSED! The ZIP is production-ready.\n'
+				);
 			} else {
-				console.error( '🚫 Package contract validation FAILED. Do not distribute this archive.\n' );
+				console.error(
+					'🚫 Package contract validation FAILED. Do not distribute this archive.\n'
+				);
 				process.exit( 1 );
 			}
 		}

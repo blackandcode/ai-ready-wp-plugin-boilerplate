@@ -1,7 +1,7 @@
 /**
  * Heavy OpenAPI Scalar Viewer Component.
  *
- * Code-split and lazy-loaded on demand to ensure production Settings bundle remains lightweight.
+ * Code-split and lazy-loaded on demand to ensure Developer bundle remains lightweight.
  *
  * @package
  */
