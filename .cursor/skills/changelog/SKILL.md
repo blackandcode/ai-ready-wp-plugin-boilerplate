@@ -38,7 +38,7 @@ Entries must be organized under `## [Unreleased]` beneath the appropriate catego
 
 1. **Concise & Descriptive:** Write 1–2 clear bullet points per logical change.
 2. **Outcome-Oriented:** Focus on what is now possible or what bug was fixed, not internal train of thought.
-3. **Reference Symbols & Paths:** Use backticks for code symbols, CLI commands, and file paths (e.g. `scripts/increase-plugin-version.mjs`, `AIRWP_VERSION`).
+3. **Reference Symbols & Paths:** Use backticks for code symbols, CLI commands, and file paths (e.g. `tools/versioning/increase-plugin-version.mjs`, `AIRWP_VERSION`).
 4. **Preserve Prior Entries:** Never overwrite or erase existing unreleased bullet points; append to the relevant category section.
 
 ---
@@ -51,7 +51,7 @@ Run the bundled CLI helper to append entries safely without manual markdown form
 
 ```bash
 # Add a new feature
-npm run changelog:add -- -t Added "Added CLI parameters to scripts/increase-plugin-version.mjs"
+npm run changelog:add -- -t Added "Added CLI parameters to tools/versioning/increase-plugin-version.mjs"
 
 # Add a bug fix
 npm run changelog:add -- -t Fixed "Fixed permission check in RestController for non-admin users"
@@ -68,7 +68,7 @@ Edit `CHANGELOG.md` directly under `## [Unreleased]`:
 ## [Unreleased]
 
 ### Added
-- Added CLI parameter flags (`--target-version`, `--bump`, `--changelog`, `--decision`) to `scripts/increase-plugin-version.mjs`.
+- Added CLI parameter flags (`--target-version`, `--bump`, `--changelog`, `--decision`) to `tools/versioning/increase-plugin-version.mjs`.
 
 ### Fixed
 - Resolved undefined constant warning in `Plugin.php` when running in CLI mode.

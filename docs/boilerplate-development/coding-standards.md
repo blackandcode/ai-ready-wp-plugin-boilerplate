@@ -34,7 +34,7 @@ All PHP code must strictly adhere to the official WordPress Coding Standards. Co
 
 ### 1.2 `phpcs.xml.dist` Configuration
 
-WordPress has historically used a kebab-case file naming convention (e.g. `class-my-widget.php`). Modern enterprise plugins, however, require **PSR-4 autoloading** with PascalCase class filenames (e.g. `src/Settings/Domain/Model/PluginSettings.php`).
+WordPress has historically used a kebab-case file naming convention (e.g. `class-my-widget.php`). Modern enterprise plugins, however, require **PSR-4 autoloading** with PascalCase class filenames (e.g. `src/backend/Apps/Settings/Domain/Model/PluginSettings.php`).
 
 The boilerplate resolves this cleanly by excluding `src/*` from the `WordPress.Files.FileName` rule while enforcing all other strict security and formatting rules:
 
@@ -157,4 +157,4 @@ Coding agents and developers must adhere to the engineering disciplines codified
 
 - Write tests alongside or before features.
 - In-memory unit tests in `tests/phpunit/unit/` run with zero database overhead.
-- REST contract tests in `bruno/` assert API behavior end-to-end.
+- REST contract tests in `tests/bruno/` assert API behavior end-to-end.

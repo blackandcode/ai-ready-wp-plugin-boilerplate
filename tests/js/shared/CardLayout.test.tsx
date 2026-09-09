@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import { CardLayout } from '../../../assets/src/shared/components/CardLayout';
+import { CardLayout } from '../../../src/frontend/shared/components/CardLayout';
 
 describe( 'CardLayout Component', () => {
 	it( 'renders correctly using props', () => {

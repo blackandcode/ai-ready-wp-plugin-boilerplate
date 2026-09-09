@@ -54,7 +54,7 @@ npm run scaffold -- \
 
 ## 3. What the Scaffolding Engine Transforms
 
-When executed, `scripts/lib/scaffold-engine.mjs` executes an atomic transformation:
+When executed, `tools/scaffolding/scaffold-engine.mjs` executes an atomic transformation:
 
 1. **Main Plugin File:**
    - Detects the current root PHP file (e.g., `ai-ready-wp-plugin-boilerplate.php`).

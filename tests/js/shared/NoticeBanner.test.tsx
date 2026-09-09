@@ -1,5 +1,5 @@
 import { render, screen, fireEvent, within } from '@testing-library/react';
-import { NoticeBanner } from '../../../assets/src/shared/components/NoticeBanner';
+import { NoticeBanner } from '../../../src/frontend/shared/components/NoticeBanner';
 
 describe( 'NoticeBanner Component', () => {
 	it( 'renders success notice with status role', () => {

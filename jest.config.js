@@ -2,6 +2,7 @@ const defaultConfig = require( '@wordpress/scripts/config/jest-unit.config' );
 
 module.exports = {
 	...defaultConfig,
+	coverageDirectory: '<rootDir>/tests/coverage',
 	setupFilesAfterEnv: [
 		...( defaultConfig.setupFilesAfterEnv || [] ),
 		'<rootDir>/tests/js/setup-tests.ts',

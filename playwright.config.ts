@@ -45,15 +45,15 @@ export default defineConfig( {
 				[ 'line' ],
 				[
 					'html',
-					{ open: 'never', outputFolder: 'playwright-report' },
+					{ open: 'never', outputFolder: 'tests/playwright-report' },
 				],
-				[ 'junit', { outputFile: 'test-results/playwright/e2e.xml' } ],
+				[ 'junit', { outputFile: 'tests/test-results/playwright/e2e.xml' } ],
 		  ]
 		: [
 				[ 'list' ],
 				[
 					'html',
-					{ open: 'never', outputFolder: 'playwright-report' },
+					{ open: 'never', outputFolder: 'tests/playwright-report' },
 				],
 		  ],
 	use: {
@@ -78,12 +78,12 @@ export default defineConfig( {
 			name: 'chromium',
 			use: {
 				...devices[ 'Desktop Chrome' ],
-				storageState: '.auth/admin.json',
+				storageState: 'tests/e2e/playwright/.auth/admin.json',
 			},
 			dependencies: [ 'setup' ],
 		},
 	],
-	outputDir: 'test-results/playwright',
+	outputDir: 'tests/test-results/playwright',
 	snapshotPathTemplate:
 		'{testDir}/__screenshots__/{projectName}/{testFilePath}/{arg}{ext}',
 } );

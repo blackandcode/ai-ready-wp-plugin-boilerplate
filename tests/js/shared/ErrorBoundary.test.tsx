@@ -1,5 +1,5 @@
 import { render, screen, fireEvent } from '@testing-library/react';
-import { ErrorBoundary } from '../../../assets/src/shared/components/ErrorBoundary';
+import { ErrorBoundary } from '../../../src/frontend/shared/components/ErrorBoundary';
 
 function ProblemChild( { shouldThrow }: { shouldThrow: boolean } ) {
 	if ( shouldThrow ) {

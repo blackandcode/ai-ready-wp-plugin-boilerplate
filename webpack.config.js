@@ -5,9 +5,9 @@ module.exports = {
 	...defaultConfig,
 	entry: {
 		...defaultConfig.entry(),
-		'admin/settings/index': './assets/src/apps/settings/index.tsx',
-		'blocks/hello-world/index': './blocks/hello-world/index.ts',
-		'blocks/hello-world/view': './blocks/hello-world/view.ts',
+		'admin/settings/index': './src/frontend/apps/settings/react/index.tsx',
+		'blocks/hello-world/index': './src/frontend/apps/hello-world/index.ts',
+		'blocks/hello-world/view': './src/frontend/apps/hello-world/view.ts',
 	},
 	output: {
 		...defaultConfig.output,

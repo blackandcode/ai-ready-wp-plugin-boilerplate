@@ -20,27 +20,27 @@ flowchart LR
 
 ## 2. Block Metadata (`block.json`)
 
-Blocks live in `blocks/<block-slug>/` with an authoritative `block.json`:
+Blocks live in `src/frontend/apps/<block-slug>/` with an authoritative `block.json`:
 
 ```json
 {
   "$schema": "https://schemas.wp.org/trunk/block.json",
   "apiVersion": 3,
   "name": "ai-ready-wp/hello-world",
-  "version": "1.0.0",
-  "title": "AI Ready Hello World",
+  "version": "1.0.1",
+  "title": "Hello World",
   "category": "widgets",
   "icon": "smiley",
-  "description": "Interactive Hello World block powered by the WordPress Interactivity API.",
+  "description": "A modern interactive starter block for AI-Ready WP Plugin Boilerplate.",
   "supports": {
     "html": false,
     "interactivity": true
   },
   "textdomain": "ai-ready-wp-plugin-boilerplate",
-  "editorScript": "file:../../build/blocks/hello-world/index.js",
-  "editorStyle": "file:../../build/blocks/hello-world/index.css",
-  "style": "file:../../build/blocks/hello-world/style-index.css",
-  "viewScriptModule": "file:../../build/blocks/hello-world/view.js"
+  "editorScript": "file:../../../../build/blocks/hello-world/index.js",
+  "editorStyle": "file:./editor.css",
+  "style": "file:./style.css",
+  "viewScriptModule": "file:../../../../build/blocks/hello-world/view.js"
 }
 ```
 
@@ -195,4 +195,4 @@ Block patterns allow users to insert pre-configured layouts of blocks:
 <!-- /wp:group -->
 ```
 
-Registered via `src/Block/BlockServiceProvider.php` using `register_block_pattern_category` and automatic pattern discovery.
+Registered via `src/frontend/Bridge/Pattern/PatternRegistry.php` using `register_block_pattern_category` and automatic pattern discovery.

@@ -12,6 +12,14 @@
     "vendor/**",
     "build/**",
     ".auth/**",
-    "test-results/**"
+    "tests/**/.auth/**",
+    "test-results/**",
+    "tests/test-results/**",
+    "playwright-report/**",
+    "tests/playwright-report/**",
+    "coverage/**",
+    "tests/coverage/**",
+    "bruno/reports/**",
+    "tests/bruno/reports/**"
   ]
 }

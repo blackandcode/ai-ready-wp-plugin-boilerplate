@@ -29,16 +29,17 @@ Building production-ready WordPress plugins in the modern era shouldn't mean leg
 
 It provides an instant foundation containing:
 
-- **Clean Hexagonal & DDD Backend:** Strict separation between pure Domain models, Application CQRS services, Infrastructure adapters, and Presentation endpoints.
+- **Tripartite Architecture (ADR-0009):** Decoupled into `src/framework/` (shared kernel/container/events/views), `src/backend/` (pure headless business logic by apps), and `src/frontend/` (React apps, Gutenberg blocks, Interactivity API, patterns, templates, and PHP bridge).
+- **Strict REST API Boundary:** Frontend React components and interactive blocks communicate with the backend exclusively via `/ai-ready-wp/v1/*` REST endpoints.
 - **Zero-Dependency DI Kernel:** Micro Dependency Injection `Container` with `ServiceProviderRegistry` avoiding heavy framework lock-in.
-- **Modern Gutenberg Block (Block API v3 + Interactivity API):** Hello World block with client store (`view.ts`), directives (`data-wp-interactive`, `data-wp-on--click`), live editing, and block patterns (`patterns/`).
+- **Modern Gutenberg Block (Block API v3 + Interactivity API):** Hello World block with client store (`view.ts`), directives (`data-wp-interactive`, `data-wp-on--click`), live editing, and block patterns.
 - **Unified Multi-Channel Presentation (Shared Core):** REST API, custom WP-CLI commands (`wp ai-ready settings-get`, `doctor`), and official WordPress Abilities API endpoints for AI agents.
-- **WordPress Design System (WPDS) React 18 Admin:** Card panels, vertical sidebar tab navigation with `@wordpress/icons`, dirty form tracking, and reusable shared modules (`assets/src/shared/`).
+- **WordPress Design System (WPDS) React 18 Admin:** Card panels, vertical sidebar tab navigation with `@wordpress/icons`, dirty form tracking, and reusable shared modules (`src/frontend/shared/`).
 - **Automated Project Scaffolding CLI (`npm run scaffold`):** One-click rebranding that atomically renames slugs, namespaces, constants, files, and text domains.
 - **Automated Semantic Versioning (`npm run update-version`):** Coordinated SemVer bumps with changelog promotion and decision logging.
 - **5-Tier Testing Pyramid:** PHPUnit 11 unit/integration tests, Jest + React Testing Library, Git-native Bruno REST tests, and Playwright visual regression.
-- **WordPress Playground & Developer Sandbox:** Instant zero-install evaluation via `blueprint.json` and containerized WordPress 7.0 / PHP 8.3 sandbox via `wp-env`.
-- **Durable Architectural Memory (ADRs):** 7 accepted Architecture Decision Records under `docs/adr/` with dedicated ADR CLI tooling and pre-planning agent gates.
+- **WordPress Playground & Developer Sandbox:** Instant zero-install evaluation via `blueprint.json` and containerized WordPress (latest) / PHP 8.3 sandbox via `wp-env`.
+- **Durable Architectural Memory (ADRs):** 9 accepted Architecture Decision Records under `docs/adr/` with dedicated ADR CLI tooling and pre-planning agent gates.
 - **32 Bundled Agent Skills & Persistent Rules:** Equipping AI agents with deep WordPress APIs, core engineering craftsmanship domain knowledge (DDD, OOP, Design Patterns, TDD, Refactoring), and WordPress Architecture Decision Records (ADRs).
 
 ---
@@ -47,24 +48,32 @@ It provides an instant foundation containing:
 
 ```mermaid
 flowchart TD
-    subgraph Bootstrap ["1. Kernel & Dependency Injection (src/Bootstrap/)"]
+    subgraph Framework ["1. Shared Kernel & DI (src/framework/)"]
         Plugin["Plugin Singleton (Plugin.php)"] --> Container["Container (DI)"]
         Plugin --> Registry["ServiceProviderRegistry"]
-        Registry --> RestProvider["RestServiceProvider"]
-        Registry --> AdminProvider["AdminServiceProvider"]
-        Registry --> BlockProvider["BlockServiceProvider"]
     end
 
-    subgraph RuntimeSurfaces ["2. Runtime Surfaces"]
-        Block["Gutenberg Block (blocks/hello-world/)"]
-        RestAPI["REST API: /ai-ready-wp/v1/"]
-        AdminReact["WPDS React 18 App (assets/src/apps/settings/)"]
-        BlockProvider --> Block
-        RestProvider --> RestAPI
-        AdminProvider --> AdminReact
+    subgraph BackendApps ["2. Headless Backend Apps (src/backend/Apps/)"]
+        BackendProv["BackendServiceProvider"]
+        SettingsApp["Settings (Domain, Application, Rest, Cli, Abilities)"]
+        DiagApp["Diagnostics (Domain, Application, Rest, Cli, Abilities)"]
+        HelloApp["HelloWorld (Domain, Application, Rest)"]
+        BackendProv --> SettingsApp
+        BackendProv --> DiagApp
+        BackendProv --> HelloApp
     end
 
-    subgraph AutomationAndQuality ["3. Automation & Five-Tier Quality"]
+    subgraph FrontendPresentation ["3. Presentation Domain (src/frontend/)"]
+        FrontendProv["FrontendServiceProvider (src/frontend/Bridge/)"]
+        SettingsAdmin["Settings React App (src/frontend/apps/settings/react/)"]
+        HelloBlock["Hello World Block (src/frontend/apps/hello-world/)"]
+        Patterns["Block Patterns & Shell Templates"]
+        FrontendProv --> SettingsAdmin
+        FrontendProv --> HelloBlock
+        FrontendProv --> Patterns
+    end
+
+    subgraph AutomationAndQuality ["4. Automation & Five-Tier Quality"]
         ScaffoldCLI["Scaffolding CLI (npm run scaffold)"]
         VersionCLI["Versioning Engine (npm run update-version)"]
         TestPyramid["PHPUnit + Jest + Bruno + Playwright"]
@@ -108,7 +117,7 @@ npm run scaffold -- \
 npm install
 composer install
 
-# Start containerized WordPress (WP 7.0 + PHP 8.3)
+# Start containerized WordPress (latest + PHP 8.3)
 npm run env:start
 
 # Compile frontend assets

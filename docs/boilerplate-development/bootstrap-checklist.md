@@ -26,7 +26,7 @@ This checklist defines the pre-flight verification items for bootstrapping a fre
 ## 3. Containerized Runtime (`wp-env`)
 
 - [x] Local environment starts cleanly: `npm run env:start`.
-- [x] WordPress 7.0 and PHP 8.3 running on `http://localhost:8888`.
+- [x] Latest WordPress and PHP 8.3 running on `http://localhost:8888`.
 - [x] Companion plugins active: MCP Adapter, OpenAI provider, Secure Custom Fields.
 - [x] Lifecycle script `tools/wp-env/after-start.mjs` configures permalinks and test users.
 - [x] Dedicated test user `airwp_api_test` created with Application Password synced to `.env`.

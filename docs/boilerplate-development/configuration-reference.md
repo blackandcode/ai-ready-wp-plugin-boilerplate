@@ -33,17 +33,17 @@ Replace placeholders:
     "build": "wp-scripts build",
     "start": "wp-scripts start",
     "lint": "npm run lint:js && npm run lint:css && npm run lint:md",
-    "lint:js": "wp-scripts lint-js assets/src blocks",
-    "lint:css": "wp-scripts lint-style 'assets/src/**/*.css' 'blocks/**/*.css'",
+    "lint:js": "wp-scripts lint-js src/frontend",
+    "lint:css": "wp-scripts lint-style 'src/frontend/**/*.css'",
     "lint:md": "markdownlint-cli2 'docs/**/*.md' 'README.md' 'AGENTS.md'",
     "test": "npm run test:unit && npm run test:versioning && npm run test:scaffold && npm run test:env",
     "test:unit": "wp-scripts test-unit-js --config=jest.config.js",
     "test:e2e": "playwright test",
     "test:e2e:ui": "playwright test --ui",
     "test:e2e:update": "playwright test --update-snapshots",
-    "test:rest": "node scripts/run-rest-tests.mjs",
-    "update-version": "node scripts/increase-plugin-version.mjs",
-    "changelog:add": "node scripts/record-unreleased-change.mjs"
+    "test:rest": "node tools/rest-tests/run-rest-tests.mjs",
+    "update-version": "node tools/versioning/increase-plugin-version.mjs",
+    "changelog:add": "node tools/changelog/record-unreleased-change.mjs"
   }
 }
 ```
@@ -63,7 +63,9 @@ Replace placeholders:
   },
   "autoload": {
     "psr-4": {
-      "AIReady\\WPPluginBoilerplate\\": "src/"
+      "AIReady\\WPPluginBoilerplate\\Framework\\": "src/framework/",
+      "AIReady\\WPPluginBoilerplate\\Backend\\": "src/backend/",
+      "AIReady\\WPPluginBoilerplate\\Frontend\\": "src/frontend/Bridge/"
     }
   },
   "require-dev": {
@@ -97,7 +99,7 @@ Replace placeholders:
 ```json
 {
   "$schema": "https://schemas.wp.org/trunk/wp-env.json",
-  "core": "WordPress/WordPress#7.0",
+  "core": null,
   "phpVersion": "8.3",
   "plugins": [
     ".",
@@ -134,6 +136,7 @@ Replace placeholders:
     xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/11.5/phpunit.xsd"
     bootstrap="tests/phpunit/bootstrap.php"
     colors="true"
+    cacheDirectory="tests/.phpunit.cache"
     beStrictAboutTestsThatDoNotTestAnything="true"
     beStrictAboutOutputDuringTests="true"
     failOnRisky="true"
@@ -179,13 +182,14 @@ export default defineConfig({
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 2 : 0,
   workers: 1,
-  reporter: [['html', { open: 'never' }], ['list']],
+  reporter: [['html', { open: 'never', outputFolder: 'tests/playwright-report' }], ['list']],
   use: {
     baseURL: process.env.WP_BASE_URL || 'http://localhost:8888',
     trace: 'on-first-retry',
     screenshot: 'only-on-failure',
     storageState: './tests/e2e/playwright/.auth/admin.json',
   },
+  outputDir: 'tests/test-results/playwright',
   projects: [
     {
       name: 'setup',
@@ -210,7 +214,7 @@ export default defineConfig({
   "landingPage": "/wp-admin/admin.php?page=ai-ready-wp-settings",
   "preferredVersions": {
     "php": "8.3",
-    "wp": "7.0"
+    "wp": "latest"
   },
   "phpExtensionHeaders": {
     "show": true

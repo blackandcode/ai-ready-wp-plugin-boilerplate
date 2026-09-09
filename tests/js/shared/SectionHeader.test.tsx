@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import { SectionHeader } from '../../../assets/src/shared/components/SectionHeader';
+import { SectionHeader } from '../../../src/frontend/shared/components/SectionHeader';
 
 describe( 'SectionHeader Component', () => {
 	it( 'renders title and description', () => {

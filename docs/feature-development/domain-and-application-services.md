@@ -275,7 +275,7 @@ final class SettingsApplicationService {
 
 ---
 
-## 4. Event Dispatching (`src/Event/`)
+## 4. Event Dispatching (`src/framework/Event/`)
 
 Domain events capture important business occurrences. The `EventDispatcher` notifies in-memory PHP listeners and bridges the events into standard WordPress action hooks:
 

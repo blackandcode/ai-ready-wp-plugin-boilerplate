@@ -100,9 +100,9 @@ At the start of a phase, create the file with the pre-implementation checklist e
 
 ## 1. Pre-Implementation Checklist
 - [ ] Review `docs/plans/02-rest-api-settings-and-contracts/` spec
-- [ ] Implement Commands and Queries under `src/Settings/Application/`
-- [ ] Implement REST Controllers under `src/Rest/Controller/`
-- [ ] Add Bruno test requests under `bruno/03 Settings/`
+- [ ] Implement Commands and Queries under `src/backend/Apps/<App>/Application/`
+- [ ] Implement REST Controllers under `src/backend/Apps/<App>/Rest/`
+- [ ] Add Bruno test requests under `tests/bruno/03 Settings/`
 - [ ] Ensure all PHPUnit and Bruno tests pass
 ```
 

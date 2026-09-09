@@ -8,6 +8,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Extensible lifecycle action hooks in `SettingsAdminMenu` (`airwp_before_settings_page`, `airwp_render_settings_page`, `airwp_after_settings_page`, `airwp_settings_app_placeholder`) enabling decoupled placeholder rendering.
+- Direct app-level template resolution in `TemplateRenderer` resolving `apps/<app>/templates/<template>.php` from the frontend root.
+- Tripartite App-Centric Architecture (ADR-0009): Partitioned codebase into three clean, decoupled domains under `src/` (`src/framework/`, `src/backend/`, `src/frontend/`) with explicit Composer PSR-4 autoloading for `Framework\`, `Backend\`, and `Frontend\` namespaces.
+- Shared Framework Domain (`src/framework/`): Zero-dependency DI container (`Container`, `ServiceProviderInterface`, `ServiceProviderRegistry`), Kernel singleton and lifecycle (`Plugin`, `Compatibility`, `Activation`, `Deactivation`), in-memory Event Dispatcher (`EventDispatcher`, `EventDispatcherInterface`), `WordPressErrorMapper`, `TransientCache`, and safe `TemplateRenderer`.
+- Headless Backend Domain (`src/backend/`): Pure headless business logic organized by discrete applications (`Settings`, `Diagnostics`, `HelloWorld`) with domain aggregates, value objects, CQRS commands/queries, repositories, REST controllers, WP-CLI commands, and Abilities API registrations.
+- Consolidated Frontend Domain (`src/frontend/`): Unified React 18 admin app (`src/frontend/apps/settings/react/`), Hello World Gutenberg block with Interactivity API (`src/frontend/apps/hello-world/`), block patterns (`src/frontend/patterns/`), HTML shell templates (`src/frontend/templates/`), and shared UI primitives and hooks (`src/frontend/shared/`).
+- Architectural Frontend PHP Bridge (`src/frontend/Bridge/`): Isolated presentation hooks (`FrontendServiceProvider`, `SettingsAdminMenu`, `SettingsAssets`, `SettingsRoute`, `SettingsBootstrapData`, `BlockRegistry`, `PatternRegistry`) preventing presentation hook proliferation across the codebase.
+- Updated Webpack toolchain and npm scripts to compile React apps and blocks directly from `src/frontend/apps/` to `build/`.
+- Updated plugin scaffolding engine (`scripts/lib/scaffold-engine.mjs`) to detect block configurations in `src/frontend/apps/hello-world/block.json`.
 - Frontend Design Patterns Architecture: Authored and accepted ADR-0008 establishing Repository/Adapter, Container/Presenter, Compound WPDS Components, State Reducer, and View Strategy patterns.
 - `SettingsApiClient` repository adapter encapsulating `@wordpress/api-fetch`, nonce injection, and normalized `ApiClientError` error handling.
 - `useSettingsForm` state reducer hook providing immutable form state, dirty tracking, atomic commit, and rollback reset routines.
@@ -16,7 +25,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `ErrorBoundary` component catching unhandled React render exceptions and providing user-facing recovery actions.
 - Compound component architecture for `CardLayout` (`CardLayout.Header`, `CardLayout.Body`, `CardLayout.Footer`) with backward-compatible prop support.
 - Modular Gutenberg block decomposition: `blocks/hello-world/types.ts` and `blocks/hello-world/edit/Inspector.tsx`.
-- Dynamic block metadata scanner and block pattern scanner in `src/Block/BlockServiceProvider.php`.
+- Dynamic block metadata scanner and block pattern scanner in `src/frontend/Bridge/Block/BlockRegistry.php` and `src/frontend/Bridge/Pattern/PatternRegistry.php`.
 - New block pattern `patterns/card-feature.php` showcasing responsive WPDS feature cards.
 - `TemplateRenderer` implementing Template Method and View Strategy with directory traversal security guards and extensible filters.
 - `DiagnosticsController` exposing authenticated `GET /ai-ready-wp/v1/diagnostics` REST endpoint for system telemetry.
@@ -39,6 +48,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Relocated Bruno API contract test collection from root `bruno/` to `tests/bruno/` and reconfigured `scripts/run-rest-tests.mjs` to execute suites and write HTML reports in `tests/bruno/reports/`.
+- Reconfigured Playwright, PHPUnit, and Jest test runners to output all execution artifacts (HTML reports, test traces, XML, `.auth/` storage sessions, `.phpunit.cache`, coverage) inside `tests/` instead of polluting the repository root.
+- Consolidated settings root mount markup into `src/frontend/apps/settings/templates/admin-settings-root.php`, replacing procedural includes with lifecycle action hooks.
+- Reorganized PHPUnit unit test suite (`tests/phpunit/unit/`) to strictly mirror the tripartite architecture (`Framework/`, `Backend/`, `Frontend/`).
+- Updated `tsconfig.json` to target `src/frontend/**/*` and removed obsolete `assets/` and `blocks/` references.
 - Refactored `App.tsx` into a clean Container component orchestrating `useSettingsForm`, `SettingsApiClient`, and `ErrorBoundary`.
 - Refactored `AdminMenu::render_settings_page()` to delegate rendering to `TemplateRenderer`.
 - Reorganized `templates/` into structured subdirectories (`templates/admin/`, `templates/partials/`) with backwards-compatible root wrappers.
@@ -47,6 +61,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Created cross-platform REST runner `scripts/run-rest-tests.mjs` for seamless execution across Linux, WSL2, macOS, and Windows.
 - Refactored `uninstall.php` to clean transient caches when complete purge retention policy is selected.
 - Reorganized documentation structure into three clean categories: general/, boilerplate-development/, and feature-development/, preserving adr/ and api/ intact.
+- Reorganized operational scripts into domain-structured tools directory and updated all references across code, tests, and documentation
+- Updated .wp-env.json to set "core": null to always track the latest WordPress release without version limits, and synchronized related documentation.
+
+### Removed
+
+- Purged root-level legacy leftover directories (`assets/`, `blocks/`, `patterns/`, `templates/`) and eliminated obsolete fallback directory lookups across `TemplateRenderer`, `BlockRegistry`, `PatternRegistry`, and `scaffold-engine.mjs`.
+- Removed redundant wrapper templates in `src/frontend/templates/` (`admin-settings-root.php` and `admin/admin-settings-root.php`).
+- Purged legacy pre-tripartite root directories inside `src/` (`src/Bootstrap/`, `src/Settings/`, `src/Diagnostics/`, `src/Admin/`, `src/Block/`, `src/Cli/`, `src/Abilities/`, `src/Rest/`, `src/Event/`, `src/Support/`), leaving `src/` exclusively partitioned into `src/framework/`, `src/backend/`, and `src/frontend/`.
 
 
 ## [1.0.1] - 2026-09-08

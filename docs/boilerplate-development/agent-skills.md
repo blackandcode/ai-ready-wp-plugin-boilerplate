@@ -2,7 +2,7 @@
 
 Agent Skills are portable bundles of instructions, procedural checklists, and reference guides that equip AI coding assistants with deep, domain-specific engineering knowledge.
 
-This guide details the complete Agent Skills catalog for WordPress plugin engineering and provides the automated **Node.js Skill Synchronization Script** (`scripts/sync-agent-skills.mjs`).
+This guide details the complete Agent Skills catalog for WordPress plugin engineering and provides the automated **Node.js Skill Synchronization Script** (`tools/agent-skills/sync-agent-skills.mjs`).
 
 ---
 
@@ -97,12 +97,12 @@ Repository: [blackandcode/wp-architecture-decision-records](https://github.com/b
 Maintained directly in-tree under `.cursor/skills/` and permanently protected against upstream overwrites:
 
 - **`wp-admin-ui-ux`:** Complete WordPress Admin React UI/UX design skill with WPDS layout templates and Playwright visual loop references.
-- **`versioning`:** Automated plugin version synchronization skill executing `scripts/increase-plugin-version.mjs`.
-- **`changelog`:** Keep a Changelog compliant unreleased change logging skill using `scripts/record-unreleased-change.mjs`.
+- **`versioning`:** Automated plugin version synchronization skill executing `tools/versioning/increase-plugin-version.mjs`.
+- **`changelog`:** Keep a Changelog compliant unreleased change logging skill using `tools/changelog/record-unreleased-change.mjs`.
 
 ---
 
-## 3. Skill Synchronization Script (`scripts/sync-agent-skills.mjs`)
+## 3. Skill Synchronization Script (`tools/agent-skills/sync-agent-skills.mjs`)
 
 To ensure a new plugin repository can fetch and update all external skills in one command without manual cloning, the boilerplate provides a standalone Node.js downloader script:
 
@@ -112,7 +112,7 @@ npm run skills:sync
 
 ### Protection Invariants (`PROTECTED_IN_TREE_SKILLS`)
 
-In-tree skills developed specifically for this boilerplate are protected by `scripts/sync-agent-skills.mjs`:
+In-tree skills developed specifically for this boilerplate are protected by `tools/agent-skills/sync-agent-skills.mjs`:
 
 ```javascript
 const PROTECTED_IN_TREE_SKILLS = new Set([

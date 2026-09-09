@@ -1,12 +1,12 @@
 import {
 	SettingsApiClient,
 	ApiClientError,
-} from '../../../assets/src/shared/api/SettingsApiClient';
+} from '../../../src/frontend/shared/api/SettingsApiClient';
 import type {
 	PluginSettingsData,
 	SystemDiagnosticsData,
 	AirwpBootstrapData,
-} from '../../../assets/src/shared/types';
+} from '../../../src/frontend/shared/types';
 
 describe( 'SettingsApiClient Adapter', () => {
 	const mockSettings: PluginSettingsData = {

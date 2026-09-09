@@ -138,7 +138,7 @@ test('renders block container with interactivity attributes', () => {
 
 Black-box contract testing treats the running WordPress instance as an external API server:
 
-- **Runner:** `scripts/run-rest-tests.mjs` executing Git-native `.bru` requests in `bruno/`.
+- **Runner:** `tools/rest-tests/run-rest-tests.mjs` executing Git-native `.bru` requests in `tests/bruno/`.
 - **Authentication:** Automated WordPress Application Passwords auto-provisioned by `tools/wp-env/after-start.mjs`.
 - **Execution:**
 
@@ -159,7 +159,7 @@ Playwright tests the complete user journey inside headless Chromium:
 
 ### 6.1 Authentication Setup (`auth.setup.ts`)
 
-Playwright logs into WordPress once via `tests/e2e/playwright/setup/auth.setup.ts`, saving browser cookies and local storage to `.auth/admin.json`. All subsequent specs reuse this session, avoiding repeated login page overhead.
+Playwright logs into WordPress once via `tests/e2e/playwright/setup/auth.setup.ts`, saving browser cookies and local storage to `tests/e2e/playwright/.auth/admin.json`. All subsequent specs reuse this session, avoiding repeated login page overhead.
 
 ### 6.2 Deterministic Readiness Markers
 

@@ -12,5 +12,5 @@
 1. **Tier 1 (Static Analysis):** `composer lint && composer analyse && npm run lint` exit with 0 errors.
 2. **Tier 2 (PHPUnit):** Unit test cases authored for Domain and Application services.
 3. **Tier 3 (Jest):** React component render and user interaction tests.
-4. **Tier 4 (Bruno):** Automated `.bru` requests added to `bruno/` verifying REST contracts.
+4. **Tier 4 (Bruno):** Automated `.bru` requests added to `tests/bruno/` verifying REST contracts.
 5. **Tier 5 (Playwright):** Browser interaction and visual snapshot comparison.

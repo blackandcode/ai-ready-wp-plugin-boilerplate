@@ -21,7 +21,7 @@ Manual renaming invariably leads to missed tokens, fatal PHP errors, broken auto
 
 ## Decision
 
-We build an **automated, idempotent, dynamic scaffolding CLI tool** located at `scripts/scaffold-plugin.mjs` backed by the core engine in `scripts/lib/scaffold-engine.mjs`.
+We build an **automated, idempotent, dynamic scaffolding CLI tool** located at `tools/scaffolding/scaffold-plugin.mjs` backed by the core engine in `tools/scaffolding/scaffold-engine.mjs`.
 
 The scaffolding engine:
 
@@ -75,8 +75,8 @@ The scaffolding engine:
 
 ## Implementation References
 
-- CLI Entry Point: `scripts/scaffold-plugin.mjs`
-- Core Scaffolding Engine: `scripts/lib/scaffold-engine.mjs`
+- CLI Entry Point: `tools/scaffolding/scaffold-plugin.mjs`
+- Core Scaffolding Engine: `tools/scaffolding/scaffold-engine.mjs`
 - Scaffolding Test Suite: `tests/node/scaffolding/scaffold.test.mjs`
 
 ## Related Decisions

@@ -8,7 +8,7 @@ import { spawnSync } from 'node:child_process';
 import {
 	detectCurrentPlugin,
 	scaffoldPlugin,
-} from '../../../scripts/lib/scaffold-engine.mjs';
+} from '../../../tools/scaffolding/scaffold-engine.mjs';
 
 const testDirectory = dirname( fileURLToPath( import.meta.url ) );
 const projectRoot = resolve( testDirectory, '../../..' );
@@ -16,7 +16,7 @@ const fixtureRoot = join(
 	projectRoot,
 	'tests/fixtures/versioning/sample-plugin'
 );
-const cliPath = join( projectRoot, 'scripts/scaffold-plugin.mjs' );
+const cliPath = join( projectRoot, 'tools/scaffolding/scaffold-plugin.mjs' );
 
 async function createFixture() {
 	const directory = await mkdtemp( join( tmpdir(), 'airwp-scaffold-test-' ) );
@@ -111,14 +111,14 @@ test( 'scaffoldPlugin replaces hyphenated prefix, PascalCase, camelCase tokens, 
 	const root = await createFixture();
 	try {
 		// Add mock REST controller and block.json
-		await mkdir( join( root, 'src/Rest/Controller' ), { recursive: true } );
+		await mkdir( join( root, 'src/backend/Apps/HelloWorld/Rest' ), { recursive: true } );
 		await writeFile(
-			join( root, 'src/Rest/Controller/HelloWorldController.php' ),
+			join( root, 'src/backend/Apps/HelloWorld/Rest/HelloWorldController.php' ),
 			"<?php\nclass HelloWorldController {\n  protected $namespace = 'dynamic-api/v1';\n}\n"
 		);
-		await mkdir( join( root, 'blocks/hello-world' ), { recursive: true } );
+		await mkdir( join( root, 'src/frontend/apps/hello-world' ), { recursive: true } );
 		await writeFile(
-			join( root, 'blocks/hello-world/block.json' ),
+			join( root, 'src/frontend/apps/hello-world/block.json' ),
 			JSON.stringify( { name: 'dynamic-vendor/dynamic-block' } )
 		);
 
@@ -152,13 +152,13 @@ test( 'scaffoldPlugin replaces hyphenated prefix, PascalCase, camelCase tokens, 
 		assert.match( uiContent, /dpAdminBootstrap/ );
 
 		const controllerContent = await readFile(
-			join( root, 'src/Rest/Controller/HelloWorldController.php' ),
+			join( root, 'src/backend/Apps/HelloWorld/Rest/HelloWorldController.php' ),
 			'utf8'
 		);
 		assert.match( controllerContent, /dp\/v1/ );
 
 		const blockJsonContent = await readFile(
-			join( root, 'blocks/hello-world/block.json' ),
+			join( root, 'src/frontend/apps/hello-world/block.json' ),
 			'utf8'
 		);
 		assert.match( blockJsonContent, /dp\/flowchart/ );

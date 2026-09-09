@@ -1,10 +1,10 @@
 import { test as setup, expect } from '@playwright/test';
 import { mkdir } from 'node:fs/promises';
 
-const authFile = '.auth/admin.json';
+const authFile = 'tests/e2e/playwright/.auth/admin.json';
 
 setup( 'authenticate WordPress administrator', async ( { page } ) => {
-	await mkdir( '.auth', { recursive: true } );
+	await mkdir( 'tests/e2e/playwright/.auth', { recursive: true } );
 	await page.goto( '/wp-login.php' );
 	await page
 		.getByLabel( /username|email address/i )

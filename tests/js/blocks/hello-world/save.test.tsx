@@ -1,5 +1,5 @@
 import { render } from '@testing-library/react';
-import save from '../../../../blocks/hello-world/save';
+import save from '../../../../src/frontend/apps/hello-world/save';
 
 jest.mock( '@wordpress/block-editor', () => ( {
 	useBlockProps: {

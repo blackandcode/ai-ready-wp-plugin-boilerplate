@@ -5,7 +5,7 @@ import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import test from 'node:test';
 import { spawnSync } from 'node:child_process';
-import { recordUnreleasedChange } from '../../../scripts/record-unreleased-change.mjs';
+import { recordUnreleasedChange } from '../../../tools/changelog/record-unreleased-change.mjs';
 
 const testDirectory = dirname( fileURLToPath( import.meta.url ) );
 const projectRoot = resolve( testDirectory, '../../..' );
@@ -13,10 +13,10 @@ const fixtureRoot = join(
 	projectRoot,
 	'tests/fixtures/versioning/sample-plugin'
 );
-const cliPath = join( projectRoot, 'scripts/increase-plugin-version.mjs' );
+const cliPath = join( projectRoot, 'tools/versioning/increase-plugin-version.mjs' );
 const changelogCliPath = join(
 	projectRoot,
-	'scripts/record-unreleased-change.mjs'
+	'tools/changelog/record-unreleased-change.mjs'
 );
 
 async function createFixture() {

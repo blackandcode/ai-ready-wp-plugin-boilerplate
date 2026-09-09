@@ -20,7 +20,7 @@ To ensure security, consistency, and agentic precision, we need an explicit spec
 
 ## Decision
 
-We mandate a **Contract-First REST API architecture** utilizing **OpenAPI 3.0/3.1** as the authoritative source of truth (`docs/rest-api.yaml`), implemented via object-oriented `WP_REST_Controller` subclasses under `src/Rest/Controller/`, and verified via Git-native Bruno contract tests (`bruno/`).
+We mandate a **Contract-First REST API architecture** utilizing **OpenAPI 3.0/3.1** as the authoritative source of truth (`docs/rest-api.yaml`), implemented via object-oriented `WP_REST_Controller` subclasses under `src/Rest/Controller/`, and verified via Git-native Bruno contract tests (`tests/bruno/`).
 
 All endpoints must:
 
@@ -69,7 +69,7 @@ All endpoints must:
 ## Verification & Fitness Functions
 
 - **Unit Test Verification:** `tests/phpunit/unit/Rest/` verifies controller route registration, schema validation, and permission callbacks.
-- **REST Contract Verification:** Bruno test files under `bruno/` execute against local WordPress instances (`npm run test:rest`), asserting HTTP status codes and schema validity.
+- **REST Contract Verification:** Bruno test files under `tests/bruno/` execute against local WordPress instances (`npm run test:rest`), asserting HTTP status codes and schema validity.
 
 ## Reconsider When
 
@@ -81,7 +81,7 @@ All endpoints must:
 - REST Controller Base: `src/Rest/Controller/`
 - Example Controllers: `HelloWorldController.php`, `SettingsController.php`
 - Service Provider: `src/Bootstrap/RestServiceProvider.php`
-- Bruno Test Collections: `bruno/`
+- Bruno Test Collections: `tests/bruno/`
 
 ## Related Decisions
 

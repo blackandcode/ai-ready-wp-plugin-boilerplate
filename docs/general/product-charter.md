@@ -21,17 +21,18 @@ If any specification, phase document, prompt, or code implementation conflicts w
 
 ## 2. Core Architectural Invariants
 
-### Invariant 1: Clean Hexagonal Architecture & Zero Framework Lock-In
+### Invariant 1: Tripartite Architecture, Clean Hexagonal Domain & Zero Framework Lock-In
 
-1. **Domain Layer:** Pure PHP classes representing business rules, immutable Value Objects, Aggregate Roots, and Domain Exceptions. Zero dependencies on WordPress core functions (`get_posts`, `$wpdb`) or HTTP superglobals.
-2. **Infrastructure Layer:** Concrete WordPress adapters implementing Domain interfaces (Custom Post Types, Post Meta, Options API with explicit `autoload => false` performance policy, Transient caching).
-3. **Application Layer:** CQRS-Lite Command and Query handlers, DTOs, Event Dispatcher, and Application Services (`SettingsApplicationService`, `DiagnosticsService`) orchestrating use cases.
-4. **Presentation Layer:** Multi-channel presentation adapters: REST Controllers extending `WP_REST_Controller`, custom WP-CLI commands (`wp ai-ready settings-get/update`, `doctor`), official WordPress Abilities API integration for autonomous AI agents, and React 18 admin applications using `@wordpress/components`.
-5. **Micro Dependency Injection:** The backend uses an in-tree, zero-dependency `Container` and `ServiceProviderRegistry` under `src/Bootstrap/`. Never pull heavy third-party PHP framework containers (Symfony, Laravel) into standard WordPress plugins.
+1. **Tripartite Separation (ADR-0009):** The codebase is partitioned into three decoupled tiers: `src/framework/` (shared infrastructure kernel), `src/backend/` (pure headless business logic organized by discrete Apps), and `src/frontend/` (consolidated presentation apps, Gutenberg blocks, patterns, templates, and isolated PHP presentation bridge in `src/frontend/Bridge/`).
+2. **Domain Layer:** Pure PHP classes representing business rules, immutable Value Objects, Aggregate Roots, and Domain Exceptions under `src/backend/Apps/<App>/Domain/`. Zero dependencies on WordPress core functions or HTTP superglobals.
+3. **Infrastructure Layer:** Concrete WordPress adapters implementing Domain interfaces under `src/backend/Apps/<App>/Infrastructure/` (e.g. Options API with explicit `autoload => false` performance policy).
+4. **Application Layer:** CQRS-Lite Command and Query handlers, DTOs, Event Dispatcher, and Application Services (`SettingsApplicationService`, `DiagnosticsService`, `HelloWorldService`) orchestrating use cases.
+5. **Presentation Layer & Strict REST Boundary:** Frontend presentation components and templates communicate with backend services exclusively over the WordPress REST API (`/ai-ready-wp/v1/*`). Server-side PHP integration hooks for menus, script enqueuing, and dynamic block/pattern scanning reside exclusively in `src/frontend/Bridge/`.
+6. **Micro Dependency Injection:** Zero-dependency `Container` and `ServiceProviderRegistry` under `src/framework/Container/`. Never pull heavy third-party PHP framework containers (Symfony, Laravel) into standard WordPress plugins.
 
 ### Invariant 2: Mandatory Coding Standards & Static Analysis
 
-1. **WordPress Coding Standards (WPCS):** Enforced via PHP_CodeSniffer with rulesets `WordPress-Core`, `WordPress-Extra`, and `WordPress-Docs`. Class filenames inside `src/` use modern PSR-4 PascalCase naming (`src/Bootstrap/Plugin.php`), exempted from the legacy `class-*.php` rule.
+1. **WordPress Coding Standards (WPCS):** Enforced via PHP_CodeSniffer with rulesets `WordPress-Core`, `WordPress-Extra`, and `WordPress-Docs`. Class filenames inside `src/` use modern PSR-4 PascalCase naming (`src/framework/Kernel/Plugin.php`), exempted from the legacy `class-*.php` rule.
 2. **PHPStan Static Analysis:** Minimum Level 6 analysis with `szepeviktor/phpstan-wordpress` and official WordPress/WP-CLI stubs. Zero errors or uninspected baselines allowed.
 3. **Frontend Quality:** JavaScript and TypeScript validated via `@wordpress/scripts` ESLint rules.
 
@@ -42,7 +43,7 @@ No feature is considered complete without accompanying automated tests:
 1. **Tier 1 — Static Quality:** WPCS, PHPStan Level 6, ESLint, Stylelint, Markdownlint.
 2. **Tier 2 — PHPUnit Unit & Integration Tests:** In-memory unit tests in `tests/phpunit/unit/` (sub-millisecond execution) and WordPress integration tests in `tests/phpunit/integration/`.
 3. **Tier 3 — Frontend Unit Tests:** Jest and `@testing-library/react` verifying React components and custom hooks in `tests/js/`.
-4. **Tier 4 — Contract-First REST E2E:** Black-box HTTP validation via Bruno (`bruno/`) using Application Password authentication.
+4. **Tier 4 — Contract-First REST E2E:** Black-box HTTP validation via Bruno (`tests/bruno/`) using Application Password authentication.
 5. **Tier 5 — Browser & Visual Regression:** Real Chromium end-to-end tests via Playwright (`tests/e2e/playwright/`) with visual screenshot comparisons.
 
 ### Invariant 4: WordPress Native Look and Feel (WPDS)
@@ -55,7 +56,7 @@ No feature is considered complete without accompanying automated tests:
 ### Invariant 5: Atomic, Automated Release Lifecycle
 
 1. Changing version numbers is strictly forbidden as a manual text edit.
-2. All releases must be executed via `npm run update-version`, driven by `scripts/increase-plugin-version.mjs`.
+2. All releases must be executed via `npm run update-version`, driven by `tools/versioning/increase-plugin-version.mjs`.
 3. The script atomically updates `package.json`, `package-lock.json`, `composer.json`, plugin file headers, constants, `readme.txt`, and promotes staged `CHANGELOG.md` unreleased entries into the release milestone header.
 
 ### Invariant 6: Durable Architectural Memory (ADR Governance)

@@ -188,7 +188,7 @@ Here is how all governance pieces operate in harmony during the development life
    - Phase plans break features into vertical slices.
    - Every phase technical specification cites the active governing ADRs.
 3. **TDD Implementation & Testing Pyramid:**
-   - Invariant-first development with unit tests (`tests/phpunit/unit/`), REST contract tests (`bruno/`), and visual tests (`tests/e2e/playwright/`).
+   - Invariant-first development with unit tests (`tests/phpunit/unit/`), REST contract tests (`tests/bruno/`), and visual tests (`tests/e2e/playwright/`).
    - If an architectural surprise occurs, pause and trigger an ADR.
 4. **Staging Unreleased Changes (`CHANGELOG.md`):**
    - Each completed task appends bullet points under `## [Unreleased]` via `npm run changelog:add`.

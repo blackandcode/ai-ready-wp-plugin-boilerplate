@@ -1,6 +1,6 @@
 import { renderHook, act } from '@testing-library/react';
-import { useSettingsForm } from '../../../assets/src/shared/hooks/useSettingsForm';
-import type { PluginSettings } from '../../../assets/src/shared/types';
+import { useSettingsForm } from '../../../src/frontend/shared/hooks/useSettingsForm';
+import type { PluginSettings } from '../../../src/frontend/shared/types';
 
 describe( 'useSettingsForm State Reducer Hook', () => {
 	const initial: PluginSettings = {

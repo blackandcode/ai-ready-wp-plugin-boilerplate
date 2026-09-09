@@ -127,41 +127,28 @@ class PluginCliCommand {
 
 ---
 
-## 3. Service Provider Registration (`src/Cli/CliServiceProvider.php`)
+## 3. Service Provider Registration (`src/backend/BackendServiceProvider.php`)
 
 Commands are only registered when `WP_CLI` is defined:
 
 ```php
-namespace AIReady\WPPluginBoilerplate\Cli;
+namespace AIReady\WPPluginBoilerplate\Backend;
 
-use AIReady\WPPluginBoilerplate\Bootstrap\Container;
-use AIReady\WPPluginBoilerplate\Bootstrap\ServiceProvider;
-use AIReady\WPPluginBoilerplate\Diagnostics\Application\DiagnosticsService;
-use AIReady\WPPluginBoilerplate\Settings\Application\SettingsApplicationService;
+use AIReady\WPPluginBoilerplate\Backend\Cli\PluginCliCommand;
+use AIReady\WPPluginBoilerplate\Framework\Container\Container;
+use AIReady\WPPluginBoilerplate\Framework\Container\ServiceProviderInterface;
 use WP_CLI;
 
-class CliServiceProvider implements ServiceProvider {
+class BackendServiceProvider implements ServiceProviderInterface {
     public function register( Container $container ): void {
-        if ( ! defined( 'WP_CLI' ) || ! WP_CLI ) {
-            return;
-        }
-
-        $container->bind(
-            PluginCliCommand::class,
-            fn( Container $c ) => new PluginCliCommand(
-                $c->get( SettingsApplicationService::class ),
-                $c->get( DiagnosticsService::class )
-            )
-        );
+        // App service registrations...
     }
 
     public function boot(): void {
-        if ( ! defined( 'WP_CLI' ) || ! WP_CLI ) {
-            return;
+        // Boot backend apps...
+        if ( defined( 'WP_CLI' ) && WP_CLI ) {
+            WP_CLI::add_command( 'ai-ready', PluginCliCommand::class );
         }
-
-        $command = Plugin::instance()->get_container()->get( PluginCliCommand::class );
-        WP_CLI::add_command( 'ai-ready', $command );
     }
 }
 ```

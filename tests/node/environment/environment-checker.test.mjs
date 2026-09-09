@@ -21,11 +21,11 @@ import {
 	parseSemver,
 	runEnvironmentCheck,
 	satisfiesMinVersion,
-} from '../../../scripts/lib/environment-checker.mjs';
+} from '../../../tools/environment/environment-checker.mjs';
 
 const testDir = dirname( fileURLToPath( import.meta.url ) );
 const projectRoot = resolve( testDir, '../../..' );
-const cliPath = join( projectRoot, 'scripts/check-environment.mjs' );
+const cliPath = join( projectRoot, 'tools/environment/check-environment.mjs' );
 
 test( 'detectPlatform correctly identifies OS families', () => {
 	// 1. Windows

@@ -1,6 +1,6 @@
 ---
 name: versioning
-description: "Automatically calculate and synchronize plugin version increments across project files, package metadata, WordPress headers, constants, and changelog using scripts/increase-plugin-version.mjs."
+description: "Automatically calculate and synchronize plugin version increments across project files, package metadata, WordPress headers, constants, and changelog using tools/versioning/increase-plugin-version.mjs."
 compatibility: "Requires Node.js 24.16.0+, npm 11+, and optional PHP CLI for version_compare()."
 ---
 

@@ -5,12 +5,12 @@ import {
 	waitFor,
 	within,
 } from '@testing-library/react';
-import { App } from '../../../../assets/src/apps/settings/App';
-import type { ISettingsApiClient } from '../../../../assets/src/shared';
+import { App } from '../../../../src/frontend/apps/settings/react/App';
+import type { ISettingsApiClient } from '../../../../src/frontend/shared';
 import type {
 	PluginSettings,
 	AirwpBootstrapData,
-} from '../../../../assets/src/shared/types';
+} from '../../../../src/frontend/shared/types';
 
 describe( 'Settings App Container', () => {
 	const mockInitialSettings: PluginSettings = {

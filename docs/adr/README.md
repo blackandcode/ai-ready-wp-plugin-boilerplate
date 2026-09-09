@@ -30,6 +30,7 @@ Decisions move through the following lifecycle states:
 | [ADR-0006](0006-automated-project-scaffolding-cli.md) | Automated project scaffolding CLI | Accepted | 2026-09-08 | — |
 | [ADR-0007](0007-hexagonal-domain-reorganization-and-skills-integration.md) | Hexagonal domain reorganization and skills integration | Accepted | 2026-09-08 | — |
 | [ADR-0008](0008-frontend-architecture-and-component-design-patterns.md) | Frontend architecture and component design patterns | Accepted | 2026-09-09 | — |
+| [ADR-0009](0009-tripartite-app-centric-architecture.md) | Tripartite App-Centric Architecture (Framework, Backend, Frontend Bridge) | Accepted | 2026-09-09 | — |
 
 ---
 

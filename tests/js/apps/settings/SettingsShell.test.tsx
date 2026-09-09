@@ -1,6 +1,6 @@
 import { render, screen, fireEvent } from '@testing-library/react';
-import { SettingsShell } from '../../../../assets/src/apps/settings/components/SettingsShell';
-import type { PluginSettings } from '../../../../assets/src/apps/settings/types';
+import { SettingsShell } from '../../../../src/frontend/apps/settings/react/components/SettingsShell';
+import type { PluginSettings } from '../../../../src/frontend/apps/settings/react/types';
 
 const mockSettings: PluginSettings = {
 	general: {

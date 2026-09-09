@@ -8,7 +8,9 @@
   },
   "autoload": {
     "psr-4": {
-      "AIReady\\WPPluginBoilerplate\\": "src/"
+      "AIReady\\WPPluginBoilerplate\\Framework\\": "src/framework/",
+      "AIReady\\WPPluginBoilerplate\\Backend\\": "src/backend/",
+      "AIReady\\WPPluginBoilerplate\\Frontend\\": "src/frontend/Bridge/"
     }
   },
   "require-dev": {

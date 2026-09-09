@@ -15,9 +15,9 @@
  * @package AIReady\WPPluginBoilerplate
  */
 
-use AIReady\WPPluginBoilerplate\Bootstrap\Activation;
-use AIReady\WPPluginBoilerplate\Bootstrap\Deactivation;
-use AIReady\WPPluginBoilerplate\Bootstrap\Plugin;
+use AIReady\WPPluginBoilerplate\Framework\Kernel\Activation;
+use AIReady\WPPluginBoilerplate\Framework\Kernel\Deactivation;
+use AIReady\WPPluginBoilerplate\Framework\Kernel\Plugin;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;

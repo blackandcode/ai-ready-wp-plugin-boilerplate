@@ -36,7 +36,7 @@ Chromium is the required baseline browser. Visual baselines use this pinned brow
 
 ## 4. Authentication Strategy
 
-Playwright logs into WordPress once via `tests/e2e/playwright/setup/auth.setup.ts` and saves `storageState` to `.auth/admin.json`. All functional test specs reuse this session to bypass repeated login page loading overhead.
+Playwright logs into WordPress once via `tests/e2e/playwright/setup/auth.setup.ts` and saves `storageState` to `tests/e2e/playwright/.auth/admin.json`. All functional test specs reuse this session to bypass repeated login page loading overhead.
 
 ---
 

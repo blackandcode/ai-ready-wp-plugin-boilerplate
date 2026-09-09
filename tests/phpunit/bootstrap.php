@@ -16,19 +16,23 @@ if ( file_exists( dirname( __DIR__, 2 ) . '/vendor/autoload.php' ) ) {
 // Fallback PSR-4 autoloader for running tests without vendor/autoload.php.
 spl_autoload_register(
 	static function ( $class ) {
-		$prefix   = 'AIReady\\WPPluginBoilerplate\\';
-		$base_dir = dirname( __DIR__, 2 ) . '/src/';
+		$map = array(
+			'AIReady\\WPPluginBoilerplate\\Framework\\' => dirname( __DIR__, 2 ) . '/src/framework/',
+			'AIReady\\WPPluginBoilerplate\\Backend\\'   => dirname( __DIR__, 2 ) . '/src/backend/',
+			'AIReady\\WPPluginBoilerplate\\Frontend\\'  => dirname( __DIR__, 2 ) . '/src/frontend/Bridge/',
+		);
 
-		$len = strlen( $prefix );
-		if ( strncmp( $prefix, $class, $len ) !== 0 ) {
-			return;
-		}
+		foreach ( $map as $prefix => $base_dir ) {
+			$len = strlen( $prefix );
+			if ( strncmp( $prefix, $class, $len ) === 0 ) {
+				$relative_class = substr( $class, $len );
+				$file           = $base_dir . str_replace( '\\', '/', $relative_class ) . '.php';
 
-		$relative_class = substr( $class, $len );
-		$file           = $base_dir . str_replace( '\\', '/', $relative_class ) . '.php';
-
-		if ( file_exists( $file ) ) {
-			require_once $file;
+				if ( file_exists( $file ) ) {
+					require_once $file;
+					return;
+				}
+			}
 		}
 	}
 );

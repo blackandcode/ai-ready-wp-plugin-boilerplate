@@ -2,7 +2,7 @@
 
 In modern plugin engineering, changing a version number is **never a manual text edit**.
 
-This guide details the automated semantic versioning, continuous unreleased changelogging, and release logging system implemented in `scripts/increase-plugin-version.mjs`, tested by `tests/node/versioning/`, and governed by `.cursor/skills/versioning/` and `.cursor/skills/changelog/`.
+This guide details the automated semantic versioning, continuous unreleased changelogging, and release logging system implemented in `tools/versioning/increase-plugin-version.mjs`, tested by `tests/node/versioning/`, and governed by `.cursor/skills/versioning/` and `.cursor/skills/changelog/`.
 
 ---
 
@@ -14,7 +14,7 @@ The boilerplate treats a release as **one atomic, automated operation** driven d
 
 ```mermaid
 flowchart TD
-    CLI["CLI Parameters (--bump, version, -m, -d)"] --> Script["scripts/increase-plugin-version.mjs"]
+    CLI["CLI Parameters (--bump, version, -m, -d)"] --> Script["tools/versioning/increase-plugin-version.mjs"]
     UnreleasedNotes["CHANGELOG.md (Staged [Unreleased] Notes)"] --> Script
     Script --> Manifests["package.json & package-lock.json & composer.json"]
     Script --> PHPFiles["Plugin Headers, Constants & readme.txt"]

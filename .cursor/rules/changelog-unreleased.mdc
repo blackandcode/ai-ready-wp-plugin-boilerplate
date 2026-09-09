@@ -32,5 +32,5 @@ This ensures continuous, zero-drift change tracking and enables the 95% automate
 3. **Rules & Constraints:**
    - **Never Overwrite:** Never erase existing unreleased entries from earlier tasks; append new bullets cleanly.
    - **Concise & Outcome-Oriented:** Write 1–2 bullet points per logical change focusing on user or developer outcomes.
-   - **Exact Symbols:** Use backticks for file paths, CLI commands, and PHP/JS symbols (`Plugin.php`, `scripts/increase-plugin-version.mjs`).
+   - **Exact Symbols:** Use backticks for file paths, CLI commands, and PHP/JS symbols (`Plugin.php`, `tools/versioning/increase-plugin-version.mjs`).
    - **Never Edit `.env` for Versioning:** Version numbers and releases are completely decoupled from `.env`.

@@ -14,7 +14,7 @@ flowchart TD
     Components --> Hierarchy["Strict Heading Hierarchy (PHP h1 -> React Card h2/h3)"]
     Hierarchy --> Layout["Card Structures & Vertical Sidebar Navigation"]
     Layout --> Microcopy["Help Text & Translation Wrappers (__('...', 'ai-ready-wp-plugin-boilerplate'))"]
-    Microcopy --> Shared["Shared UI Primitives (assets/src/shared/components/)"]
+    Microcopy --> Shared["Shared UI Primitives (src/frontend/shared/components/)"]
     Shared --> VisualVerification["Playwright Screenshot Visual Loop (__screenshots__)"]
 ```
 
@@ -40,9 +40,9 @@ flowchart TD
 
 ---
 
-## 2. Shared Admin UI Primitives (`assets/src/shared/`)
+## 2. Shared Admin UI Primitives (`src/frontend/shared/`)
 
-The boilerplate extracts reusable WPDS layout primitives into `assets/src/shared/components/`:
+The boilerplate extracts reusable WPDS layout primitives into `src/frontend/shared/components/`:
 
 ### 2.1 `CardLayout`
 

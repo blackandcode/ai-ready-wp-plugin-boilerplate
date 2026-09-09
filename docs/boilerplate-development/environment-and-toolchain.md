@@ -67,7 +67,7 @@ In your plugin root, `.wp-env.json` configures the runtime:
 ```json
 {
   "$schema": "https://schemas.wp.org/trunk/wp-env.json",
-  "core": "WordPress/WordPress#7.0",
+  "core": null,
   "phpVersion": "8.3",
   "plugins": [
     ".",
@@ -95,8 +95,8 @@ In your plugin root, `.wp-env.json` configures the runtime:
 
 ### Architectural Details of `.wp-env.json`
 
-1. **`"core": "WordPress/WordPress#7.0"`:**
-   - Pins WordPress 7.0 (or current target release) from the core Git repository.
+1. **`"core": null`:**
+   - Configures `wp-env` to download and run the latest stable production release of WordPress without version limits.
    - Ensures latest core APIs (Block API v3, Interactivity API, Abilities API, AI Connectors) are active without legacy polyfills.
 2. **`"phpVersion": "8.3"`:**
    - Forces PHP 8.3 across all WordPress and CLI containers.

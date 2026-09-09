@@ -12,8 +12,8 @@ Rather than writing PHP controllers ad-hoc, all plugin endpoints are declared in
 flowchart LR
     Spec["OpenAPI 3.1 (docs/api/openapi.yaml)"] --> Backend["PHP REST Controllers (WP_REST_Controller)"]
     Spec --> AppService["SettingsApplicationService"]
-    Spec --> Frontend["Frontend TypeScript Types (assets/src/shared/)"]
-    Spec --> BrunoTests["Git-Native Bruno Tests (bruno/*.bru)"]
+    Spec --> Frontend["Frontend TypeScript Types (src/frontend/shared/)"]
+    Spec --> BrunoTests["Git-Native Bruno Tests (tests/bruno/*.bru)"]
 ```
 
 ### 1.1 Why Contract-First?
@@ -24,7 +24,7 @@ flowchart LR
 
 ---
 
-## 2. Implementing REST Controllers (`src/Rest/Controller/`)
+## 2. Implementing REST Controllers (`src/backend/Apps/<App>/Rest/`)
 
 Controllers extend `WP_REST_Controller` and act as presentation adapters. They should contain **no domain logic**. Instead, they parse requests, validate capabilities, invoke Application Services, and format responses.
 
@@ -33,7 +33,7 @@ Controllers extend `WP_REST_Controller` and act as presentation adapters. They s
 Routes are registered on `rest_api_init`:
 
 ```php
-namespace AIReady\WPPluginBoilerplate\Rest\Controller;
+namespace AIReady\WPPluginBoilerplate\Backend\Apps\Settings\Rest;
 
 use WP_REST_Controller;
 use WP_REST_Server;
@@ -88,14 +88,14 @@ public function update_item( $request ): WP_REST_Response|WP_Error {
 
 ---
 
-## 3. Bruno Contract Testing (`bruno/`)
+## 3. Bruno Contract Testing (`tests/bruno/`)
 
 Bruno tests treat the running WordPress container as an external HTTP server and validate API contracts without PHP dependencies.
 
 ### 3.1 Directory Structure
 
 ```text
-bruno/
+tests/bruno/
 ├── 00 Smoke/               # Health check & REST index discovery
 │   └── 01 REST Discovery.bru
 ├── 03 Settings/            # Settings read and update contract tests
@@ -108,7 +108,7 @@ bruno/
 
 ### 3.2 Executing Bruno Tests
 
-The boilerplate provides a cross-platform runner script `scripts/run-rest-tests.mjs` that loads `.env` variables and runs Bruno CLI:
+The boilerplate provides a cross-platform runner script `tools/rest-tests/run-rest-tests.mjs` that loads `.env` variables and runs Bruno CLI:
 
 ```bash
 # Execute Bruno REST test suite

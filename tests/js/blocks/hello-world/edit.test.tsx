@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import Edit from '../../../../blocks/hello-world/edit';
+import Edit from '../../../../src/frontend/apps/hello-world/edit';
 
 jest.mock( '@wordpress/block-editor', () => ( {
 	useBlockProps: jest.fn( () => ( {

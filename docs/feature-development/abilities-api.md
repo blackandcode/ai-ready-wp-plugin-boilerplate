@@ -28,7 +28,7 @@ flowchart LR
 
 ---
 
-## 2. Registering Categories and Abilities (`src/Abilities/AbilitiesServiceProvider.php`)
+## 2. Registering Categories and Abilities (`src/backend/Apps/Settings/Abilities/SettingsAbilities.php`)
 
 Abilities must be registered on their dedicated WordPress action hooks:
 
@@ -36,37 +36,17 @@ Abilities must be registered on their dedicated WordPress action hooks:
 - Abilities: `wp_abilities_api_init`
 
 ```php
-namespace AIReady\WPPluginBoilerplate\Abilities;
+namespace AIReady\WPPluginBoilerplate\Backend\Apps\Settings\Abilities;
 
-use AIReady\WPPluginBoilerplate\Bootstrap\Container;
-use AIReady\WPPluginBoilerplate\Bootstrap\ServiceProvider;
-use AIReady\WPPluginBoilerplate\Diagnostics\Application\DiagnosticsService;
-use AIReady\WPPluginBoilerplate\Settings\Application\Command\UpdateSettingsCommand;
-use AIReady\WPPluginBoilerplate\Settings\Application\SettingsApplicationService;
+use AIReady\WPPluginBoilerplate\Backend\Apps\Settings\Application\Command\UpdateSettingsCommand;
+use AIReady\WPPluginBoilerplate\Backend\Apps\Settings\Application\SettingsApplicationService;
+use AIReady\WPPluginBoilerplate\Framework\Kernel\Plugin;
+use AIReady\WPPluginBoilerplate\Framework\Support\WordPressErrorMapper;
 
-class AbilitiesServiceProvider implements ServiceProvider {
-    public function register( Container $container ): void {}
+class SettingsAbilities {
+    public const CATEGORY = 'ai-ready-wp';
 
-    public function boot(): void {
-        add_action( 'wp_abilities_api_categories_init', [ $this, 'register_categories' ] );
-        add_action( 'wp_abilities_api_init', [ $this, 'register_abilities' ] );
-    }
-
-    public function register_categories(): void {
-        if ( ! function_exists( 'wp_register_ability_category' ) ) {
-            return;
-        }
-
-        wp_register_ability_category(
-            'ai-ready-wp',
-            [
-                'label'       => __( 'AI Ready WP Plugin', 'ai-ready-wp-plugin-boilerplate' ),
-                'description' => __( 'Abilities provided by the AI-Ready WordPress Plugin.', 'ai-ready-wp-plugin-boilerplate' ),
-            ]
-        );
-    }
-
-    public function register_abilities(): void {
+    public static function register(): void {
         if ( ! function_exists( 'wp_register_ability' ) ) {
             return;
         }
@@ -77,13 +57,20 @@ class AbilitiesServiceProvider implements ServiceProvider {
             [
                 'label'               => __( 'Get Settings', 'ai-ready-wp-plugin-boilerplate' ),
                 'description'         => __( 'Retrieve all active configuration settings.', 'ai-ready-wp-plugin-boilerplate' ),
-                'category'            => 'ai-ready-wp',
+                'category'            => self::CATEGORY,
+                'permission_callback' => [ self::class, 'check_manage_options' ],
+                'execute_callback'    => [ self::class, 'execute_get_settings' ],
                 'input_schema'        => [],
-                'permission_callback' => fn() => current_user_can( 'manage_options' ),
-                'callback'            => function () {
-                    $service = Plugin::instance()->get_container()->get( SettingsApplicationService::class );
-                    return $service->get_settings()->to_array();
-                },
+                'output_schema'       => [
+                    'type' => 'object',
+                ],
+                'meta'                => [
+                    'show_in_rest' => true,
+                    'annotations'  => [
+                        'readonly'   => true,
+                        'idempotent' => true,
+                    ],
+                ],
             ]
         );
 
@@ -93,27 +80,45 @@ class AbilitiesServiceProvider implements ServiceProvider {
             [
                 'label'               => __( 'Update Settings', 'ai-ready-wp-plugin-boilerplate' ),
                 'description'         => __( 'Modify plugin configuration settings.', 'ai-ready-wp-plugin-boilerplate' ),
-                'category'            => 'ai-ready-wp',
+                'category'            => self::CATEGORY,
+                'permission_callback' => [ self::class, 'check_manage_options' ],
+                'execute_callback'    => [ self::class, 'execute_update_settings' ],
                 'input_schema'        => [
                     'type'       => 'object',
                     'properties' => [
-                        'greeting'        => [ 'type' => 'string', 'maxLength' => 255 ],
-                        'feature_enabled' => [ 'type' => 'boolean' ],
-                        'cache_ttl'       => [ 'type' => 'integer', 'minimum' => 60, 'maximum' => 86400 ],
+                        'greeting_message' => [ 'type' => 'string' ],
+                        'enable_feature'   => [ 'type' => 'boolean' ],
+                        'cache_ttl'        => [ 'type' => 'integer' ],
                     ],
                 ],
-                'permission_callback' => fn() => current_user_can( 'manage_options' ),
-                'callback'            => function ( array $input ) {
-                    $service = Plugin::instance()->get_container()->get( SettingsApplicationService::class );
-                    $command = UpdateSettingsCommand::from_array( $input );
-                    $dto     = $service->update_settings( $command );
-                    return [
-                        'success'  => true,
-                        'settings' => $dto->to_array(),
-                    ];
-                },
+                'output_schema'       => [
+                    'type' => 'object',
+                ],
+                'meta'                => [
+                    'show_in_rest' => true,
+                    'annotations'  => [
+                        'readonly'   => false,
+                        'idempotent' => true,
+                    ],
+                ],
             ]
         );
+    }
+
+    public static function check_manage_options(): bool {
+        return current_user_can( 'manage_options' );
+    }
+
+    public static function execute_get_settings(): array {
+        $service = Plugin::instance()->get_container()->get( SettingsApplicationService::class );
+        return $service->get_settings()->to_array();
+    }
+
+    public static function execute_update_settings( array $input = [] ): array {
+        $service = Plugin::instance()->get_container()->get( SettingsApplicationService::class );
+        $command = UpdateSettingsCommand::from_array( $input );
+        $dto     = $service->update_settings( $command );
+        return $dto->to_array();
     }
 }
 ```

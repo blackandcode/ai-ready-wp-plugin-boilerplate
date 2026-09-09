@@ -14,8 +14,7 @@
     "resolveJsonModule": true
   },
   "include": [
-    "assets/src/**/*",
-    "blocks/**/*",
+    "src/frontend/**/*",
     "tests/e2e/playwright/**/*",
     "tests/js/**/*"
   ]

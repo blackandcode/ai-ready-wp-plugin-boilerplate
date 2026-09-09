@@ -92,7 +92,7 @@ We adopt a **strict Hexagonal (Ports & Adapters) / DDD architecture** with a **S
 - **ADR Validator:** `npm run adr:validate` confirms structural and referential integrity of this decision.
 - **Pure Unit Tests:** `vendor/bin/phpunit --testsuite=Unit` executes all Value Object and Aggregate tests in memory.
 - **Toolchain Tests:** `npm run test:environment`, `npm run test:versioning`, `npm run test:scaffold` pass with zero regressions.
-- **Rest Contract Tests:** Bruno suites in `bruno/` verify REST and Abilities API conformance.
+- **Rest Contract Tests:** Bruno suites in `tests/bruno/` verify REST and Abilities API conformance.
 
 ## Reconsider When
 
