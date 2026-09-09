@@ -214,7 +214,7 @@ jobs:
           | **Plugin Version** | `${{ needs.package.outputs.version }}` |
           | **Distribution Archive** | `${{ needs.package.outputs.zip_name }}` |
           | **SHA256 Checksum** | `${{ needs.package.outputs.sha256 }}` |
-          | **WordPress Compatibility** | `7.0+` |
+          | **WordPress Compatibility** | `7.1+` |
           | **PHP Matrix** | `8.3` and `8.5` |
 
           ## 🛡️ Release Gate Verification

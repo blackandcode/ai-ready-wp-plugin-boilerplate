@@ -26,11 +26,11 @@ describe( 'SettingsApiClient Adapter', () => {
 
 	const mockDiagnostics: SystemDiagnosticsData = {
 		php_version: '8.3.0',
-		wp_version: '7.0.0',
+		wp_version: '7.1.0',
 		environment_type: 'local',
 		db_status: 'connected',
 		rest_status: 'healthy',
-		plugin_version: '1.1.1',
+		plugin_version: '1.1.2',
 	};
 
 	it( 'retrieves settings via GET', async () => {
@@ -86,7 +86,7 @@ describe( 'SettingsApiClient Adapter', () => {
 		const mockBootstrap: AirwpBootstrapData = {
 			apiBase: '/ai-ready-wp/v1',
 			nonce: 'secret-nonce-123',
-			version: '1.1.1',
+			version: '1.1.2',
 			currentUserCan: { manageOptions: true },
 		};
 

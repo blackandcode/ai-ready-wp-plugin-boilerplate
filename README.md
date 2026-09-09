@@ -9,7 +9,7 @@
 </p>
 
 <p align="center">
-  <a href="#quick-start-under-2-minutes"><img src="https://img.shields.io/badge/WordPress-7.0%2B-blue?logo=wordpress&logoColor=white" alt="WordPress 7.0+" /></a>
+  <a href="#quick-start-under-2-minutes"><img src="https://img.shields.io/badge/WordPress-7.1%2B-blue?logo=wordpress&logoColor=white" alt="WordPress 7.1+" /></a>
   <a href="#quick-start-under-2-minutes"><img src="https://img.shields.io/badge/PHP-8.3%2B-purple?logo=php&logoColor=white" alt="PHP 8.3+" /></a>
   <a href="#key-features"><img src="https://img.shields.io/badge/React-18-61DAFB?logo=react&logoColor=black" alt="React 18" /></a>
   <a href="docs/README.md#tier-1-static-quality-analysis"><img src="https://img.shields.io/badge/WPCS-Core%20%7C%20Extra%20%7C%20Docs-2271b1" alt="WPCS Compliant" /></a>

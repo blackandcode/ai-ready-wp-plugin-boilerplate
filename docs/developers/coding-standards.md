@@ -37,7 +37,7 @@ Modern enterprise plugins require **PSR-4 autoloading** with PascalCase class fi
     </rule>
 
     <config name="text_domain" value="ai-ready-wp-plugin-boilerplate"/>
-    <config name="minimum_supported_wp_version" value="7.0"/>
+    <config name="minimum_supported_wp_version" value="7.1"/>
 </ruleset>
 ```
 

@@ -6,15 +6,26 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.1.2] - 2026-09-09
+
 ### Added
 
 - In-tree native Git pre-commit hooks (.githooks/pre-commit) and cross-platform runner (tools/git-hooks/pre-commit.mjs) enforcing GitHub Actions CI parity locally
 - Mandatory local quality gate rule (.cursor/rules/local-quality-gate.mdc) and autonomous self-healing protocol in AGENTS.md for coding agents
 - Hook installation CLI (tools/git-hooks/install-hooks.mjs) with npm scripts (prepare, hooks:install, hooks:uninstall, pre-commit, check, check:js, check:php) and unit tests
+- Automated asset externalization verification tool (tools/assets/verify-assets.mjs) and test suite ensuring .asset.php dependency extraction
+- ADR-0012: WordPress 7.1 Minimum Compatibility Baseline and Runtime Package Locking
+- Dual-target testing documentation (docs/testing/wordpress-compatibility-testing.md) and npm run env:start:min/latest scripts
 
 ### Fixed
 
 - Markdownlint formatting violations in docs/developers/dependabot-tooling.md and docs/specifications/plans/feature-plan-template.md
+
+### Changed
+
+- Elevated minimum supported WordPress version to 7.1 across plugin header, readme.txt, Compatibility kernel, PHPCS, diagnostics, and tests
+- Locked production @wordpress/* runtime dependencies in package.json to exact WordPress 7.1 package release line
+- Configured Dependabot rules in .github/dependabot.yml to ignore semver-major and semver-minor updates for @wordpress/* packages
 
 ## [1.1.1] - 2026-09-09
 

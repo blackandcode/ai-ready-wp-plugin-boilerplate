@@ -42,7 +42,7 @@ Queries the WordPress host environment:
 {
   "system": {
     "php_version": "8.3.10",
-    "wp_version": "7.0.0",
+    "wp_version": "7.1.0",
     "web_server": "nginx/1.25.4"
   },
   "database": {
@@ -51,7 +51,7 @@ Queries the WordPress host environment:
     "connected": true
   },
   "plugin": {
-    "version": "1.1.1",
+    "version": "1.1.2",
     "active_apps": ["Settings", "Diagnostics", "HelloWorld", "Developer"]
   },
   "status": "healthy"

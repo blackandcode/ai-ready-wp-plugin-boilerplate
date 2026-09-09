@@ -26,7 +26,7 @@ class CompatibilityTest extends TestCase {
 	 * Test minimum WP version constraint.
 	 */
 	public function test_min_wp_version_constant(): void {
-		$this->assertSame( '7.0', Compatibility::MIN_WP_VERSION );
+		$this->assertSame( '7.1', Compatibility::MIN_WP_VERSION );
 	}
 
 	/**

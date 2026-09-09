@@ -49,7 +49,7 @@ This manifest provides a comprehensive directory and file inventory for the **Wo
 | `src/framework/Container/ServiceProviderInterface.php` | Interface contract for all modular service providers. | Framework |
 | `src/framework/Container/ServiceProviderRegistry.php` | Registry managing provider registration and booting. | Framework |
 | `src/framework/Kernel/Plugin.php` | Singleton orchestrator managing lifecycle, DI container, and master providers. | Framework |
-| `src/framework/Kernel/Compatibility.php` | Runtime verification of PHP 8.3+ and WordPress 7.0+ requirements. | Framework |
+| `src/framework/Kernel/Compatibility.php` | Runtime verification of PHP 8.3+ and WordPress 7.1+ requirements. | Framework |
 | `src/framework/Kernel/Activation.php` | Plugin activation routines, default settings seed, rewrite flush. | Framework |
 | `src/framework/Kernel/Deactivation.php` | Plugin deactivation routines and rewrite flush. | Framework |
 | `src/framework/Event/EventDispatcherInterface.php` | Contract for domain event dispatching. | Framework |
@@ -174,6 +174,7 @@ This manifest provides a comprehensive directory and file inventory for the **Wo
 | File | Purpose | Layer |
 |---|---|---|
 | `tools/agent-skills/sync-agent-skills.mjs` | Downloads and syncs external agent skills from upstream repositories. | Toolchain |
+| `tools/assets/verify-assets.mjs` | CLI validating production build asset externalization and .asset.php files. | Toolchain |
 | `tools/changelog/record-unreleased-change.mjs` | Deterministic CLI helper to stage unreleased changelog notes. | Toolchain |
 | `tools/dependabot/run-dependabot.mjs` | Local Dependabot runner coordinating CLI, token resolution, and Docker updaters. | Toolchain |
 | `tools/environment/check-environment.mjs` | Pre-flight environment check CLI analyzing host, Docker, PHP, and ports. | Toolchain |
@@ -249,6 +250,7 @@ This manifest provides a comprehensive directory and file inventory for the **Wo
 | `tests/node/release/validate-release.test.mjs` | Unit tests for release pre-flight version verification. | Toolchain |
 | `tests/node/release/validate-package.test.mjs` | Unit tests for distribution package contract validator. | Toolchain |
 | `tests/node/release/build-package.test.mjs` | Integration test for end-to-end package generation and verification. | Toolchain |
+| `tests/node/release/asset-externalization.test.mjs` | Unit and integration tests for asset externalization and .asset.php parsing. | Toolchain |
 | `tests/bruno/bruno.json` | Bruno REST API collection manifest. | Tier 4 |
 | `tests/bruno/collection.bru` | Root collection configuration with basic auth and pre-request vars. | Tier 4 |
 | `tests/bruno/environments/Local.bru` | Environment variables for local Bruno test execution. | Tier 4 |
@@ -290,6 +292,7 @@ This manifest provides a comprehensive directory and file inventory for the **Wo
 | `docs/testing/tier4-bruno-rest-testing.md` | Black-box REST API contract testing with Bruno CLI. | Testing |
 | `docs/testing/tier5-playwright-e2e-testing.md` | Playwright browser automation, POM, and visual regression testing. | Testing |
 | `docs/testing/release-contract-testing.md` | Distribution package verification tests in tests/node/release/. | Testing |
+| `docs/testing/wordpress-compatibility-testing.md` | WordPress 7.1 baseline, dual-target testing strategy, and asset verification guide. | Testing |
 | `docs/apps/README.md` | App-Centric Architecture hub and inventory of apps. | Apps |
 | `docs/apps/settings/README.md` | Settings App technical documentation index. | Apps |
 | `docs/apps/settings/technical-spec.md` | Settings App technical specification and class architecture. | Apps |

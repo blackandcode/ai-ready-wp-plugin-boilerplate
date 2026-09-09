@@ -7,8 +7,11 @@ module.exports = {
 		...( defaultConfig.setupFilesAfterEnv || [] ),
 		'<rootDir>/tests/js/setup-tests.ts',
 	],
+	transformIgnorePatterns: [
+		'node_modules/(?!(uuid|@wordpress)/)',
+	],
 	transform: {
-		'^.+\\.[jt]sx?$': [
+		'^.+\\.[cm]?[jt]sx?$': [
 			'babel-jest',
 			{
 				presets: [

@@ -41,11 +41,11 @@ class DiagnosticsService {
 
 		return new DiagnosticsDTO(
 			(string) ( $metrics['php_version'] ?? PHP_VERSION ),
-			(string) ( $metrics['wp_version'] ?? '7.0' ),
+			(string) ( $metrics['wp_version'] ?? '7.1' ),
 			(string) ( $metrics['environment_type'] ?? 'local' ),
 			(string) ( $metrics['db_status'] ?? 'connected' ),
 			(string) ( $metrics['rest_status'] ?? 'available' ),
-			(string) ( $metrics['plugin_version'] ?? '1.1.1' )
+			(string) ( $metrics['plugin_version'] ?? '1.1.2' )
 		);
 	}
 }

@@ -44,7 +44,7 @@ class SettingsAssets {
 
 		$plugin_dir = defined( 'AIRWP_PLUGIN_DIR' ) ? AIRWP_PLUGIN_DIR : dirname( __DIR__, 5 ) . '/';
 		$plugin_url = defined( 'AIRWP_PLUGIN_URL' ) ? AIRWP_PLUGIN_URL : plugin_dir_url( $plugin_dir . 'ai-ready-wp-plugin-boilerplate.php' );
-		$version    = defined( 'AIRWP_VERSION' ) ? AIRWP_VERSION : '1.1.1';
+		$version    = defined( 'AIRWP_VERSION' ) ? AIRWP_VERSION : '1.1.2';
 
 		$script_path = 'build/admin/settings/index.js';
 		$style_path  = 'build/admin/settings/index.css';

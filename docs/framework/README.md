@@ -68,7 +68,7 @@ flowchart TD
 | Class / Interface | Namespace | Purpose |
 |:---|:---|:---|
 | `Plugin` | `AIReady\WPPluginBoilerplate\Framework\Kernel` | Singleton orchestrator managing DI container boot and lifecycle. |
-| `Compatibility` | `AIReady\WPPluginBoilerplate\Framework\Kernel` | Pre-flight runtime check for PHP 8.3+ and WordPress 7.0+. |
+| `Compatibility` | `AIReady\WPPluginBoilerplate\Framework\Kernel` | Pre-flight runtime check for PHP 8.3+ and WordPress 7.1+. |
 | `Activation` | `AIReady\WPPluginBoilerplate\Framework\Kernel` | Activation routine, default settings seeding, and rewrite flush. |
 | `Deactivation` | `AIReady\WPPluginBoilerplate\Framework\Kernel` | Deactivation routine, transient flushing, and rewrite flush. |
 | `Container` | `AIReady\WPPluginBoilerplate\Framework\Container` | Micro in-tree dependency injection container with singleton caching. |

@@ -34,7 +34,7 @@ class WordPressDiagnosticsProvider implements DiagnosticsProviderInterface {
 			$db_status = 'unready';
 		}
 
-		$wp_version = function_exists( 'get_bloginfo' ) ? get_bloginfo( 'version' ) : '7.0';
+		$wp_version = function_exists( 'get_bloginfo' ) ? get_bloginfo( 'version' ) : '7.1';
 		$env_type   = function_exists( 'wp_get_environment_type' ) ? wp_get_environment_type() : 'local';
 
 		return array(

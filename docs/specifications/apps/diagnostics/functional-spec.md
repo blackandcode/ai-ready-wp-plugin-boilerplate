@@ -17,7 +17,7 @@ This document defines the functional requirements, user stories, telemetry repor
 The diagnostics subsystem inspects and reports:
 
 - **Host Runtimes:** Active PHP CLI/FPM version (verifies `>=8.3.0`), memory limit, and execution limits.
-- **WordPress Core:** WordPress version (verifies `>=7.0.0`), multisite status, active theme, and companion plugins.
+- **WordPress Core:** WordPress version (verifies `>=7.1.0`), multisite status, active theme, and companion plugins.
 - **Database Status:** MariaDB/MySQL server version, database connection state, table prefix verification.
 - **REST API Health:** Endpoint availability and loopback request verification.
 - **Permissions:** Filesystem writeability on uploads directory.

@@ -63,7 +63,7 @@ $container = $plugin->container();
 
 Guards the plugin against running on incompatible hosting environments:
 
-- **Constants:** `MIN_PHP_VERSION = '8.3'`, `MIN_WP_VERSION = '7.0'`.
+- **Constants:** `MIN_PHP_VERSION = '8.3'`, `MIN_WP_VERSION = '7.1'`.
 - **Graceful Failure:** If either requirement fails, it hooks into WordPress `admin_notices` to render a styled, localized notice without crashing the site.
 - **Activation Block:** Called during activation to block activation via `wp_die` if system requirements are unmet.
 

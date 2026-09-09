@@ -214,10 +214,9 @@ Dependencies that are tightly coupled to the host WordPress runtime or toolchain
 
 | Ecosystem | Dependency | Ignored Versions | Reason |
 |---|---|---|---|
-| `npm` | `react`, `react-dom` | `19.x`, `>= 19` | WordPress 6.x and 7.0 bundle React 18.x. React 19 breaks `@wordpress/*` peer dependencies. |
+| `npm` | `react`, `react-dom` | `19.x`, `>= 19` | WordPress 6.x and 7.x bundle React 18.x. React 19 breaks `@wordpress/*` peer dependencies. |
 | `npm` | `typescript` | `7.x`, `>= 7` | `typescript-eslint` v8 does not yet support TypeScript 7.0. |
-| `npm` | `@wordpress/components` | `40.x`, `>= 40` | Major version jump with breaking DOM component API changes. |
-| `npm` | `@wordpress/block-editor`| `17.x`, `>= 17` | Major version jump requiring Gutenberg core coordination. |
+| `npm` | `@wordpress/*` | `semver-major`, `semver-minor` | Production runtime packages are locked to the WordPress 7.1 baseline and must not be bumped to latest until the minimum WordPress version is intentionally updated. |
 | `composer`| `phpunit/phpunit` | `12.x`, `13.x`, `>= 12` | WordPress test suite (`WP_UnitTestCase`) supports PHPUnit up to v11. |
 | `composer`| `php-stubs/wordpress-stubs`| `7.x`, `>= 7` | Stubs for WP 7 conflict with `wp-cli-stubs` requirements. |
 | `composer`| `symfony/yaml` | `8.x`, `>= 8` | Symfony 8 requires PHP >= 8.4.1, while the plugin baseline is PHP 8.3. |

@@ -37,6 +37,7 @@ flowchart TD
 - [tier4-bruno-rest-testing.md](tier4-bruno-rest-testing.md): Black-box REST API contract testing with Bruno (`tests/bruno/`), `.bru` syntax, Chai assertions, and CLI test runner (`tools/rest-tests/run-rest-tests.mjs`).
 - [tier5-playwright-e2e-testing.md](tier5-playwright-e2e-testing.md): Playwright E2E browser automation, Page Object Model, authentication fixture, visual regression snapshots, and WSL2 / Cursor Playwright MCP integration.
 - [release-contract-testing.md](release-contract-testing.md): Distribution package verification tests in `tests/node/release/` enforcing `.distignore` and production package contracts.
+- [wordpress-compatibility-testing.md](wordpress-compatibility-testing.md): WordPress 7.1 minimum baseline, dual-target testing strategy, and `.asset.php` externalization verification.
 
 ---
 

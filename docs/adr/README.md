@@ -33,6 +33,7 @@ Decisions move through the following lifecycle states:
 | [ADR-0009](0009-tripartite-app-centric-architecture.md) | Tripartite App-Centric Architecture (Framework, Backend, Frontend Bridge) | Accepted | 2026-09-09 | — |
 | [ADR-0010](0010-two-pipeline-ci-cd-and-release-readiness-architecture.md) | Two-Pipeline CI/CD and Release Readiness Architecture | Accepted | 2026-09-09 | — |
 | [ADR-0011](0011-generated-openapi-specification-from-wordpress-rest-controllers.md) | Generated OpenAPI 3.1 specification from WordPress REST controllers | Accepted | 2026-09-09 | Supersedes [ADR-0004](0004-contract-first-rest-api-specification.md) |
+| [ADR-0012](0012-wordpress-7-1-minimum-compatibility-baseline-and-runtime-package-locking.md) | WordPress 7.1 Minimum Compatibility Baseline and Runtime Package Locking | Accepted | 2026-09-09 | — |
 
 ---
 

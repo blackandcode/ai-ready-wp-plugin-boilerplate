@@ -28,10 +28,10 @@ flowchart TD
 
 The engineer or AI agent reads the current version from `package.json` and calculates the target version using strict SemVer (`MAJOR.MINOR.PATCH`):
 
-1. **Minor Bump (`minor`, e.g. `1.0.0` → `1.1.1`):**
+1. **Minor Bump (`minor`, e.g. `1.0.0` → `1.1.2`):**
    - Finalization of a planned implementation phase.
    - Addition of substantial new features, blocks, or REST endpoints.
-2. **Patch Bump (`patch`, e.g. `1.0.0` → `1.1.1`):**
+2. **Patch Bump (`patch`, e.g. `1.0.0` → `1.1.2`):**
    - Bug fixes, security patches, styling polish, or internal refactoring within a phase.
 3. **Major Bump (`major`, e.g. `1.x.x` → `2.0.0`):**
    - Breaking architectural shift, minimum PHP/WP requirement increase, or major product baseline release.

@@ -19,7 +19,7 @@ class Compatibility {
 	/**
 	 * Minimum supported WordPress version.
 	 */
-	public const MIN_WP_VERSION = '7.0';
+	public const MIN_WP_VERSION = '7.1';
 
 	/**
 	 * Minimum supported PHP version.

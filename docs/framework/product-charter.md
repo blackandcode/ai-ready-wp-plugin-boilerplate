@@ -13,7 +13,7 @@ If any specification, phase document, prompt, or code implementation conflicts w
 - **Default Constant Prefix:** `AIRWP_`
 - **Default REST Route Namespace:** `ai-ready-wp/v1`
 - **Default Block Namespace:** `ai-ready-wp/hello-world`
-- **Minimum Supported WordPress Version:** `7.0`
+- **Minimum Supported WordPress Version:** `7.1`
 - **Minimum Supported PHP Version:** `8.3`
 - **License:** MIT
 

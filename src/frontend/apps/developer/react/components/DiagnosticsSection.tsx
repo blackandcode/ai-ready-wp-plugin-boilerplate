@@ -30,7 +30,7 @@ export function DiagnosticsSection( {
 						) }
 					</th>
 					<td>
-						<code>{ version || '1.1.1' }</code>
+						<code>{ version || '1.1.2' }</code>
 					</td>
 				</tr>
 				<tr>
@@ -58,7 +58,7 @@ export function DiagnosticsSection( {
 						) }
 					</th>
 					<td>
-						<code>WP { environment?.wpVersion || '7.0' }</code>{ ' ' }
+						<code>WP { environment?.wpVersion || '7.1' }</code>{ ' ' }
 						<StatusBadge status="success">
 							{ __(
 								'Supported',

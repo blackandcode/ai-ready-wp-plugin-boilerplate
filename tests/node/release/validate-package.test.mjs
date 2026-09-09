@@ -39,6 +39,10 @@ test( 'validatePackage accepts compliant distribution package', async () => {
 			{ path: 'test-plugin/vendor/autoload.php', data: '<?php' },
 			{ path: 'test-plugin/src/Plugin.php', data: '<?php' },
 			{ path: 'test-plugin/build/app.js', data: 'console.log();' },
+			{
+				path: 'test-plugin/build/app.asset.php',
+				data: "<?php return array('dependencies' => array('wp-element'), 'version' => '1.0.0');",
+			},
 		];
 
 		await createZip( entries, zipPath );

@@ -20,7 +20,7 @@ flowchart TD
 # 1. Verify your system meet all engine and Docker requirements
 npm run pre-check
 
-# 2. Boot containerized WordPress 7.0 & MariaDB (PHP 8.3)
+# 2. Boot containerized WordPress 7.1 & MariaDB (PHP 8.3)
 npm run env:start
 
 # 3. Provision admin users, app passwords, and default options

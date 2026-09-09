@@ -31,7 +31,7 @@ describe( 'Settings App Container', () => {
 	const mockBootstrap: AirwpBootstrapData = {
 		apiBase: '/ai-ready-wp/v1',
 		nonce: 'test-nonce',
-		version: '1.1.1',
+		version: '1.1.2',
 		currentUserCan: { manageOptions: true },
 		initialSettings: mockInitialSettings,
 	};
@@ -43,11 +43,11 @@ describe( 'Settings App Container', () => {
 		updateSettings: jest.fn().mockResolvedValue( mockInitialSettings ),
 		getDiagnostics: jest.fn().mockResolvedValue( {
 			php_version: '8.3',
-			wp_version: '7.0',
+			wp_version: '7.1',
 			environment_type: 'local',
 			db_status: 'ok',
 			rest_status: 'ok',
-			plugin_version: '1.1.1',
+			plugin_version: '1.1.2',
 		} ),
 		...overrides,
 	} );

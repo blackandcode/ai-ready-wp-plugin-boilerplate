@@ -29,6 +29,8 @@ updates:
         versions: ["19.x", ">= 19"]
       - dependency-name: "typescript"
         versions: ["7.x", ">= 7"]
+      - dependency-name: "@wordpress/*"
+        update-types: ["version-update:semver-major", "version-update:semver-minor"]
 
   # Maintain Composer PHP runtime and dev dependencies
   - package-ecosystem: "composer"

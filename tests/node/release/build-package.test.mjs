@@ -56,6 +56,10 @@ Stable tag: 1.4.0
 			join( tempDir, 'build/index.js' ),
 			'console.log("built");'
 		);
+		await writeFile(
+			join( tempDir, 'build/index.asset.php' ),
+			"<?php return array('dependencies' => array('wp-element'), 'version' => '1.0.0');"
+		);
 
 		await mkdir( join( tempDir, 'vendor' ), { recursive: true } );
 		await writeFile(

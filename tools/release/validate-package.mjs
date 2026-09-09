@@ -183,6 +183,19 @@ export async function validatePackage(
 			: `Missing compiled assets under ${ prefix }build/`,
 	} );
 
+	// 4b. Required asset metadata: build/*.asset.php present
+	const hasAssetMetadata = filenames.some(
+		( f ) =>
+			f.startsWith( `${ prefix }build/` ) && f.endsWith( '.asset.php' )
+	);
+	checks.push( {
+		name: 'Asset dependency metadata present (build/*.asset.php)',
+		pass: hasAssetMetadata,
+		detail: hasAssetMetadata
+			? `Found asset metadata (.asset.php) under ${ prefix }build/`
+			: `Missing asset metadata (.asset.php) under ${ prefix }build/`,
+	} );
+
 	// 5. Required directory: src/ with PHP runtime sources
 	const hasSrcFiles = filenames.some(
 		( f ) => f.startsWith( `${ prefix }src/` ) && f.endsWith( '.php' )

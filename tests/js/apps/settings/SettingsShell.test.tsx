@@ -126,7 +126,7 @@ describe( 'SettingsShell Component', () => {
 				bootstrap={ {
 					apiBase: 'https://example.com/wp-json/ai-ready-wp/v1',
 					nonce: 'test-nonce',
-					version: '1.1.1',
+					version: '1.1.2',
 					currentUserCan: { manageOptions: true },
 					development: {
 						pluginMode: false,
@@ -152,7 +152,7 @@ describe( 'SettingsShell Component', () => {
 				bootstrap={ {
 					apiBase: 'https://example.com/wp-json/ai-ready-wp/v1',
 					nonce: 'test-nonce',
-					version: '1.1.1',
+					version: '1.1.2',
 					currentUserCan: { manageOptions: true },
 					development: {
 						pluginMode: true,
