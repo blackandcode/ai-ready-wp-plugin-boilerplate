@@ -65,7 +65,7 @@
     "@testing-library/jest-dom": "6.9.1",
     "@testing-library/react": "16.3.0",
     "@usebruno/cli": "4.0.0",
-    "@wordpress/env": "11.12.0",
+    "@wordpress/env": "11.14.0",
     "@wordpress/scripts": "34.0.0",
     "markdownlint-cli2": "0.23.2",
     "react": "18.3.1",
