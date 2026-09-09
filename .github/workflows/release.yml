@@ -89,7 +89,7 @@ jobs:
           path: dist/
 
       - name: Generate Sigstore Build Provenance Attestation
-        uses: actions/attest-build-provenance@v2
+        uses: actions/attest-build-provenance@v4
         with:
           subject-path: "dist/${{ needs.readiness-gate.outputs.zip_name }}"
 
