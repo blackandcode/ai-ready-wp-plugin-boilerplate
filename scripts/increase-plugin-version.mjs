@@ -28,76 +28,84 @@ Options:
   -h, --help                     Show this help.
 `;
 
-const { values, positionals } = parseArgs({
-  options: {
-    root: { type: 'string', default: process.cwd() },
-    env: { type: 'string', default: '.env' },
-    date: { type: 'string' },
-    'target-version': { type: 'string', short: 'v' },
-    bump: { type: 'string', short: 'b' },
-    changelog: { type: 'string', short: 'm' },
-    decision: { type: 'string', short: 'd' },
-    'dry-run': { type: 'boolean', default: false },
-    'allow-downgrade': { type: 'boolean', default: false },
-    help: { type: 'boolean', short: 'h', default: false },
-  },
-  allowPositionals: true,
-  strict: true,
-});
+const { values, positionals } = parseArgs( {
+	options: {
+		root: { type: 'string', default: process.cwd() },
+		env: { type: 'string', default: '.env' },
+		date: { type: 'string' },
+		'target-version': { type: 'string', short: 'v' },
+		bump: { type: 'string', short: 'b' },
+		changelog: { type: 'string', short: 'm' },
+		decision: { type: 'string', short: 'd' },
+		'dry-run': { type: 'boolean', default: false },
+		'allow-downgrade': { type: 'boolean', default: false },
+		help: { type: 'boolean', short: 'h', default: false },
+	},
+	allowPositionals: true,
+	strict: true,
+} );
 
-if (values.help) {
-  console.log(HELP.trim());
-  process.exit(0);
+if ( values.help ) {
+	console.log( HELP.trim() );
+	process.exit( 0 );
 }
 
 try {
-  let targetVersion = values['target-version'];
-  let bump = values.bump;
+	let targetVersion = values[ 'target-version' ];
+	let bump = values.bump;
 
-  if (positionals.length > 0) {
-    const pos = positionals[0].trim();
-    if (['patch', 'minor', 'major'].includes(pos.toLowerCase())) {
-      bump = bump || pos.toLowerCase();
-    } else {
-      targetVersion = targetVersion || pos;
-    }
-  }
+	if ( positionals.length > 0 ) {
+		const pos = positionals[ 0 ].trim();
+		if ( [ 'patch', 'minor', 'major' ].includes( pos.toLowerCase() ) ) {
+			bump = bump || pos.toLowerCase();
+		} else {
+			targetVersion = targetVersion || pos;
+		}
+	}
 
-  const summary = await synchronizeVersion({
-    root: values.root,
-    targetVersion,
-    bump,
-    changelog: values.changelog,
-    decision: values.decision,
-    envFile: values.env,
-    date: values.date,
-    dryRun: values['dry-run'],
-    allowDowngrade: values['allow-downgrade'],
-  });
+	const summary = await synchronizeVersion( {
+		root: values.root,
+		targetVersion,
+		bump,
+		changelog: values.changelog,
+		decision: values.decision,
+		envFile: values.env,
+		date: values.date,
+		dryRun: values[ 'dry-run' ],
+		allowDowngrade: values[ 'allow-downgrade' ],
+	} );
 
-  if (summary.alreadyImplemented) {
-    console.log(`Target version ${summary.targetVersion} is already implemented in ${summary.currentVersion}. No version changes needed.`);
-    process.exit(0);
-  }
+	if ( summary.alreadyImplemented ) {
+		console.log(
+			`Target version ${ summary.targetVersion } is already implemented in ${ summary.currentVersion }. No version changes needed.`
+		);
+		process.exit( 0 );
+	}
 
-  console.log(`${summary.dryRun ? 'Planned' : 'Updated'} plugin version ${summary.currentVersion} -> ${summary.targetVersion}`);
-  console.log(`Release date: ${summary.date}`);
-  console.log(`Scanned text files: ${summary.scannedFiles}`);
-  const phpOrdering = summary.phpVersionOrdering.checked
-    ? 'verified'
-    : `not checked (${summary.phpVersionOrdering.reason})`;
-  console.log(`PHP version ordering: ${phpOrdering}`);
+	console.log(
+		`${ summary.dryRun ? 'Planned' : 'Updated' } plugin version ${
+			summary.currentVersion
+		} -> ${ summary.targetVersion }`
+	);
+	console.log( `Release date: ${ summary.date }` );
+	console.log( `Scanned text files: ${ summary.scannedFiles }` );
+	const phpOrdering = summary.phpVersionOrdering.checked
+		? 'verified'
+		: `not checked (${ summary.phpVersionOrdering.reason })`;
+	console.log( `PHP version ordering: ${ phpOrdering }` );
 
-  if (summary.dryRun) {
-    console.log('\n[Dry Run] Planned file modifications:');
-    for (const change of summary.changes) {
-      console.log(`  - ${change.path} (${change.kind})`);
-    }
-    console.log('\nDry run completed successfully. No files were written.');
-  } else {
-    console.log(`Successfully updated ${summary.modifiedFiles} files.`);
-  }
-} catch (error) {
-  console.error(`Error: ${error.message}`);
-  process.exit(1);
+	if ( summary.dryRun ) {
+		console.log( '\n[Dry Run] Planned file modifications:' );
+		for ( const change of summary.changes ) {
+			console.log( `  - ${ change.path } (${ change.kind })` );
+		}
+		console.log(
+			'\nDry run completed successfully. No files were written.'
+		);
+	} else {
+		console.log( `Successfully updated ${ summary.modifiedFiles } files.` );
+	}
+} catch ( error ) {
+	console.error( `Error: ${ error.message }` );
+	process.exit( 1 );
 }

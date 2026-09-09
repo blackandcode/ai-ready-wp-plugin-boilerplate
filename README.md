@@ -28,15 +28,17 @@ Building production-ready WordPress plugins in the modern era shouldn't mean leg
 **The WordPress AI Plugin Development Boilerplate** codifies modern software engineering craftsmanship, clean architecture, and agentic AI best practices into a single, fully-tested, zero-drift distribution.
 
 It provides an instant foundation containing:
-- **Clean Hexagonal & DDD Backend:** Strict separation between Domain, Application, Infrastructure, and Presentation.
+
+- **Clean Hexagonal & DDD Backend:** Strict separation between pure Domain models, Application CQRS services, Infrastructure adapters, and Presentation endpoints.
 - **Zero-Dependency DI Kernel:** Micro Dependency Injection `Container` with `ServiceProviderRegistry` avoiding heavy framework lock-in.
-- **Modern Gutenberg Block (Block API v3):** Hello World starter block with `InspectorControls`, live editing, responsive layout, and scoped styles.
-- **Contract-First REST API:** Public and authenticated endpoints (`/ai-ready-wp/v1/hello` & `/settings`) with schema validation and OpenAPI 3.1 specifications.
-- **WordPress Design System (WPDS) React 18 Admin:** Card panels, vertical sidebar tab navigation with `@wordpress/icons`, dirty form tracking, and live API fetch synchronization.
+- **Modern Gutenberg Block (Block API v3 + Interactivity API):** Hello World block with client store (`view.ts`), directives (`data-wp-interactive`, `data-wp-on--click`), live editing, and block patterns (`patterns/`).
+- **Unified Multi-Channel Presentation (Shared Core):** REST API, custom WP-CLI commands (`wp ai-ready settings-get`, `doctor`), and official WordPress Abilities API endpoints for AI agents.
+- **WordPress Design System (WPDS) React 18 Admin:** Card panels, vertical sidebar tab navigation with `@wordpress/icons`, dirty form tracking, and reusable shared modules (`assets/src/shared/`).
 - **Automated Project Scaffolding CLI (`npm run scaffold`):** One-click rebranding that atomically renames slugs, namespaces, constants, files, and text domains.
 - **Automated Semantic Versioning (`npm run update-version`):** Coordinated SemVer bumps with changelog promotion and decision logging.
 - **5-Tier Testing Pyramid:** PHPUnit 11 unit/integration tests, Jest + React Testing Library, Git-native Bruno REST tests, and Playwright visual regression.
-- **Durable Architectural Memory (ADRs):** 6 foundational Architecture Decision Records under `docs/adr/` with dedicated ADR CLI tooling and pre-planning agent gates.
+- **WordPress Playground & Developer Sandbox:** Instant zero-install evaluation via `blueprint.json` and containerized WordPress 7.0 / PHP 8.3 sandbox via `wp-env`.
+- **Durable Architectural Memory (ADRs):** 7 accepted Architecture Decision Records under `docs/adr/` with dedicated ADR CLI tooling and pre-planning agent gates.
 - **32 Bundled Agent Skills & Persistent Rules:** Equipping AI agents with deep WordPress APIs, core engineering craftsmanship domain knowledge (DDD, OOP, Design Patterns, TDD, Refactoring), and WordPress Architecture Decision Records (ADRs).
 
 ---
@@ -74,13 +76,17 @@ flowchart TD
 ## Quick Start (Under 2 Minutes)
 
 ### 0. Verify Development Prerequisites
+
 Before starting, verify that your local environment (Node.js >= 24.16, npm >= 11, Docker, Compose v2, and Git) meets all requirements:
+
 ```bash
 npm run pre-check
 ```
-If you encounter missing requirements or need installation instructions for macOS, Windows native, WSL2, or Linux, consult the [Development Prerequisites Guide](docs/development-prerequisites.md).
+
+If you encounter missing requirements or need installation instructions for macOS, Windows native, WSL2, or Linux, consult the [Development Prerequisites Guide](docs/boilerplate-development/development-prerequisites.md).
 
 ### 1. Clone & Scaffold Your New Plugin
+
 ```bash
 # Clone the boilerplate
 git clone https://github.com/wordpress-ai/ai-ready-wp-plugin-boilerplate.git my-awesome-plugin
@@ -96,6 +102,7 @@ npm run scaffold -- \
 ```
 
 ### 2. Launch Local Environment (`wp-env`)
+
 ```bash
 # Install dependencies
 npm install
@@ -109,6 +116,7 @@ npm run build
 ```
 
 Your plugin is instantly mounted and active at:
+
 - **WordPress Admin:** [http://localhost:8888/wp-admin/](http://localhost:8888/wp-admin/) (`admin` / `password`)
 - **Plugin Settings Page:** [http://localhost:8888/wp-admin/admin.php?page=map-settings](http://localhost:8888/wp-admin/admin.php?page=map-settings)
 - **REST Endpoint:** [http://localhost:8888/wp-json/my-awesome-plugin/v1/hello](http://localhost:8888/wp-json/my-awesome-plugin/v1/hello)
@@ -120,7 +128,9 @@ Your plugin is instantly mounted and active at:
 Adapt the boilerplate to your plugin identity with zero manual find-and-replace errors.
 
 ### Interactive Mode
+
 Run without arguments for guided interactive prompts:
+
 ```bash
 npm run scaffold
 # or
@@ -128,6 +138,7 @@ npm run rename
 ```
 
 ### CLI Flag Mode
+
 ```bash
 npm run scaffold -- \
   --name "Diagram Flow" \
@@ -139,9 +150,10 @@ npm run scaffold -- \
   --block-name "df/diagram"
 ```
 
-#### Supported Scaffolding Options:
+#### Supported Scaffolding Options
+
 | Flag | Description | Default |
-|---|---|---|
+| --- | --- | --- |
 | `--name <string>` | Plugin display name | `"AI-Ready WP Plugin Boilerplate"` |
 | `--slug <string>` | Plugin slug & directory name | Derived from name |
 | `--namespace <string>` | PSR-4 PHP namespace | Derived from author + slug |
@@ -167,7 +179,7 @@ flowchart TD
 ```
 
 | Tier | Category | Runner / Tool | Command |
-|---|---|---|---|
+| --- | --- | --- | --- |
 | **Tier 1** | Static Quality | WPCS + PHPStan L6 + ESLint + Markdownlint | `composer lint && composer analyse && npm run lint` |
 | **Tier 2** | PHP Unit & Integration | PHPUnit 11 | `composer test` |
 | **Tier 3** | Frontend Unit | Jest + React Testing Library | `npm run test:unit` |
@@ -195,20 +207,25 @@ npm run update-version -- patch --dry-run
 ```
 
 ### Continuous Unreleased Changelog & 95% Automated Packaging
+
 1. **Continuous Staging (`npm run changelog:add`):**
    Record descriptive bullet points under `## [Unreleased]` in `CHANGELOG.md` on every feature or fix:
+
    ```bash
    npm run changelog:add -- -t Added "Added optimistic concurrency tokens to settings REST route"
    npm run changelog:add -- -t Fixed "Fixed CSS overflow issue on mobile admin sidebar"
    ```
+
 2. **95% Automated Release Packaging:**
    When `npm run update-version` executes, it automatically extracts all items staged under `## [Unreleased]`, converts them into the new release header `## [X.Y.Z] - YYYY-MM-DD`, and inserts a fresh, clean `## [Unreleased]` section. In 95% of cases, no manual release notes writing is necessary.
 
 ### Manual Developer Preference vs AI Agent Workflow
+
 - **Human Developers (Manual Preferred):** Developers can work iteratively, stage notes with `npm run changelog:add`, and manually trigger releases whenever ready.
 - **AI Coding Agents (Prompt-Aware):** Agents inspect the user's initial prompt. If and only if the user explicitly requested a version bump (e.g. "bump version", "release v1.1.0"), the agent executes `npm run update-version`. Otherwise, the agent strictly logs changes under `## [Unreleased]` and leaves release execution to the developer.
 
-### What `npm run update-version` coordinates atomically:
+### What `npm run update-version` coordinates atomically
+
 1. Updates `package.json` and `package-lock.json` root versions without touching external dependencies.
 2. Updates `composer.json` version.
 3. Updates WordPress plugin header `Version: X.Y.Z` and `AIRWP_VERSION` constant.
@@ -216,7 +233,7 @@ npm run update-version -- patch --dry-run
 5. Promotes `CHANGELOG.md` `[Unreleased]` items into the formal release header (`## [X.Y.Z] - YYYY-MM-DD`).
 6. Enforces PHP version comparison ordering (`version_compare`).
 
-For deep-dive documentation, see [07. Versioning & Release Lifecycle](docs/07-versioning-and-release-lifecycle.md).
+For deep-dive documentation, see [Versioning & Release Lifecycle](docs/boilerplate-development/versioning-and-releases.md).
 
 ---
 
@@ -225,19 +242,20 @@ For deep-dive documentation, see [07. Versioning & Release Lifecycle](docs/07-ve
 Architectural decisions are captured under `docs/adr/` as immutable historical records with explicit invariants, trade-offs, and verification criteria. Ephemeral phase plans (`docs/plans/`) govern *how* to build features, while ADRs define the durable architectural boundaries.
 
 | Command | Purpose | Example |
-|---|---|---|
+| --- | --- | --- |
 | `npm run adr:new` | Scaffolds a new ADR with sequential numbering and auto-updates the index | `npm run adr:new -- -t "Cache REST Endpoints" --template simple` |
 | `npm run adr:validate` | Validates markdown schema, YAML frontmatter, and cross-references | `npm run adr:validate -- --strict` |
 | `npm run adr:status` | Updates the status of an existing ADR (`accepted`, `deprecated`, `superseded`) | `npm run adr:status -- --file docs/adr/0002-xyz.md --status superseded --by 0005` |
 | `npm run adr:detect` | Detects WordPress project architecture, dependencies, and ADR conventions | `npm run adr:detect` |
 
-For full lifecycle details and the pre-planning evaluation gate, see [12. Architecture Decision Records](docs/12-architecture-decision-records.md) and the [ADR Index](docs/adr/README.md).
+For full lifecycle details and the pre-planning evaluation gate, see [Architecture Decision Records Guide](docs/general/architecture-decision-records-guide.md) and the [ADR Index](docs/adr/README.md).
 
 ---
 
 ## Bundled Agent Skills and AI Instructions
 
 The boilerplate includes full instruction sets for AI coding agents:
+
 - **`.cursor/rules/`**:
   - `adr-evaluation.mdc`: Pre-planning and in-session ADR evaluation gate enforcing architectural invariants.
   - `wp-admin-ui-ux.mdc`: Persistent visual design standards, WPDS token enforcement, and visual regression loops.
@@ -249,22 +267,40 @@ The boilerplate includes full instruction sets for AI coding agents:
 
 ## Complete Documentation Index
 
-Deep dive into the architectural principles and implementation guides under `docs/`:
+Browse the master documentation index in the **[Documentation Hub](docs/README.md)** or explore each category directly:
 
-- [Development Prerequisites & Setup](docs/development-prerequisites.md)
-- [00. Product Charter & Decisions](docs/00-product-charter-and-decisions.md)
-- [01. Environment & Toolchain](docs/01-environment-and-toolchain.md)
-- [02. Architecture & Directory Structure](docs/02-architecture-and-directory-structure.md)
-- [03. Coding Standards & Engineering Practices](docs/03-coding-standards-and-engineering-practices.md)
-- [04. OpenAPI & Bruno API Testing](docs/04-openapi-and-bruno-api-testing.md)
-- [05. Admin UI & UX Standards](docs/05-admin-ui-and-ux-standards.md)
-- [06. Testing Strategy & Harnesses](docs/06-testing-strategy-and-harnesses.md)
-- [07. Versioning & Release Lifecycle](docs/07-versioning-and-release-lifecycle.md)
-- [08. Phased Execution & Agent Workflow](docs/08-phased-execution-and-agent-workflow.md)
-- [09. Agent Skills & Sync Script](docs/09-agent-skills-and-sync-script.md)
-- [10. Configuration Templates Reference](docs/10-configuration-templates-reference.md)
-- [11. Project Scaffolding CLI](docs/11-project-scaffolding-cli.md)
-- [12. Architecture Decision Records (ADRs)](docs/12-architecture-decision-records.md)
+### General Foundations & Architecture (`docs/general/`)
+
+- [Product Charter & Architectural Invariants](docs/general/product-charter.md)
+- [Architecture & Layer Boundaries](docs/general/architecture-and-layers.md)
+- [Architecture Decision Records (ADRs) Guide](docs/general/architecture-decision-records-guide.md)
+
+### Boilerplate Development & Operations (`docs/boilerplate-development/`)
+
+- [Environment & Containerized Toolchain](docs/boilerplate-development/environment-and-toolchain.md)
+- [Development Prerequisites & Setup](docs/boilerplate-development/development-prerequisites.md)
+- [Coding Standards & Static Analysis](docs/boilerplate-development/coding-standards.md)
+- [Testing Strategy & Test Harnesses](docs/boilerplate-development/testing-strategy.md)
+- [Project Scaffolding & Rebranding CLI](docs/boilerplate-development/project-scaffolding-cli.md)
+- [Versioning & Release Lifecycle](docs/boilerplate-development/versioning-and-releases.md)
+- [Agent Skills & Sync Script](docs/boilerplate-development/agent-skills.md)
+- [Configuration Templates Reference](docs/boilerplate-development/configuration-reference.md)
+- [Command Catalog](docs/boilerplate-development/command-catalog.md)
+- [Project Bootstrap Checklist](docs/boilerplate-development/bootstrap-checklist.md)
+- [Cursor Playwright MCP Integration](docs/boilerplate-development/cursor-playwright-mcp.md)
+
+### Feature Development Guides (`docs/feature-development/`)
+
+- [Phased Execution & Agent Workflow](docs/feature-development/phased-workflow-and-agents.md)
+- [Domain & Application Services](docs/feature-development/domain-and-application-services.md)
+- [REST API & Contracts (OpenAPI & Bruno)](docs/feature-development/rest-api-and-contracts.md)
+- [WordPress Admin UI/UX Standards](docs/feature-development/admin-ui-ux-standards.md)
+- [Blocks & Interactivity API](docs/feature-development/blocks-and-interactivity.md)
+- [WP-CLI Commands & Operations](docs/feature-development/wp-cli-commands.md)
+- [WordPress Abilities API (AI Agents)](docs/feature-development/abilities-api.md)
+
+### Preserved Registries & Specifications
+
 - [Architecture Decision Records Index](docs/adr/README.md)
 - [OpenAPI 3.1 Specification](docs/api/openapi.yaml)
 

@@ -7,6 +7,8 @@
 
 namespace AIReady\WPPluginBoilerplate\Admin;
 
+use AIReady\WPPluginBoilerplate\Support\View\TemplateRenderer;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -22,6 +24,7 @@ class AdminMenu {
 	 * @return void
 	 */
 	public static function register_menu(): void {
+		// phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.obfuscation_base64_encode -- Benign SVG data URI encoding for admin menu icon.
 		$icon_svg = 'data:image/svg+xml;base64,' . base64_encode(
 			'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3Z"/></svg>'
 		);
@@ -56,21 +59,6 @@ class AdminMenu {
 			wp_die( esc_html__( 'You do not have sufficient permissions to access this page.', 'ai-ready-wp-plugin-boilerplate' ) );
 		}
 
-		self::include_template( 'admin-settings-root.php' );
-	}
-
-	/**
-	 * Include an admin template if it exists.
-	 *
-	 * @param string $template_filename Template file name.
-	 * @return void
-	 */
-	private static function include_template( string $template_filename ): void {
-		$plugin_dir    = defined( 'AIRWP_PLUGIN_DIR' ) ? AIRWP_PLUGIN_DIR : dirname( __DIR__, 2 ) . '/';
-		$template_path = $plugin_dir . 'templates/' . $template_filename;
-
-		if ( file_exists( $template_path ) ) {
-			include $template_path;
-		}
+		TemplateRenderer::instance()->render( 'admin/admin-settings-root.php' );
 	}
 }

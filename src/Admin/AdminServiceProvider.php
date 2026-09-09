@@ -9,6 +9,8 @@ namespace AIReady\WPPluginBoilerplate\Admin;
 
 use AIReady\WPPluginBoilerplate\Bootstrap\Container;
 use AIReady\WPPluginBoilerplate\Bootstrap\ServiceProvider;
+use AIReady\WPPluginBoilerplate\Support\View\TemplateRenderer;
+use AIReady\WPPluginBoilerplate\Support\View\TemplateRendererInterface;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -25,8 +27,13 @@ class AdminServiceProvider implements ServiceProvider {
 	 * @param Container $container DI container.
 	 * @return void
 	 */
-	public function register( Container $container ): void { // phpcs:ignore VariableAnalysis.CodeAnalysis.VariableAnalysis.UnusedVariable
-		// Admin hooks use static classes for lightweight bootstrapping.
+	public function register( Container $container ): void {
+		$container->bind(
+			TemplateRendererInterface::class,
+			function (): TemplateRendererInterface {
+				return TemplateRenderer::instance();
+			}
+		);
 	}
 
 	/**

@@ -7,20 +7,22 @@
 
 namespace AIReady\WPPluginBoilerplate\Rest\Controller;
 
+use Throwable;
 use WP_Error;
 use WP_REST_Controller;
 use WP_REST_Request;
 use WP_REST_Response;
 use WP_REST_Server;
-use AIReady\WPPluginBoilerplate\Settings\Infrastructure\SettingsRepository;
-use AIReady\WPPluginBoilerplate\Settings\Infrastructure\SettingsSchema;
+use AIReady\WPPluginBoilerplate\Settings\Application\Command\UpdateSettingsCommand;
+use AIReady\WPPluginBoilerplate\Settings\Application\SettingsApplicationService;
+use AIReady\WPPluginBoilerplate\Support\WordPressErrorMapper;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
 /**
- * Controller exposing plugin settings endpoints.
+ * Controller exposing plugin settings endpoints via SettingsApplicationService.
  */
 class SettingsController extends WP_REST_Controller {
 
@@ -39,19 +41,19 @@ class SettingsController extends WP_REST_Controller {
 	protected $rest_base = 'settings';
 
 	/**
-	 * Settings repository instance.
+	 * Settings application service instance.
 	 *
-	 * @var SettingsRepository
+	 * @var SettingsApplicationService
 	 */
-	private SettingsRepository $repository;
+	private SettingsApplicationService $service;
 
 	/**
 	 * Constructor.
 	 *
-	 * @param SettingsRepository $repository Settings repository.
+	 * @param SettingsApplicationService $service Settings application service.
 	 */
-	public function __construct( SettingsRepository $repository ) {
-		$this->repository = $repository;
+	public function __construct( SettingsApplicationService $service ) {
+		$this->service = $service;
 	}
 
 	/**
@@ -104,8 +106,8 @@ class SettingsController extends WP_REST_Controller {
 	 * @return WP_REST_Response
 	 */
 	public function get_item( $request ): WP_REST_Response { // phpcs:ignore VariableAnalysis.CodeAnalysis.VariableAnalysis.UnusedVariable
-		$settings = $this->repository->get_all();
-		return new WP_REST_Response( $settings, 200 );
+		$dto = $this->service->get_settings();
+		return new WP_REST_Response( $dto->to_array(), 200 );
 	}
 
 	/**
@@ -117,21 +119,13 @@ class SettingsController extends WP_REST_Controller {
 	public function update_item( $request ) {
 		$body = $request->get_json_params();
 
-		if ( ! is_array( $body ) ) {
-			return new WP_Error(
-				'rest_invalid_json',
-				__( 'Invalid JSON body provided.', 'ai-ready-wp-plugin-boilerplate' ),
-				array( 'status' => 400 )
-			);
+		try {
+			$command = UpdateSettingsCommand::from_array( $body );
+			$updated = $this->service->update_settings( $command );
+			return new WP_REST_Response( $updated->to_array(), 200 );
+		} catch ( Throwable $e ) {
+			return WordPressErrorMapper::to_wp_error( $e );
 		}
-
-		$current = $this->repository->get_all();
-		$merged  = array_replace_recursive( $current, $body );
-
-		$this->repository->update( $merged );
-		$updated = $this->repository->get_all();
-
-		return new WP_REST_Response( $updated, 200 );
 	}
 
 	/**

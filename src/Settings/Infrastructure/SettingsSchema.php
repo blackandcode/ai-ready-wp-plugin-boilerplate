@@ -34,8 +34,8 @@ class SettingsSchema {
 				'description'      => 'A modern WordPress plugin powered by AI workflows.',
 			),
 			'advanced'       => array(
-				'rest_debug'       => false,
-				'cache_ttl'        => 3600,
+				'rest_debug' => false,
+				'cache_ttl'  => 3600,
 			),
 			'data_retention' => array(
 				'uninstall_action' => 'preserve',

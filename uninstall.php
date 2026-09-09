@@ -17,6 +17,8 @@ function airwp_uninstall_plugin(): void {
 		return;
 	}
 
+	global $wpdb;
+
 	$settings = get_option( 'airwp_settings', array() );
 	$policy   = $settings['data_retention']['uninstall_action'] ?? 'preserve';
 
@@ -27,6 +29,14 @@ function airwp_uninstall_plugin(): void {
 	if ( in_array( $policy, array( 'delete_settings', 'delete_all' ), true ) ) {
 		delete_option( 'airwp_settings' );
 		delete_option( 'airwp_version' );
+	}
+
+	if ( 'delete_all' === $policy && isset( $wpdb ) ) {
+		// Clean up any cached transients prefixed with airwp_.
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
+		$wpdb->query(
+			"DELETE FROM {$wpdb->options} WHERE option_name LIKE '\_transient\_airwp\_%' OR option_name LIKE '\_transient\_timeout\_airwp\_%'"
+		);
 	}
 }
 

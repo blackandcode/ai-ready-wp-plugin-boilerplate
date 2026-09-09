@@ -11,6 +11,7 @@ use Throwable;
 use WP_Error;
 use InvalidArgumentException;
 use RuntimeException;
+use AIReady\WPPluginBoilerplate\Settings\Domain\Exception\InvalidSettingException;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -28,6 +29,14 @@ class WordPressErrorMapper {
 	 * @return WP_Error
 	 */
 	public static function to_wp_error( Throwable $exception ): WP_Error {
+		if ( $exception instanceof InvalidSettingException ) {
+			return new WP_Error(
+				'airwp_invalid_setting',
+				$exception->getMessage(),
+				array( 'status' => 400 )
+			);
+		}
+
 		if ( $exception instanceof InvalidArgumentException ) {
 			return new WP_Error(
 				'airwp_invalid_argument',

@@ -11,6 +11,7 @@
 ## Context
 
 WordPress plugins often suffer from tight coupling, procedural global functions, and untestable hook spaghetti. While enterprise PHP frameworks rely on heavyweight Dependency Injection (DI) containers (such as Symfony DI, PHP-DI, or Laravel Container), bundling these into a standalone WordPress plugin introduces significant risk:
+
 1. Composer dependency conflicts when another active plugin or theme bundles an incompatible version of the same container library.
 2. Unnecessary runtime memory overhead and slow cold-start performance in shared hosting environments.
 3. Over-engineering for typical plugin bounded contexts.
@@ -33,42 +34,51 @@ All plugin services, controllers, and hook listeners must be registered via dedi
 ## Consequences
 
 ### Positive
+
 - Strict separation of concerns adhering to Hexagonal/DDD architectural boundaries.
 - Services depend on explicit interfaces rather than global state or static singletons.
 - Pure unit tests run in-memory without database or WordPress runtime dependencies.
 - Zero external Composer runtime dependencies required for the DI kernel.
 
 ### Negative & Trade-offs
+
 - No autowiring or reflection-based automatic dependency resolution; dependencies must be explicitly wired in service provider definitions.
 - New services require an explicit registration entry in a `ServiceProvider`.
 
 ### Risks & Mitigations
+
 - **Risk:** Developers or AI agents might be tempted to call `add_action()` or `add_filter()` directly in the root plugin file or within domain entities.
   **Mitigation:** `AGENTS.md` and `.cursor/rules/adr-evaluation.mdc` strictly prohibit procedural hooks outside dedicated service providers. CI static analysis (PHPCS/PHPStan) flags root-level procedural registrations.
 
 ## Non-Goals
+
 - Building a full-blown reflection autowiring framework or compiling container definitions to cache files on disk.
 - Exposing the container as a global static accessor (`Container::getInstance()`); the container instance is encapsulated within the plugin bootstrap lifecycle.
 
 ## Architectural Constraints
+
 - Domain logic (`src/Domain/`) must remain pure PHP, immutable where applicable, and have zero dependency on the DI container or WordPress APIs.
 - Hook attachments must reside exclusively within the `boot()` method of `ServiceProviderInterface` implementations.
 - No direct calls to `add_action` or `add_filter` are allowed in the root plugin file.
 
 ## Verification & Fitness Functions
+
 - **Unit Test Verification:** `tests/phpunit/unit/Bootstrap/ContainerTest.php` asserts binding registration, singleton resolution, factory resolution, and PSR-11 `NotFoundException` handling.
 - **PHPStan Static Analysis:** `composer analyse` verifies that all registered services conform to their declared contracts.
 
 ## Reconsider When
+
 - A future PHP or WordPress core initiative standardizes a native, core-provided PSR-11 container implementation that all plugins can reliably share without collision.
 
 ## Implementation References
+
 - Container: `src/Bootstrap/Container.php`
 - Service Provider Contract: `src/Bootstrap/ServiceProviderInterface.php`
 - Core Plugin Provider: `src/Bootstrap/PluginServiceProvider.php`
 - Unit Test: `tests/phpunit/unit/Bootstrap/ContainerTest.php`
 
 ## Related Decisions
+
 - **Supersedes:** None
 - **Superseded by:** None
 - **Related ADRs:** [ADR-0001](0001-record-architecture-decisions.md)

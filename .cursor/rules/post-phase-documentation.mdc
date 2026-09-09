@@ -68,7 +68,7 @@ For **every** plan phase, the agent must manage implementation logs in `docs/imp
 If architecturally significant decisions or boundaries were introduced or modified during the phase:
 - Ensure corresponding records are authored and accepted in `docs/adr/` using `npm run adr:new` and the `wp-architecture-decision-records` skill.
 - Run `npm run adr:validate -- --strict` to verify referential integrity.
-- If a decision alters fundamental architectural boundaries, synchronize `docs/00-product-charter-and-decisions.md`.
+- If a decision alters fundamental architectural boundaries, synchronize `docs/general/product-charter.md`.
 
 ### 2. Update `CHANGELOG.md`
 Ensure all user-visible and developer-facing changes are documented under `## [Unreleased]` or promoted to the release header.

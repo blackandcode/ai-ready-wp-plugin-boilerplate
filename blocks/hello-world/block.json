@@ -6,11 +6,12 @@
   "title": "Hello World",
   "category": "widgets",
   "icon": "smiley",
-  "description": "A simple starter block for AI-Ready WP Plugin Boilerplate.",
+  "description": "A modern interactive starter block for AI-Ready WP Plugin Boilerplate.",
   "keywords": [
     "hello",
     "world",
     "ai",
+    "interactivity",
     "boilerplate"
   ],
   "textdomain": "ai-ready-wp-plugin-boilerplate",
@@ -25,6 +26,7 @@
     }
   },
   "supports": {
+    "interactivity": true,
     "html": false,
     "align": [
       "wide",
@@ -39,7 +41,8 @@
       "padding": true
     }
   },
-  "editorScript": "file:../../build/index.js",
+  "editorScript": "file:../../build/blocks/hello-world/index.js",
+  "viewScriptModule": "file:../../build/blocks/hello-world/view.js",
   "editorStyle": "file:./editor.css",
   "style": "file:./style.css"
 }

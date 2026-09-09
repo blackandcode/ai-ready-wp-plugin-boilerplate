@@ -2,7 +2,12 @@
 import process from 'node:process';
 import { parseArgs } from 'node:util';
 import readline from 'node:readline/promises';
-import { detectCurrentPlugin, scaffoldPlugin, slugify, toPascalCase } from './lib/scaffold-engine.mjs';
+import {
+	detectCurrentPlugin,
+	scaffoldPlugin,
+	slugify,
+	toPascalCase,
+} from './lib/scaffold-engine.mjs';
 
 const HELP = `
 Usage: npm run scaffold -- [options]
@@ -28,132 +33,170 @@ Options:
   --help                     Show this help message
 `;
 
-const { values } = parseArgs({
-  options: {
-    name: { type: 'string' },
-    slug: { type: 'string' },
-    namespace: { type: 'string' },
-    prefix: { type: 'string' },
-    author: { type: 'string' },
-    'text-domain': { type: 'string' },
-    'rest-namespace': { type: 'string' },
-    'block-name': { type: 'string' },
-    'composer-name': { type: 'string' },
-    root: { type: 'string', default: process.cwd() },
-    'dry-run': { type: 'boolean', default: false },
-    interactive: { type: 'boolean', default: false },
-    help: { type: 'boolean', default: false },
-  },
-  allowPositionals: false,
-  strict: true,
-});
+const { values } = parseArgs( {
+	options: {
+		name: { type: 'string' },
+		slug: { type: 'string' },
+		namespace: { type: 'string' },
+		prefix: { type: 'string' },
+		author: { type: 'string' },
+		'text-domain': { type: 'string' },
+		'rest-namespace': { type: 'string' },
+		'block-name': { type: 'string' },
+		'composer-name': { type: 'string' },
+		root: { type: 'string', default: process.cwd() },
+		'dry-run': { type: 'boolean', default: false },
+		interactive: { type: 'boolean', default: false },
+		help: { type: 'boolean', default: false },
+	},
+	allowPositionals: false,
+	strict: true,
+} );
 
-if (values.help) {
-  console.log(HELP.trim());
-  process.exit(0);
+if ( values.help ) {
+	console.log( HELP.trim() );
+	process.exit( 0 );
 }
 
 async function main() {
-  const root = values.root;
-  const current = await detectCurrentPlugin(root);
+	const root = values.root;
+	const current = await detectCurrentPlugin( root );
 
-  let name = values.name;
-  let slug = values.slug;
-  let namespace = values.namespace;
-  let prefix = values.prefix;
-  let author = values.author;
-  let textDomain = values['text-domain'];
-  let restNamespace = values['rest-namespace'];
-  let blockName = values['block-name'];
-  let composerName = values['composer-name'];
+	let name = values.name;
+	let slug = values.slug;
+	let namespace = values.namespace;
+	let prefix = values.prefix;
+	let author = values.author;
+	const textDomain = values[ 'text-domain' ];
+	const restNamespace = values[ 'rest-namespace' ];
+	const blockName = values[ 'block-name' ];
+	const composerName = values[ 'composer-name' ];
 
-  const shouldPrompt = values.interactive || (!name && process.stdin.isTTY);
+	const shouldPrompt =
+		values.interactive || ( ! name && process.stdin.isTTY );
 
-  if (shouldPrompt) {
-    const rl = readline.createInterface({
-      input: process.stdin,
-      output: process.stdout,
-    });
+	if ( shouldPrompt ) {
+		const rl = readline.createInterface( {
+			input: process.stdin,
+			output: process.stdout,
+		} );
 
-    console.log('\n======================================================');
-    console.log('  WordPress AI Plugin Scaffolding & Rebranding CLI    ');
-    console.log('======================================================\n');
-    console.log(`Current plugin: "${current.name}" (${current.slug})\n`);
+		console.log(
+			'\n======================================================'
+		);
+		console.log( '  WordPress AI Plugin Scaffolding & Rebranding CLI    ' );
+		console.log(
+			'======================================================\n'
+		);
+		console.log(
+			`Current plugin: "${ current.name }" (${ current.slug })\n`
+		);
 
-    name = await rl.question(`Plugin Display Name [${name || 'Custom WordPress Plugin'}]: `) || name || 'Custom WordPress Plugin';
-    const defaultSlug = slugify(name);
-    slug = await rl.question(`Plugin Slug [${slug || defaultSlug}]: `) || slug || defaultSlug;
-    
-    author = await rl.question(`Author / Vendor [${author || 'MyVendor'}]: `) || author || 'MyVendor';
-    const defaultNamespace = `${toPascalCase(author)}\\${toPascalCase(slug)}`;
-    namespace = await rl.question(`PHP Namespace [${namespace || defaultNamespace}]: `) || namespace || defaultNamespace;
+		name =
+			( await rl.question(
+				`Plugin Display Name [${ name || 'Custom WordPress Plugin' }]: `
+			) ) ||
+			name ||
+			'Custom WordPress Plugin';
+		const defaultSlug = slugify( name );
+		slug =
+			( await rl.question(
+				`Plugin Slug [${ slug || defaultSlug }]: `
+			) ) ||
+			slug ||
+			defaultSlug;
 
-    const defaultPrefix = `${slug.replace(/[^a-zA-Z0-9]/g, '_').toUpperCase()}_`;
-    prefix = await rl.question(`Constant Prefix [${prefix || defaultPrefix}]: `) || prefix || defaultPrefix;
+		author =
+			( await rl.question(
+				`Author / Vendor [${ author || 'MyVendor' }]: `
+			) ) ||
+			author ||
+			'MyVendor';
+		const defaultNamespace = `${ toPascalCase( author ) }\\${ toPascalCase(
+			slug
+		) }`;
+		namespace =
+			( await rl.question(
+				`PHP Namespace [${ namespace || defaultNamespace }]: `
+			) ) ||
+			namespace ||
+			defaultNamespace;
 
-    rl.close();
-  }
+		const defaultPrefix = `${ slug
+			.replace( /[^a-zA-Z0-9]/g, '_' )
+			.toUpperCase() }_`;
+		prefix =
+			( await rl.question(
+				`Constant Prefix [${ prefix || defaultPrefix }]: `
+			) ) ||
+			prefix ||
+			defaultPrefix;
 
-  if (!name) {
-    name = current.name;
-  }
-  if (!slug) {
-    slug = slugify(name);
-  }
+		rl.close();
+	}
 
-  console.log('\nProcessing project transformations...');
-  if (values['dry-run']) {
-    console.log('[MODE: DRY RUN — No disk modifications will occur]');
-  }
+	if ( ! name ) {
+		name = current.name;
+	}
+	if ( ! slug ) {
+		slug = slugify( name );
+	}
 
-  const result = await scaffoldPlugin({
-    root,
-    name,
-    slug,
-    namespace,
-    prefix,
-    textDomain,
-    author,
-    restNamespace,
-    blockName,
-    composerName,
-    dryRun: values['dry-run'],
-  });
+	console.log( '\nProcessing project transformations...' );
+	if ( values[ 'dry-run' ] ) {
+		console.log( '[MODE: DRY RUN — No disk modifications will occur]' );
+	}
 
-  console.log('\n======================================================');
-  console.log('  Scaffolding Summary:');
-  console.log('======================================================');
-  console.log(`  Name:           ${result.target.name}`);
-  console.log(`  Slug:           ${result.target.slug}`);
-  console.log(`  Main PHP File:  ${result.target.mainPhpFile}`);
-  console.log(`  PHP Namespace:  ${result.target.namespace}`);
-  console.log(`  Prefix:         ${result.target.prefix}`);
-  console.log(`  REST Route:     ${result.target.restNamespace}`);
-  console.log(`  Block:          ${result.target.blockName}`);
-  console.log(`  Composer Name:  ${result.target.composerName || 'N/A'}`);
-  console.log(`  Author:         ${result.target.author}`);
-  console.log('------------------------------------------------------');
-  console.log(`  Files Modified: ${result.modifiedCount}`);
-  console.log(`  Files Renamed:  ${result.renamedCount}`);
+	const result = await scaffoldPlugin( {
+		root,
+		name,
+		slug,
+		namespace,
+		prefix,
+		textDomain,
+		author,
+		restNamespace,
+		blockName,
+		composerName,
+		dryRun: values[ 'dry-run' ],
+	} );
 
-  if (result.renamedCount > 0) {
-    console.log('\nRenamed:');
-    for (const r of result.renamedFiles) {
-      console.log(`  ${r.from} -> ${r.to}`);
-    }
-  }
+	console.log( '\n======================================================' );
+	console.log( '  Scaffolding Summary:' );
+	console.log( '======================================================' );
+	console.log( `  Name:           ${ result.target.name }` );
+	console.log( `  Slug:           ${ result.target.slug }` );
+	console.log( `  Main PHP File:  ${ result.target.mainPhpFile }` );
+	console.log( `  PHP Namespace:  ${ result.target.namespace }` );
+	console.log( `  Prefix:         ${ result.target.prefix }` );
+	console.log( `  REST Route:     ${ result.target.restNamespace }` );
+	console.log( `  Block:          ${ result.target.blockName }` );
+	console.log( `  Composer Name:  ${ result.target.composerName || 'N/A' }` );
+	console.log( `  Author:         ${ result.target.author }` );
+	console.log( '------------------------------------------------------' );
+	console.log( `  Files Modified: ${ result.modifiedCount }` );
+	console.log( `  Files Renamed:  ${ result.renamedCount }` );
 
-  if (values['dry-run']) {
-    console.log('\nDry run completed successfully. No files were written.');
-  } else {
-    console.log('\nPlugin successfully scaffolded! You can now run:');
-    console.log('  npm run build');
-    console.log('  npm run env:start');
-    console.log('  npm test\n');
-  }
+	if ( result.renamedCount > 0 ) {
+		console.log( '\nRenamed:' );
+		for ( const r of result.renamedFiles ) {
+			console.log( `  ${ r.from } -> ${ r.to }` );
+		}
+	}
+
+	if ( values[ 'dry-run' ] ) {
+		console.log(
+			'\nDry run completed successfully. No files were written.'
+		);
+	} else {
+		console.log( '\nPlugin successfully scaffolded! You can now run:' );
+		console.log( '  npm run build' );
+		console.log( '  npm run env:start' );
+		console.log( '  npm test\n' );
+	}
 }
 
-main().catch((err) => {
-  console.error(`\nError during scaffolding: ${err.message}`);
-  process.exit(1);
-});
+main().catch( ( err ) => {
+	console.error( `\nError during scaffolding: ${ err.message }` );
+	process.exit( 1 );
+} );

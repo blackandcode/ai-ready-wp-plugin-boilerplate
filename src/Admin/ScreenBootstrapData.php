@@ -28,17 +28,17 @@ class ScreenBootstrapData {
 		$repository = new SettingsRepository();
 
 		return array(
-			'apiBase'       => esc_url_raw( rest_url( 'ai-ready-wp/v1' ) ),
-			'nonce'         => wp_create_nonce( 'wp_rest' ),
-			'version'       => Plugin::VERSION,
-			'currentUserCan' => array(
+			'apiBase'         => esc_url_raw( rest_url( 'ai-ready-wp/v1' ) ),
+			'nonce'           => wp_create_nonce( 'wp_rest' ),
+			'version'         => Plugin::VERSION,
+			'currentUserCan'  => array(
 				'manageOptions' => current_user_can( 'manage_options' ),
 			),
 			'initialSettings' => $repository->get_all(),
-			'environment'   => array(
-				'phpVersion'       => PHP_VERSION,
-				'wpVersion'        => get_bloginfo( 'version' ),
-				'environmentType'  => wp_get_environment_type(),
+			'environment'     => array(
+				'phpVersion'      => PHP_VERSION,
+				'wpVersion'       => get_bloginfo( 'version' ),
+				'environmentType' => wp_get_environment_type(),
 			),
 		);
 	}

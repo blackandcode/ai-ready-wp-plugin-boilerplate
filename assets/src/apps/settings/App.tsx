@@ -1,95 +1,165 @@
-import { useState } from '@wordpress/element';
-import apiFetch from '@wordpress/api-fetch';
-import { Notice } from '@wordpress/components';
+/**
+ * Settings Application Root Container.
+ *
+ * Implements the Container / Presenter design pattern, orchestrating
+ * SettingsApiClient, useSettingsForm, useNotice, and ErrorBoundary.
+ *
+ * @package
+ */
+
+import { useState, useEffect } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
+import {
+	ErrorBoundary,
+	NoticeBanner,
+	LoadingSkeleton,
+	useSettingsForm,
+	useNotice,
+	defaultSettingsApiClient,
+	type ISettingsApiClient,
+	type PluginSettings,
+	type AirwpBootstrapData,
+} from '../../shared';
 import { SettingsShell } from './components/SettingsShell';
-import type { PluginSettings, AirwpBootstrapData } from './types';
 import './styles/settings.css';
 
 const DEFAULT_SETTINGS: PluginSettings = {
-  general: {
-    greeting_message: 'Hello from AI-Ready WP Plugin Boilerplate!',
-    enable_feature: true,
-    description: 'A modern WordPress plugin powered by AI workflows.',
-  },
-  advanced: {
-    rest_debug: false,
-    cache_ttl: 3600,
-  },
-  data_retention: {
-    uninstall_action: 'preserve',
-  },
+	general: {
+		greeting_message: 'Hello from AI-Ready WP Plugin Boilerplate!',
+		enable_feature: true,
+		description: 'A modern WordPress plugin powered by AI workflows.',
+	},
+	advanced: {
+		rest_debug: false,
+		cache_ttl: 3600,
+	},
+	data_retention: {
+		uninstall_action: 'preserve',
+	},
 };
 
-interface AppProps {
-  bootstrap?: AirwpBootstrapData;
+export interface AppProps {
+	bootstrap?: AirwpBootstrapData;
+	apiClient?: ISettingsApiClient;
 }
 
-export function App( { bootstrap }: AppProps ) {
-  const initial = bootstrap?.initialSettings || DEFAULT_SETTINGS;
-  const [ settings, setSettings ] = useState< PluginSettings >( initial );
-  const [ lastSaved, setLastSaved ] = useState< PluginSettings >( initial );
-  const [ isSaving, setIsSaving ] = useState( false );
-  const [ notice, setNotice ] = useState< { status: 'success' | 'error'; message: string } | null >( null );
+export function App( {
+	bootstrap,
+	apiClient = defaultSettingsApiClient,
+}: AppProps ) {
+	const initial = bootstrap?.initialSettings || DEFAULT_SETTINGS;
+	const form = useSettingsForm( initial );
+	const { notice, showSuccess, showError, dismiss } = useNotice();
+	const [ isSaving, setIsSaving ] = useState( false );
+	const [ isLoading, setIsLoading ] = useState(
+		! bootstrap?.initialSettings
+	);
 
-  const isDirty = JSON.stringify( settings ) !== JSON.stringify( lastSaved );
+	const formCommit = form.commit;
 
-  const handleSave = async () => {
-    setIsSaving( true );
-    setNotice( null );
+	useEffect( () => {
+		// If initialSettings were not localized, fetch them via the API client
+		if ( ! bootstrap?.initialSettings ) {
+			let isMounted = true;
+			apiClient
+				.getSettings()
+				.then( ( data ) => {
+					if ( isMounted ) {
+						formCommit( data );
+						setIsLoading( false );
+					}
+				} )
+				.catch( ( err ) => {
+					if ( isMounted ) {
+						showError(
+							err?.message ||
+								__(
+									'Failed to load settings from server.',
+									'ai-ready-wp-plugin-boilerplate'
+								)
+						);
+						setIsLoading( false );
+					}
+				} );
 
-    try {
-      const response = await apiFetch< PluginSettings >( {
-        path: '/ai-ready-wp/v1/settings',
-        method: 'POST',
-        data: settings,
-      } );
+			return () => {
+				isMounted = false;
+			};
+		}
+	}, [ bootstrap?.initialSettings, apiClient, formCommit, showError ] );
 
-      setSettings( response );
-      setLastSaved( response );
-      setNotice( {
-        status: 'success',
-        message: __( 'Settings successfully saved.', 'ai-ready-wp-plugin-boilerplate' ),
-      } );
-    } catch ( error: any ) {
-      setNotice( {
-        status: 'error',
-        message:
-          error?.message ||
-          __( 'Failed to save settings. Please check your permissions.', 'ai-ready-wp-plugin-boilerplate' ),
-      } );
-    } finally {
-      setIsSaving( false );
-    }
-  };
+	const handleSave = async () => {
+		setIsSaving( true );
+		dismiss();
 
-  const handleReset = () => {
-    setSettings( lastSaved );
-    setNotice( null );
-  };
+		try {
+			const saved = await apiClient.updateSettings( form.settings );
+			form.commit( saved );
+			showSuccess(
+				__(
+					'Settings successfully saved.',
+					'ai-ready-wp-plugin-boilerplate'
+				)
+			);
+		} catch ( error: any ) {
+			showError(
+				error?.message ||
+					__(
+						'Failed to save settings. Please check your permissions.',
+						'ai-ready-wp-plugin-boilerplate'
+					)
+			);
+		} finally {
+			setIsSaving( false );
+		}
+	};
 
-  return (
-    <div className="airwp-app-container">
-      { notice && (
-        <Notice
-          status={ notice.status }
-          isDismissible={ true }
-          onDismiss={ () => setNotice( null ) }
-          style={ { marginBottom: '16px' } }
-        >
-          { notice.message }
-        </Notice>
-      ) }
+	const handleReset = () => {
+		form.reset();
+		dismiss();
+	};
 
-      <SettingsShell
-        settings={ settings }
-        bootstrap={ bootstrap }
-        isDirty={ isDirty }
-        isSaving={ isSaving }
-        onUpdate={ setSettings }
-        onSave={ handleSave }
-        onReset={ handleReset }
-      />
-    </div>
-  );
+	let appState = 'ready';
+	if ( isLoading ) {
+		appState = 'loading';
+	} else if ( isSaving ) {
+		appState = 'saving';
+	}
+
+	return (
+		<ErrorBoundary
+			fallbackTitle={ __(
+				'Settings Application Error',
+				'ai-ready-wp-plugin-boilerplate'
+			) }
+		>
+			<div
+				className="airwp-app-container"
+				data-airwp-app-state={ appState }
+			>
+				{ notice && (
+					<NoticeBanner
+						status={ notice.status }
+						onDismiss={ dismiss }
+					>
+						{ notice.message }
+					</NoticeBanner>
+				) }
+
+				{ isLoading ? (
+					<LoadingSkeleton />
+				) : (
+					<SettingsShell
+						settings={ form.settings }
+						bootstrap={ bootstrap }
+						isDirty={ form.isDirty }
+						isSaving={ isSaving }
+						onUpdate={ form.setSettings }
+						onSave={ handleSave }
+						onReset={ handleReset }
+					/>
+				) }
+			</div>
+		</ErrorBoundary>
+	);
 }

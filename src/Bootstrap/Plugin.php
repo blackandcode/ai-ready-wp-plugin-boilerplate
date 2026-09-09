@@ -7,8 +7,10 @@
 
 namespace AIReady\WPPluginBoilerplate\Bootstrap;
 
+use AIReady\WPPluginBoilerplate\Abilities\AbilitiesServiceProvider;
 use AIReady\WPPluginBoilerplate\Admin\AdminServiceProvider;
 use AIReady\WPPluginBoilerplate\Block\BlockServiceProvider;
+use AIReady\WPPluginBoilerplate\Cli\CliServiceProvider;
 use AIReady\WPPluginBoilerplate\Rest\RestServiceProvider;
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -103,6 +105,8 @@ class Plugin {
 		$this->registry->add_provider( new RestServiceProvider() );
 		$this->registry->add_provider( new AdminServiceProvider() );
 		$this->registry->add_provider( new BlockServiceProvider() );
+		$this->registry->add_provider( new CliServiceProvider() );
+		$this->registry->add_provider( new AbilitiesServiceProvider() );
 
 		$this->registry->register_all();
 		$this->registry->boot_all();

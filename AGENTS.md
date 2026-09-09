@@ -2,7 +2,7 @@
 
 Before executing any phase or modification:
 
-1. **Read Charter & Consult Active ADRs:** Consult `docs/00-product-charter-and-decisions.md` and active records under `docs/adr/`. The product charter and accepted ADRs are the ultimate single source of truth for architectural boundaries, database choices, and design constraints.
+1. **Read Charter & Consult Active ADRs:** Consult `docs/general/product-charter.md` and active records under `docs/adr/`. The product charter and accepted ADRs are the ultimate single source of truth for architectural boundaries, database choices, and design constraints.
 2. **Consult Active Phase Plan & Evaluate ADR Gate:**
    - Run the ADR-worthiness gate (`.cursor/rules/adr-evaluation.mdc`). If an architectural fork or boundary is touched, author/update an ADR in `docs/adr/` before executing implementation code.
    - When working on an implementation phase, read the active directory under `docs/plans/` and review its `master-prompt.md`.

@@ -18,45 +18,46 @@ import path from 'node:path';
 import process from 'node:process';
 import { fileURLToPath } from 'node:url';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+const __filename = fileURLToPath( import.meta.url );
+const __dirname = path.dirname( __filename );
 
-function toPosix(p) {
-  return p.split(path.sep).join('/');
+function toPosix( p ) {
+	return p.split( path.sep ).join( '/' );
 }
 
-function parseArgs(argv) {
-  const args = {
-    targetDir: '.',
-    adrDir: 'docs/adr',
-    dryRun: false,
-    force: false,
-    json: false,
-    help: false,
-  };
+function parseArgs( argv ) {
+	const args = {
+		targetDir: '.',
+		adrDir: 'docs/adr',
+		dryRun: false,
+		force: false,
+		json: false,
+		help: false,
+	};
 
-  for (let i = 2; i < argv.length; i++) {
-    const arg = argv[i];
-    if (arg === '--help' || arg === '-h') {
-      args.help = true;
-    } else if (arg === '--json') {
-      args.json = true;
-    } else if (arg === '--dry-run') {
-      args.dryRun = true;
-    } else if (arg === '--force') {
-      args.force = true;
-    } else if (arg === '--dir' || arg === '-d') {
-      args.adrDir = argv[++i] || 'docs/adr';
-    } else if (!arg.startsWith('-')) {
-      args.targetDir = arg;
-    }
-  }
+	for ( let i = 2; i < argv.length; i++ ) {
+		const arg = argv[ i ];
+		if ( arg === '--help' || arg === '-h' ) {
+			args.help = true;
+		} else if ( arg === '--json' ) {
+			args.json = true;
+		} else if ( arg === '--dry-run' ) {
+			args.dryRun = true;
+		} else if ( arg === '--force' ) {
+			args.force = true;
+		} else if ( arg === '--dir' || arg === '-d' ) {
+			args.adrDir = argv[ ++i ] || 'docs/adr';
+		} else if ( ! arg.startsWith( '-' ) ) {
+			args.targetDir = arg;
+		}
+	}
 
-  return args;
+	return args;
 }
 
 function printHelp() {
-  process.stdout.write(`Usage: node bootstrap-adrs.mjs [options] [target-directory]
+	process.stdout
+		.write( `Usage: node bootstrap-adrs.mjs [options] [target-directory]
 
 Options:
   --dir, -d <path>   ADR directory to create (default: docs/adr)
@@ -64,14 +65,14 @@ Options:
   --force            Force initialization even if files exist
   --json             Output results as formatted JSON
   --help, -h         Show this help message
-`);
+` );
 }
 
-function getInitialAdr0001Content(today) {
-  return `# ADR-0001: Record architecture decisions
+function getInitialAdr0001Content( today ) {
+	return `# ADR-0001: Record architecture decisions
 
 - **Status:** accepted
-- **Date:** ${today}
+- **Date:** ${ today }
 - **Deciders:** Development Team & AI Engineering Assistants
 - **Consulted:** Architecture Stakeholders
 - **Informed:** All Contributors
@@ -131,8 +132,8 @@ Storing ADRs as plain Markdown files in version control keeps architectural rati
 `;
 }
 
-function getInitialIndexContent(today) {
-  return `# Architecture Decision Records
+function getInitialIndexContent( today ) {
+	return `# Architecture Decision Records
 
 This directory contains the **Architecture Decision Records (ADRs)** for this project.
 
@@ -156,7 +157,7 @@ Decisions move through the following lifecycle states:
 
 | Number | Title | Status | Date | Supersedes / Superseded by |
 |:---:|:---|:---:|:---:|:---|
-| [ADR-0001](0001-record-architecture-decisions.md) | Record architecture decisions | Accepted | ${today} | — |
+| [ADR-0001](0001-record-architecture-decisions.md) | Record architecture decisions | Accepted | ${ today } | — |
 
 ---
 
@@ -172,80 +173,94 @@ Decisions move through the following lifecycle states:
 `;
 }
 
-export function bootstrapAdrs(targetDir = '.', options = {}) {
-  const absRoot = path.resolve(targetDir);
-  const relDir = options.adrDir || 'docs/adr';
-  const absDir = path.join(absRoot, relDir);
-  const dryRun = Boolean(options.dryRun);
-  const force = Boolean(options.force);
+export function bootstrapAdrs( targetDir = '.', options = {} ) {
+	const absRoot = path.resolve( targetDir );
+	const relDir = options.adrDir || 'docs/adr';
+	const absDir = path.join( absRoot, relDir );
+	const dryRun = Boolean( options.dryRun );
+	const force = Boolean( options.force );
 
-  const today = new Date().toISOString().slice(0, 10);
-  const indexFileRel = toPosix(path.join(relDir, 'README.md'));
-  const adr0001FileRel = toPosix(path.join(relDir, '0001-record-architecture-decisions.md'));
+	const today = new Date().toISOString().slice( 0, 10 );
+	const indexFileRel = toPosix( path.join( relDir, 'README.md' ) );
+	const adr0001FileRel = toPosix(
+		path.join( relDir, '0001-record-architecture-decisions.md' )
+	);
 
-  const absIndexFile = path.join(absRoot, indexFileRel);
-  const absAdr0001File = path.join(absRoot, adr0001FileRel);
+	const absIndexFile = path.join( absRoot, indexFileRel );
+	const absAdr0001File = path.join( absRoot, adr0001FileRel );
 
-  // Check if directory already has ADRs
-  if (fs.existsSync(absDir) && !force) {
-    const existing = fs.readdirSync(absDir).filter((f) => f.endsWith('.md'));
-    if (existing.length > 0) {
-      return {
-        success: false,
-        error: `ADR directory '${relDir}' already contains ${existing.length} markdown file(s). Use --force to override.`,
-        adrDirectory: relDir,
-        existingFiles: existing,
-      };
-    }
-  }
+	// Check if directory already has ADRs
+	if ( fs.existsSync( absDir ) && ! force ) {
+		const existing = fs
+			.readdirSync( absDir )
+			.filter( ( f ) => f.endsWith( '.md' ) );
+		if ( existing.length > 0 ) {
+			return {
+				success: false,
+				error: `ADR directory '${ relDir }' already contains ${ existing.length } markdown file(s). Use --force to override.`,
+				adrDirectory: relDir,
+				existingFiles: existing,
+			};
+		}
+	}
 
-  const createdFiles = [indexFileRel, adr0001FileRel];
+	const createdFiles = [ indexFileRel, adr0001FileRel ];
 
-  if (!dryRun) {
-    fs.mkdirSync(absDir, { recursive: true });
-    fs.writeFileSync(absIndexFile, getInitialIndexContent(today), 'utf8');
-    fs.writeFileSync(absAdr0001File, getInitialAdr0001Content(today), 'utf8');
-  }
+	if ( ! dryRun ) {
+		fs.mkdirSync( absDir, { recursive: true } );
+		fs.writeFileSync(
+			absIndexFile,
+			getInitialIndexContent( today ),
+			'utf8'
+		);
+		fs.writeFileSync(
+			absAdr0001File,
+			getInitialAdr0001Content( today ),
+			'utf8'
+		);
+	}
 
-  return {
-    success: true,
-    dryRun,
-    adrDirectory: relDir,
-    createdFiles,
-    message: dryRun
-      ? `[DRY-RUN] Would create ADR directory '${relDir}' with index and ADR-0001.`
-      : `Successfully bootstrapped ADR directory '${relDir}' with index and ADR-0001.`,
-  };
+	return {
+		success: true,
+		dryRun,
+		adrDirectory: relDir,
+		createdFiles,
+		message: dryRun
+			? `[DRY-RUN] Would create ADR directory '${ relDir }' with index and ADR-0001.`
+			: `Successfully bootstrapped ADR directory '${ relDir }' with index and ADR-0001.`,
+	};
 }
 
 function main() {
-  const args = parseArgs(process.argv);
-  if (args.help) {
-    printHelp();
-    process.exit(0);
-  }
+	const args = parseArgs( process.argv );
+	if ( args.help ) {
+		printHelp();
+		process.exit( 0 );
+	}
 
-  const result = bootstrapAdrs(args.targetDir, {
-    adrDir: args.adrDir,
-    dryRun: args.dryRun,
-    force: args.force,
-  });
+	const result = bootstrapAdrs( args.targetDir, {
+		adrDir: args.adrDir,
+		dryRun: args.dryRun,
+		force: args.force,
+	} );
 
-  if (args.json) {
-    process.stdout.write(JSON.stringify(result, null, 2) + '\n');
-  } else {
-    if (result.success) {
-      process.stdout.write(`${result.message}\n`);
-      for (const f of result.createdFiles) {
-        process.stdout.write(`  + ${f}\n`);
-      }
-    } else {
-      process.stderr.write(`ERROR: ${result.error}\n`);
-      process.exit(1);
-    }
-  }
+	if ( args.json ) {
+		process.stdout.write( JSON.stringify( result, null, 2 ) + '\n' );
+	} else if ( result.success ) {
+		process.stdout.write( `${ result.message }\n` );
+		for ( const f of result.createdFiles ) {
+			process.stdout.write( `  + ${ f }\n` );
+		}
+	} else {
+		process.stderr.write( `ERROR: ${ result.error }\n` );
+		process.exit( 1 );
+	}
 }
 
-if (process.argv[1] && path.resolve(process.argv[1]) === path.resolve(new URL(import.meta.url).pathname)) {
-  main();
+if (
+	process.argv[ 1 ] &&
+	path.resolve( process.argv[ 1 ] ) ===
+		path.resolve( new URL( import.meta.url ).pathname )
+) {
+	main();
 }

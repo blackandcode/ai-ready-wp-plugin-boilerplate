@@ -6,6 +6,49 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Frontend Design Patterns Architecture: Authored and accepted ADR-0008 establishing Repository/Adapter, Container/Presenter, Compound WPDS Components, State Reducer, and View Strategy patterns.
+- `SettingsApiClient` repository adapter encapsulating `@wordpress/api-fetch`, nonce injection, and normalized `ApiClientError` error handling.
+- `useSettingsForm` state reducer hook providing immutable form state, dirty tracking, atomic commit, and rollback reset routines.
+- `useNotice` hook and accessible `NoticeBanner` component supporting `status` and `alert` ARIA roles with dismiss callbacks.
+- `LoadingSkeleton` component emitting `data-airwp-app-state="loading"` for deterministic readiness assertions.
+- `ErrorBoundary` component catching unhandled React render exceptions and providing user-facing recovery actions.
+- Compound component architecture for `CardLayout` (`CardLayout.Header`, `CardLayout.Body`, `CardLayout.Footer`) with backward-compatible prop support.
+- Modular Gutenberg block decomposition: `blocks/hello-world/types.ts` and `blocks/hello-world/edit/Inspector.tsx`.
+- Dynamic block metadata scanner and block pattern scanner in `src/Block/BlockServiceProvider.php`.
+- New block pattern `patterns/card-feature.php` showcasing responsive WPDS feature cards.
+- `TemplateRenderer` implementing Template Method and View Strategy with directory traversal security guards and extensible filters.
+- `DiagnosticsController` exposing authenticated `GET /ai-ready-wp/v1/diagnostics` REST endpoint for system telemetry.
+- Playwright Page Object Model (`SettingsPage.ts`) encapsulating selectors, navigation, and state assertions.
+- Comprehensive Jest unit tests for shared components, hooks, blocks, and admin app container (10 suites, 28 tests).
+- Enriched Bruno API contract tests with Chai `expect` schema assertions, error case testing, and diagnostics telemetry checks.
+- Validated `blueprint.json` strictly conforming to official WordPress Playground schema with top-level `meta` and `features`.
+- Strictly separated Hexagonal / DDD Architecture with pure PHP 8.3 Domain Layer (Value Objects `GreetingMessage`, `FeatureFlag`, `Description`, `RestDebug`, `CacheTtl`, backed string enum `DataRetentionPolicy`, aggregate root `PluginSettings`, and domain repository interface `SettingsRepositoryInterface`).
+- Decoupled Application Layer with CQRS-Lite commands (`UpdateSettingsCommand`), queries (`GetSettingsQuery`), `SettingsDTO`, `DiagnosticsDTO`, and shared core services `SettingsApplicationService` and `DiagnosticsService`.
+- In-memory `EventDispatcher` bridging domain events (`SettingsUpdatedEvent`, `RetentionPolicyChangedEvent`) to WordPress action hooks (`airwp_settings_updated`, `airwp_retention_policy_changed`).
+- WordPress infrastructure adapters: `WordPressSettingsRepository` with explicit `autoload=false` performance policy, `WordPressDiagnosticsProvider`, and `TransientCache` with TTL clamping.
+- Multi-channel Presentation Adapters: Refactored `SettingsController` delegating to `SettingsApplicationService`, custom WP-CLI commands (`wp ai-ready settings-get`, `wp ai-ready settings-update`, `wp ai-ready doctor`), and official WordPress Abilities API integration (`ai-ready-wp/get-settings`, `ai-ready-wp/update-settings`, `ai-ready-wp/get-diagnostics`).
+- Gutenberg Block API v3 Interactivity API implementation with client store (`view.ts`) and directives (`data-wp-interactive`, `data-wp-context`, `data-wp-on--click`, `data-wp-bind`, `data-wp-text`).
+- Reusable block pattern `ai-ready-wp/interactive-showcase` in `patterns/interactive-showcase.php`.
+- Shared frontend modules in `assets/src/shared/` (`CardLayout`, `SectionHeader`, `useSettingsApi`, shared TypeScript types).
+- Declarative zero-install WordPress Playground blueprint (`blueprint.json`) and CLI configuration (`wp-cli.yml`).
+- Accepted ADR-0007 documenting Hexagonal domain reorganization, shared core service pattern, and skills integration.
+- Authored new comprehensive feature development guides for pure PHP Domain/Application services, Gutenberg Interactivity API, custom WP-CLI commands, and WordPress Abilities API.
+- Created docs/README.md master documentation hub with categorized navigation paths and mermaid architectural diagrams.
+
+### Changed
+
+- Refactored `App.tsx` into a clean Container component orchestrating `useSettingsForm`, `SettingsApiClient`, and `ErrorBoundary`.
+- Refactored `AdminMenu::render_settings_page()` to delegate rendering to `TemplateRenderer`.
+- Reorganized `templates/` into structured subdirectories (`templates/admin/`, `templates/partials/`) with backwards-compatible root wrappers.
+- Enhanced `scripts/lib/environment-checker.mjs` to recognize Docker Compose v2+ releases (e.g. Docker Compose v5).
+- Hardened `tools/wp-env/after-start.mjs` plugin activation to dynamically resolve mounted plugin slug.
+- Created cross-platform REST runner `scripts/run-rest-tests.mjs` for seamless execution across Linux, WSL2, macOS, and Windows.
+- Refactored `uninstall.php` to clean transient caches when complete purge retention policy is selected.
+- Reorganized documentation structure into three clean categories: general/, boilerplate-development/, and feature-development/, preserving adr/ and api/ intact.
+
+
 ## [1.0.1] - 2026-09-08
 
 ### Added
