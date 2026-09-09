@@ -76,7 +76,7 @@
     "@scalar/api-reference-react": "0.9.67",
     "@wordpress/api-fetch": "7.0.0",
     "@wordpress/block-editor": "14.0.0",
-    "@wordpress/blocks": "14.0.0",
+    "@wordpress/blocks": "15.27.0",
     "@wordpress/components": "30.0.0",
     "@wordpress/element": "6.0.0",
     "@wordpress/i18n": "6.0.0",
