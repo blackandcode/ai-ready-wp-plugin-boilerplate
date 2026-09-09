@@ -68,7 +68,7 @@
     "@wordpress/scripts": "34.0.0",
     "markdownlint-cli2": "0.23.2",
     "react": "18.3.1",
-    "react-dom": "18.3.1",
+    "react-dom": "19.2.8",
     "typescript": "6.0.3"
   },
   "dependencies": {
