@@ -62,7 +62,7 @@
   "devDependencies": {
     "@playwright/test": "1.62.1",
     "@redocly/cli": "2.51.2",
-    "@testing-library/jest-dom": "6.9.1",
+    "@testing-library/jest-dom": "7.0.1",
     "@testing-library/react": "16.3.0",
     "@usebruno/cli": "4.0.0",
     "@wordpress/env": "11.12.0",
