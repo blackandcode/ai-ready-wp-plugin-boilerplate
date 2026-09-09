@@ -79,6 +79,6 @@
     "@wordpress/components": "30.0.0",
     "@wordpress/element": "6.0.0",
     "@wordpress/i18n": "6.0.0",
-    "@wordpress/icons": "11.0.0"
+    "@wordpress/icons": "15.5.0"
   }
 }
