@@ -266,12 +266,24 @@ test( 'parseDependabotOutput handles empty output gracefully', () => {
 } );
 
 test( 'findDependabotBinary searches designated paths and PATH variable', () => {
-	const found = findDependabotBinary( [ '/home/black/.local/bin/dependabot' ] );
-	assert.ok( found !== null );
-	assert.match( found, /dependabot$/ );
+	const tempDir = mkdtempSync( join( tmpdir(), 'airwp-dependabot-test-' ) );
+	try {
+		const dummyBinary = join( tempDir, 'dependabot' );
+		writeFileSync( dummyBinary, '#!/bin/sh\n', 'utf8' );
 
-	const missing = findDependabotBinary( [ '/nonexistent/path/dependabot' ], { PATH: '' } );
-	assert.equal( missing, null );
+		const found = findDependabotBinary( [ dummyBinary ] );
+		assert.ok( found !== null );
+		assert.equal( found, dummyBinary );
+		assert.match( found, /dependabot$/ );
+
+		const foundViaPath = findDependabotBinary( [], { PATH: tempDir } );
+		assert.equal( foundViaPath, dummyBinary );
+
+		const missing = findDependabotBinary( [ '/nonexistent/path/dependabot' ], { PATH: '' } );
+		assert.equal( missing, null );
+	} finally {
+		rmSync( tempDir, { recursive: true, force: true } );
+	}
 } );
 
 test( 'checkPrerequisites detects missing binary or docker failures', () => {

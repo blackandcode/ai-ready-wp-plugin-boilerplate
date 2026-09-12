@@ -13,7 +13,7 @@
 import { execSync, spawn } from 'node:child_process';
 import { existsSync, readFileSync, unlinkSync, writeFileSync } from 'node:fs';
 import { homedir, tmpdir } from 'node:os';
-import { isAbsolute, join, resolve } from 'node:path';
+import { delimiter, isAbsolute, join, resolve } from 'node:path';
 import process from 'node:process';
 import { parseArgs } from 'node:util';
 import yaml from 'js-yaml';
@@ -134,7 +134,7 @@ export function findDependabotBinary( searchPaths, env = process.env ) {
 		}
 	}
 
-	const pathDirs = ( env.PATH || '' ).split( ':' );
+	const pathDirs = ( env.PATH || '' ).split( delimiter );
 	for ( const dir of pathDirs ) {
 		if ( ! dir ) continue;
 		const fullPath = join( dir, 'dependabot' );
