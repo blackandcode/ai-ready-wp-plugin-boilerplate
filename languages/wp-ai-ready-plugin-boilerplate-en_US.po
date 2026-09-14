@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: WP AI Ready Plugin Boilerplate\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-14 07:04:13+0000\n"
-"PO-Revision-Date: 2026-09-14 07:04:13+0000\n"
+"POT-Creation-Date: 2026-09-14 09:19:14+0000\n"
+"PO-Revision-Date: 2026-09-14 09:19:14+0000\n"
 "Last-Translator: \n"
 "Language-Team: English\n"
 "Language: en_US\n"
@@ -52,8 +52,8 @@ msgid "Plugin release version."
 msgstr "Plugin release version."
 
 #: src/backend/Apps/HelloWorld/Rest/HelloWorldController.php:119
-msgid "Greeting message from the boilerplate."
-msgstr "Greeting message from the boilerplate."
+msgid "Greeting message from the plugin."
+msgstr "Greeting message from the plugin."
 
 #: src/backend/Apps/HelloWorld/Rest/HelloWorldController.php:123
 msgid "ISO 8601 UTC timestamp of the health check."
@@ -72,16 +72,16 @@ msgid "Get Plugin Settings"
 msgstr "Get Plugin Settings"
 
 #: src/backend/Apps/Settings/Abilities/SettingsAbilities.php:46
-msgid "Retrieve all current settings sections for the AI-Ready WP plugin."
-msgstr "Retrieve all current settings sections for the AI-Ready WP plugin."
+msgid "Retrieve all current settings sections for the plugin."
+msgstr "Retrieve all current settings sections for the plugin."
 
 #: src/backend/Apps/Settings/Abilities/SettingsAbilities.php:68
 msgid "Update Plugin Settings"
 msgstr "Update Plugin Settings"
 
 #: src/backend/Apps/Settings/Abilities/SettingsAbilities.php:69
-msgid "Update one or more settings fields for the AI-Ready WP plugin."
-msgstr "Update one or more settings fields for the AI-Ready WP plugin."
+msgid "Update one or more settings fields for the plugin."
+msgstr "Update one or more settings fields for the plugin."
 
 #: src/backend/Apps/Settings/Rest/SettingsController.php:126
 msgid "You do not have sufficient permissions to access plugin settings."
@@ -124,8 +124,11 @@ msgid "Strategy for handling stored plugin data when uninstalling."
 msgstr "Strategy for handling stored plugin data when uninstalling."
 
 #: src/backend/BackendServiceProvider.php:103
-msgid "AI-Ready WP Plugin"
-msgstr "AI-Ready WP Plugin"
+#: src/frontend/Bridge/Apps/Settings/SettingsAdminMenu.php:45
+#: src/frontend/Bridge/Apps/Settings/SettingsAdminMenu.php:46
+#: src/frontend/Bridge/Registry/PatternRegistry.php:31
+msgid "WP AI Ready Plugin Boilerplate"
+msgstr "WP AI Ready Plugin Boilerplate"
 
 #: src/backend/BackendServiceProvider.php:104
 msgid "Domain capabilities for inspecting and modifying plugin settings and telemetry."
@@ -155,14 +158,10 @@ msgstr "WP AI Ready Plugin Boilerplate requires WordPress version %1$s or higher
 msgid "An unexpected error occurred."
 msgstr "An unexpected error occurred."
 
-#: src/frontend/Bridge/Apps/Settings/SettingsAdminMenu.php:45
-#: src/frontend/Bridge/Apps/Settings/SettingsAdminMenu.php:46
-msgid "AI Boilerplate"
-msgstr "AI Boilerplate"
-
 #: src/frontend/Bridge/Apps/Settings/SettingsAdminMenu.php:56
-msgid "Boilerplate Settings"
-msgstr "Boilerplate Settings"
+#: src/frontend/apps/settings/templates/admin-settings-root.php:13
+msgid "WP AI Ready Plugin Boilerplate Settings"
+msgstr "WP AI Ready Plugin Boilerplate Settings"
 
 #: src/frontend/Bridge/Apps/Settings/SettingsAdminMenu.php:57
 msgid "Settings"
@@ -171,10 +170,6 @@ msgstr "Settings"
 #: src/frontend/Bridge/Apps/Settings/SettingsAdminMenu.php:71
 msgid "You do not have sufficient permissions to access this page."
 msgstr "You do not have sufficient permissions to access this page."
-
-#: src/frontend/Bridge/Registry/PatternRegistry.php:31
-msgid "AI-Ready WP"
-msgstr "AI-Ready WP"
 
 #: src/frontend/apps/developer/index.ts:23
 msgid "Developer Tools"
@@ -207,10 +202,6 @@ msgstr "General"
 #: src/frontend/apps/settings/react/components/SettingsShell.tsx:63
 msgid "Advanced & Retention"
 msgstr "Advanced & Retention"
-
-#: src/frontend/apps/settings/templates/admin-settings-root.php:13
-msgid "WP AI Ready Plugin Boilerplate Settings"
-msgstr "WP AI Ready Plugin Boilerplate Settings"
 
 #: src/frontend/patterns/card-feature.php:19
 msgid "Autonomous AI Capabilities"

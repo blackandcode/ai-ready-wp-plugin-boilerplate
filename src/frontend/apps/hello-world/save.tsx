@@ -20,7 +20,7 @@ export default function save( {
 	return (
 		<div
 			{ ...blockProps }
-			data-wp-interactive="airwp/hello-world"
+			data-wp-interactive="wpaibp/hello-world"
 			data-wp-context={ initialContext }
 		>
 			<div className="wpaibp-hello-world-card">

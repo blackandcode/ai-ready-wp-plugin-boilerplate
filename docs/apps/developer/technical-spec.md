@@ -66,6 +66,6 @@ In production or staging, `wp_is_development_mode('plugin')` returns `false`, ca
 
 In `src/frontend/apps/settings/react/App.tsx`:
 
-1. The bootstrap configuration (`window.airwpSettingsBootstrap.isDevMode`) informs the React container if development mode is active.
+1. The bootstrap configuration (`window.wpaibpAdminBootstrap.isDevMode`) informs the React container if development mode is active.
 2. If active, an "API Reference" tab appears in the sidebar.
-3. Clicking the tab lazily loads the API Reference component, which fetches `/ai-ready-wp-dev/v1/openapi` and renders interactive documentation.
+3. Clicking the tab lazily loads the API Reference component, which fetches `/wpaibp-dev/v1/openapi` and renders interactive documentation.

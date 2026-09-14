@@ -113,7 +113,7 @@ flowchart TD
 - `SettingsAssets`: Enqueues Webpack scripts from `build/admin/settings/` and injects localized inline bootstrap data via `SettingsBootstrapData`:
 
   ```javascript
-  window.airwpSettingsBootstrap = {
+  window.wpaibpAdminBootstrap = {
     apiUrl: '/wp-json/wpaibp/v1/',
     nonce: '...',
     initialSettings: { ... },

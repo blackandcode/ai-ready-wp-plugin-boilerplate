@@ -116,7 +116,7 @@ class HelloWorldController extends WP_REST_Controller {
 			'type'       => 'object',
 			'properties' => array(
 				'message'   => array(
-					'description' => esc_html__( 'Greeting message from the boilerplate.', 'wp-ai-ready-plugin-boilerplate' ),
+					'description' => esc_html__( 'Greeting message from the plugin.', 'wp-ai-ready-plugin-boilerplate' ),
 					'type'        => 'string',
 				),
 				'timestamp' => array(

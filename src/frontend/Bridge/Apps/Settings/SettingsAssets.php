@@ -91,11 +91,5 @@ class SettingsAssets {
 			'wpaibpAdminBootstrap',
 			$payload
 		);
-
-		wp_localize_script(
-			$handle,
-			'airwpSettingsBootstrap',
-			$payload
-		);
 	}
 }

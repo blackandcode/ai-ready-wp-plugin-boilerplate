@@ -73,6 +73,5 @@ export interface SettingsAppExtension {
 declare global {
 	interface Window {
 		wpaibpAdminBootstrap?: WpaibpBootstrapData;
-		airwpSettingsBootstrap?: WpaibpBootstrapData;
 	}
 }

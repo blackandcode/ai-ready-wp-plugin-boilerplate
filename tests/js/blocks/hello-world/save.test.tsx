@@ -19,7 +19,7 @@ describe( 'HelloWorld Block Save Component', () => {
 		const blockRoot = container.querySelector( '.wpaibp-hello-world-block' );
 		expect( blockRoot ).toHaveAttribute(
 			'data-wp-interactive',
-			'airwp/hello-world'
+			'wpaibp/hello-world'
 		);
 		expect( blockRoot ).toHaveAttribute( 'data-wp-context' );
 

@@ -14,7 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Registers top-level Boilerplate admin menu page and settings submenu.
+ * Registers top-level admin menu page and settings submenu.
  */
 class SettingsAdminMenu {
 
@@ -42,8 +42,8 @@ class SettingsAdminMenu {
 		);
 
 		add_menu_page(
-			__( 'AI Boilerplate', 'wp-ai-ready-plugin-boilerplate' ),
-			__( 'AI Boilerplate', 'wp-ai-ready-plugin-boilerplate' ),
+			__( 'WP AI Ready Plugin Boilerplate', 'wp-ai-ready-plugin-boilerplate' ),
+			__( 'WP AI Ready Plugin Boilerplate', 'wp-ai-ready-plugin-boilerplate' ),
 			'manage_options',
 			SettingsRoute::SETTINGS_SLUG,
 			array( self::class, 'render_settings_page' ),
@@ -53,7 +53,7 @@ class SettingsAdminMenu {
 
 		add_submenu_page(
 			SettingsRoute::SETTINGS_SLUG,
-			__( 'Boilerplate Settings', 'wp-ai-ready-plugin-boilerplate' ),
+			__( 'WP AI Ready Plugin Boilerplate Settings', 'wp-ai-ready-plugin-boilerplate' ),
 			__( 'Settings', 'wp-ai-ready-plugin-boilerplate' ),
 			'manage_options',
 			SettingsRoute::SETTINGS_SLUG,
@@ -72,17 +72,17 @@ class SettingsAdminMenu {
 		}
 
 		/**
-		 * Fires before rendering the boilerplate settings admin page.
+		 * Fires before rendering the settings admin page.
 		 */
 		do_action( 'wpaibp_before_settings_page' );
 
 		/**
-		 * Fires to render the boilerplate settings admin page root container.
+		 * Fires to render the settings admin page root container.
 		 */
 		do_action( 'wpaibp_render_settings_page' );
 
 		/**
-		 * Fires after rendering the boilerplate settings admin page.
+		 * Fires after rendering the settings admin page.
 		 */
 		do_action( 'wpaibp_after_settings_page' );
 	}

@@ -13,13 +13,7 @@ document.addEventListener( 'DOMContentLoaded', () => {
 		return;
 	}
 
-	const bootstrap =
-		window.wpaibpAdminBootstrap ||
-		(
-			window as unknown as {
-				airwpSettingsBootstrap?: typeof window.wpaibpAdminBootstrap;
-			}
-		 )?.airwpSettingsBootstrap;
+	const bootstrap = window.wpaibpAdminBootstrap;
 
 	const root = createRoot( container );
 	root.render( <DeveloperApp bootstrap={ bootstrap } /> );

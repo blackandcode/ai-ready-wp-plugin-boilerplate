@@ -9,16 +9,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Added internationalization infrastructure with `tools/i18n/make-pot.mjs` (`npm run i18n:make-pot`) and generated English translation catalog files in `languages/`
+- Enhanced scaffold engine (`tools/scaffolding/scaffold-engine.mjs`) with WP-CLI command root replacement (`--cli-command`) and fallback rules for legacy boilerplate tokens
+- Personalized scaffold engine and CLI options for custom descriptions, greetings, block metadata, pattern copy, and readme text
+- Added modular scaffolding pipeline in tools/scaffolding/lib/ with automated history cleanup and 1.0.0 version baseline reset
 
 ### Changed
 
 - Rebranded plugin to "WP AI Ready Plugin Boilerplate" with `WPAIBP` namespace and enhanced scaffold engine to support multi-PSR-4 sub-namespaces, dev routes, and language catalog renaming
 - Configured WordPress Plugin Check CI workflow in `.github/workflows/_release-readiness.yml` to ignore `trademarked_term` and `missing_composer_json_file` warnings
+- Synchronized Interactivity API store namespace to `wpaibp/hello-world`, removed deprecated `airwpSettingsBootstrap` global, and normalized pattern categories
 
 ### Fixed
 
 - Added `ABSPATH` direct access guards to frontend block pattern templates (`card-feature.php` and `interactive-showcase.php`)
 - Fixed `findDependabotBinary` unit test in `tests/node/dependabot/run-dependabot.test.mjs` to use isolated temporary binaries and cross-platform delimiter instead of hardcoded host paths
+- Cleaned boilerplate leftovers in admin menu titles (`SettingsAdminMenu.php`), Bruno collection name (`bruno.json`), and admin settings UI
+
 
 ## [1.3.3] - 2026-09-09
 

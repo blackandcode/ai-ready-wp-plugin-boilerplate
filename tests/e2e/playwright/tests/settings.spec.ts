@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test';
 import { SettingsPage } from '../pages/SettingsPage';
 
 test.describe( 'Settings Admin Application (Page Object Model)', () => {
-	test( 'loads settings page and displays WordPress AI Boilerplate title', async ( {
+	test( 'loads settings page and displays Settings title', async ( {
 		page,
 	} ) => {
 		const settingsPage = new SettingsPage( page );
@@ -79,7 +79,7 @@ test.describe( 'Settings Admin Application (Page Object Model)', () => {
 		);
 		await expect( settingsPage.diagnosticsTable ).toBeVisible();
 		await expect( settingsPage.diagnosticsTable ).toContainText(
-			'Boilerplate Version'
+			'Plugin Version'
 		);
 		await expect( settingsPage.diagnosticsTable ).toContainText(
 			'PHP Runtime'

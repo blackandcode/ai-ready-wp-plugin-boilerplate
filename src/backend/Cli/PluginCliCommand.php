@@ -1,6 +1,6 @@
 <?php
 /**
- * Master WP-CLI Command Adapter for AI-Ready WP Plugin.
+ * Master WP-CLI Command Adapter for WP AI Ready Plugin Boilerplate.
  *
  * @package WPAIBP\Backend\Cli
  */

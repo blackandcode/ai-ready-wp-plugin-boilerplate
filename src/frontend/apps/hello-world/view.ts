@@ -7,7 +7,7 @@
 import { store, getContext } from '@wordpress/interactivity';
 import type { HelloWorldContext } from './types';
 
-store( 'airwp/hello-world', {
+store( 'wpaibp/hello-world', {
 	state: {
 		get likeCountText(): string {
 			const context = getContext< HelloWorldContext >();

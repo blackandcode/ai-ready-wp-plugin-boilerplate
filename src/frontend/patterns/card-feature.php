@@ -2,7 +2,7 @@
 /**
  * Title: Feature Callout Card
  * Slug: wpaibp/card-feature
- * Categories: ai-ready-wp, featured
+ * Categories: wpaibp, featured
  * Description: A clean callout card featuring an icon badge and headline.
  *
  * @package WPAIBP

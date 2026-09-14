@@ -187,7 +187,7 @@ components:
       properties:
         message:
           type: string
-          description: 'Greeting message from the boilerplate.'
+          description: 'Greeting message from the plugin.'
         timestamp:
           type: string
           description: 'ISO 8601 UTC timestamp of the health check.'

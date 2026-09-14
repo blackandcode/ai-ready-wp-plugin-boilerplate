@@ -49,7 +49,7 @@ describe( 'DeveloperShell Component', () => {
 
 		// Diagnostics table should be visible
 		expect(
-			screen.getByText( /Boilerplate Version/i )
+			screen.getByText( /Plugin Version/i )
 		).toBeInTheDocument();
 		expect( screen.getByText( /PHP Runtime/i ) ).toBeInTheDocument();
 		expect( screen.getByText( /WordPress Core/i ) ).toBeInTheDocument();
@@ -85,7 +85,7 @@ describe( 'DeveloperShell Component', () => {
 
 		expect( diagnosticsTab ).toHaveClass( 'is-active' );
 		expect(
-			screen.getByText( /Boilerplate Version/i )
+			screen.getByText( /Plugin Version/i )
 		).toBeInTheDocument();
 		expect( handleSubTabChange ).toHaveBeenCalledWith( 'diagnostics' );
 	} );

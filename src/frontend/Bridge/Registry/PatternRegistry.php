@@ -28,7 +28,7 @@ class PatternRegistry {
 
 		register_block_pattern_category(
 			'wpaibp',
-			array( 'label' => __( 'AI-Ready WP', 'wp-ai-ready-plugin-boilerplate' ) )
+			array( 'label' => __( 'WP AI Ready Plugin Boilerplate', 'wp-ai-ready-plugin-boilerplate' ) )
 		);
 
 		$plugin_dir    = defined( 'WPAIBP_PLUGIN_DIR' ) ? WPAIBP_PLUGIN_DIR : dirname( __DIR__, 4 ) . '/';

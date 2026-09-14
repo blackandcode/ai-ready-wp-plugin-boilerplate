@@ -1,7 +1,7 @@
 # WordPress AI Plugin Development Boilerplate
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/WordPress/gutenberg/trunk/packages/icons/src/library/symbol.svg" width="80" height="80" alt="WordPress AI Boilerplate Logo" />
+  <img src="https://raw.githubusercontent.com/WordPress/gutenberg/trunk/packages/icons/src/library/symbol.svg" width="80" height="80" alt="WP AI Ready Plugin Boilerplate Logo" />
 </p>
 
 <p align="center">

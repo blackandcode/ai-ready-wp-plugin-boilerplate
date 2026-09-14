@@ -43,7 +43,7 @@ class SettingsAbilities {
 			'wpaibp/get-settings',
 			array(
 				'label'               => __( 'Get Plugin Settings', 'wp-ai-ready-plugin-boilerplate' ),
-				'description'         => __( 'Retrieve all current settings sections for the AI-Ready WP plugin.', 'wp-ai-ready-plugin-boilerplate' ),
+				'description'         => __( 'Retrieve all current settings sections for the plugin.', 'wp-ai-ready-plugin-boilerplate' ),
 				'category'            => self::CATEGORY,
 				'permission_callback' => array( self::class, 'check_manage_options' ),
 				'execute_callback'    => array( self::class, 'execute_get_settings' ),
@@ -66,7 +66,7 @@ class SettingsAbilities {
 			'wpaibp/update-settings',
 			array(
 				'label'               => __( 'Update Plugin Settings', 'wp-ai-ready-plugin-boilerplate' ),
-				'description'         => __( 'Update one or more settings fields for the AI-Ready WP plugin.', 'wp-ai-ready-plugin-boilerplate' ),
+				'description'         => __( 'Update one or more settings fields for the plugin.', 'wp-ai-ready-plugin-boilerplate' ),
 				'category'            => self::CATEGORY,
 				'permission_callback' => array( self::class, 'check_manage_options' ),
 				'execute_callback'    => array( self::class, 'execute_update_settings' ),

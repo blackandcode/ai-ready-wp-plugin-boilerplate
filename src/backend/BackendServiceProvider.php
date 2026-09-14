@@ -100,7 +100,7 @@ class BackendServiceProvider implements ServiceProviderInterface {
 		wp_register_ability_category(
 			'wpaibp',
 			array(
-				'label'       => __( 'AI-Ready WP Plugin', 'wp-ai-ready-plugin-boilerplate' ),
+				'label'       => __( 'WP AI Ready Plugin Boilerplate', 'wp-ai-ready-plugin-boilerplate' ),
 				'description' => __( 'Domain capabilities for inspecting and modifying plugin settings and telemetry.', 'wp-ai-ready-plugin-boilerplate' ),
 			)
 		);

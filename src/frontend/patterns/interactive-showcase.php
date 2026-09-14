@@ -1,9 +1,9 @@
 <?php
 /**
- * Title: Interactive AI-Ready Showcase
+ * Title: Interactive Showcase
  * Slug: wpaibp/interactive-showcase
- * Categories: ai-ready-wp, featured
- * Description: A modern interactive showcase featuring the AI-Ready Hello World block.
+ * Categories: wpaibp, featured
+ * Description: A modern interactive showcase featuring the Hello World block.
  *
  * @package WPAIBP
  */

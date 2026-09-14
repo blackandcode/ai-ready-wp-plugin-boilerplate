@@ -208,6 +208,14 @@ This manifest provides a comprehensive directory and file inventory for the **Wo
 | `tools/rest-tests/run-rest-tests.mjs` | Cross-platform Bruno REST API test runner loading .env credentials. | Toolchain |
 | `tools/scaffolding/scaffold-plugin.mjs` | CLI for automated plugin scaffolding, renaming, and rebranding. | Toolchain |
 | `tools/scaffolding/scaffold-engine.mjs` | Core engine executing atomic token replacements and file renames. | Toolchain |
+| `tools/scaffolding/lib/detect.mjs` | Project metadata detection, casing derivations, and normalization. | Toolchain |
+| `tools/scaffolding/lib/history-cleaner.mjs` | Repository history, changelog, ADR, and audit log cleaner. | Toolchain |
+| `tools/scaffolding/lib/version-resetter.mjs` | Version baseline reset across manifests, PHP headers, and block definitions. | Toolchain |
+| `tools/scaffolding/lib/replacements.mjs` | Token replacement dictionaries for namespaces, constants, and endpoints. | Toolchain |
+| `tools/scaffolding/lib/transformer.mjs` | Multi-file text scanner, binary detector, and atomic transactional writer. | Toolchain |
+| `tools/scaffolding/lib/renamer.mjs` | File rename planner and executor for main PHP file and language catalogs. | Toolchain |
+| `tools/scaffolding/lib/manifest-sync.mjs` | Synchronization handler for MANIFEST.md table entries. | Toolchain |
+| `tools/scaffolding/lib/pipeline.mjs` | Extensible scaffolding pipeline runner with atomic rollback. | Toolchain |
 | `tools/security/audit-security-baseline.mjs` | Deterministic static checker enforcing repository-wide security baseline. | Quality |
 | `tools/versioning/increase-plugin-version.mjs` | Automated SemVer release tool updating all project metadata. | Toolchain |
 | `tools/versioning/version-sync.mjs` | Version synchronization engine with rollback and changelog promotion. | Toolchain |
@@ -264,6 +272,9 @@ This manifest provides a comprehensive directory and file inventory for the **Wo
 | `tests/node/versioning/version-sync.test.mjs` | Integration tests for automated SemVer synchronization engine. | Toolchain |
 | `tests/node/i18n/make-pot.test.mjs` | Unit tests for POT string extraction and GNU gettext binary MO generation. | Toolchain |
 | `tests/node/scaffolding/scaffold.test.mjs` | Integration tests for automated scaffolding & renaming CLI. | Toolchain |
+| `tests/node/scaffolding/history-cleaner.test.mjs` | Unit tests for history cleaner, changelog reset, and ADR pruning. | Toolchain |
+| `tests/node/scaffolding/version-resetter.test.mjs` | Unit tests for version resetter across manifests and constants. | Toolchain |
+| `tests/node/scaffolding/pipeline.test.mjs` | Unit tests for modular scaffolding pipeline and error rollback. | Toolchain |
 | `tests/node/dependabot/run-dependabot.test.mjs` | Unit tests for local Dependabot runner and job generator. | Toolchain |
 | `tests/node/environment/environment-checker.test.mjs` | Unit tests for pre-flight environment checker. | Toolchain |
 | `tests/node/git-hooks/install-hooks.test.mjs` | Unit tests for hook installation and core.hooksPath configuration. | Toolchain |
@@ -363,4 +374,5 @@ This manifest provides a comprehensive directory and file inventory for the **Wo
 | `docs/adr/README.md` | Architecture Decision Records index and status log. | Architecture |
 | `docs/adr/0013-runtime-architecture-code-quality-and-security-hardening.md` | Architectural record defining runtime context, development decoupling, native blocks, and security. | Architecture |
 | `docs/adr/0014-boilerplate-starter-release-distribution-architecture.md` | Architectural record defining dual-release architecture and boilerplate starter distribution. | Architecture |
+| `docs/adr/0015-modular-scaffolding-pipeline-repository-history-reset-and-version-baseline.md` | Architectural record defining modular scaffolding pipeline, history reset, and version baseline. | Architecture |
 | `docs/implementation-logs/2026-09-09-runtime-architecture-and-security-hardening.md` | Implementation report for runtime architecture and security hardening. | Implementation |

@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: WP AI Ready Plugin Boilerplate\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-09-14 07:04:13+0000\n"
+"POT-Creation-Date: 2026-09-14 09:19:14+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -51,7 +51,7 @@ msgid "Plugin release version."
 msgstr ""
 
 #: src/backend/Apps/HelloWorld/Rest/HelloWorldController.php:119
-msgid "Greeting message from the boilerplate."
+msgid "Greeting message from the plugin."
 msgstr ""
 
 #: src/backend/Apps/HelloWorld/Rest/HelloWorldController.php:123
@@ -71,7 +71,7 @@ msgid "Get Plugin Settings"
 msgstr ""
 
 #: src/backend/Apps/Settings/Abilities/SettingsAbilities.php:46
-msgid "Retrieve all current settings sections for the AI-Ready WP plugin."
+msgid "Retrieve all current settings sections for the plugin."
 msgstr ""
 
 #: src/backend/Apps/Settings/Abilities/SettingsAbilities.php:68
@@ -79,7 +79,7 @@ msgid "Update Plugin Settings"
 msgstr ""
 
 #: src/backend/Apps/Settings/Abilities/SettingsAbilities.php:69
-msgid "Update one or more settings fields for the AI-Ready WP plugin."
+msgid "Update one or more settings fields for the plugin."
 msgstr ""
 
 #: src/backend/Apps/Settings/Rest/SettingsController.php:126
@@ -123,7 +123,10 @@ msgid "Strategy for handling stored plugin data when uninstalling."
 msgstr ""
 
 #: src/backend/BackendServiceProvider.php:103
-msgid "AI-Ready WP Plugin"
+#: src/frontend/Bridge/Apps/Settings/SettingsAdminMenu.php:45
+#: src/frontend/Bridge/Apps/Settings/SettingsAdminMenu.php:46
+#: src/frontend/Bridge/Registry/PatternRegistry.php:31
+msgid "WP AI Ready Plugin Boilerplate"
 msgstr ""
 
 #: src/backend/BackendServiceProvider.php:104
@@ -154,13 +157,9 @@ msgstr ""
 msgid "An unexpected error occurred."
 msgstr ""
 
-#: src/frontend/Bridge/Apps/Settings/SettingsAdminMenu.php:45
-#: src/frontend/Bridge/Apps/Settings/SettingsAdminMenu.php:46
-msgid "AI Boilerplate"
-msgstr ""
-
 #: src/frontend/Bridge/Apps/Settings/SettingsAdminMenu.php:56
-msgid "Boilerplate Settings"
+#: src/frontend/apps/settings/templates/admin-settings-root.php:13
+msgid "WP AI Ready Plugin Boilerplate Settings"
 msgstr ""
 
 #: src/frontend/Bridge/Apps/Settings/SettingsAdminMenu.php:57
@@ -169,10 +168,6 @@ msgstr ""
 
 #: src/frontend/Bridge/Apps/Settings/SettingsAdminMenu.php:71
 msgid "You do not have sufficient permissions to access this page."
-msgstr ""
-
-#: src/frontend/Bridge/Registry/PatternRegistry.php:31
-msgid "AI-Ready WP"
 msgstr ""
 
 #: src/frontend/apps/developer/index.ts:23
@@ -205,10 +200,6 @@ msgstr ""
 
 #: src/frontend/apps/settings/react/components/SettingsShell.tsx:63
 msgid "Advanced & Retention"
-msgstr ""
-
-#: src/frontend/apps/settings/templates/admin-settings-root.php:13
-msgid "WP AI Ready Plugin Boilerplate Settings"
 msgstr ""
 
 #: src/frontend/patterns/card-feature.php:19

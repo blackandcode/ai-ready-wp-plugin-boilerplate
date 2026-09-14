@@ -34,7 +34,7 @@ export function GeneralSection( { settings, onChange }: GeneralSectionProps ) {
 			<ToggleControl
 				__nextHasNoMarginBottom={ true }
 				label={ __(
-					'Enable Boilerplate Features',
+					'Enable Plugin Features',
 					'wp-ai-ready-plugin-boilerplate'
 				) }
 				checked={ settings.enable_feature }
