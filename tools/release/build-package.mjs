@@ -480,7 +480,9 @@ if (
 	}
 
 	try {
-		console.log( '📦 Building plugin distribution archive...' );
+		if ( ! values.json ) {
+			console.log( '📦 Building plugin distribution archive...' );
+		}
 		const result = await buildPackage( {
 			root: resolve( values.root ),
 			outDir: values[ 'out-dir' ],

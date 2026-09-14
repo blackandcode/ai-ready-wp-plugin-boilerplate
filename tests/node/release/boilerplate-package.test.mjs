@@ -1,7 +1,8 @@
 import assert from 'node:assert/strict';
+import { execFileSync } from 'node:child_process';
 import { mkdir, mkdtemp, readFile, rm, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
-import { join } from 'node:path';
+import { join, resolve } from 'node:path';
 import test from 'node:test';
 import {
 	buildBoilerplatePackage,
@@ -237,6 +238,75 @@ test( 'validateBoilerplatePackage flags missing assets and leaked node_modules o
 			failedCheckNames.some( ( n ) => n.includes( 'Git repository' ) ),
 			true
 		);
+	} finally {
+		await rm( tempDir, { recursive: true, force: true } );
+	}
+} );
+
+test( 'CLI build-boilerplate-package.mjs with --json outputs valid parseable JSON to stdout without extra text', async () => {
+	const tempDir = await mkdtemp(
+		join( tmpdir(), 'airwp-build-boilerplate-cli-' )
+	);
+
+	try {
+		await writeFile(
+			join( tempDir, 'package.json' ),
+			JSON.stringify( { name: 'cli-starter', version: '2.0.0' }, null, 2 )
+		);
+
+		await writeFile(
+			join( tempDir, 'composer.json' ),
+			JSON.stringify( { name: 'vendor/cli-starter' }, null, 2 )
+		);
+
+		await writeFile(
+			join( tempDir, 'cli-starter.php' ),
+			`<?php
+/**
+ * Plugin Name: CLI Starter
+ * Version: 2.0.0
+ * Text Domain: cli-starter
+ */
+`
+		);
+
+		await writeFile(
+			join( tempDir, 'readme.txt' ),
+			'=== CLI Starter ===\nStable tag: 2.0.0\n'
+		);
+		await writeFile( join( tempDir, 'uninstall.php' ), '<?php\n' );
+		await writeFile( join( tempDir, 'README.md' ), '# CLI Starter\n' );
+		await writeFile( join( tempDir, 'CHANGELOG.md' ), '# Changelog\n' );
+		await writeFile( join( tempDir, '.env.example' ), 'WP_ENV=development\n' );
+
+		const stdout = execFileSync(
+			process.execPath,
+			[
+				resolve(
+					process.cwd(),
+					'tools/release/build-boilerplate-package.mjs'
+				),
+				'--root',
+				tempDir,
+				'--skip-build',
+				'--unsafe-skip-composer',
+				'--json',
+			],
+			{ encoding: 'utf8' }
+		);
+
+		assert.ok(
+			stdout.startsWith( '{' ),
+			`Expected stdout to start with '{', but got: ${ stdout.slice( 0, 50 ) }`
+		);
+		let parsed;
+		assert.doesNotThrow( () => {
+			parsed = JSON.parse( stdout );
+		}, 'stdout should parse cleanly as JSON' );
+		assert.equal( parsed.slug, 'cli-starter' );
+		assert.equal( parsed.version, '2.0.0' );
+		assert.ok( parsed.zipPath );
+		assert.ok( parsed.sha256 );
 	} finally {
 		await rm( tempDir, { recursive: true, force: true } );
 	}

@@ -103,7 +103,7 @@ jobs:
         id: build
         run: |
           npm run build
-          OUTPUT_JSON=$(npm run boilerplate:build -- --skip-build --json)
+          OUTPUT_JSON=$(node tools/release/build-boilerplate-package.mjs --skip-build --json)
           echo "$OUTPUT_JSON"
           SLUG=$(echo "$OUTPUT_JSON" | node -e "const d=JSON.parse(require('fs').readFileSync(0)); console.log(d.slug);")
           VERSION=$(echo "$OUTPUT_JSON" | node -e "const d=JSON.parse(require('fs').readFileSync(0)); console.log(d.version);")

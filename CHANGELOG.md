@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - Fixed `findDependabotBinary` unit test in `tests/node/dependabot/run-dependabot.test.mjs` to use isolated temporary binaries and cross-platform delimiter instead of hardcoded host paths
+- Fixed JSON parsing failure in CI during distribution package builds by suppressing human-readable stdout logs when --json flag is active
+
 
 ## [1.3.3] - 2026-09-09
 

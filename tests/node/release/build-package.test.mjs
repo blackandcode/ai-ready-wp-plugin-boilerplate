@@ -1,7 +1,8 @@
 import assert from 'node:assert/strict';
+import { execFileSync } from 'node:child_process';
 import { mkdir, mkdtemp, readFile, rm, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
-import { join } from 'node:path';
+import { join, resolve } from 'node:path';
 import test from 'node:test';
 import { buildPackage } from '../../../tools/release/build-package.mjs';
 import { validatePackage } from '../../../tools/release/validate-package.mjs';
@@ -241,6 +242,97 @@ test( 'buildPackage isolates staging, enforces allowlist, and leaves working tre
 			filesReport.files.some( ( f ) => f.includes( 'redocly.yaml' ) ),
 			false
 		);
+	} finally {
+		await rm( tempDir, { recursive: true, force: true } );
+	}
+} );
+
+test( 'CLI build-package.mjs with --json outputs valid parseable JSON to stdout without extra text', async () => {
+	const tempDir = await mkdtemp( join( tmpdir(), 'airwp-build-package-cli-' ) );
+
+	try {
+		await writeFile(
+			join( tempDir, 'package.json' ),
+			JSON.stringify(
+				{ name: 'cli-sample-plugin', version: '1.0.0' },
+				null,
+				2
+			)
+		);
+
+		await writeFile(
+			join( tempDir, 'cli-sample-plugin.php' ),
+			`<?php
+/**
+ * Plugin Name: CLI Sample Plugin
+ * Version: 1.0.0
+ * Text Domain: cli-sample-plugin
+ */
+define( 'CLI_SAMPLE_PLUGIN_VERSION', '1.0.0' );
+`
+		);
+
+		await writeFile(
+			join( tempDir, 'readme.txt' ),
+			`=== CLI Sample Plugin ===
+Stable tag: 1.0.0
+`
+		);
+
+		await writeFile(
+			join( tempDir, 'uninstall.php' ),
+			`<?php
+// uninstall routine
+`
+		);
+
+		await mkdir( join( tempDir, 'src' ), { recursive: true } );
+		await writeFile(
+			join( tempDir, 'src/Plugin.php' ),
+			'<?php class Plugin {}'
+		);
+
+		await mkdir( join( tempDir, 'build' ), { recursive: true } );
+		await writeFile(
+			join( tempDir, 'build/index.js' ),
+			'console.log("built");'
+		);
+		await writeFile(
+			join( tempDir, 'build/index.asset.php' ),
+			"<?php return array('dependencies' => array('wp-element'), 'version' => '1.0.0');"
+		);
+
+		await mkdir( join( tempDir, 'vendor' ), { recursive: true } );
+		await writeFile(
+			join( tempDir, 'vendor/autoload.php' ),
+			'<?php // autoloader'
+		);
+
+		const stdout = execFileSync(
+			process.execPath,
+			[
+				resolve( process.cwd(), 'tools/release/build-package.mjs' ),
+				'--root',
+				tempDir,
+				'--skip-build',
+				'--unsafe-skip-composer',
+				'--json',
+			],
+			{ encoding: 'utf8' }
+		);
+
+		assert.ok(
+			stdout.startsWith( '{' ),
+			`Expected stdout to start with '{', but got: ${ stdout.slice( 0, 50 ) }`
+		);
+		let parsed;
+		assert.doesNotThrow( () => {
+			parsed = JSON.parse( stdout );
+		}, 'stdout should parse cleanly as JSON' );
+		assert.equal( parsed.slug, 'cli-sample-plugin' );
+		assert.equal( parsed.version, '1.0.0' );
+		assert.ok( parsed.zipPath );
+		assert.ok( parsed.sha256 );
 	} finally {
 		await rm( tempDir, { recursive: true, force: true } );
 	}

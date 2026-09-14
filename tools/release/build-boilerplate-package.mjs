@@ -366,7 +366,9 @@ if (
 	}
 
 	try {
-		console.log( '📦 Building boilerplate starter distribution archive...' );
+		if ( ! values.json ) {
+			console.log( '📦 Building boilerplate starter distribution archive...' );
+		}
 		const result = await buildBoilerplatePackage( {
 			root: resolve( values.root ),
 			outDir: values[ 'out-dir' ],
