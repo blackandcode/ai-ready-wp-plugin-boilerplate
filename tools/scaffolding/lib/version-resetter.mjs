@@ -187,6 +187,30 @@ export async function resetProjectVersion( {
 		}
 	}
 
+	// 5b. Plugin test (tests/phpunit/unit/Framework/Kernel/PluginTest.php)
+	const pluginTestPath = join(
+		root,
+		'tests/phpunit/unit/Framework/Kernel/PluginTest.php'
+	);
+	const pluginTestSource = await getFileContent(
+		pluginTestPath,
+		stagedChanges
+	);
+	if ( pluginTestSource ) {
+		const updated = pluginTestSource.replace(
+			/(\$this->assertSame\(\s*['"])[^'"]+(['"],\s*Plugin::VERSION\s*\);)/,
+			`$1${ targetVersion }$2`
+		);
+		if ( updated !== pluginTestSource ) {
+			changes.push( {
+				path: pluginTestPath,
+				relativePath: normalizePath( root, pluginTestPath ),
+				before: pluginTestSource,
+				after: updated,
+			} );
+		}
+	}
+
 	// 6. Block manifest(s)
 	const blockJsonPaths = [
 		join( root, 'src/frontend/apps/hello-world/block.json' ),

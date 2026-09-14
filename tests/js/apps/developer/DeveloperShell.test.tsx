@@ -16,7 +16,7 @@ jest.mock(
 const mockBootstrap: WpaibpBootstrapData = {
 	apiBase: '/wpaibp/v1',
 	nonce: 'test-nonce',
-	version: '1.3.3',
+	version: '1.4.0',
 	currentUserCan: { manageOptions: true },
 	environment: {
 		phpVersion: '8.3.33',

@@ -30,6 +30,12 @@ export const DEFAULT_EXCLUDES = [
 	'.phpunit.cache/**',
 	'tests/.phpunit.cache/**',
 	'.wp-env/**',
+	'tools/scaffolding/**',
+	'tests/node/scaffolding/**',
+	'scaffold-sandbox/**',
+	'tmp/**',
+	'temp/**',
+	'.tmp/**',
 	'**/*.zip',
 	'**/*.tar',
 	'**/*.tar.gz',
@@ -54,6 +60,34 @@ export function isLikelyBinary( buffer ) {
 		if ( buffer[ index ] === 0 ) {
 			return true;
 		}
+	}
+	return false;
+}
+
+export function matchesRuleFilter( relativePath, filter ) {
+	if ( ! filter ) {
+		return false;
+	}
+	if ( typeof filter === 'function' ) {
+		return Boolean( filter( relativePath ) );
+	}
+	if ( Array.isArray( filter ) ) {
+		return filter.some( ( item ) => {
+			if ( item.startsWith( '.' ) ) {
+				return relativePath.endsWith( item );
+			}
+			return (
+				relativePath === item || relativePath.endsWith( `/${ item }` )
+			);
+		} );
+	}
+	if ( typeof filter === 'string' ) {
+		if ( filter.startsWith( '.' ) ) {
+			return relativePath.endsWith( filter );
+		}
+		return (
+			relativePath === filter || relativePath.endsWith( `/${ filter }` )
+		);
 	}
 	return false;
 }
@@ -118,6 +152,18 @@ export async function scanFiles( {
 		}
 
 		for ( const rule of replacements ) {
+			if (
+				rule.include &&
+				! matchesRuleFilter( projectPath, rule.include )
+			) {
+				continue;
+			}
+			if (
+				rule.exclude &&
+				matchesRuleFilter( projectPath, rule.exclude )
+			) {
+				continue;
+			}
 			if (
 				rule.from &&
 				rule.from !== rule.to &&

@@ -30,7 +30,7 @@ describe( 'SettingsApiClient Adapter', () => {
 		environment_type: 'local',
 		db_status: 'connected',
 		rest_status: 'healthy',
-		plugin_version: '1.3.3',
+		plugin_version: '1.4.0',
 	};
 
 	it( 'retrieves settings via GET', async () => {
@@ -86,7 +86,7 @@ describe( 'SettingsApiClient Adapter', () => {
 		const mockBootstrap: WpaibpBootstrapData = {
 			apiBase: '/wpaibp/v1',
 			nonce: 'secret-nonce-123',
-			version: '1.3.3',
+			version: '1.4.0',
 			currentUserCan: { manageOptions: true },
 		};
 

@@ -31,7 +31,7 @@ describe( 'Settings App Container', () => {
 	const mockBootstrap: WpaibpBootstrapData = {
 		apiBase: '/wpaibp/v1',
 		nonce: 'test-nonce',
-		version: '1.3.3',
+		version: '1.4.0',
 		currentUserCan: { manageOptions: true },
 		initialSettings: mockInitialSettings,
 	};
@@ -47,7 +47,7 @@ describe( 'Settings App Container', () => {
 			environment_type: 'local',
 			db_status: 'ok',
 			rest_status: 'ok',
-			plugin_version: '1.3.3',
+			plugin_version: '1.4.0',
 		} ),
 		...overrides,
 	} );

@@ -117,7 +117,7 @@ When executed, the pipeline executes an atomic transformation:
 
 ### 4.3 Automated Version Reset (Default: Enabled)
 
-Resets the version baseline from the boilerplate release number (e.g. `1.3.3`) to `1.0.0` (or custom `--target-version`):
+Resets the version baseline from the boilerplate release number (e.g. `1.4.0`) to `1.0.0` (or custom `--target-version`):
 
 - `package.json` (`version: "1.0.0"`)
 - `package-lock.json` (root and empty-string package version: `"1.0.0"`)

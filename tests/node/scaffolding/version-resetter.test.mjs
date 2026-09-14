@@ -80,6 +80,20 @@ Stable tag: 2.5.0
 			'utf8'
 		);
 
+		// PluginTest.php
+		await mkdir( join( dir, 'tests/phpunit/unit/Framework/Kernel' ), { recursive: true } );
+		await writeFile(
+			join( dir, 'tests/phpunit/unit/Framework/Kernel/PluginTest.php' ),
+			`<?php
+class PluginTest {
+	public function test_plugin_version_constant(): void {
+		$this->assertSame( '2.5.0', Plugin::VERSION );
+	}
+}
+`,
+			'utf8'
+		);
+
 		const changes = await resetProjectVersion( {
 			root: dir,
 			currentVersion: '2.5.0',
@@ -88,7 +102,7 @@ Stable tag: 2.5.0
 			targetPrefix: 'MY_PLUGIN_',
 		} );
 
-		assert.equal( changes.length, 7 );
+		assert.equal( changes.length, 8 );
 
 		const pkg = JSON.parse(
 			changes.find( ( c ) => c.relativePath === 'package.json' ).after
@@ -124,6 +138,14 @@ Stable tag: 2.5.0
 
 		const readme = changes.find( ( c ) => c.relativePath === 'readme.txt' ).after;
 		assert.match( readme, /Stable\s+tag:\s*1\.0\.0/ );
+
+		const pluginTest = changes.find(
+			( c ) => c.relativePath === 'tests/phpunit/unit/Framework/Kernel/PluginTest.php'
+		).after;
+		assert.match(
+			pluginTest,
+			/\$this->assertSame\(\s*'1\.0\.0',\s*Plugin::VERSION\s*\);/
+		);
 	} finally {
 		await rm( dir, { recursive: true, force: true } );
 	}

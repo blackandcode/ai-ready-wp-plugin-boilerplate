@@ -6,6 +6,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.4.0] - 2026-09-14
+
 ### Added
 
 - Added internationalization infrastructure with `tools/i18n/make-pot.mjs` (`npm run i18n:make-pot`) and generated English translation catalog files in `languages/`
@@ -21,10 +23,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- Hardened scaffold transformer and version resetter against single-token namespaces (`WPAIBP`), preventing double backslash syntax errors in PHP use statements and correctly synchronizing `PluginTest::VERSION` to 1.0.0
 - Added `ABSPATH` direct access guards to frontend block pattern templates (`card-feature.php` and `interactive-showcase.php`)
 - Fixed `findDependabotBinary` unit test in `tests/node/dependabot/run-dependabot.test.mjs` to use isolated temporary binaries and cross-platform delimiter instead of hardcoded host paths
 - Cleaned boilerplate leftovers in admin menu titles (`SettingsAdminMenu.php`), Bruno collection name (`bruno.json`), and admin settings UI
-
 
 ## [1.3.3] - 2026-09-09
 

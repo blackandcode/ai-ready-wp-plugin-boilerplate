@@ -20,7 +20,7 @@ test( 'cleanChangelog resets CHANGELOG.md to Keep a Changelog baseline', async (
 ### Added
 - Some unreleased feature
 
-## [1.3.3] - 2026-09-09
+## [1.4.0] - 2026-09-09
 ### Changed
 - Huge legacy changelog with many versions
 `;
@@ -49,11 +49,11 @@ test( 'cleanReadmeChangelog resets == Changelog == in readme.txt', async () => {
 	const dir = await mkdtemp( join( tmpdir(), 'clean-readme-test-' ) );
 	try {
 		const original = `=== Sample Plugin ===
-Stable tag: 1.3.3
+Stable tag: 1.4.0
 
 == Changelog ==
 
-= 1.3.3 =
+= 1.4.0 =
 * Big release.
 
 = 1.0.0 =

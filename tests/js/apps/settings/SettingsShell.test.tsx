@@ -126,7 +126,7 @@ describe( 'SettingsShell Component', () => {
 				bootstrap={ {
 					apiBase: 'https://example.com/wp-json/wpaibp/v1',
 					nonce: 'test-nonce',
-					version: '1.3.3',
+					version: '1.4.0',
 					currentUserCan: { manageOptions: true },
 					development: {
 						pluginMode: false,
@@ -152,7 +152,7 @@ describe( 'SettingsShell Component', () => {
 				bootstrap={ {
 					apiBase: 'https://example.com/wp-json/wpaibp/v1',
 					nonce: 'test-nonce',
-					version: '1.3.3',
+					version: '1.4.0',
 					currentUserCan: { manageOptions: true },
 					development: {
 						pluginMode: true,

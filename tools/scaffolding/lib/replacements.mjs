@@ -210,72 +210,80 @@ export function buildReplacements( current, target ) {
 	];
 
 	return [
-		// 1. Double backslash namespace (JSON files)
+		// 1. Specific compound identifiers & phrases (longest tokens first)
+		...( current.camelPrefix !== target.camelPrefix
+			? [
+					{
+						from: `${ current.camelPrefix }AdminBootstrap`,
+						to: `${ target.camelPrefix }AdminBootstrap`,
+					},
+					{
+						from: `_${ current.lowerUnderscorePrefix }manually_load_plugin`,
+						to: `_${ target.lowerUnderscorePrefix }manually_load_plugin`,
+					},
+					{
+						from: `_${ current.camelPrefix }_manually_load_plugin`,
+						to: `_${ target.camelPrefix }_manually_load_plugin`,
+					},
+			  ]
+			: [] ),
 		{
-			from: current.namespace.replaceAll( '\\', '\\\\' ),
-			to: target.namespace.replaceAll( '\\', '\\\\' ),
+			from: 'airwpSettingsBootstrap',
+			to: `${ target.camelPrefix }AdminBootstrap`,
 		},
-		// 2. Single backslash namespace (PHP / TS / Docs)
-		{
-			from: current.namespace,
-			to: target.namespace,
-		},
-		// 3. Main PHP filename references
+		// Main PHP filename references
 		{
 			from: current.mainPhpFile,
 			to: `${ target.slug }.php`,
 		},
-		// 4. Descriptions & summaries
-		...descriptionRules,
-		// 5. Greeting messages
-		...greetingRules,
-		// 6. Block descriptions
-		...blockDescRules,
-		// 7. Personalized phrases & patterns
-		...personalizedPhraseRules,
-		// 8. Compound titles & legacy boilerplate leftovers
-		...compoundTitleRules,
-		// 9. Exact Plugin Display Name
-		{
-			from: current.name,
-			to: target.name,
-		},
-		// 10. Dev REST route namespace (e.g. ai-ready-wp-dev/v1 -> wpaibp-dev/v1)
+		// Dev REST route namespace (e.g. ai-ready-wp-dev/v1 -> wpaibp-dev/v1)
 		...( currentDevRestNamespace !== targetDevRestNamespace
 			? [ { from: currentDevRestNamespace, to: targetDevRestNamespace } ]
 			: [] ),
-		// 11. REST route namespace (dynamically discovered)
+		// REST route namespace (dynamically discovered, e.g. wpaibp/v1 -> ai-flow/v1)
 		{
 			from: current.restNamespace,
 			to: target.restNamespace,
 		},
-		// 12. Block identifier (dynamically discovered)
+		// Block identifier (dynamically discovered, e.g. wpaibp/hello-world -> ai-flow/flow-canvas)
 		{
 			from: current.blockName,
 			to: target.blockName,
 		},
-		// 13. Category / Vendor prefix (e.g. ai-ready-wp -> wpaibp)
-		...( current.vendorPrefix !== target.vendorPrefix &&
-		current.vendorPrefix !== current.slug
-			? [ { from: current.vendorPrefix, to: target.vendorPrefix } ]
-			: [] ),
-		// 14. Composer package name
+		// Composer package name (e.g. wordpress-ai/wp-ai-ready-plugin-boilerplate -> flowcraft/ai-flow-automator)
 		...( current.composerName &&
 		target.composerName &&
 		current.composerName !== target.composerName
 			? [ { from: current.composerName, to: target.composerName } ]
 			: [] ),
-		// 15. Uppercase Constant Prefix
+		// Descriptions & summaries
+		...descriptionRules,
+		// Greeting messages
+		...greetingRules,
+		// Block descriptions
+		...blockDescRules,
+		// Personalized phrases & patterns
+		...personalizedPhraseRules,
+		// Compound titles & legacy boilerplate leftovers
+		...compoundTitleRules,
+		// Exact Plugin Display Name
+		{
+			from: current.name,
+			to: target.name,
+		},
+
+		// 2. Specific Identifier Prefixes (MUST precede bare namespace and vendor prefix!)
+		// Uppercase Constant Prefix (e.g. WPAIBP_ -> AFA_)
 		{
 			from: current.prefix,
 			to: target.prefix,
 		},
-		// 16. Lowercase Underscore Prefix (e.g. wpaibp_ -> wpaibp_)
+		// Lowercase Underscore Prefix (e.g. wpaibp_ -> afa_)
 		{
 			from: current.lowerUnderscorePrefix,
 			to: target.lowerUnderscorePrefix,
 		},
-		// 17. Lowercase Hyphen Prefix (e.g. wpaibp- -> wpaibp-)
+		// Lowercase Hyphen Prefix (e.g. wpaibp- -> afa-)
 		...( current.lowerHyphenPrefix !== target.lowerHyphenPrefix
 			? [
 					{
@@ -284,20 +292,56 @@ export function buildReplacements( current, target ) {
 					},
 			  ]
 			: [] ),
-		// 18. PascalCase Prefix (e.g. WpaibpBootstrapData -> WpaibpBootstrapData)
+		// PascalCase Prefix (e.g. Wpaibp -> Afa)
 		...( current.pascalPrefix !== target.pascalPrefix
 			? [ { from: current.pascalPrefix, to: target.pascalPrefix } ]
 			: [] ),
-		// 19. CamelCase Global Bootstrap variable (e.g. wpaibpAdminBootstrap -> wpaibpAdminBootstrap)
-		...( current.camelPrefix !== target.camelPrefix
+
+		// 3. PHP Namespaces
+		// 3a. JSON files require double backslash escaping for namespace strings
+		...( current.namespace.includes( '\\' )
 			? [
 					{
-						from: `${ current.camelPrefix }AdminBootstrap`,
-						to: `${ target.camelPrefix }AdminBootstrap`,
+						from: current.namespace.replaceAll( '\\', '\\\\' ),
+						to: target.namespace.replaceAll( '\\', '\\\\' ),
+						include: [ '.json' ],
 					},
 			  ]
+			: [
+					{
+						from: `${ current.namespace }\\\\`,
+						to: `${ target.namespace.replaceAll( '\\', '\\\\' ) }\\\\`,
+						include: [ '.json' ],
+					},
+			  ] ),
+		// 3b. PHP string literals with escaped namespaces (e.g. 'WPAIBP\\Framework\\' in autoload maps)
+		...( current.namespace.includes( '\\' )
+			? [
+					{
+						from: `'${ current.namespace.replaceAll( '\\', '\\\\' ) }\\\\`,
+						to: `'${ target.namespace.replaceAll( '\\', '\\\\' ) }\\\\`,
+					},
+			  ]
+			: [
+					{
+						from: `'${ current.namespace }\\\\`,
+						to: `'${ target.namespace.replaceAll( '\\', '\\\\' ) }\\\\`,
+					},
+			  ] ),
+		// 3c. Pure PHP / TS / Markdown namespace references (single backslash, non-JSON)
+		{
+			from: current.namespace,
+			to: target.namespace,
+			exclude: [ '.json' ],
+		},
+
+		// 4. Category / Vendor prefix (bare word in categories/abilities, safe after prefixes are replaced)
+		...( current.vendorPrefix !== target.vendorPrefix &&
+		current.vendorPrefix !== current.slug
+			? [ { from: current.vendorPrefix, to: target.vendorPrefix } ]
 			: [] ),
-		// 20. WP-CLI root commands
+
+		// 5. WP-CLI root commands
 		...( current.cliCommand !== target.cliCommand
 			? [
 					{
@@ -335,24 +379,21 @@ export function buildReplacements( current, target ) {
 					},
 			  ]
 			: [] ),
-		// 21. Legacy fallbacks
+
+		// 6. Legacy fallbacks & Text Domain
 		{
 			from: 'airwp/hello-world',
 			to: target.blockName,
 		},
-		{
-			from: 'airwpSettingsBootstrap',
-			to: `${ target.camelPrefix }AdminBootstrap`,
-		},
 		...( target.vendorPrefix !== 'ai-ready-wp'
 			? [ { from: 'ai-ready-wp', to: target.vendorPrefix } ]
 			: [] ),
-		// 22. Slug / Textdomain
+		// Slug / Textdomain
 		{
 			from: current.slug,
 			to: target.slug,
 		},
-		// 23. Author
+		// Author
 		...( current.author !== target.author
 			? [ { from: current.author, to: target.author } ]
 			: [] ),

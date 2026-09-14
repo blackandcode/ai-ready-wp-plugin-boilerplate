@@ -27,7 +27,7 @@ class Plugin {
 	/**
 	 * Plugin version.
 	 */
-	public const VERSION = '1.3.3';
+	public const VERSION = '1.4.0';
 
 	/**
 	 * Singleton instance.

@@ -922,3 +922,155 @@ test( 'scaffold CLI respects --no-clean-history, --no-reset-version, and --targe
 		await rm( root, { recursive: true, force: true } );
 	}
 } );
+
+test( 'scaffoldPlugin handles single-token namespace (WPAIBP), prefix constants, and PHP/JS identifiers without syntax errors', async () => {
+	const root = await createFixture();
+	try {
+		// Mock PHP files with constants, namespace declaration, and uninstall function
+		const mainPhpPath = join( root, 'sample-wordpress-plugin.php' );
+		await writeFile(
+			mainPhpPath,
+			`<?php
+/**
+ * Plugin Name: Sample WordPress Plugin
+ * Version: 1.2.3
+ * Text Domain: sample-wordpress-plugin
+ * @package WPAIBP
+ */
+
+namespace WPAIBP\\Framework\\Kernel;
+
+use WPAIBP\\Framework\\Kernel\\Plugin;
+
+define( 'SWP_PLUGIN_FILE', __FILE__ );
+define( 'SWP_VERSION', '1.2.3' );
+`
+		);
+
+		const uninstallPath = join( root, 'uninstall.php' );
+		await writeFile(
+			uninstallPath,
+			`<?php
+function swp_uninstall_plugin(): void {
+	delete_option( 'swp_settings' );
+}
+`
+		);
+
+		const bootstrapPath = join( root, 'tests/phpunit/bootstrap.php' );
+		await mkdir( dirname( bootstrapPath ), { recursive: true } );
+		await writeFile(
+			bootstrapPath,
+			`<?php
+function _swp_manually_load_plugin() {
+	require_once 'sample-wordpress-plugin.php';
+}
+`
+		);
+
+		const tsTypePath = join( root, 'src/frontend/shared/types/index.ts' );
+		await mkdir( dirname( tsTypePath ), { recursive: true } );
+		await writeFile(
+			tsTypePath,
+			`export interface Window {
+	swpAdminBootstrap?: SwpBootstrapData;
+}
+`
+		);
+
+		const composerPath = join( root, 'composer.json' );
+		await writeFile(
+			composerPath,
+			JSON.stringify(
+				{
+					name: 'wordpress-ai/sample-wordpress-plugin',
+					autoload: {
+						'psr-4': {
+							'WPAIBP\\Framework\\': 'src/framework/',
+							'WPAIBP\\Backend\\': 'src/backend/',
+							'WPAIBP\\Development\\': 'src/development/',
+							'WPAIBP\\Frontend\\': 'src/frontend/Bridge/',
+						},
+					},
+				},
+				null,
+				2
+			)
+		);
+
+		const result = await scaffoldPlugin( {
+			root,
+			name: 'AI Flow Automator',
+			slug: 'ai-flow-automator',
+			namespace: 'FlowCraft\\AIFlowAutomator',
+			prefix: 'AFA_',
+			restNamespace: 'ai-flow/v1',
+			blockName: 'ai-flow/flow-canvas',
+			composerName: 'flowcraft/ai-flow-automator',
+			cliCommand: 'ai-flow',
+			dryRun: false,
+		} );
+
+		assert.equal( result.target.namespace, 'FlowCraft\\AIFlowAutomator' );
+
+		// 1. Verify main PHP file has single backslashes in PHP code and correct prefix constants
+		const mainPhpAfter = await readFile(
+			join( root, 'ai-flow-automator.php' ),
+			'utf8'
+		);
+		assert.match(
+			mainPhpAfter,
+			/namespace FlowCraft\\AIFlowAutomator\\Framework\\Kernel;/
+		);
+		assert.doesNotMatch(
+			mainPhpAfter,
+			/namespace FlowCraft\\\\AIFlowAutomator/
+		);
+		assert.match(
+			mainPhpAfter,
+			/define\(\s*'AFA_PLUGIN_FILE',\s*__FILE__\s*\);/
+		);
+		assert.match(
+			mainPhpAfter,
+			/define\(\s*'AFA_VERSION',\s*'1\.0\.0'\s*\);/
+		);
+		assert.doesNotMatch( mainPhpAfter, /FlowCraft.*VERSION/ );
+
+		// 2. Verify uninstall.php has valid PHP function name without hyphens
+		const uninstallAfter = await readFile(
+			join( root, 'uninstall.php' ),
+			'utf8'
+		);
+		assert.match(
+			uninstallAfter,
+			/function afa_uninstall_plugin\(\): void/
+		);
+		assert.doesNotMatch( uninstallAfter, /function ai-flow/ );
+		assert.match( uninstallAfter, /delete_option\(\s*'afa_settings'\s*\);/ );
+
+		// 3. Verify tests bootstrap has valid PHP function name
+		const bootstrapAfter = await readFile( bootstrapPath, 'utf8' );
+		assert.match(
+			bootstrapAfter,
+			/function _afa_manually_load_plugin\(\)/
+		);
+		assert.doesNotMatch( bootstrapAfter, /function _ai-flow/ );
+
+		// 4. Verify TypeScript has valid JS property name
+		const tsAfter = await readFile( tsTypePath, 'utf8' );
+		assert.match( tsAfter, /afaAdminBootstrap\?:/ );
+		assert.doesNotMatch( tsAfter, /ai-flowAdminBootstrap/ );
+
+		// 5. Verify composer.json has double backslashes in JSON
+		const composerAfter = JSON.parse(
+			await readFile( composerPath, 'utf8' )
+		);
+		assert.ok(
+			composerAfter.autoload[ 'psr-4' ][
+				'FlowCraft\\AIFlowAutomator\\Framework\\'
+			]
+		);
+	} finally {
+		await rm( root, { recursive: true, force: true } );
+	}
+} );

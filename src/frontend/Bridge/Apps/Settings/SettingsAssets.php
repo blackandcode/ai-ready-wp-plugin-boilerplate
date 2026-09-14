@@ -44,7 +44,7 @@ class SettingsAssets {
 
 		$plugin_dir = defined( 'WPAIBP_PLUGIN_DIR' ) ? WPAIBP_PLUGIN_DIR : dirname( __DIR__, 5 ) . '/';
 		$plugin_url = defined( 'WPAIBP_PLUGIN_URL' ) ? WPAIBP_PLUGIN_URL : plugin_dir_url( $plugin_dir . 'wp-ai-ready-plugin-boilerplate.php' );
-		$version    = defined( 'WPAIBP_VERSION' ) ? WPAIBP_VERSION : '1.3.3';
+		$version    = defined( 'WPAIBP_VERSION' ) ? WPAIBP_VERSION : '1.4.0';
 
 		$script_path = 'build/admin/settings/index.js';
 		$style_path  = 'build/admin/settings/index.css';

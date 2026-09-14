@@ -13,8 +13,8 @@
 
 When developers or AI coding agents clone this boilerplate to build a new custom plugin, running the project scaffolding tool (`npm run scaffold`) rebrands identifiers, namespaces, and constant prefixes. However, several critical repository lifecycle problems remained:
 
-1. **Boilerplate History Leakage:** The rebranded plugin retained the entire historical `CHANGELOG.md` of the boilerplate (from v1.0.0 to v1.3.3 plus unreleased notes), all 14 boilerplate-internal Architecture Decision Records (`docs/adr/0002-*` through `docs/adr/0014-*`), and past phase implementation audit logs (`docs/implementation-logs/`).
-2. **Version Inflation:** Rather than starting cleanly at version `1.0.0`, the newly scaffolded plugin remained pinned to the boilerplate's current version (e.g., `1.3.3`) across package manifests, root PHP headers, runtime constants, and block manifests.
+1. **Boilerplate History Leakage:** The rebranded plugin retained the entire historical `CHANGELOG.md` of the boilerplate (from v1.0.0 to v1.4.0 plus unreleased notes), all 14 boilerplate-internal Architecture Decision Records (`docs/adr/0002-*` through `docs/adr/0014-*`), and past phase implementation audit logs (`docs/implementation-logs/`).
+2. **Version Inflation:** Rather than starting cleanly at version `1.0.0`, the newly scaffolded plugin remained pinned to the boilerplate's current version (e.g., `1.4.0`) across package manifests, root PHP headers, runtime constants, and block manifests.
 3. **Monolithic Architecture Debt:** The original scaffolding engine (`tools/scaffolding/scaffold-engine.mjs`) was structured as a single 900-line monolithic script where project detection, casing derivations, token replacement dictionaries, recursive filesystem walking, transactional writing, and file renaming were tightly coupled. Adding new post-clone preparation steps (such as history resetting, sample app pruning, or environment configuration) increased cyclomatic complexity and hindered maintainability.
 
 ---
