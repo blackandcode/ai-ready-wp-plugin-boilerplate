@@ -2,14 +2,14 @@
 /**
  * Diagnostics Abilities Registration.
  *
- * @package AIReady\WPPluginBoilerplate\Backend\Apps\Diagnostics\Abilities
+ * @package WPAIBP\Backend\Apps\Diagnostics\Abilities
  */
 
-namespace AIReady\WPPluginBoilerplate\Backend\Apps\Diagnostics\Abilities;
+namespace WPAIBP\Backend\Apps\Diagnostics\Abilities;
 
-use AIReady\WPPluginBoilerplate\Backend\Apps\Diagnostics\Application\DiagnosticsService;
-use AIReady\WPPluginBoilerplate\Backend\Apps\Diagnostics\Infrastructure\WordPressDiagnosticsProvider;
-use AIReady\WPPluginBoilerplate\Framework\Kernel\Plugin;
+use WPAIBP\Backend\Apps\Diagnostics\Application\DiagnosticsService;
+use WPAIBP\Backend\Apps\Diagnostics\Infrastructure\WordPressDiagnosticsProvider;
+use WPAIBP\Framework\Kernel\Plugin;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -23,7 +23,7 @@ class DiagnosticsAbilities {
 	/**
 	 * Ability category identifier.
 	 */
-	public const CATEGORY = 'ai-ready-wp';
+	public const CATEGORY = 'wpaibp';
 
 	/**
 	 * Register category and abilities.
@@ -36,10 +36,10 @@ class DiagnosticsAbilities {
 		}
 
 		wp_register_ability(
-			'ai-ready-wp/get-diagnostics',
+			'wpaibp/get-diagnostics',
 			array(
-				'label'               => __( 'Get Diagnostics Telemetry', 'ai-ready-wp-plugin-boilerplate' ),
-				'description'         => __( 'Retrieve server and runtime diagnostics telemetry.', 'ai-ready-wp-plugin-boilerplate' ),
+				'label'               => __( 'Get Diagnostics Telemetry', 'wp-ai-ready-plugin-boilerplate' ),
+				'description'         => __( 'Retrieve server and runtime diagnostics telemetry.', 'wp-ai-ready-plugin-boilerplate' ),
 				'category'            => self::CATEGORY,
 				'permission_callback' => array( self::class, 'check_manage_options' ),
 				'execute_callback'    => array( self::class, 'execute_get_diagnostics' ),

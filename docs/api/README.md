@@ -13,7 +13,7 @@ Unlike legacy manual documentation where OpenAPI specifications are hand-edited 
 1. **Single Source of Truth (SSOT):**
    PHP controllers extending `WP_REST_Controller` declare argument validation, data types, parameter requirements, item schemas (`get_item_schema()`), and `openapi` operation metadata.
 2. **Deterministic Generation:**
-   The framework pipeline (`src/framework/Rest/OpenApi/`) introspects registered routes for the `ai-ready-wp/v1` namespace, converts JSON schemas to OpenAPI 3.1 components, normalizes regex paths to URI templates, and emits byte-identical YAML to `openapi.yaml`.
+   The framework pipeline (`src/framework/Rest/OpenApi/`) introspects registered routes for the `wpaibp/v1` namespace, converts JSON schemas to OpenAPI 3.1 components, normalizes regex paths to URI templates, and emits byte-identical YAML to `openapi.yaml`.
 3. **Committed Reference Artifact:**
    `docs/api/openapi.yaml` remains a tracked, committed Git artifact so that coding agents, external consumers, and documentation generators can inspect the API contract without executing PHP.
 

@@ -2,14 +2,14 @@
 /**
  * OpenAPI WP-CLI Command Adapter.
  *
- * @package AIReady\WPPluginBoilerplate\Development\Cli
+ * @package WPAIBP\Development\Cli
  */
 
-namespace AIReady\WPPluginBoilerplate\Development\Cli;
+namespace WPAIBP\Development\Cli;
 
 use Throwable;
 use WP_CLI;
-use AIReady\WPPluginBoilerplate\Development\OpenApi\OpenApiGenerator;
+use WPAIBP\Development\OpenApi\OpenApiGenerator;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -42,8 +42,8 @@ class OpenApiCliCommand {
 	 * @return string Absolute file path to docs/api/openapi.yaml.
 	 */
 	private function get_default_output_path(): string {
-		if ( defined( 'AIRWP_PLUGIN_DIR' ) ) {
-			return AIRWP_PLUGIN_DIR . 'docs/api/openapi.yaml';
+		if ( defined( 'WPAIBP_PLUGIN_DIR' ) ) {
+			return WPAIBP_PLUGIN_DIR . 'docs/api/openapi.yaml';
 		}
 
 		return dirname( __DIR__, 3 ) . '/docs/api/openapi.yaml';
@@ -58,7 +58,7 @@ class OpenApiCliCommand {
 	 * : Destination file path (defaults to docs/api/openapi.yaml).
 	 *
 	 * [--namespace=<namespace>]
-	 * : REST namespace to inspect (defaults to ai-ready-wp/v1).
+	 * : REST namespace to inspect (defaults to wpaibp/v1).
 	 *
 	 * ## EXAMPLES
 	 *
@@ -101,7 +101,7 @@ class OpenApiCliCommand {
 	 * : Destination file path to check (defaults to docs/api/openapi.yaml).
 	 *
 	 * [--namespace=<namespace>]
-	 * : REST namespace to inspect (defaults to ai-ready-wp/v1).
+	 * : REST namespace to inspect (defaults to wpaibp/v1).
 	 *
 	 * ## EXAMPLES
 	 *

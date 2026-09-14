@@ -2,14 +2,14 @@
 /**
  * Test EventDispatcher.
  *
- * @package AIReady\WPPluginBoilerplate\Tests\Unit\Framework\Event
+ * @package WPAIBP\Tests\Unit\Framework\Event
  */
 
-namespace AIReady\WPPluginBoilerplate\Tests\Unit\Framework\Event;
+namespace WPAIBP\Tests\Unit\Framework\Event;
 
 use PHPUnit\Framework\TestCase;
-use AIReady\WPPluginBoilerplate\Framework\Event\EventDispatcher;
-use AIReady\WPPluginBoilerplate\Backend\Apps\Settings\Domain\Event\SettingsUpdatedEvent;
+use WPAIBP\Framework\Event\EventDispatcher;
+use WPAIBP\Backend\Apps\Settings\Domain\Event\SettingsUpdatedEvent;
 
 /**
  * Class EventDispatcherTest

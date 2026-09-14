@@ -2,14 +2,14 @@
 /**
  * Hello World Application Service.
  *
- * @package AIReady\WPPluginBoilerplate\Backend\Apps\HelloWorld\Application
+ * @package WPAIBP\Backend\Apps\HelloWorld\Application
  */
 
-namespace AIReady\WPPluginBoilerplate\Backend\Apps\HelloWorld\Application;
+namespace WPAIBP\Backend\Apps\HelloWorld\Application;
 
-use AIReady\WPPluginBoilerplate\Backend\Apps\HelloWorld\Application\DTO\HelloWorldDTO;
-use AIReady\WPPluginBoilerplate\Backend\Apps\HelloWorld\Domain\HelloWorldGreeting;
-use AIReady\WPPluginBoilerplate\Framework\Kernel\Plugin;
+use WPAIBP\Backend\Apps\HelloWorld\Application\DTO\HelloWorldDTO;
+use WPAIBP\Backend\Apps\HelloWorld\Domain\HelloWorldGreeting;
+use WPAIBP\Framework\Kernel\Plugin;
 
 /**
  * Service producing Hello World responses.
@@ -24,7 +24,7 @@ class HelloWorldService {
 	 */
 	public function get_hello_world( ?HelloWorldGreeting $greeting = null ): HelloWorldDTO {
 		$greeting_vo = $greeting ?? HelloWorldGreeting::default();
-		$version     = defined( 'AIRWP_VERSION' ) ? AIRWP_VERSION : Plugin::VERSION;
+		$version     = defined( 'WPAIBP_VERSION' ) ? WPAIBP_VERSION : Plugin::VERSION;
 
 		return new HelloWorldDTO(
 			$greeting_vo->value(),

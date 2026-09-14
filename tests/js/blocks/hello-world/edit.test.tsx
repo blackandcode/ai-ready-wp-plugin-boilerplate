@@ -3,7 +3,7 @@ import Edit from '../../../../src/frontend/apps/hello-world/edit';
 
 jest.mock( '@wordpress/block-editor', () => ( {
 	useBlockProps: jest.fn( () => ( {
-		className: 'airwp-hello-world-block',
+		className: 'wpaibp-hello-world-block',
 	} ) ),
 	InspectorControls: ( { children }: { children: React.ReactNode } ) => (
 		<div data-testid="inspector-controls">{ children }</div>

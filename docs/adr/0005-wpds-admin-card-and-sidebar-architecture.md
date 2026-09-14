@@ -27,7 +27,7 @@ The administrative interface consists of:
 1. A minimal PHP administrative container page (`templates/admin-page.php`) rendering a single root shell mount point.
 2. A React 18 SPA (`src/admin/`) mounted via `createRoot` using core `@wordpress/components`, `@wordpress/element`, and `@wordpress/i18n` packages.
 3. A two-column responsive layout comprising a primary **Card-based Settings Content** area and a **Contextual Sidebar** (system status, quick actions, documentation links).
-4. Direct REST API communication via `@wordpress/api-fetch` communicating with the plugin's REST settings endpoints, with nonces passed securely via localized bootstrap data (`window.airwpAdminBootstrap`).
+4. Direct REST API communication via `@wordpress/api-fetch` communicating with the plugin's REST settings endpoints, with nonces passed securely via localized bootstrap data (`window.wpaibpAdminBootstrap`).
 
 ## Rationale
 

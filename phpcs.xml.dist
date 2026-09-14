@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
 <ruleset name="PluginCodingStandards">
-    <description>PHPCS ruleset for AI-Ready WP Plugin Boilerplate.</description>
+    <description>PHPCS ruleset for WP AI Ready Plugin Boilerplate.</description>
 
     <!-- Paths to inspect -->
     <file>src/</file>
-    <file>ai-ready-wp-plugin-boilerplate.php</file>
+    <file>wp-ai-ready-plugin-boilerplate.php</file>
     <file>uninstall.php</file>
 
     <!-- Exclude vendor, build, and node artifacts -->
@@ -28,6 +28,6 @@
     </rule>
 
     <!-- Configuration parameters -->
-    <config name="text_domain" value="ai-ready-wp-plugin-boilerplate"/>
+    <config name="text_domain" value="wp-ai-ready-plugin-boilerplate"/>
     <config name="minimum_supported_wp_version" value="7.1"/>
 </ruleset>

@@ -2,10 +2,10 @@
 /**
  * OpenAPI Validation Exception.
  *
- * @package AIReady\WPPluginBoilerplate\Development\OpenApi\Exception
+ * @package WPAIBP\Development\OpenApi\Exception
  */
 
-namespace AIReady\WPPluginBoilerplate\Development\OpenApi\Exception;
+namespace WPAIBP\Development\OpenApi\Exception;
 
 use RuntimeException;
 

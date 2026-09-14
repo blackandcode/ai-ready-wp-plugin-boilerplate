@@ -40,7 +40,7 @@ flowchart TD
 
 ### 2.3 `validate-release.mjs` (`npm run release:check`)
 
-- Checks that version numbers match across `package.json`, root plugin header `Version:`, `AIRWP_VERSION` constant, `readme.txt` `Stable tag:`, and `CHANGELOG.md`.
+- Checks that version numbers match across `package.json`, root plugin header `Version:`, `WPAIBP_VERSION` constant, `readme.txt` `Stable tag:`, and `CHANGELOG.md`.
 - Asserts that no uncommitted changes exist in git.
 - Checks if the target git tag already exists.
 

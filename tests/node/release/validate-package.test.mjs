@@ -8,7 +8,7 @@ import { createZip } from '../../../tools/release/lib/zip-utils.mjs';
 
 test( 'validatePackage accepts compliant distribution package', async () => {
 	const tempDir = await mkdtemp(
-		join( tmpdir(), 'airwp-validate-package-' )
+		join( tmpdir(), 'wpaibp-validate-package-' )
 	);
 	const zipPath = join( tempDir, 'dist/test-plugin-1.0.0.zip' );
 
@@ -60,7 +60,7 @@ test( 'validatePackage accepts compliant distribution package', async () => {
 
 test( 'validatePackage flags missing required files and forbidden development files', async () => {
 	const tempDir = await mkdtemp(
-		join( tmpdir(), 'airwp-validate-package-bad-' )
+		join( tmpdir(), 'wpaibp-validate-package-bad-' )
 	);
 	const zipPath = join( tempDir, 'dist/test-plugin-1.0.0.zip' );
 
@@ -109,7 +109,7 @@ test( 'validatePackage flags missing required files and forbidden development fi
 
 test( 'validatePackage flags leaked development subsystem, typescript files, and require-dev packages', async () => {
 	const tempDir = await mkdtemp(
-		join( tmpdir(), 'airwp-validate-package-leaks-' )
+		join( tmpdir(), 'wpaibp-validate-package-leaks-' )
 	);
 	const zipPath = join( tempDir, 'dist/test-plugin-1.0.0.zip' );
 

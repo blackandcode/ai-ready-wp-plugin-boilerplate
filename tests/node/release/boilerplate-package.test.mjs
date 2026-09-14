@@ -47,7 +47,7 @@ test( 'isBoilerplateExcluded filters dev artifacts, cache, and secrets correctly
 
 test( 'buildBoilerplatePackage builds compliant starter archive in isolated staging', async () => {
 	const tempDir = await mkdtemp(
-		join( tmpdir(), 'airwp-build-boilerplate-' )
+		join( tmpdir(), 'wpaibp-build-boilerplate-' )
 	);
 
 	try {
@@ -186,7 +186,7 @@ test( 'buildBoilerplatePackage builds compliant starter archive in isolated stag
 
 test( 'validateBoilerplatePackage flags missing assets and leaked node_modules or .git', async () => {
 	const tempDir = await mkdtemp(
-		join( tmpdir(), 'airwp-validate-boilerplate-bad-' )
+		join( tmpdir(), 'wpaibp-validate-boilerplate-bad-' )
 	);
 	const zipPath = join( tempDir, 'dist/test-starter-1.0.0.zip' );
 
@@ -245,7 +245,7 @@ test( 'validateBoilerplatePackage flags missing assets and leaked node_modules o
 
 test( 'CLI build-boilerplate-package.mjs with --json outputs valid parseable JSON to stdout without extra text', async () => {
 	const tempDir = await mkdtemp(
-		join( tmpdir(), 'airwp-build-boilerplate-cli-' )
+		join( tmpdir(), 'wpaibp-build-boilerplate-cli-' )
 	);
 
 	try {

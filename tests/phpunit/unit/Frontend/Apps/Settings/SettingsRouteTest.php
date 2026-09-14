@@ -2,15 +2,15 @@
 /**
  * Test Settings Route and Frontend Service Provider.
  *
- * @package AIReady\WPPluginBoilerplate\Tests\Unit\Frontend\Apps\Settings
+ * @package WPAIBP\Tests\Unit\Frontend\Apps\Settings
  */
 
-namespace AIReady\WPPluginBoilerplate\Tests\Unit\Frontend\Apps\Settings;
+namespace WPAIBP\Tests\Unit\Frontend\Apps\Settings;
 
 use PHPUnit\Framework\TestCase;
-use AIReady\WPPluginBoilerplate\Framework\Container\Container;
-use AIReady\WPPluginBoilerplate\Frontend\Apps\Settings\SettingsRoute;
-use AIReady\WPPluginBoilerplate\Frontend\Apps\Settings\SettingsFrontendServiceProvider;
+use WPAIBP\Framework\Container\Container;
+use WPAIBP\Frontend\Apps\Settings\SettingsRoute;
+use WPAIBP\Frontend\Apps\Settings\SettingsFrontendServiceProvider;
 
 /**
  * Class SettingsRouteTest
@@ -21,9 +21,9 @@ class SettingsRouteTest extends TestCase {
 	 * Test SettingsRoute screen matching.
 	 */
 	public function test_settings_route_screen_matching(): void {
-		$this->assertSame( 'airwp-settings', SettingsRoute::SETTINGS_SLUG );
-		$this->assertSame( 'airwp-plugin', SettingsRoute::MENU_SLUG );
-		$this->assertTrue( SettingsRoute::is_screen( 'toplevel_page_airwp-settings', SettingsRoute::SETTINGS_SLUG ) );
+		$this->assertSame( 'wpaibp-settings', SettingsRoute::SETTINGS_SLUG );
+		$this->assertSame( 'wpaibp-plugin', SettingsRoute::MENU_SLUG );
+		$this->assertTrue( SettingsRoute::is_screen( 'toplevel_page_wpaibp-settings', SettingsRoute::SETTINGS_SLUG ) );
 		$this->assertFalse( SettingsRoute::is_screen( 'edit.php', SettingsRoute::SETTINGS_SLUG ) );
 	}
 

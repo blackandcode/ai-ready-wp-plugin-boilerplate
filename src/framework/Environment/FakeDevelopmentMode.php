@@ -2,10 +2,10 @@
 /**
  * In-Memory Fake Development Mode Adapter for Testing.
  *
- * @package AIReady\WPPluginBoilerplate\Framework\Environment
+ * @package WPAIBP\Framework\Environment
  */
 
-namespace AIReady\WPPluginBoilerplate\Framework\Environment;
+namespace WPAIBP\Framework\Environment;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;

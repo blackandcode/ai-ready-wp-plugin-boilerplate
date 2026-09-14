@@ -105,7 +105,7 @@ test.describe( 'Settings Admin Application (Page Object Model)', () => {
 
 		// Live OpenAPI spec viewer or container should be rendered.
 		const specViewer = page.locator(
-			'.airwp-api-reference-viewer, .scalar-api-reference'
+			'.wpaibp-api-reference-viewer, .scalar-api-reference'
 		);
 		await expect( specViewer ).toBeVisible( { timeout: 15_000 } );
 
@@ -122,14 +122,14 @@ test.describe( 'Settings Admin Application (Page Object Model)', () => {
 	} ) => {
 		// Test direct REST API endpoint access via the authenticated admin browser session.
 		const response = await page.request.get(
-			'/wp-json/ai-ready-wp-dev/v1/openapi'
+			'/wp-json/wpaibp-dev/v1/openapi'
 		);
 		expect( response.status() ).toBe( 200 );
 
 		const body = await response.json();
 		expect( body.openapi ).toBe( '3.1.0' );
 		expect( body.info ).toBeDefined();
-		expect( body.info.title ).toContain( 'AI-Ready WP Plugin Boilerplate' );
+		expect( body.info.title ).toContain( 'WP AI Ready Plugin Boilerplate' );
 		expect( body.paths ).toBeDefined();
 		expect( body.paths[ '/settings' ] ).toBeDefined();
 		expect( body.paths[ '/hello' ] ).toBeDefined();

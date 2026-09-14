@@ -2,20 +2,20 @@
 /**
  * Settings Backend Service Provider.
  *
- * @package AIReady\WPPluginBoilerplate\Backend\Apps\Settings
+ * @package WPAIBP\Backend\Apps\Settings
  */
 
-namespace AIReady\WPPluginBoilerplate\Backend\Apps\Settings;
+namespace WPAIBP\Backend\Apps\Settings;
 
-use AIReady\WPPluginBoilerplate\Backend\Apps\Settings\Abilities\SettingsAbilities;
-use AIReady\WPPluginBoilerplate\Backend\Apps\Settings\Application\SettingsApplicationService;
-use AIReady\WPPluginBoilerplate\Backend\Apps\Settings\Domain\Repository\SettingsRepositoryInterface;
-use AIReady\WPPluginBoilerplate\Backend\Apps\Settings\Infrastructure\SettingsRepository;
-use AIReady\WPPluginBoilerplate\Backend\Apps\Settings\Infrastructure\WordPressSettingsRepository;
-use AIReady\WPPluginBoilerplate\Backend\Apps\Settings\Rest\SettingsController;
-use AIReady\WPPluginBoilerplate\Framework\Container\Container;
-use AIReady\WPPluginBoilerplate\Framework\Container\ServiceProviderInterface;
-use AIReady\WPPluginBoilerplate\Framework\Event\EventDispatcherInterface;
+use WPAIBP\Backend\Apps\Settings\Abilities\SettingsAbilities;
+use WPAIBP\Backend\Apps\Settings\Application\SettingsApplicationService;
+use WPAIBP\Backend\Apps\Settings\Domain\Repository\SettingsRepositoryInterface;
+use WPAIBP\Backend\Apps\Settings\Infrastructure\SettingsRepository;
+use WPAIBP\Backend\Apps\Settings\Infrastructure\WordPressSettingsRepository;
+use WPAIBP\Backend\Apps\Settings\Rest\SettingsController;
+use WPAIBP\Framework\Container\Container;
+use WPAIBP\Framework\Container\ServiceProviderInterface;
+use WPAIBP\Framework\Event\EventDispatcherInterface;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;

@@ -8,7 +8,7 @@ This document provides complete, annotated configuration templates for reference
 
 ```json
 {
-  "name": "ai-ready-wp-plugin-boilerplate",
+  "name": "wp-ai-ready-plugin-boilerplate",
   "version": "1.3.3",
   "private": true,
   "engines": {
@@ -45,7 +45,7 @@ This document provides complete, annotated configuration templates for reference
 
 ```json
 {
-  "name": "ai-ready/ai-ready-wp-plugin-boilerplate",
+  "name": "ai-ready/wp-ai-ready-plugin-boilerplate",
   "description": "Production WordPress plugin built with the Agentic Boilerplate.",
   "type": "wordpress-plugin",
   "license": "GPL-2.0-or-later",
@@ -54,7 +54,7 @@ This document provides complete, annotated configuration templates for reference
   },
   "autoload": {
     "psr-4": {
-      "AIReady\\WPPluginBoilerplate\\Framework\\": "src/framework/",
+      "WPAIBP\\": "src/framework/",
       "AIReady\\WPPluginBoilerplate\\Backend\\": "src/backend/",
       "AIReady\\WPPluginBoilerplate\\Frontend\\": "src/frontend/Bridge/"
     }

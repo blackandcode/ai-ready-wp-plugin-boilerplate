@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-import { readdir } from 'node:fs/promises';
+import { readdir, stat } from 'node:fs/promises';
 import { basename, join, resolve } from 'node:path';
 import process from 'node:process';
 import { parseArgs } from 'node:util';
@@ -159,8 +159,22 @@ export async function findArchive( root, explicitArchive ) {
 		);
 	}
 
-	// Pick the first or most recently modified
-	return join( distDir, zipFiles[ 0 ] );
+	const meta = await getPluginMetadata( root );
+	const matchingZips = zipFiles.filter( ( f ) =>
+		f.startsWith( `${ meta.slug }-` )
+	);
+	const candidateZips =
+		matchingZips.length > 0 ? matchingZips : zipFiles;
+
+	const stats = await Promise.all(
+		candidateZips.map( async ( f ) => ( {
+			file: f,
+			stat: await stat( join( distDir, f ) ),
+		} ) )
+	);
+	stats.sort( ( a, b ) => b.stat.mtimeMs - a.stat.mtimeMs );
+
+	return join( distDir, stats[ 0 ].file );
 }
 
 /**

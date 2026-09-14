@@ -2,13 +2,13 @@
 /**
  * Test WordPress Schema Converter.
  *
- * @package AIReady\WPPluginBoilerplate\Tests\Unit\Development\OpenApi
+ * @package WPAIBP\Tests\Unit\Development\OpenApi
  */
 
-namespace AIReady\WPPluginBoilerplate\Tests\Unit\Development\OpenApi;
+namespace WPAIBP\Tests\Unit\Development\OpenApi;
 
 use PHPUnit\Framework\TestCase;
-use AIReady\WPPluginBoilerplate\Development\OpenApi\WordPressSchemaConverter;
+use WPAIBP\Development\OpenApi\WordPressSchemaConverter;
 
 /**
  * Class WordPressSchemaConverterTest

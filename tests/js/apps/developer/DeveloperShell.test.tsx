@@ -1,6 +1,6 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import { DeveloperShell } from '../../../../src/frontend/apps/developer/react/components/DeveloperShell';
-import type { AirwpBootstrapData } from '../../../../src/frontend/shared';
+import type { WpaibpBootstrapData } from '../../../../src/frontend/shared';
 
 jest.mock(
 	'../../../../src/frontend/apps/developer/react/components/ApiReferenceSection',
@@ -13,8 +13,8 @@ jest.mock(
 	} )
 );
 
-const mockBootstrap: AirwpBootstrapData = {
-	apiBase: '/ai-ready-wp/v1',
+const mockBootstrap: WpaibpBootstrapData = {
+	apiBase: '/wpaibp/v1',
 	nonce: 'test-nonce',
 	version: '1.3.3',
 	currentUserCan: { manageOptions: true },
@@ -25,8 +25,8 @@ const mockBootstrap: AirwpBootstrapData = {
 	},
 	development: {
 		pluginMode: true,
-		openApiEndpoint: 'http://localhost:8888/wp-json/ai-ready-wp-dev/v1/openapi',
-		openApiPath: '/ai-ready-wp-dev/v1/openapi',
+		openApiEndpoint: 'http://localhost:8888/wp-json/wpaibp-dev/v1/openapi',
+		openApiPath: '/wpaibp-dev/v1/openapi',
 	},
 };
 

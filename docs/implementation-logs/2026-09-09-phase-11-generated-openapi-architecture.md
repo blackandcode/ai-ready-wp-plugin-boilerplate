@@ -75,7 +75,7 @@ Evolved the plugin's REST and OpenAPI architecture from hand-authored contracts 
 | `src/backend/Apps/HelloWorld/Rest/HelloWorldController.php` | Added route-level schema, enriched schema, and OpenAPI metadata. |
 | `src/backend/Apps/Diagnostics/Rest/DiagnosticsController.php` | Added route-level schema, enriched schema, and OpenAPI metadata. |
 | `src/frontend/Bridge/Apps/Settings/SettingsBootstrapData.php` | Added `development` payload with `pluginMode` and `openApiEndpoint`. |
-| `src/frontend/shared/types/index.ts` | Added `DevelopmentToolsData` and `development` property to `AirwpBootstrapData`. |
+| `src/frontend/shared/types/index.ts` | Added `DevelopmentToolsData` and `development` property to `WpaibpBootstrapData`. |
 | `src/frontend/apps/settings/react/components/SettingsShell.tsx` | Added conditional "API Reference" tab and hidden footer on API Reference tab. |
 | `src/frontend/apps/settings/react/styles/settings.css` | Added styling for API Reference section, developer banner, and loader. |
 | `docs/api/openapi.yaml` | Regenerated complete, deterministic OpenAPI 3.1 specification. |

@@ -2,15 +2,15 @@
 /**
  * Test Development Service Provider.
  *
- * @package AIReady\WPPluginBoilerplate\Tests\Unit\Development
+ * @package WPAIBP\Tests\Unit\Development
  */
 
-namespace AIReady\WPPluginBoilerplate\Tests\Unit\Development;
+namespace WPAIBP\Tests\Unit\Development;
 
 use PHPUnit\Framework\TestCase;
-use AIReady\WPPluginBoilerplate\Development\DevelopmentServiceProvider;
-use AIReady\WPPluginBoilerplate\Development\Rest\DevOpenApiController;
-use AIReady\WPPluginBoilerplate\Framework\Container\Container;
+use WPAIBP\Development\DevelopmentServiceProvider;
+use WPAIBP\Development\Rest\DevOpenApiController;
+use WPAIBP\Framework\Container\Container;
 
 /**
  * Class DevelopmentServiceProviderTest

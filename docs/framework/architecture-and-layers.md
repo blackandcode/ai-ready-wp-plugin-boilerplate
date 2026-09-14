@@ -13,7 +13,7 @@ It follows **ADR-0009: Tripartite App-Centric Architecture**, establishing three
 ## 1. Directory Structure
 
 ```text
-ai-ready-wp-plugin-boilerplate/
+wp-ai-ready-plugin-boilerplate/
 ├── .cursor/                                 # Cursor IDE configuration & AI instructions
 │   ├── rules/                               # Workspace-applied rules (*.mdc)
 │   └── skills/                              # Active agent skills (WordPress, engineering, custom)
@@ -82,7 +82,7 @@ ai-ready-wp-plugin-boilerplate/
 
 1. **Strict REST Communication Boundary:**
    - Frontend components, stores, and templates must **never** invoke backend application services or database repositories directly.
-   - All frontend data transactions are routed through the WordPress REST API (`/ai-ready-wp/v1/*`) via `SettingsApiClient`.
+   - All frontend data transactions are routed through the WordPress REST API (`/wpaibp/v1/*`) via `SettingsApiClient`.
 2. **Zero Presentation in Backend:**
    - Files in `src/backend/` must never call `add_menu_page()`, `add_submenu_page()`, `wp_enqueue_script()`, or render HTML output.
 3. **Frontend PHP Bridge Isolation:**
@@ -98,7 +98,7 @@ ai-ready-wp-plugin-boilerplate/
      {
        "autoload": {
          "psr-4": {
-           "AIReady\\WPPluginBoilerplate\\Framework\\": "src/framework/",
+           "WPAIBP\\": "src/framework/",
            "AIReady\\WPPluginBoilerplate\\Backend\\": "src/backend/",
            "AIReady\\WPPluginBoilerplate\\Frontend\\": "src/frontend/Bridge/"
          }
@@ -121,7 +121,7 @@ flowchart TD
         ApiClient["SettingsApiClient (src/frontend/shared/api/)"]
     end
 
-    subgraph RestApiBoundary [WordPress REST API Boundary (/ai-ready-wp/v1/*)]
+    subgraph RestApiBoundary [WordPress REST API Boundary (/wpaibp/v1/*)]
         SettingsRest["SettingsController (/settings)"]
         DiagRest["DiagnosticsController (/diagnostics)"]
         HelloRest["HelloWorldController (/hello)"]

@@ -5,16 +5,16 @@
  * Verifies that development services, routes, and providers are never registered
  * in production contexts when development mode is false.
  *
- * @package AIReady\WPPluginBoilerplate\Tests\Unit\Architecture
+ * @package WPAIBP\Tests\Unit\Architecture
  */
 
-namespace AIReady\WPPluginBoilerplate\Tests\Unit\Architecture;
+namespace WPAIBP\Tests\Unit\Architecture;
 
 use PHPUnit\Framework\TestCase;
-use AIReady\WPPluginBoilerplate\Development\DevelopmentServiceProvider;
-use AIReady\WPPluginBoilerplate\Framework\Environment\DevelopmentMode;
-use AIReady\WPPluginBoilerplate\Framework\Environment\FakeDevelopmentMode;
-use AIReady\WPPluginBoilerplate\Framework\Kernel\Plugin;
+use WPAIBP\Development\DevelopmentServiceProvider;
+use WPAIBP\Framework\Environment\DevelopmentMode;
+use WPAIBP\Framework\Environment\FakeDevelopmentMode;
+use WPAIBP\Framework\Kernel\Plugin;
 
 /**
  * Class DevelopmentIsolationTest

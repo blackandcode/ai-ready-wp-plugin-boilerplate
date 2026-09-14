@@ -56,7 +56,7 @@ The central coordinator exposing:
 
 ### 2.2 `WordPressRouteInspector`
 
-Introspects `$wp_rest_server->get_routes()` for a given namespace prefix (default: `ai-ready-wp/v1`):
+Introspects `$wp_rest_server->get_routes()` for a given namespace prefix (default: `wpaibp/v1`):
 
 - Filters out non-matching route namespaces.
 - Extracts HTTP methods (`GET`, `POST`, `PUT`, `DELETE`).
@@ -69,7 +69,7 @@ WordPress routes use PCRE regex patterns (e.g., `/(?P<id>[\d]+)`). OpenAPI requi
 
 `OpenApiPathNormalizer`:
 
-- Strips the namespace prefix (`ai-ready-wp/v1`).
+- Strips the namespace prefix (`wpaibp/v1`).
 - Replaces named regex groups (`(?P<param>[^/]+)`) with `{param}` path templates.
 - Automatically generates matching `in: path` parameter definitions with appropriate schema types (integer vs string).
 

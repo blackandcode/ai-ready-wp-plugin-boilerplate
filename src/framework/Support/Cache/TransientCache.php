@@ -2,10 +2,10 @@
 /**
  * WordPress Transient Cache Utility.
  *
- * @package AIReady\WPPluginBoilerplate\Framework\Support\Cache
+ * @package WPAIBP\Framework\Support\Cache
  */
 
-namespace AIReady\WPPluginBoilerplate\Framework\Support\Cache;
+namespace WPAIBP\Framework\Support\Cache;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -19,7 +19,7 @@ class TransientCache {
 	/**
 	 * Cache key prefix.
 	 */
-	public const PREFIX = 'airwp_';
+	public const PREFIX = 'wpaibp_';
 
 	/**
 	 * Maximum key length supported by WordPress transients (172 - length of '_transient_timeout_').

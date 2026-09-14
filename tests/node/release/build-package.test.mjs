@@ -8,7 +8,7 @@ import { buildPackage } from '../../../tools/release/build-package.mjs';
 import { validatePackage } from '../../../tools/release/validate-package.mjs';
 
 test( 'buildPackage creates compliant ZIP archive respecting .distignore and packages root {slug}/', async () => {
-	const tempDir = await mkdtemp( join( tmpdir(), 'airwp-build-package-' ) );
+	const tempDir = await mkdtemp( join( tmpdir(), 'wpaibp-build-package-' ) );
 
 	try {
 		await writeFile(
@@ -134,7 +134,7 @@ Stable tag: 1.4.0
 } );
 
 test( 'buildPackage isolates staging, enforces allowlist, and leaves working tree intact', async () => {
-	const tempDir = await mkdtemp( join( tmpdir(), 'airwp-build-isolate-' ) );
+	const tempDir = await mkdtemp( join( tmpdir(), 'wpaibp-build-isolate-' ) );
 
 	try {
 		await writeFile(
@@ -248,7 +248,7 @@ test( 'buildPackage isolates staging, enforces allowlist, and leaves working tre
 } );
 
 test( 'CLI build-package.mjs with --json outputs valid parseable JSON to stdout without extra text', async () => {
-	const tempDir = await mkdtemp( join( tmpdir(), 'airwp-build-package-cli-' ) );
+	const tempDir = await mkdtemp( join( tmpdir(), 'wpaibp-build-package-cli-' ) );
 
 	try {
 		await writeFile(

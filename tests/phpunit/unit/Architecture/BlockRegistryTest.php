@@ -7,10 +7,10 @@
  * - Zero source tree block.json scanning (src/frontend/apps).
  * - Delegates to wp_register_block_types_from_metadata_collection.
  *
- * @package AIReady\WPPluginBoilerplate\Tests\Unit\Architecture
+ * @package WPAIBP\Tests\Unit\Architecture
  */
 
-namespace AIReady\WPPluginBoilerplate\Tests\Unit\Architecture;
+namespace WPAIBP\Tests\Unit\Architecture;
 
 use PHPUnit\Framework\TestCase;
 

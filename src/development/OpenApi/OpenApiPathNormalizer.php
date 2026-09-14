@@ -2,12 +2,12 @@
 /**
  * OpenAPI Path Normalizer.
  *
- * @package AIReady\WPPluginBoilerplate\Development\OpenApi
+ * @package WPAIBP\Development\OpenApi
  */
 
-namespace AIReady\WPPluginBoilerplate\Development\OpenApi;
+namespace WPAIBP\Development\OpenApi;
 
-use AIReady\WPPluginBoilerplate\Development\OpenApi\Exception\OpenApiValidationException;
+use WPAIBP\Development\OpenApi\Exception\OpenApiValidationException;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -21,8 +21,8 @@ class OpenApiPathNormalizer {
 	/**
 	 * Normalize a WordPress route into an OpenAPI path template and extracted path parameters.
 	 *
-	 * @param string $route           WordPress route pattern (e.g. /ai-ready-wp/v1/items/(?P<id>\d+)).
-	 * @param string $route_namespace Route namespace prefix to strip (e.g. ai-ready-wp/v1).
+	 * @param string $route           WordPress route pattern (e.g. /wpaibp/v1/items/(?P<id>\d+)).
+	 * @param string $route_namespace Route namespace prefix to strip (e.g. wpaibp/v1).
 	 * @return array{path: string, parameters: array<int, array<string, mixed>>} Normalized path and path parameter descriptors.
 	 * @throws OpenApiValidationException If route contains unsupported or unsafe regex constructs.
 	 */

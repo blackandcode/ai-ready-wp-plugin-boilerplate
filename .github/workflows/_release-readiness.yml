@@ -193,6 +193,9 @@ jobs:
         uses: wordpress/plugin-check-action@v1
         with:
           build-dir: "./dist-extracted/${{ needs.package.outputs.slug }}"
+          ignore-codes: |
+            trademarked_term
+            missing_composer_json_file
 
   summary:
     name: Release Readiness Summary

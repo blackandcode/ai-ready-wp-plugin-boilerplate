@@ -47,7 +47,7 @@ Before getting started, make sure your host machine satisfies the official requi
 
 ```bash
 # Clone the repository
-git clone https://github.com/wordpress-ai/ai-ready-wp-plugin-boilerplate.git my-awesome-plugin
+git clone https://github.com/wordpress-ai/wp-ai-ready-plugin-boilerplate.git my-awesome-plugin
 cd my-awesome-plugin
 
 # (Optional) Automatically verify all environment dependencies

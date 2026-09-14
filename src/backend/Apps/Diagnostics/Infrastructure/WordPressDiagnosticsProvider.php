@@ -2,13 +2,13 @@
 /**
  * WordPress Diagnostics Provider.
  *
- * @package AIReady\WPPluginBoilerplate\Backend\Apps\Diagnostics\Infrastructure
+ * @package WPAIBP\Backend\Apps\Diagnostics\Infrastructure
  */
 
-namespace AIReady\WPPluginBoilerplate\Backend\Apps\Diagnostics\Infrastructure;
+namespace WPAIBP\Backend\Apps\Diagnostics\Infrastructure;
 
-use AIReady\WPPluginBoilerplate\Backend\Apps\Diagnostics\Domain\DiagnosticsProviderInterface;
-use AIReady\WPPluginBoilerplate\Framework\Kernel\Plugin;
+use WPAIBP\Backend\Apps\Diagnostics\Domain\DiagnosticsProviderInterface;
+use WPAIBP\Framework\Kernel\Plugin;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -43,7 +43,7 @@ class WordPressDiagnosticsProvider implements DiagnosticsProviderInterface {
 			'environment_type' => (string) $env_type,
 			'db_status'        => $db_status,
 			'rest_status'      => function_exists( 'rest_url' ) ? 'available' : 'unavailable',
-			'plugin_version'   => defined( 'AIRWP_VERSION' ) ? AIRWP_VERSION : Plugin::VERSION,
+			'plugin_version'   => defined( 'WPAIBP_VERSION' ) ? WPAIBP_VERSION : Plugin::VERSION,
 		);
 	}
 }

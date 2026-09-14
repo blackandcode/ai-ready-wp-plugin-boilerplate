@@ -2,10 +2,10 @@
 /**
  * Diagnostics Provider Domain Interface.
  *
- * @package AIReady\WPPluginBoilerplate\Backend\Apps\Diagnostics\Domain
+ * @package WPAIBP\Backend\Apps\Diagnostics\Domain
  */
 
-namespace AIReady\WPPluginBoilerplate\Backend\Apps\Diagnostics\Domain;
+namespace WPAIBP\Backend\Apps\Diagnostics\Domain;
 
 /**
  * Contract for querying environment and system diagnostic health metrics.

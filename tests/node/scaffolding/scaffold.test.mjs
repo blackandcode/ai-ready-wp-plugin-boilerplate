@@ -19,7 +19,7 @@ const fixtureRoot = join(
 const cliPath = join( projectRoot, 'tools/scaffolding/scaffold-plugin.mjs' );
 
 async function createFixture() {
-	const directory = await mkdtemp( join( tmpdir(), 'airwp-scaffold-test-' ) );
+	const directory = await mkdtemp( join( tmpdir(), 'wpaibp-scaffold-test-' ) );
 	await cp( fixtureRoot, directory, { recursive: true } );
 	return directory;
 }
@@ -172,6 +172,102 @@ test( 'scaffoldPlugin replaces hyphenated prefix, PascalCase, camelCase tokens, 
 			'utf8'
 		);
 		assert.match( blockJsonContent, /dp\/flowchart/ );
+	} finally {
+		await rm( root, { recursive: true, force: true } );
+	}
+} );
+
+test( 'scaffoldPlugin handles multi-entry PSR-4 common namespace, dev REST route, vendor categories, and languages renaming', async () => {
+	const root = await createFixture();
+	try {
+		// Mock composer.json with multiple sub-namespaces sharing a common prefix
+		const composerJsonPath = join( root, 'composer.json' );
+		const composerData = {
+			name: 'orig-vendor/orig-plugin',
+			autoload: {
+				'psr-4': {
+					'OrigPrefix\\Plugin\\Framework\\': 'src/framework/',
+					'OrigPrefix\\Plugin\\Backend\\': 'src/backend/',
+					'OrigPrefix\\Plugin\\Development\\': 'src/development/',
+				},
+			},
+		};
+		await writeFile( composerJsonPath, JSON.stringify( composerData, null, 2 ) );
+
+		// Mock PHP file using backend sub-namespace and category
+		await mkdir( join( root, 'src/backend/Apps/HelloWorld/Rest' ), { recursive: true } );
+		await writeFile(
+			join(
+				root,
+				'src/backend/Apps/HelloWorld/Rest/HelloWorldController.php'
+			),
+			"<?php\nclass HelloWorldController {\n  protected $namespace = 'orig-vendor/v1';\n}\n"
+		);
+		await writeFile(
+			join( root, 'src/backend/TestService.php' ),
+			`<?php
+namespace OrigPrefix\\Plugin\\Backend;
+
+class TestService {
+	public const CATEGORY = 'orig-vendor';
+	public const DEV_ROUTE = 'orig-vendor-dev/v1';
+}
+`
+		);
+
+		// Mock languages directory files
+		await mkdir( join( root, 'languages' ), { recursive: true } );
+		await writeFile(
+			join( root, 'languages/sample-wordpress-plugin.pot' ),
+			'# POT template for sample-wordpress-plugin\n'
+		);
+		await writeFile(
+			join( root, 'languages/sample-wordpress-plugin-en_US.po' ),
+			'# PO for sample-wordpress-plugin\n'
+		);
+
+		const detected = await detectCurrentPlugin( root );
+		assert.equal( detected.namespace, 'OrigPrefix\\Plugin' );
+
+		const result = await scaffoldPlugin( {
+			root,
+			name: 'Modern Tool',
+			slug: 'modern-tool',
+			namespace: 'NewPrefix\\Tool',
+			restNamespace: 'modern-tool/v1',
+			blockName: 'modern-tool/widget',
+			dryRun: false,
+		} );
+
+		assert.equal( result.target.namespace, 'NewPrefix\\Tool' );
+
+		// Verify composer.json updated with proper sub-namespaces
+		const updatedComposer = JSON.parse(
+			await readFile( composerJsonPath, 'utf8' )
+		);
+		assert.ok( updatedComposer.autoload['psr-4']['NewPrefix\\Tool\\Framework\\'] );
+		assert.ok( updatedComposer.autoload['psr-4']['NewPrefix\\Tool\\Backend\\'] );
+
+		// Verify PHP file updated
+		const updatedPhp = await readFile(
+			join( root, 'src/backend/TestService.php' ),
+			'utf8'
+		);
+		assert.match( updatedPhp, /namespace NewPrefix\\Tool\\Backend;/ );
+		assert.match( updatedPhp, /public const CATEGORY = 'modern-tool';/ );
+		assert.match( updatedPhp, /public const DEV_ROUTE = 'modern-tool-dev\/v1';/ );
+
+		// Verify language files renamed
+		const potContent = await readFile(
+			join( root, 'languages/modern-tool.pot' ),
+			'utf8'
+		);
+		assert.match( potContent, /modern-tool/ );
+		const poContent = await readFile(
+			join( root, 'languages/modern-tool-en_US.po' ),
+			'utf8'
+		);
+		assert.match( poContent, /modern-tool/ );
 	} finally {
 		await rm( root, { recursive: true, force: true } );
 	}

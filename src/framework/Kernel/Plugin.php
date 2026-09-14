@@ -2,25 +2,25 @@
 /**
  * Main plugin bootstrap class.
  *
- * @package AIReady\WPPluginBoilerplate\Framework\Kernel
+ * @package WPAIBP\Framework\Kernel
  */
 
-namespace AIReady\WPPluginBoilerplate\Framework\Kernel;
+namespace WPAIBP\Framework\Kernel;
 
-use AIReady\WPPluginBoilerplate\Backend\BackendServiceProvider;
-use AIReady\WPPluginBoilerplate\Development\DevelopmentServiceProvider;
-use AIReady\WPPluginBoilerplate\Framework\Container\Container;
-use AIReady\WPPluginBoilerplate\Framework\Container\ServiceProviderRegistry;
-use AIReady\WPPluginBoilerplate\Framework\Environment\DevelopmentMode;
-use AIReady\WPPluginBoilerplate\Framework\Environment\WordPressDevelopmentMode;
-use AIReady\WPPluginBoilerplate\Frontend\FrontendServiceProvider;
+use WPAIBP\Backend\BackendServiceProvider;
+use WPAIBP\Development\DevelopmentServiceProvider;
+use WPAIBP\Framework\Container\Container;
+use WPAIBP\Framework\Container\ServiceProviderRegistry;
+use WPAIBP\Framework\Environment\DevelopmentMode;
+use WPAIBP\Framework\Environment\WordPressDevelopmentMode;
+use WPAIBP\Frontend\FrontendServiceProvider;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
 /**
- * Singleton bootstrap class for AI-Ready WP Plugin Boilerplate.
+ * Singleton bootstrap class for WP AI Ready Plugin Boilerplate.
  */
 class Plugin {
 
@@ -122,6 +122,14 @@ class Plugin {
 	public function on_init(): void {
 		if ( null !== $this->container ) {
 			return;
+		}
+
+		if ( function_exists( 'load_plugin_textdomain' ) && defined( 'WPAIBP_PLUGIN_FILE' ) ) {
+			load_plugin_textdomain(
+				'wp-ai-ready-plugin-boilerplate',
+				false,
+				dirname( plugin_basename( WPAIBP_PLUGIN_FILE ) ) . '/languages'
+			);
 		}
 
 		$this->container = new Container();

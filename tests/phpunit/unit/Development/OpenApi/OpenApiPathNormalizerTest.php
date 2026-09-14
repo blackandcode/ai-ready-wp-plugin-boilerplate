@@ -2,14 +2,14 @@
 /**
  * Test OpenAPI Path Normalizer.
  *
- * @package AIReady\WPPluginBoilerplate\Tests\Unit\Development\OpenApi
+ * @package WPAIBP\Tests\Unit\Development\OpenApi
  */
 
-namespace AIReady\WPPluginBoilerplate\Tests\Unit\Development\OpenApi;
+namespace WPAIBP\Tests\Unit\Development\OpenApi;
 
 use PHPUnit\Framework\TestCase;
-use AIReady\WPPluginBoilerplate\Development\OpenApi\OpenApiPathNormalizer;
-use AIReady\WPPluginBoilerplate\Development\OpenApi\Exception\OpenApiValidationException;
+use WPAIBP\Development\OpenApi\OpenApiPathNormalizer;
+use WPAIBP\Development\OpenApi\Exception\OpenApiValidationException;
 
 /**
  * Class OpenApiPathNormalizerTest
@@ -21,7 +21,7 @@ class OpenApiPathNormalizerTest extends TestCase {
 	 */
 	public function test_normalizes_simple_route(): void {
 		$normalizer = new OpenApiPathNormalizer();
-		$result     = $normalizer->normalize( '/settings', 'ai-ready-wp/v1' );
+		$result     = $normalizer->normalize( '/settings', 'wpaibp/v1' );
 
 		$this->assertSame( '/settings', $result['path'] );
 		$this->assertEmpty( $result['parameters'] );
@@ -32,7 +32,7 @@ class OpenApiPathNormalizerTest extends TestCase {
 	 */
 	public function test_strips_namespace_prefix(): void {
 		$normalizer = new OpenApiPathNormalizer();
-		$result     = $normalizer->normalize( '/ai-ready-wp/v1/diagnostics', 'ai-ready-wp/v1' );
+		$result     = $normalizer->normalize( '/wpaibp/v1/diagnostics', 'wpaibp/v1' );
 
 		$this->assertSame( '/diagnostics', $result['path'] );
 		$this->assertEmpty( $result['parameters'] );
@@ -43,7 +43,7 @@ class OpenApiPathNormalizerTest extends TestCase {
 	 */
 	public function test_normalizes_numeric_path_parameter(): void {
 		$normalizer = new OpenApiPathNormalizer();
-		$result     = $normalizer->normalize( '/items/(?P<id>[\d]+)', 'ai-ready-wp/v1' );
+		$result     = $normalizer->normalize( '/items/(?P<id>[\d]+)', 'wpaibp/v1' );
 
 		$this->assertSame( '/items/{id}', $result['path'] );
 		$this->assertCount( 1, $result['parameters'] );
@@ -58,7 +58,7 @@ class OpenApiPathNormalizerTest extends TestCase {
 	 */
 	public function test_normalizes_string_slug_parameter(): void {
 		$normalizer = new OpenApiPathNormalizer();
-		$result     = $normalizer->normalize( '/posts/(?P<slug>[a-zA-Z0-9_-]+)', 'ai-ready-wp/v1' );
+		$result     = $normalizer->normalize( '/posts/(?P<slug>[a-zA-Z0-9_-]+)', 'wpaibp/v1' );
 
 		$this->assertSame( '/posts/{slug}', $result['path'] );
 		$this->assertCount( 1, $result['parameters'] );
@@ -71,7 +71,7 @@ class OpenApiPathNormalizerTest extends TestCase {
 	 */
 	public function test_normalizes_multiple_parameters(): void {
 		$normalizer = new OpenApiPathNormalizer();
-		$result     = $normalizer->normalize( '/users/(?P<user_id>[\d]+)/meta/(?P<key>[a-zA-Z0-9_]+)', 'ai-ready-wp/v1' );
+		$result     = $normalizer->normalize( '/users/(?P<user_id>[\d]+)/meta/(?P<key>[a-zA-Z0-9_]+)', 'wpaibp/v1' );
 
 		$this->assertSame( '/users/{user_id}/meta/{key}', $result['path'] );
 		$this->assertCount( 2, $result['parameters'] );
@@ -90,6 +90,6 @@ class OpenApiPathNormalizerTest extends TestCase {
 		$this->expectException( OpenApiValidationException::class );
 		$this->expectExceptionMessage( 'Cannot safely convert WordPress route pattern' );
 
-		$normalizer->normalize( '/items/(?P<id>[\d+', 'ai-ready-wp/v1' );
+		$normalizer->normalize( '/items/(?P<id>[\d+', 'wpaibp/v1' );
 	}
 }

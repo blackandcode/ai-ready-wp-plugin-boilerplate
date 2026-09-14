@@ -2,12 +2,12 @@
 /**
  * Cache TTL Value Object.
  *
- * @package AIReady\WPPluginBoilerplate\Backend\Apps\Settings\Domain\ValueObject
+ * @package WPAIBP\Backend\Apps\Settings\Domain\ValueObject
  */
 
-namespace AIReady\WPPluginBoilerplate\Backend\Apps\Settings\Domain\ValueObject;
+namespace WPAIBP\Backend\Apps\Settings\Domain\ValueObject;
 
-use AIReady\WPPluginBoilerplate\Backend\Apps\Settings\Domain\Exception\InvalidCacheTtlException;
+use WPAIBP\Backend\Apps\Settings\Domain\Exception\InvalidCacheTtlException;
 
 /**
  * Immutable cache TTL (Time To Live) in seconds.

@@ -2,21 +2,21 @@
 /**
  * Test PluginSettings Aggregate Root.
  *
- * @package AIReady\WPPluginBoilerplate\Tests\Unit\Backend\Apps\Settings\Domain
+ * @package WPAIBP\Tests\Unit\Backend\Apps\Settings\Domain
  */
 
-namespace AIReady\WPPluginBoilerplate\Tests\Unit\Backend\Apps\Settings\Domain;
+namespace WPAIBP\Tests\Unit\Backend\Apps\Settings\Domain;
 
 use PHPUnit\Framework\TestCase;
-use AIReady\WPPluginBoilerplate\Backend\Apps\Settings\Domain\Event\RetentionPolicyChangedEvent;
-use AIReady\WPPluginBoilerplate\Backend\Apps\Settings\Domain\Event\SettingsUpdatedEvent;
-use AIReady\WPPluginBoilerplate\Backend\Apps\Settings\Domain\Model\PluginSettings;
-use AIReady\WPPluginBoilerplate\Backend\Apps\Settings\Domain\ValueObject\CacheTtl;
-use AIReady\WPPluginBoilerplate\Backend\Apps\Settings\Domain\ValueObject\DataRetentionPolicy;
-use AIReady\WPPluginBoilerplate\Backend\Apps\Settings\Domain\ValueObject\Description;
-use AIReady\WPPluginBoilerplate\Backend\Apps\Settings\Domain\ValueObject\FeatureFlag;
-use AIReady\WPPluginBoilerplate\Backend\Apps\Settings\Domain\ValueObject\GreetingMessage;
-use AIReady\WPPluginBoilerplate\Backend\Apps\Settings\Domain\ValueObject\RestDebug;
+use WPAIBP\Backend\Apps\Settings\Domain\Event\RetentionPolicyChangedEvent;
+use WPAIBP\Backend\Apps\Settings\Domain\Event\SettingsUpdatedEvent;
+use WPAIBP\Backend\Apps\Settings\Domain\Model\PluginSettings;
+use WPAIBP\Backend\Apps\Settings\Domain\ValueObject\CacheTtl;
+use WPAIBP\Backend\Apps\Settings\Domain\ValueObject\DataRetentionPolicy;
+use WPAIBP\Backend\Apps\Settings\Domain\ValueObject\Description;
+use WPAIBP\Backend\Apps\Settings\Domain\ValueObject\FeatureFlag;
+use WPAIBP\Backend\Apps\Settings\Domain\ValueObject\GreetingMessage;
+use WPAIBP\Backend\Apps\Settings\Domain\ValueObject\RestDebug;
 
 /**
  * Class PluginSettingsTest
@@ -29,7 +29,7 @@ class PluginSettingsTest extends TestCase {
 	public function test_create_default(): void {
 		$settings = PluginSettings::create_default();
 
-		$this->assertSame( 'Hello from AI-Ready WP Plugin Boilerplate!', $settings->get_greeting_message()->value() );
+		$this->assertSame( 'Hello from WP AI Ready Plugin Boilerplate!', $settings->get_greeting_message()->value() );
 		$this->assertTrue( $settings->get_enable_feature()->is_enabled() );
 		$this->assertSame( 'A modern WordPress plugin powered by AI workflows.', $settings->get_description()->value() );
 		$this->assertFalse( $settings->get_rest_debug()->is_enabled() );

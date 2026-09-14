@@ -2,16 +2,16 @@
 /**
  * Test OpenAPI Drift Detection.
  *
- * @package AIReady\WPPluginBoilerplate\Tests\Unit\Development\OpenApi
+ * @package WPAIBP\Tests\Unit\Development\OpenApi
  */
 
-namespace AIReady\WPPluginBoilerplate\Tests\Unit\Development\OpenApi;
+namespace WPAIBP\Tests\Unit\Development\OpenApi;
 
 use PHPUnit\Framework\TestCase;
-use AIReady\WPPluginBoilerplate\Development\OpenApi\OpenApiGenerator;
-use AIReady\WPPluginBoilerplate\Development\OpenApi\OpenApiDocumentFactory;
-use AIReady\WPPluginBoilerplate\Development\OpenApi\OpenApiYamlWriter;
-use AIReady\WPPluginBoilerplate\Development\OpenApi\WordPressRouteInspector;
+use WPAIBP\Development\OpenApi\OpenApiGenerator;
+use WPAIBP\Development\OpenApi\OpenApiDocumentFactory;
+use WPAIBP\Development\OpenApi\OpenApiYamlWriter;
+use WPAIBP\Development\OpenApi\WordPressRouteInspector;
 
 /**
  * Class OpenApiDriftTest
@@ -40,10 +40,10 @@ class OpenApiDriftTest extends TestCase {
 		$yaml_writer = new OpenApiYamlWriter();
 		$generator   = new OpenApiGenerator( $mock_inspector, $mock_factory, $yaml_writer );
 
-		$temp_file = tempnam( sys_get_temp_dir(), 'airwp_drift_' );
+		$temp_file = tempnam( sys_get_temp_dir(), 'wpaibp_drift_' );
 		$yaml_writer->write_to_file( $sample_doc, $temp_file );
 
-		$this->assertTrue( $generator->check_drift( $temp_file, 'ai-ready-wp/v1' ) );
+		$this->assertTrue( $generator->check_drift( $temp_file, 'wpaibp/v1' ) );
 
 		unlink( $temp_file );
 	}
@@ -70,10 +70,10 @@ class OpenApiDriftTest extends TestCase {
 		$yaml_writer = new OpenApiYamlWriter();
 		$generator   = new OpenApiGenerator( $mock_inspector, $mock_factory, $yaml_writer );
 
-		$temp_file = tempnam( sys_get_temp_dir(), 'airwp_drift_' );
+		$temp_file = tempnam( sys_get_temp_dir(), 'wpaibp_drift_' );
 		file_put_contents( $temp_file, "# Drifted file\nopenapi: 3.0.0\n" );
 
-		$this->assertFalse( $generator->check_drift( $temp_file, 'ai-ready-wp/v1' ) );
+		$this->assertFalse( $generator->check_drift( $temp_file, 'wpaibp/v1' ) );
 
 		unlink( $temp_file );
 	}
@@ -83,6 +83,6 @@ class OpenApiDriftTest extends TestCase {
 	 */
 	public function test_check_drift_returns_false_when_file_missing(): void {
 		$generator = new OpenApiGenerator();
-		$this->assertFalse( $generator->check_drift( '/non/existent/path/spec.yaml', 'ai-ready-wp/v1' ) );
+		$this->assertFalse( $generator->check_drift( '/non/existent/path/spec.yaml', 'wpaibp/v1' ) );
 	}
 }

@@ -9,7 +9,7 @@ export default function save( {
 } ) {
 	const { greeting, showTimestamp } = attributes;
 	const blockProps = useBlockProps.save( {
-		className: 'airwp-hello-world-block',
+		className: 'wpaibp-hello-world-block',
 	} );
 
 	const initialContext = JSON.stringify( {
@@ -23,21 +23,21 @@ export default function save( {
 			data-wp-interactive="airwp/hello-world"
 			data-wp-context={ initialContext }
 		>
-			<div className="airwp-hello-world-card">
-				<div className="airwp-hello-world-icon" aria-hidden="true">
+			<div className="wpaibp-hello-world-card">
+				<div className="wpaibp-hello-world-icon" aria-hidden="true">
 					✨
 				</div>
-				<h3 className="airwp-hello-world-heading">{ greeting }</h3>
-				<p className="airwp-hello-world-subtext">
+				<h3 className="wpaibp-hello-world-heading">{ greeting }</h3>
+				<p className="wpaibp-hello-world-subtext">
 					{ __(
-						'Powered by AI-Ready WP Plugin Boilerplate.',
-						'ai-ready-wp-plugin-boilerplate'
+						'Powered by WP AI Ready Plugin Boilerplate.',
+						'wp-ai-ready-plugin-boilerplate'
 					) }
 				</p>
-				<div className="airwp-hello-world-interactive-controls">
+				<div className="wpaibp-hello-world-interactive-controls">
 					<button
 						type="button"
-						className="airwp-hello-world-button"
+						className="wpaibp-hello-world-button"
 						data-wp-on--click="actions.incrementLike"
 					>
 						❤️{ ' ' }
@@ -45,29 +45,29 @@ export default function save( {
 					</button>
 					<button
 						type="button"
-						className="airwp-hello-world-toggle"
+						className="wpaibp-hello-world-toggle"
 						data-wp-on--click="actions.toggleDetails"
 						data-wp-bind--aria-expanded="context.isOpen"
 					>
-						{ __( 'Details', 'ai-ready-wp-plugin-boilerplate' ) }
+						{ __( 'Details', 'wp-ai-ready-plugin-boilerplate' ) }
 					</button>
 				</div>
 				<div
-					className="airwp-hello-world-details"
+					className="wpaibp-hello-world-details"
 					data-wp-bind--hidden="!context.isOpen"
 				>
 					<p>
 						{ __(
 							'Interactive components powered by the WordPress Interactivity API.',
-							'ai-ready-wp-plugin-boilerplate'
+							'wp-ai-ready-plugin-boilerplate'
 						) }
 					</p>
 				</div>
 				{ showTimestamp && (
-					<span className="airwp-hello-world-badge">
+					<span className="wpaibp-hello-world-badge">
 						{ __(
 							'Verified Plugin Component',
-							'ai-ready-wp-plugin-boilerplate'
+							'wp-ai-ready-plugin-boilerplate'
 						) }
 					</span>
 				) }

@@ -2,15 +2,15 @@
 /**
  * Master WP-CLI Command Adapter for AI-Ready WP Plugin.
  *
- * @package AIReady\WPPluginBoilerplate\Backend\Cli
+ * @package WPAIBP\Backend\Cli
  */
 
-namespace AIReady\WPPluginBoilerplate\Backend\Cli;
+namespace WPAIBP\Backend\Cli;
 
 use WP_CLI;
-use AIReady\WPPluginBoilerplate\Backend\Apps\Diagnostics\Cli\DiagnosticsCliCommand;
-use AIReady\WPPluginBoilerplate\Backend\Apps\Settings\Cli\SettingsCliCommand;
-use AIReady\WPPluginBoilerplate\Framework\Kernel\Plugin;
+use WPAIBP\Backend\Apps\Diagnostics\Cli\DiagnosticsCliCommand;
+use WPAIBP\Backend\Apps\Settings\Cli\SettingsCliCommand;
+use WPAIBP\Framework\Kernel\Plugin;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -151,7 +151,7 @@ class PluginCliCommand {
 	 * @return void
 	 */
 	public function version( array $args, array $assoc_args ): void { // phpcs:ignore VariableAnalysis.CodeAnalysis.VariableAnalysis.UnusedVariable, Generic.CodeAnalysis.UnusedFunctionParameter.FoundAfterLastUsed
-		$version = defined( 'AIRWP_VERSION' ) ? AIRWP_VERSION : Plugin::VERSION;
+		$version = defined( 'WPAIBP_VERSION' ) ? WPAIBP_VERSION : Plugin::VERSION;
 		WP_CLI::line( $version );
 	}
 }

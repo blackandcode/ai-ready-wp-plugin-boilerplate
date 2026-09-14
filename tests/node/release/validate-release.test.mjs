@@ -7,7 +7,7 @@ import { validateRelease } from '../../../tools/release/validate-release.mjs';
 
 test( 'validateRelease passes when all files and headers match target version', async () => {
 	const tempDir = await mkdtemp(
-		join( tmpdir(), 'airwp-validate-release-' )
+		join( tmpdir(), 'wpaibp-validate-release-' )
 	);
 
 	try {
@@ -64,7 +64,7 @@ Stable tag: 2.0.0
 
 test( 'validateRelease detects version mismatches in headers or readme', async () => {
 	const tempDir = await mkdtemp(
-		join( tmpdir(), 'airwp-validate-release-mismatch-' )
+		join( tmpdir(), 'wpaibp-validate-release-mismatch-' )
 	);
 
 	try {
@@ -116,7 +116,7 @@ Stable tag: 1.8.0
 
 test( 'validateRelease validates Plugin::VERSION, block.json, compatibility baselines, and composer.json', async () => {
 	const tempDir = await mkdtemp(
-		join( tmpdir(), 'airwp-validate-release-full-' )
+		join( tmpdir(), 'wpaibp-validate-release-full-' )
 	);
 
 	try {
@@ -145,7 +145,7 @@ define( 'TEST_PLUGIN_VERSION', '2.0.0' );
 		await writeFile(
 			join( tempDir, 'src/framework/Kernel/Plugin.php' ),
 			`<?php
-namespace AIReady\\WPPluginBoilerplate\\Framework\\Kernel;
+namespace WPAIBP\\Kernel;
 class Plugin {
     public const VERSION = '2.0.0';
 }

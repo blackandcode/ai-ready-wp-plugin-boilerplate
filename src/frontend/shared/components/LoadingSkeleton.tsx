@@ -1,7 +1,7 @@
 /**
  * Accessible Loading Skeleton Component.
  *
- * Emits data-airwp-app-state="loading" for deterministic Playwright readiness checks.
+ * Emits data-wpaibp-app-state="loading" for deterministic Playwright readiness checks.
  *
  * @package
  */
@@ -17,19 +17,19 @@ export interface LoadingSkeletonProps {
 export function LoadingSkeleton( {
 	message = __(
 		'Loading plugin settings…',
-		'ai-ready-wp-plugin-boilerplate'
+		'wp-ai-ready-plugin-boilerplate'
 	),
-	className = 'airwp-loading-skeleton',
+	className = 'wpaibp-loading-skeleton',
 }: LoadingSkeletonProps ) {
 	return (
 		<div
 			className={ className }
-			data-airwp-app-state="loading"
+			data-wpaibp-app-state="loading"
 			role="status"
 			aria-live="polite"
 		>
 			<Spinner />
-			<p className="airwp-loading-text">{ message }</p>
+			<p className="wpaibp-loading-text">{ message }</p>
 		</div>
 	);
 }

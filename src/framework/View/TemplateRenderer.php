@@ -5,13 +5,13 @@
  * Implements the Template Method & View Strategy design pattern:
  * - Scoped variable extraction.
  * - Path traversal security checks.
- * - Extensibility filters for themes and add-ons (airwp_template_path, airwp_template_data).
+ * - Extensibility filters for themes and add-ons (wpaibp_template_path, wpaibp_template_data).
  * - Output buffering for string capture.
  *
- * @package AIReady\WPPluginBoilerplate\Framework\View
+ * @package WPAIBP\Framework\View
  */
 
-namespace AIReady\WPPluginBoilerplate\Framework\View;
+namespace WPAIBP\Framework\View;
 
 use InvalidArgumentException;
 
@@ -45,7 +45,7 @@ class TemplateRenderer implements TemplateRendererInterface {
 	 */
 	public function __construct( ?string $base_dir = null ) {
 		if ( null === $base_dir ) {
-			$plugin_dir     = defined( 'AIRWP_PLUGIN_DIR' ) ? AIRWP_PLUGIN_DIR : dirname( __DIR__, 4 ) . '/';
+			$plugin_dir     = defined( 'WPAIBP_PLUGIN_DIR' ) ? WPAIBP_PLUGIN_DIR : dirname( __DIR__, 4 ) . '/';
 			$this->base_dir = rtrim( $plugin_dir, '/\\' ) . '/src/frontend/templates/';
 		} else {
 			$this->base_dir = rtrim( $base_dir, '/\\' ) . '/';
@@ -123,7 +123,7 @@ class TemplateRenderer implements TemplateRendererInterface {
 			 * @param string               $template  Original requested template name.
 			 * @param array<string, mixed> $data      Template variables.
 			 */
-			$candidate = (string) apply_filters( 'airwp_template_path', $candidate, $template, $data );
+			$candidate = (string) apply_filters( 'wpaibp_template_path', $candidate, $template, $data );
 		}
 
 		if ( ! file_exists( $candidate ) ) {
@@ -154,7 +154,7 @@ class TemplateRenderer implements TemplateRendererInterface {
 			 * @param array<string, mixed> $data     Template variables.
 			 * @param string               $template Original template name.
 			 */
-			$data = (array) apply_filters( 'airwp_template_data', $data, $template );
+			$data = (array) apply_filters( 'wpaibp_template_data', $data, $template );
 		}
 
 		// phpcs:ignore WordPress.PHP.DontExtract.extract_extract -- Controlled template variable scope isolation.

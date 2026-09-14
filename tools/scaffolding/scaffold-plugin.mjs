@@ -189,9 +189,10 @@ async function main() {
 			'\nDry run completed successfully. No files were written.'
 		);
 	} else {
-		console.log( '\nPlugin successfully scaffolded! You can now run:' );
+		console.log( '\nPlugin successfully scaffolded! Recommended next steps:' );
+		console.log( '  composer dump-autoload' );
 		console.log( '  npm run build' );
-		console.log( '  npm run env:start' );
+		console.log( '  npm run openapi:generate' );
 		console.log( '  npm test\n' );
 	}
 }

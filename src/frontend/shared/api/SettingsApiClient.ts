@@ -11,7 +11,7 @@ import apiFetch from '@wordpress/api-fetch';
 import type {
 	PluginSettingsData,
 	SystemDiagnosticsData,
-	AirwpBootstrapData,
+	WpaibpBootstrapData,
 } from '../types';
 
 export class ApiClientError extends Error {
@@ -47,22 +47,22 @@ export interface ISettingsApiClient {
 export class SettingsApiClient implements ISettingsApiClient {
 	private readonly fetcher: FetcherFn;
 	private readonly baseEndpoint: string;
-	private readonly bootstrapGetter: () => AirwpBootstrapData | undefined;
+	private readonly bootstrapGetter: () => WpaibpBootstrapData | undefined;
 
 	constructor(
 		options: {
 			fetcher?: FetcherFn;
 			baseEndpoint?: string;
-			bootstrapGetter?: () => AirwpBootstrapData | undefined;
+			bootstrapGetter?: () => WpaibpBootstrapData | undefined;
 		} = {}
 	) {
 		this.fetcher = options.fetcher || ( apiFetch as unknown as FetcherFn );
-		this.baseEndpoint = options.baseEndpoint || '/ai-ready-wp/v1';
+		this.baseEndpoint = options.baseEndpoint || '/wpaibp/v1';
 		this.bootstrapGetter =
 			options.bootstrapGetter ||
 			( () =>
 				typeof window !== 'undefined'
-					? window.airwpAdminBootstrap
+					? window.wpaibpAdminBootstrap
 					: undefined );
 	}
 

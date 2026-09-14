@@ -20,7 +20,7 @@ test( 'isGitRepository accurately detects git work trees', async () => {
 	assert.equal( isGitRepository( projectRoot ), true );
 
 	// Temporary directory is not a git repo
-	const tempDir = await mkdtemp( join( tmpdir(), 'airwp-hooks-test-' ) );
+	const tempDir = await mkdtemp( join( tmpdir(), 'wpaibp-hooks-test-' ) );
 	try {
 		assert.equal( isGitRepository( tempDir ), false );
 	} finally {
@@ -29,7 +29,7 @@ test( 'isGitRepository accurately detects git work trees', async () => {
 } );
 
 test( 'installHooks skips gracefully in non-git directories', async () => {
-	const tempDir = await mkdtemp( join( tmpdir(), 'airwp-hooks-nongit-' ) );
+	const tempDir = await mkdtemp( join( tmpdir(), 'wpaibp-hooks-nongit-' ) );
 	try {
 		const res = installHooks( { root: tempDir, quiet: true } );
 		assert.equal( res.success, true );
@@ -41,7 +41,7 @@ test( 'installHooks skips gracefully in non-git directories', async () => {
 } );
 
 test( 'installHooks configures and uninstalls core.hooksPath in a git repo', async () => {
-	const tempDir = await mkdtemp( join( tmpdir(), 'airwp-hooks-repo-' ) );
+	const tempDir = await mkdtemp( join( tmpdir(), 'wpaibp-hooks-repo-' ) );
 	try {
 		// Initialize temporary git repo
 		spawnSync( 'git', [ 'init', tempDir ], { stdio: 'pipe' } );
@@ -88,7 +88,7 @@ test( 'installHooks configures and uninstalls core.hooksPath in a git repo', asy
 } );
 
 test( 'installHooks reports error if pre-commit script is missing', async () => {
-	const tempDir = await mkdtemp( join( tmpdir(), 'airwp-hooks-missing-' ) );
+	const tempDir = await mkdtemp( join( tmpdir(), 'wpaibp-hooks-missing-' ) );
 	try {
 		spawnSync( 'git', [ 'init', tempDir ], { stdio: 'pipe' } );
 

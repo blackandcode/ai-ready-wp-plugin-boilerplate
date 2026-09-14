@@ -18,7 +18,7 @@ This document defines the functional requirements, user stories, development env
 - **Gating Invariant:** Only rendered when `wp_is_development_mode('plugin')` returns `true`.
 - **Dynamic Loading:** The viewer component is code-split and loaded on demand when the developer clicks the tab.
 - **Features:**
-  - Displays all endpoints under `/ai-ready-wp/v1/`.
+  - Displays all endpoints under `/wpaibp/v1/`.
   - Shows request methods (`GET`, `POST`), URL parameters, and request body JSON schemas.
   - Lists response status codes (`200`, `400`, `401`, `403`) with example payloads.
   - Live reload capability fetching fresh contract data from `/wp-json/ai-ready-wp-dev/v1/openapi`.

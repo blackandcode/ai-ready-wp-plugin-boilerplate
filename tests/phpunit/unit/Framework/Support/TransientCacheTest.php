@@ -2,13 +2,13 @@
 /**
  * Test TransientCache utility.
  *
- * @package AIReady\WPPluginBoilerplate\Tests\Unit\Framework\Support
+ * @package WPAIBP\Tests\Unit\Framework\Support
  */
 
-namespace AIReady\WPPluginBoilerplate\Tests\Unit\Framework\Support;
+namespace WPAIBP\Tests\Unit\Framework\Support;
 
 use PHPUnit\Framework\TestCase;
-use AIReady\WPPluginBoilerplate\Framework\Support\Cache\TransientCache;
+use WPAIBP\Framework\Support\Cache\TransientCache;
 
 /**
  * Class TransientCacheTest
@@ -20,7 +20,7 @@ class TransientCacheTest extends TestCase {
 	 */
 	public function test_build_key_prefixes_correctly(): void {
 		$key = TransientCache::build_key( 'my_test_cache' );
-		$this->assertSame( 'airwp_my_test_cache', $key );
+		$this->assertSame( 'wpaibp_my_test_cache', $key );
 	}
 
 	/**
@@ -31,6 +31,6 @@ class TransientCacheTest extends TestCase {
 		$key      = TransientCache::build_key( $long_key );
 
 		$this->assertLessThanOrEqual( TransientCache::MAX_KEY_LENGTH, strlen( $key ) );
-		$this->assertStringStartsWith( 'airwp_', $key );
+		$this->assertStringStartsWith( 'wpaibp_', $key );
 	}
 }

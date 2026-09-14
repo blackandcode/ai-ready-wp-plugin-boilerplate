@@ -37,7 +37,7 @@ This boilerplate requires a robust, reproducible, and secure CI/CD and release a
 A modular GitHub Actions architecture where:
 
 - Pipeline 1 (`ci.yml`): Runs on every pull request to `main` and push to `main`, invoking a reusable workflow (`_release-readiness.yml`). It lints, runs tests across PHP 8.3 and 8.5, compiles assets, builds the production candidate ZIP in an isolated staging environment via an explicit allowlist, validates the ZIP against a strict package contract, executes a standalone packaged plugin PHP smoke test, runs WordPress Plugin Check on the extracted ZIP, and generates a rich `$GITHUB_STEP_SUMMARY`.
-- Pipeline 2 (`plugin-release.yml`): Manually triggered via `workflow_dispatch` on `main` (named "Plugin Production Release"). It accepts `version` and optional `dry_run` parameters. It validates version consistency across `package.json`, main plugin file, `AIRWP_VERSION`, `Plugin::VERSION`, block metadata, `readme.txt`, and `CHANGELOG.md`, runs the exact same `_release-readiness.yml` gate, and when `dry_run` is false, signs the artifact with Sigstore provenance attestation, drafts the release, uploads the ZIP + SHA256 + `.files.json` + changelog notes, tags `vX.Y.Z`, and publishes an immutable GitHub Release. When `dry_run` is true, it verifies all gates without tagging or publishing.
+- Pipeline 2 (`plugin-release.yml`): Manually triggered via `workflow_dispatch` on `main` (named "Plugin Production Release"). It accepts `version` and optional `dry_run` parameters. It validates version consistency across `package.json`, main plugin file, `WPAIBP_VERSION`, `Plugin::VERSION`, block metadata, `readme.txt`, and `CHANGELOG.md`, runs the exact same `_release-readiness.yml` gate, and when `dry_run` is false, signs the artifact with Sigstore provenance attestation, drafts the release, uploads the ZIP + SHA256 + `.files.json` + changelog notes, tags `vX.Y.Z`, and publishes an immutable GitHub Release. When `dry_run` is true, it verifies all gates without tagging or publishing.
 - In-tree CLI tooling (`tools/release/`) provides deterministic local equivalents: `npm run release:build`, `npm run release:validate`, `npm run release:check`, and `npm run release:notes`.
 
 - **Good, because:** Zero drift between CI and release verification.
@@ -91,7 +91,7 @@ Relying entirely on a third-party GitHub Action to assemble the zip and upload t
 - **Risk:** Vendor directory containing dev dependencies or missing production autoloader.
   **Mitigation:** `build-package.mjs` executes `composer install --no-dev --prefer-dist --optimize-autoloader` in an isolated staging folder, fails hard if Composer errors, verifies that no package in `require-dev` is present in `vendor/`, and validates `vendor/autoload.php` is present while `vendor/bin/` is absent.
 - **Risk:** Version mismatch across plugin files during release dispatch.
-  **Mitigation:** `validate-release.mjs` strictly verifies that the requested release version matches `package.json`, plugin header `Version:`, `AIRWP_VERSION` constant, `Plugin::VERSION` constant, `block.json` version, `readme.txt` `Stable tag:`, WordPress/PHP baselines, and `CHANGELOG.md` entry.
+  **Mitigation:** `validate-release.mjs` strictly verifies that the requested release version matches `package.json`, plugin header `Version:`, `WPAIBP_VERSION` constant, `Plugin::VERSION` constant, `block.json` version, `readme.txt` `Stable tag:`, WordPress/PHP baselines, and `CHANGELOG.md` entry.
 
 ## Non-Goals
 

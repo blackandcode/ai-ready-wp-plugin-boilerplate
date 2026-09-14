@@ -21,7 +21,7 @@ export function NoticeBanner( {
 	children,
 	onDismiss,
 	isDismissible = true,
-	className = 'airwp-notice-banner',
+	className = 'wpaibp-notice-banner',
 }: NoticeBannerProps ) {
 	return (
 		<div

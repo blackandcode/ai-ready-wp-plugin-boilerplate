@@ -86,10 +86,10 @@ In your plugin root, `.wp-env.json` configures the runtime:
 The `tools/wp-env/after-start.mjs` script runs automatically after `wp-env start` to guarantee an identical, deterministic environment:
 
 1. **Activates Theme & Core Options:** Activates `twentytwentyfive` block theme.
-2. **Activates Plugin & Companions:** Activates `ai-ready-wp-plugin-boilerplate`, `mcp-adapter`, and companions.
+2. **Activates Plugin & Companions:** Activates `wp-ai-ready-plugin-boilerplate`, `mcp-adapter`, and companions.
 3. **Configures Pretty Permalinks:** Sets rewrite structure to `/%postname%/` and executes `wp rewrite flush --hard`, necessary for REST API routes.
 4. **Resets Administrator Credentials:** Enforces `admin` / `password`.
-5. **Provisions Test User & Application Password:** Creates test user `airwp_api_test`, generates an Application Password named `bruno-test`, and automatically updates `.env` (`BRUNO_APPLICATION_PASSWORD=<password>`) for seamless Bruno and Playwright testing.
+5. **Provisions Test User & Application Password:** Creates test user `wpaibp_api_test`, generates an Application Password named `bruno-test`, and automatically updates `.env` (`BRUNO_APPLICATION_PASSWORD=<password>`) for seamless Bruno and Playwright testing.
 
 ---
 

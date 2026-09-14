@@ -13,7 +13,7 @@
 When developers or AI coding agents clone this boilerplate to build a new plugin, they face an error-prone manual rebranding process:
 
 1. Renaming PHP class namespaces across dozens of files.
-2. Renaming WordPress constant prefixes (`AIRWP_`, `WPBP_`) and function prefixes.
+2. Renaming WordPress constant prefixes (`WPAIBP_`, `WPBP_`) and function prefixes.
 3. Updating the root plugin filename, block names, REST namespaces, and Composer/npm package identifiers.
 4. Ensuring that file renames, translations, and asset references remain intact without leaving broken strings or half-renamed identifiers.
 

@@ -47,7 +47,7 @@ export function ApiReferenceSection( {
 			setError(
 				__(
 					'OpenAPI development endpoint is not configured.',
-					'ai-ready-wp-plugin-boilerplate'
+					'wp-ai-ready-plugin-boilerplate'
 				)
 			);
 			setIsLoading( false );
@@ -76,7 +76,7 @@ export function ApiReferenceSection( {
 				err?.message ||
 					__(
 						'Failed to load OpenAPI specification from development endpoint.',
-						'ai-ready-wp-plugin-boilerplate'
+						'wp-ai-ready-plugin-boilerplate'
 					)
 			);
 		} finally {
@@ -89,26 +89,26 @@ export function ApiReferenceSection( {
 	}, [ fetchSpec ] );
 
 	return (
-		<div className="airwp-api-reference-section">
-			<div className="airwp-dev-reference-banner">
-				<div className="airwp-dev-banner-badge">
+		<div className="wpaibp-api-reference-section">
+			<div className="wpaibp-dev-reference-banner">
+				<div className="wpaibp-dev-banner-badge">
 					{ __(
 						'Plugin Development Mode',
-						'ai-ready-wp-plugin-boilerplate'
+						'wp-ai-ready-plugin-boilerplate'
 					) }
 				</div>
-				<p className="airwp-dev-banner-desc">
+				<p className="wpaibp-dev-banner-desc">
 					{ __(
 						'This API reference is dynamically generated from registered WordPress REST controllers, JSON schemas, and OpenAPI metadata.',
-						'ai-ready-wp-plugin-boilerplate'
+						'wp-ai-ready-plugin-boilerplate'
 					) }
 				</p>
-				<div className="airwp-dev-banner-meta">
+				<div className="wpaibp-dev-banner-meta">
 					<span>
 						<strong>
 							{ __(
 								'Reference File:',
-								'ai-ready-wp-plugin-boilerplate'
+								'wp-ai-ready-plugin-boilerplate'
 							) }
 						</strong>{ ' ' }
 						<code>docs/api/openapi.yaml</code>
@@ -117,7 +117,7 @@ export function ApiReferenceSection( {
 						<strong>
 							{ __(
 								'Regenerate:',
-								'ai-ready-wp-plugin-boilerplate'
+								'wp-ai-ready-plugin-boilerplate'
 							) }
 						</strong>{ ' ' }
 						<code>wp ai-ready openapi generate</code>
@@ -126,12 +126,12 @@ export function ApiReferenceSection( {
 			</div>
 
 			{ isLoading && (
-				<div className="airwp-api-reference-loading" role="status">
+				<div className="wpaibp-api-reference-loading" role="status">
 					<Spinner />
 					<p>
 						{ __(
 							'Loading live OpenAPI contract…',
-							'ai-ready-wp-plugin-boilerplate'
+							'wp-ai-ready-plugin-boilerplate'
 						) }
 					</p>
 				</div>
@@ -141,28 +141,28 @@ export function ApiReferenceSection( {
 				<Notice
 					status="error"
 					isDismissible={ false }
-					className="airwp-api-reference-error"
+					className="wpaibp-api-reference-error"
 				>
 					<p>{ error }</p>
 					<Button variant="secondary" onClick={ fetchSpec }>
-						{ __( 'Retry', 'ai-ready-wp-plugin-boilerplate' ) }
+						{ __( 'Retry', 'wp-ai-ready-plugin-boilerplate' ) }
 					</Button>
 				</Notice>
 			) }
 
 			{ spec && ! isLoading && (
-				<div className="airwp-scalar-wrapper">
+				<div className="wpaibp-scalar-wrapper">
 					<Suspense
 						fallback={
 							<div
-								className="airwp-api-reference-loading"
+								className="wpaibp-api-reference-loading"
 								role="status"
 							>
 								<Spinner />
 								<p>
 									{ __(
 										'Rendering API documentation viewer…',
-										'ai-ready-wp-plugin-boilerplate'
+										'wp-ai-ready-plugin-boilerplate'
 									) }
 								</p>
 							</div>

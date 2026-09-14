@@ -76,7 +76,7 @@ src/
 
 Composer autoloading reflects this boundary:
 
-- `AIReady\WPPluginBoilerplate\Framework\` -> `src/framework/`
+- `WPAIBP\` -> `src/framework/`
 - `AIReady\WPPluginBoilerplate\Backend\` -> `src/backend/`
 - `AIReady\WPPluginBoilerplate\Development\` -> `src/development/`
 - `AIReady\WPPluginBoilerplate\Frontend\` -> `src/frontend/Bridge/`

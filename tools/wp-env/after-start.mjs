@@ -2,8 +2,8 @@ import { execFileSync } from 'node:child_process';
 import { readFileSync, writeFileSync, existsSync } from 'node:fs';
 import { resolve } from 'node:path';
 
-const PLUGIN_SLUG = 'ai-ready-wp-plugin-boilerplate';
-const TEST_USER = 'airwp_api_test';
+const PLUGIN_SLUG = 'wp-ai-ready-plugin-boilerplate';
+const TEST_USER = 'wpaibp_api_test';
 
 function wp( ...args ) {
 	return execFileSync( 'npx', [ 'wp-env', 'run', 'cli', 'wp', ...args ], {

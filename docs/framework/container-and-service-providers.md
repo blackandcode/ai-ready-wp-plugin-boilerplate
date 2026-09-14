@@ -43,7 +43,7 @@ flowchart TD
 Binds an interface or class name to a factory closure. By default, factories are evaluated lazily upon first retrieval and cached as singletons:
 
 ```php
-use AIReady\WPPluginBoilerplate\Framework\Container\Container;
+use WPAIBP\Container\Container;
 use AIReady\WPPluginBoilerplate\Backend\Apps\Settings\Domain\Repository\SettingsRepositoryInterface;
 use AIReady\WPPluginBoilerplate\Backend\Apps\Settings\Infrastructure\WordPressSettingsRepository;
 
@@ -86,7 +86,7 @@ if ( $container->has( TemplateRendererInterface::class ) ) {
 All modular providers implement the two-pass lifecycle contract:
 
 ```php
-namespace AIReady\WPPluginBoilerplate\Framework\Container;
+namespace WPAIBP\Container;
 
 interface ServiceProviderInterface {
     /**
@@ -119,8 +119,8 @@ The two-pass lifecycle guarantees order of operations:
 The `ServiceProviderRegistry` manages registration and execution of all providers:
 
 ```php
-use AIReady\WPPluginBoilerplate\Framework\Container\Container;
-use AIReady\WPPluginBoilerplate\Framework\Container\ServiceProviderRegistry;
+use WPAIBP\Container\Container;
+use WPAIBP\Container\ServiceProviderRegistry;
 
 $container = new Container();
 $registry  = new ServiceProviderRegistry( $container );

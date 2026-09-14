@@ -2,17 +2,17 @@
 /**
  * Development-Only OpenAPI REST Controller.
  *
- * @package AIReady\WPPluginBoilerplate\Development\Rest
+ * @package WPAIBP\Development\Rest
  */
 
-namespace AIReady\WPPluginBoilerplate\Development\Rest;
+namespace WPAIBP\Development\Rest;
 
 use WP_Error;
 use WP_REST_Controller;
 use WP_REST_Request;
 use WP_REST_Response;
 use WP_REST_Server;
-use AIReady\WPPluginBoilerplate\Development\OpenApi\OpenApiGenerator;
+use WPAIBP\Development\OpenApi\OpenApiGenerator;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -30,7 +30,7 @@ class DevOpenApiController extends WP_REST_Controller {
 	 *
 	 * @var string
 	 */
-	protected $namespace = 'ai-ready-wp-dev/v1';
+	protected $namespace = 'wpaibp-dev/v1';
 
 	/**
 	 * Route base.
@@ -90,7 +90,7 @@ class DevOpenApiController extends WP_REST_Controller {
 		if ( ! current_user_can( 'manage_options' ) ) {
 			return new WP_Error(
 				'rest_forbidden',
-				__( 'You do not have sufficient permissions to access the development OpenAPI specification.', 'ai-ready-wp-plugin-boilerplate' ),
+				__( 'You do not have sufficient permissions to access the development OpenAPI specification.', 'wp-ai-ready-plugin-boilerplate' ),
 				array( 'status' => 403 )
 			);
 		}

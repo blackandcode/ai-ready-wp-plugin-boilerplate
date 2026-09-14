@@ -1,4 +1,4 @@
-# Agent Instructions — AI-Ready WP Plugin Boilerplate
+# Agent Instructions — WP AI Ready Plugin Boilerplate
 
 Before executing any phase or modification:
 

@@ -2,12 +2,12 @@
 /**
  * WordPress Schema to OpenAPI 3.1 Converter.
  *
- * @package AIReady\WPPluginBoilerplate\Development\OpenApi
+ * @package WPAIBP\Development\OpenApi
  */
 
-namespace AIReady\WPPluginBoilerplate\Development\OpenApi;
+namespace WPAIBP\Development\OpenApi;
 
-use AIReady\WPPluginBoilerplate\Development\OpenApi\Exception\OpenApiValidationException;
+use WPAIBP\Development\OpenApi\Exception\OpenApiValidationException;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;

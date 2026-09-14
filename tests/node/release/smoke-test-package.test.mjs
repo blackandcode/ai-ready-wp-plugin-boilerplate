@@ -8,7 +8,7 @@ import { createZip } from '../../../tools/release/lib/zip-utils.mjs';
 
 test( 'smokeTestPackage executes PHP bootstrap on extracted archive and reports success', async () => {
 	const tempDir = await mkdtemp(
-		join( tmpdir(), 'airwp-smoke-test-pkg-' )
+		join( tmpdir(), 'wpaibp-smoke-test-pkg-' )
 	);
 	const zipPath = join( tempDir, 'sample-1.0.0.zip' );
 
@@ -29,7 +29,7 @@ test( 'smokeTestPackage executes PHP bootstrap on extracted archive and reports 
 		);
 
 		const mockMainPhp = `<?php
-namespace AIReady\\WPPluginBoilerplate\\Framework\\Kernel;
+namespace WPAIBP\\Framework\\Kernel;
 class Plugin {
 	private static $instance = null;
 	public static function instance() {
@@ -58,7 +58,7 @@ class Plugin {
 
 test( 'smokeTestPackage fails gracefully when required files are missing in archive', async () => {
 	const tempDir = await mkdtemp(
-		join( tmpdir(), 'airwp-smoke-test-missing-' )
+		join( tmpdir(), 'wpaibp-smoke-test-missing-' )
 	);
 	const zipPath = join( tempDir, 'broken-1.0.0.zip' );
 

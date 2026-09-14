@@ -34,7 +34,7 @@ Queries the WordPress host environment:
 
 ## 2. Diagnostics REST API (`DiagnosticsController`)
 
-- **Route:** `GET /ai-ready-wp/v1/diagnostics`
+- **Route:** `GET /wpaibp/v1/diagnostics`
 - **Permission Callback:** `current_user_can('manage_options')`
 - **Response Format (`200 OK`):**
 

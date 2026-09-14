@@ -2,21 +2,21 @@
 /**
  * Settings Application Service.
  *
- * @package AIReady\WPPluginBoilerplate\Backend\Apps\Settings\Application
+ * @package WPAIBP\Backend\Apps\Settings\Application
  */
 
-namespace AIReady\WPPluginBoilerplate\Backend\Apps\Settings\Application;
+namespace WPAIBP\Backend\Apps\Settings\Application;
 
-use AIReady\WPPluginBoilerplate\Backend\Apps\Settings\Application\Command\UpdateSettingsCommand;
-use AIReady\WPPluginBoilerplate\Backend\Apps\Settings\Application\DTO\SettingsDTO;
-use AIReady\WPPluginBoilerplate\Backend\Apps\Settings\Domain\Repository\SettingsRepositoryInterface;
-use AIReady\WPPluginBoilerplate\Backend\Apps\Settings\Domain\ValueObject\CacheTtl;
-use AIReady\WPPluginBoilerplate\Backend\Apps\Settings\Domain\ValueObject\DataRetentionPolicy;
-use AIReady\WPPluginBoilerplate\Backend\Apps\Settings\Domain\ValueObject\Description;
-use AIReady\WPPluginBoilerplate\Backend\Apps\Settings\Domain\ValueObject\FeatureFlag;
-use AIReady\WPPluginBoilerplate\Backend\Apps\Settings\Domain\ValueObject\GreetingMessage;
-use AIReady\WPPluginBoilerplate\Backend\Apps\Settings\Domain\ValueObject\RestDebug;
-use AIReady\WPPluginBoilerplate\Framework\Event\EventDispatcherInterface;
+use WPAIBP\Backend\Apps\Settings\Application\Command\UpdateSettingsCommand;
+use WPAIBP\Backend\Apps\Settings\Application\DTO\SettingsDTO;
+use WPAIBP\Backend\Apps\Settings\Domain\Repository\SettingsRepositoryInterface;
+use WPAIBP\Backend\Apps\Settings\Domain\ValueObject\CacheTtl;
+use WPAIBP\Backend\Apps\Settings\Domain\ValueObject\DataRetentionPolicy;
+use WPAIBP\Backend\Apps\Settings\Domain\ValueObject\Description;
+use WPAIBP\Backend\Apps\Settings\Domain\ValueObject\FeatureFlag;
+use WPAIBP\Backend\Apps\Settings\Domain\ValueObject\GreetingMessage;
+use WPAIBP\Backend\Apps\Settings\Domain\ValueObject\RestDebug;
+use WPAIBP\Framework\Event\EventDispatcherInterface;
 
 /**
  * Application service orchestrating settings commands, domain invariants, and events.

@@ -18,7 +18,7 @@ This document defines the functional requirements, user stories, interaction des
 
 The interface uses a vertical sidebar layout with WordPress Design System (WPDS) styling:
 
-- **Header:** Displays page title (`AI-Ready WP Plugin Boilerplate`), version badge, and current environment indicator.
+- **Header:** Displays page title (`WP AI Ready Plugin Boilerplate`), version badge, and current environment indicator.
 - **Sidebar Tabs:**
   - **General:** Greeting Message (text input, 1–255 chars), Enable Feature (toggle switch), Description (textarea, max 500 chars).
   - **Advanced:** REST API Debugging (toggle switch), Cache TTL (number input in seconds, 60–86400), Data Retention Policy (radio select: "Keep All Data" vs "Delete All Data on Uninstall").
@@ -33,8 +33,8 @@ The interface uses a vertical sidebar layout with WordPress Design System (WPDS)
 
 ## 3. UI States & Feedback
 
-- **Loading State:** Shows an accessible loading skeleton (`data-airwp-app-state="loading"`).
-- **Ready State:** Emits `data-airwp-app-state="ready"` when configuration is loaded.
+- **Loading State:** Shows an accessible loading skeleton (`data-wpaibp-app-state="loading"`).
+- **Ready State:** Emits `data-wpaibp-app-state="ready"` when configuration is loaded.
 - **Success Notice:** Dismissible green banner (`role="status"`) announcing "Settings saved successfully."
 - **Error Notice:** Red banner (`role="alert"`) displaying the exact validation or authorization error message.
 - **Unsaved Changes Warning:** Browser `beforeunload` dialog triggers if user navigates with uncommitted form edits.

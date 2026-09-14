@@ -2,12 +2,12 @@
 /**
  * Settings Repository Domain Interface.
  *
- * @package AIReady\WPPluginBoilerplate\Backend\Apps\Settings\Domain\Repository
+ * @package WPAIBP\Backend\Apps\Settings\Domain\Repository
  */
 
-namespace AIReady\WPPluginBoilerplate\Backend\Apps\Settings\Domain\Repository;
+namespace WPAIBP\Backend\Apps\Settings\Domain\Repository;
 
-use AIReady\WPPluginBoilerplate\Backend\Apps\Settings\Domain\Model\PluginSettings;
+use WPAIBP\Backend\Apps\Settings\Domain\Model\PluginSettings;
 
 /**
  * Domain repository contract defining persistence operations for PluginSettings.

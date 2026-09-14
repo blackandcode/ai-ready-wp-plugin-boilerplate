@@ -63,5 +63,5 @@ When debugging test failures or writing new features:
 
 1. **Write Tests Alongside Code (TDD Invariant-First):** Every new domain class, value object, or application service must have an in-memory unit test in `tests/phpunit/unit/`. Every new React UI component must have a Jest test in `tests/js/`.
 2. **Never Mock What You Don't Own in Tier 2:** Unit tests in `tests/phpunit/unit/` run purely in-memory. Never mock WordPress globals; instead, design Domain and Application classes to receive explicit interfaces and DTOs.
-3. **Use Deterministic Markers for Tier 5:** Never use arbitrary timeouts (`page.waitForTimeout()`). Always wait for explicit DOM attributes such as `data-airwp-app-state="ready"`.
+3. **Use Deterministic Markers for Tier 5:** Never use arbitrary timeouts (`page.waitForTimeout()`). Always wait for explicit DOM attributes such as `data-wpaibp-app-state="ready"`.
 4. **Reproduce CI Locally:** When diagnosing CI failures on PRs, run `npm run ci` or individual tier commands locally before pushing changes.

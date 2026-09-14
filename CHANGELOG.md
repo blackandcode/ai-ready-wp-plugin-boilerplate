@@ -6,11 +6,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Added internationalization infrastructure with `tools/i18n/make-pot.mjs` (`npm run i18n:make-pot`) and generated English translation catalog files in `languages/`
+
+### Changed
+
+- Rebranded plugin to "WP AI Ready Plugin Boilerplate" with `WPAIBP` namespace and enhanced scaffold engine to support multi-PSR-4 sub-namespaces, dev routes, and language catalog renaming
+- Configured WordPress Plugin Check CI workflow in `.github/workflows/_release-readiness.yml` to ignore `trademarked_term` and `missing_composer_json_file` warnings
+
 ### Fixed
 
+- Added `ABSPATH` direct access guards to frontend block pattern templates (`card-feature.php` and `interactive-showcase.php`)
 - Fixed `findDependabotBinary` unit test in `tests/node/dependabot/run-dependabot.test.mjs` to use isolated temporary binaries and cross-platform delimiter instead of hardcoded host paths
-- Fixed JSON parsing failure in CI during distribution package builds by suppressing human-readable stdout logs when --json flag is active
-
 
 ## [1.3.3] - 2026-09-09
 
@@ -46,7 +54,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Plugin Production Release workflow (.github/workflows/plugin-release.yml) with dry-run support (dry_run: true) and packaged plugin PHP smoke test in _release-readiness.yml
 - ADR-0014: Boilerplate Starter Release Distribution Architecture documenting dual-release model, starter package invariants, and installer decoupling
 - Boilerplate Starter Release packaging toolchain (tools/release/build-boilerplate-package.mjs, tools/release/validate-boilerplate-package.mjs, tests/node/release/boilerplate-package.test.mjs, and npm run boilerplate:build / validate scripts)
-- Boilerplate Template Release workflow (.github/workflows/boilerplate-release.yml) with dry_run flag, standalone PHP smoke test, Sigstore attestation, and boilerplate-v<version> tag
+- Boilerplate Template Release workflow (.github/workflows/boilerplate-release.yml) with dry_run flag, standalone PHP smoke test, Sigstore attestation, and boilerplate-v tag
 
 ### Changed
 
@@ -148,7 +156,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Development-only live OpenAPI endpoint (`src/backend/Apps/Developer/Rest/DevOpenApiController.php`): Registered `GET /wp-json/ai-ready-wp-dev/v1/openapi` gated by `wp_is_development_mode( 'plugin' )` and `manage_options` capability.
 - Interactive API Reference tab in Settings app: Integrated lazy-loaded, code-split Scalar viewer component in WordPress Admin when in development mode.
 - OpenAPI automated test coverage: Added PHPUnit unit tests for path normalization, schema conversion, metadata validation, YAML dumping, document factory, and drift checks, plus Jest unit tests for `ApiReferenceSection` and `SettingsShell` navigation.
-
 - Two-Pipeline CI/CD and Release Readiness Architecture (ADR-0010): Authored and accepted ADR-0010 establishing the shared reusable release-readiness gate, manual GitHub Releases, package contract verification, and Sigstore provenance attestations.
 - Reusable Shared Release Readiness Workflow (`.github/workflows/_release-readiness.yml`): Centralized definition of "release ready" executing linters, multi-PHP testing matrix (PHP 8.3 & 8.5), production asset compilation, distribution packaging, package contract verification, official WordPress Plugin Check on the distribution ZIP, and `$GITHUB_STEP_SUMMARY` reporting.
 - Continuous Delivery Readiness Pipeline (`.github/workflows/ci.yml`): Triggers on pull requests and pushes to `main`, invoking `_release-readiness.yml` and uploading candidate ZIPs with 7-day retention.
@@ -280,3 +287,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Tier 5: Playwright visual regression and browser end-to-end tests.
 - 30 bundled agent skills (including DDD, OOP, Design Patterns, TDD, and Refactoring) and persistent Cursor rules.
 - Authoritative Product Charter (`docs/00-product-charter-and-decisions.md`) and OpenAPI 3.1 specification (`docs/api/openapi.yaml`).
+

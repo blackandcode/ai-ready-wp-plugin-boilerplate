@@ -35,21 +35,21 @@ interface SubComponentProps {
 
 function CardHeader( {
 	children,
-	className = 'airwp-card-header',
+	className = 'wpaibp-card-header',
 }: SubComponentProps ) {
 	return <WpCardHeader className={ className }>{ children }</WpCardHeader>;
 }
 
 function CardBody( {
 	children,
-	className = 'airwp-card-body',
+	className = 'wpaibp-card-body',
 }: SubComponentProps ) {
 	return <WpCardBody className={ className }>{ children }</WpCardBody>;
 }
 
 function CardFooter( {
 	children,
-	className = 'airwp-card-footer',
+	className = 'wpaibp-card-footer',
 }: SubComponentProps ) {
 	return <WpCardFooter className={ className }>{ children }</WpCardFooter>;
 }
@@ -58,7 +58,7 @@ export function CardLayout( {
 	header,
 	children,
 	footer,
-	className = 'airwp-settings-card',
+	className = 'wpaibp-settings-card',
 }: CardLayoutProps ) {
 	return (
 		<Card className={ className }>

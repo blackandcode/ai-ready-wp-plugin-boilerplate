@@ -44,13 +44,13 @@ All screen selectors, form field interactions, and tab switching actions are enc
 Never use arbitrary delays (`page.waitForTimeout()`). The React application emits explicit DOM state attributes:
 
 ```html
-<div id="airwp-settings-app" data-airwp-app-state="ready">...</div>
+<div id="wpaibp-settings-app" data-wpaibp-app-state="ready">...</div>
 ```
 
 Playwright waits deterministically:
 
 ```typescript
-await page.waitForSelector('[data-airwp-app-state="ready"]');
+await page.waitForSelector('[data-wpaibp-app-state="ready"]');
 ```
 
 ### 4.2 Visual Snapshot Testing
@@ -62,7 +62,7 @@ test('renders settings admin shell correctly', async ({ page }) => {
   const settingsPage = new SettingsPage(page);
   await settingsPage.goto();
 
-  await expect(page.locator('#airwp-settings-app')).toHaveScreenshot('settings-app.png', {
+  await expect(page.locator('#wpaibp-settings-app')).toHaveScreenshot('settings-app.png', {
     maxDiffPixelRatio: 0.01,
   });
 });
@@ -94,6 +94,6 @@ npm run test:e2e:update
 
 ## 7. Coding Agent Rules
 
-1. **Wait for `data-airwp-app-state="ready"`:** Always wait for the container readiness marker before attempting clicks or capturing screenshots.
+1. **Wait for `data-wpaibp-app-state="ready"`:** Always wait for the container readiness marker before attempting clicks or capturing screenshots.
 2. **Encapsulate in Page Objects:** When adding new test scenarios for admin screens, add methods to the corresponding Page Object in `tests/e2e/playwright/pages/` rather than inlining raw CSS selectors.
 3. **Commit Updated Snapshots Responsibly:** Only update visual snapshots (`npm run test:e2e:update`) when an intentional visual modification has been made and verified.

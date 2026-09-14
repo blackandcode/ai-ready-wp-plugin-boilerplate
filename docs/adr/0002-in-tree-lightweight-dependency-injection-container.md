@@ -22,7 +22,7 @@ At the same time, avoiding DI entirely results in untestable static singletons, 
 
 We will implement an **in-tree, zero-dependency, lightweight PSR-11 compliant Dependency Injection container** under `src/Bootstrap/Container.php`, coupled with a `ServiceProviderInterface` contract (`src/Bootstrap/ServiceProviderInterface.php`).
 
-All plugin services, controllers, and hook listeners must be registered via dedicated service providers. The root plugin file (`ai-ready-wp-plugin-boilerplate.php`) is strictly a procedural bootstrapping entry point that instantiates the container and boots providers.
+All plugin services, controllers, and hook listeners must be registered via dedicated service providers. The root plugin file (`wp-ai-ready-plugin-boilerplate.php`) is strictly a procedural bootstrapping entry point that instantiates the container and boots providers.
 
 ## Rationale
 

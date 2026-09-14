@@ -18,7 +18,7 @@ import {
 	defaultSettingsApiClient,
 	type ISettingsApiClient,
 	type PluginSettings,
-	type AirwpBootstrapData,
+	type WpaibpBootstrapData,
 	type SettingsAppExtension,
 } from '../../../shared';
 import { SettingsShell } from './components/SettingsShell';
@@ -26,7 +26,7 @@ import './styles/settings.css';
 
 const DEFAULT_SETTINGS: PluginSettings = {
 	general: {
-		greeting_message: 'Hello from AI-Ready WP Plugin Boilerplate!',
+		greeting_message: 'Hello from WP AI Ready Plugin Boilerplate!',
 		enable_feature: true,
 		description: 'A modern WordPress plugin powered by AI workflows.',
 	},
@@ -40,7 +40,7 @@ const DEFAULT_SETTINGS: PluginSettings = {
 };
 
 export interface AppProps {
-	bootstrap?: AirwpBootstrapData;
+	bootstrap?: WpaibpBootstrapData;
 	apiClient?: ISettingsApiClient;
 	extensions?: SettingsAppExtension[];
 }
@@ -78,7 +78,7 @@ export function App( {
 							err?.message ||
 								__(
 									'Failed to load settings from server.',
-									'ai-ready-wp-plugin-boilerplate'
+									'wp-ai-ready-plugin-boilerplate'
 								)
 						);
 						setIsLoading( false );
@@ -101,7 +101,7 @@ export function App( {
 			showSuccess(
 				__(
 					'Settings successfully saved.',
-					'ai-ready-wp-plugin-boilerplate'
+					'wp-ai-ready-plugin-boilerplate'
 				)
 			);
 		} catch ( error: any ) {
@@ -109,7 +109,7 @@ export function App( {
 				error?.message ||
 					__(
 						'Failed to save settings. Please check your permissions.',
-						'ai-ready-wp-plugin-boilerplate'
+						'wp-ai-ready-plugin-boilerplate'
 					)
 			);
 		} finally {
@@ -133,12 +133,12 @@ export function App( {
 		<ErrorBoundary
 			fallbackTitle={ __(
 				'Settings Application Error',
-				'ai-ready-wp-plugin-boilerplate'
+				'wp-ai-ready-plugin-boilerplate'
 			) }
 		>
 			<div
-				className="airwp-app-container"
-				data-airwp-app-state={ appState }
+				className="wpaibp-app-container"
+				data-wpaibp-app-state={ appState }
 			>
 				{ notice && (
 					<NoticeBanner

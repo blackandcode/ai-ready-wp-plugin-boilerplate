@@ -2,12 +2,12 @@
 /**
  * Settings Data Transfer Object.
  *
- * @package AIReady\WPPluginBoilerplate\Backend\Apps\Settings\Application\DTO
+ * @package WPAIBP\Backend\Apps\Settings\Application\DTO
  */
 
-namespace AIReady\WPPluginBoilerplate\Backend\Apps\Settings\Application\DTO;
+namespace WPAIBP\Backend\Apps\Settings\Application\DTO;
 
-use AIReady\WPPluginBoilerplate\Backend\Apps\Settings\Domain\Model\PluginSettings;
+use WPAIBP\Backend\Apps\Settings\Domain\Model\PluginSettings;
 
 /**
  * Immutable DTO representing plugin settings crossing application boundaries.

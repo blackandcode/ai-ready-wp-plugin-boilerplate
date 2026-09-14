@@ -98,7 +98,7 @@ composer test
 vendor/bin/phpunit --testsuite Unit
 
 # Tier 2: PHPUnit integration tests inside container
-npx wp-env run cli --env-cwd=wp-content/plugins/ai-ready-wp-plugin-boilerplate vendor/bin/phpunit --testsuite Integration
+npx wp-env run cli --env-cwd=wp-content/plugins/wp-ai-ready-plugin-boilerplate vendor/bin/phpunit --testsuite Integration
 
 # Tier 3: Frontend Jest unit tests
 npm run test:unit

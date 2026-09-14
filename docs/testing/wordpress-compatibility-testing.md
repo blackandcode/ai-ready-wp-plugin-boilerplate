@@ -1,6 +1,6 @@
 # WordPress Compatibility & Dual-Target Testing Strategy
 
-This document defines the compatibility policy and dual-target testing strategy for the **AI-Ready WP Plugin Boilerplate**, establishing **WordPress 7.1** as the mandatory minimum baseline and **Latest Stable WordPress** as the forward-compatibility target.
+This document defines the compatibility policy and dual-target testing strategy for the **WP AI Ready Plugin Boilerplate**, establishing **WordPress 7.1** as the mandatory minimum baseline and **Latest Stable WordPress** as the forward-compatibility target.
 
 ---
 

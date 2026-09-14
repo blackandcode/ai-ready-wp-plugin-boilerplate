@@ -2,13 +2,13 @@
 /**
  * Diagnostics Application Service.
  *
- * @package AIReady\WPPluginBoilerplate\Backend\Apps\Diagnostics\Application
+ * @package WPAIBP\Backend\Apps\Diagnostics\Application
  */
 
-namespace AIReady\WPPluginBoilerplate\Backend\Apps\Diagnostics\Application;
+namespace WPAIBP\Backend\Apps\Diagnostics\Application;
 
-use AIReady\WPPluginBoilerplate\Backend\Apps\Diagnostics\Application\DTO\DiagnosticsDTO;
-use AIReady\WPPluginBoilerplate\Backend\Apps\Diagnostics\Domain\DiagnosticsProviderInterface;
+use WPAIBP\Backend\Apps\Diagnostics\Application\DTO\DiagnosticsDTO;
+use WPAIBP\Backend\Apps\Diagnostics\Domain\DiagnosticsProviderInterface;
 
 /**
  * Service orchestrating system diagnostic telemetry.

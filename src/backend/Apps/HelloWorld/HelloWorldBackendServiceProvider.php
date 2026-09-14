@@ -2,15 +2,15 @@
 /**
  * Hello World Backend Service Provider.
  *
- * @package AIReady\WPPluginBoilerplate\Backend\Apps\HelloWorld
+ * @package WPAIBP\Backend\Apps\HelloWorld
  */
 
-namespace AIReady\WPPluginBoilerplate\Backend\Apps\HelloWorld;
+namespace WPAIBP\Backend\Apps\HelloWorld;
 
-use AIReady\WPPluginBoilerplate\Backend\Apps\HelloWorld\Application\HelloWorldService;
-use AIReady\WPPluginBoilerplate\Backend\Apps\HelloWorld\Rest\HelloWorldController;
-use AIReady\WPPluginBoilerplate\Framework\Container\Container;
-use AIReady\WPPluginBoilerplate\Framework\Container\ServiceProviderInterface;
+use WPAIBP\Backend\Apps\HelloWorld\Application\HelloWorldService;
+use WPAIBP\Backend\Apps\HelloWorld\Rest\HelloWorldController;
+use WPAIBP\Framework\Container\Container;
+use WPAIBP\Framework\Container\ServiceProviderInterface;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;

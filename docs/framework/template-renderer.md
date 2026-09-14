@@ -19,8 +19,8 @@ flowchart TD
     Caller["Caller (Bridge / Admin Page / App)"]
     Renderer["TemplateRenderer (src/framework/View/)"]
     Security["Directory Traversal Guard (realpath check)"]
-    FilterPath["apply_filters('airwp_template_path')"]
-    FilterData["apply_filters('airwp_template_data')"]
+    FilterPath["apply_filters('wpaibp_template_path')"]
+    FilterData["apply_filters('wpaibp_template_data')"]
     Scoped["Scoped Isolated Closure (extract($data, EXTR_SKIP))"]
     Output["Sanitized HTML Output"]
 
@@ -39,7 +39,7 @@ flowchart TD
 ### 2.1 `TemplateRendererInterface` (`src/framework/View/TemplateRendererInterface.php`)
 
 ```php
-namespace AIReady\WPPluginBoilerplate\Framework\View;
+namespace WPAIBP\View;
 
 interface TemplateRendererInterface {
     /**
@@ -83,8 +83,8 @@ Variables passed in the `$data` array are extracted using `extract( $data, EXTR_
 
 WordPress themes and add-on plugins can customize template paths and injected data via filter hooks:
 
-- `airwp_template_path`: Overrides the resolved filesystem path (allowing themes to provide custom overrides in `my-theme/ai-ready-wp/`).
-- `airwp_template_data`: Modifies the injected associative data array before evaluation.
+- `wpaibp_template_path`: Overrides the resolved filesystem path (allowing themes to provide custom overrides in `my-theme/ai-ready-wp/`).
+- `wpaibp_template_data`: Modifies the injected associative data array before evaluation.
 
 ---
 

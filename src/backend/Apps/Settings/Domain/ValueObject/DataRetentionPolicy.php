@@ -2,12 +2,12 @@
 /**
  * Data Retention Policy Backed Enum.
  *
- * @package AIReady\WPPluginBoilerplate\Backend\Apps\Settings\Domain\ValueObject
+ * @package WPAIBP\Backend\Apps\Settings\Domain\ValueObject
  */
 
-namespace AIReady\WPPluginBoilerplate\Backend\Apps\Settings\Domain\ValueObject;
+namespace WPAIBP\Backend\Apps\Settings\Domain\ValueObject;
 
-use AIReady\WPPluginBoilerplate\Backend\Apps\Settings\Domain\Exception\InvalidRetentionPolicyException;
+use WPAIBP\Backend\Apps\Settings\Domain\Exception\InvalidRetentionPolicyException;
 
 /**
  * Data retention policy for plugin uninstall and cleanup.

@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 /**
- * Local Dependabot CLI Runner for AI-Ready WP Plugin Boilerplate.
+ * Local Dependabot CLI Runner for WP AI Ready Plugin Boilerplate.
  *
  * Runs official GitHub Dependabot CLI update checks purely in the local
  * workspace environment, resolving dependency updates and diagnosing issues
@@ -19,7 +19,7 @@ import { parseArgs } from 'node:util';
 import yaml from 'js-yaml';
 
 const DEFAULT_CONFIG_PATH = '.github/dependabot.yml';
-const DEFAULT_REPO_NAME = 'blackandcode/ai-ready-wp-plugin-boilerplate';
+const DEFAULT_REPO_NAME = 'blackandcode/wp-ai-ready-plugin-boilerplate';
 
 /**
  * Ecosystem name translation between .github/dependabot.yml and Dependabot CLI core names.
@@ -55,7 +55,7 @@ Options:
                           github-actions (github_actions), npm (npm_and_yarn), composer
   -d, --dep <name>        Target a specific dependency name for update check
       --config <path>     Path to dependabot.yml configuration file (default: .github/dependabot.yml)
-      --repo <name>       Repository owner/name for context (default: blackandcode/ai-ready-wp-plugin-boilerplate)
+      --repo <name>       Repository owner/name for context (default: blackandcode/wp-ai-ready-plugin-boilerplate)
       --dry-run           Validate prerequisites and configuration without starting containers
   -h, --help              Show this help message and command guidance
 `;

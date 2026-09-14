@@ -48,6 +48,6 @@ export type {
 	PluginSettingsData,
 	PluginSettings,
 	SystemDiagnosticsData,
-	AirwpBootstrapData,
+	WpaibpBootstrapData,
 	SettingsAppExtension,
 } from './types';

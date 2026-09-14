@@ -2,10 +2,10 @@
 /**
  * Service Provider Contract.
  *
- * @package AIReady\WPPluginBoilerplate\Framework\Container
+ * @package WPAIBP\Framework\Container
  */
 
-namespace AIReady\WPPluginBoilerplate\Framework\Container;
+namespace WPAIBP\Framework\Container;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;

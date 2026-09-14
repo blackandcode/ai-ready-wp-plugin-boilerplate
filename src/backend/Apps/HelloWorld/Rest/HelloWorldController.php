@@ -2,12 +2,12 @@
 /**
  * Hello World REST Controller.
  *
- * @package AIReady\WPPluginBoilerplate\Backend\Apps\HelloWorld\Rest
+ * @package WPAIBP\Backend\Apps\HelloWorld\Rest
  */
 
-namespace AIReady\WPPluginBoilerplate\Backend\Apps\HelloWorld\Rest;
+namespace WPAIBP\Backend\Apps\HelloWorld\Rest;
 
-use AIReady\WPPluginBoilerplate\Backend\Apps\HelloWorld\Application\HelloWorldService;
+use WPAIBP\Backend\Apps\HelloWorld\Application\HelloWorldService;
 use WP_REST_Controller;
 use WP_REST_Request;
 use WP_REST_Response;
@@ -27,7 +27,7 @@ class HelloWorldController extends WP_REST_Controller {
 	 *
 	 * @var string
 	 */
-	protected $namespace = 'ai-ready-wp/v1';
+	protected $namespace = 'wpaibp/v1';
 
 	/**
 	 * REST resource name.
@@ -116,20 +116,20 @@ class HelloWorldController extends WP_REST_Controller {
 			'type'       => 'object',
 			'properties' => array(
 				'message'   => array(
-					'description' => esc_html__( 'Greeting message from the boilerplate.', 'ai-ready-wp-plugin-boilerplate' ),
+					'description' => esc_html__( 'Greeting message from the boilerplate.', 'wp-ai-ready-plugin-boilerplate' ),
 					'type'        => 'string',
 				),
 				'timestamp' => array(
-					'description' => esc_html__( 'ISO 8601 UTC timestamp of the health check.', 'ai-ready-wp-plugin-boilerplate' ),
+					'description' => esc_html__( 'ISO 8601 UTC timestamp of the health check.', 'wp-ai-ready-plugin-boilerplate' ),
 					'type'        => 'string',
 					'format'      => 'date-time',
 				),
 				'version'   => array(
-					'description' => esc_html__( 'Active plugin semantic version.', 'ai-ready-wp-plugin-boilerplate' ),
+					'description' => esc_html__( 'Active plugin semantic version.', 'wp-ai-ready-plugin-boilerplate' ),
 					'type'        => 'string',
 				),
 				'status'    => array(
-					'description' => esc_html__( 'System health status code.', 'ai-ready-wp-plugin-boilerplate' ),
+					'description' => esc_html__( 'System health status code.', 'wp-ai-ready-plugin-boilerplate' ),
 					'type'        => 'string',
 					'enum'        => array( 'ok' ),
 				),

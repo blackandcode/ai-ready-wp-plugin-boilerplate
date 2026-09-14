@@ -2,12 +2,12 @@
 /**
  * Unit Test for TemplateRenderer.
  *
- * @package AIReady\WPPluginBoilerplate\Tests\Unit\Framework\View
+ * @package WPAIBP\Tests\Unit\Framework\View
  */
 
-namespace AIReady\WPPluginBoilerplate\Tests\Unit\Framework\View;
+namespace WPAIBP\Tests\Unit\Framework\View;
 
-use AIReady\WPPluginBoilerplate\Framework\View\TemplateRenderer;
+use WPAIBP\Framework\View\TemplateRenderer;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 
@@ -21,7 +21,7 @@ class TemplateRendererTest extends TestCase {
 
 	protected function setUp(): void {
 		parent::setUp();
-		$this->temp_dir = sys_get_temp_dir() . '/airwp_test_templates_' . uniqid();
+		$this->temp_dir = sys_get_temp_dir() . '/wpaibp_test_templates_' . uniqid();
 		mkdir( $this->temp_dir );
 		mkdir( $this->temp_dir . '/admin' );
 

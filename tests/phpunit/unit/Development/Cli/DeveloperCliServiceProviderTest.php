@@ -2,14 +2,14 @@
 /**
  * Test Developer CLI Service Provider.
  *
- * @package AIReady\WPPluginBoilerplate\Tests\Unit\Development\Cli
+ * @package WPAIBP\Tests\Unit\Development\Cli
  */
 
-namespace AIReady\WPPluginBoilerplate\Tests\Unit\Development\Cli;
+namespace WPAIBP\Tests\Unit\Development\Cli;
 
 use PHPUnit\Framework\TestCase;
-use AIReady\WPPluginBoilerplate\Development\Cli\DeveloperCliServiceProvider;
-use AIReady\WPPluginBoilerplate\Framework\Container\Container;
+use WPAIBP\Development\Cli\DeveloperCliServiceProvider;
+use WPAIBP\Framework\Container\Container;
 
 /**
  * Class DeveloperCliServiceProviderTest

@@ -14,14 +14,14 @@ import { __ } from '@wordpress/i18n';
 import { DiagnosticsSection } from './DiagnosticsSection';
 import { ApiReferenceSection } from './ApiReferenceSection';
 import type {
-	AirwpBootstrapData,
+	WpaibpBootstrapData,
 	DeveloperSubTab,
 	DeveloperTabMeta,
 } from '../types';
 import '../styles/developer.css';
 
 export interface DeveloperShellProps {
-	bootstrap?: AirwpBootstrapData;
+	bootstrap?: WpaibpBootstrapData;
 	initialSubTab?: DeveloperSubTab;
 	onSubTabChange?: ( tab: DeveloperSubTab ) => void;
 }
@@ -29,12 +29,12 @@ export interface DeveloperShellProps {
 const SUB_TABS: DeveloperTabMeta[] = [
 	{
 		id: 'diagnostics',
-		label: __( 'System Diagnostics', 'ai-ready-wp-plugin-boilerplate' ),
+		label: __( 'System Diagnostics', 'wp-ai-ready-plugin-boilerplate' ),
 		icon: info,
 	},
 	{
 		id: 'api-reference',
-		label: __( 'API Reference', 'ai-ready-wp-plugin-boilerplate' ),
+		label: __( 'API Reference', 'wp-ai-ready-plugin-boilerplate' ),
 		icon: code,
 	},
 ];
@@ -55,13 +55,13 @@ export function DeveloperShell( {
 	};
 
 	return (
-		<div className="airwp-developer-app">
+		<div className="wpaibp-developer-app">
 			<div
-				className="airwp-dev-subtabs-nav"
+				className="wpaibp-dev-subtabs-nav"
 				role="tablist"
 				aria-label={ __(
 					'Developer Tools Navigation',
-					'ai-ready-wp-plugin-boilerplate'
+					'wp-ai-ready-plugin-boilerplate'
 				) }
 			>
 				{ SUB_TABS.map( ( tab ) => (
@@ -69,7 +69,7 @@ export function DeveloperShell( {
 						key={ tab.id }
 						role="tab"
 						aria-selected={ activeSubTab === tab.id }
-						className={ `airwp-dev-subtab ${
+						className={ `wpaibp-dev-subtab ${
 							activeSubTab === tab.id ? 'is-active' : ''
 						}` }
 						onClick={ () => handleTabClick( tab.id ) }
@@ -80,7 +80,7 @@ export function DeveloperShell( {
 				) ) }
 			</div>
 
-			<div className="airwp-dev-tab-content" role="tabpanel">
+			<div className="wpaibp-dev-tab-content" role="tabpanel">
 				{ activeSubTab === 'diagnostics' && (
 					<DiagnosticsSection
 						environment={ bootstrap?.environment }
@@ -93,7 +93,7 @@ export function DeveloperShell( {
 						endpoint={ bootstrap?.development?.openApiEndpoint }
 						path={
 							bootstrap?.development?.openApiPath ||
-							'/ai-ready-wp-dev/v1/openapi'
+							'/wpaibp-dev/v1/openapi'
 						}
 						nonce={ bootstrap?.nonce }
 					/>

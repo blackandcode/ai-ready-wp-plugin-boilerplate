@@ -2,6 +2,7 @@ import {
 	access,
 	chmod,
 	readFile,
+	readdir,
 	rename,
 	rm,
 	stat,
@@ -94,10 +95,10 @@ export function toCamelCase( str ) {
 
 export async function detectCurrentPlugin( root ) {
 	const packagePath = join( root, 'package.json' );
-	let currentSlug = 'ai-ready-wp-plugin-boilerplate';
-	let currentName = 'AI-Ready WP Plugin Boilerplate';
+	let currentSlug = 'wp-ai-ready-plugin-boilerplate';
+	let currentName = 'WP AI Ready Plugin Boilerplate';
 	let currentDescription = '';
-	let currentAuthor = 'WordPress AI Team';
+	let currentAuthor = 'Plugin Developer';
 
 	if ( await fileExists( packagePath ) ) {
 		const pkg = JSON.parse( await readFile( packagePath, 'utf8' ) );
@@ -118,9 +119,25 @@ export async function detectCurrentPlugin( root ) {
 			currentComposerName = comp.name;
 		}
 		if ( comp.autoload?.[ 'psr-4' ] ) {
-			const firstNs = Object.keys( comp.autoload[ 'psr-4' ] )[ 0 ];
-			if ( firstNs ) {
-				currentNamespace = firstNs.replace( /\\+$/, '' );
+			const nsList = Object.keys( comp.autoload[ 'psr-4' ] )
+				.map( ( ns ) => ns.replace( /\\+$/, '' ) )
+				.filter( Boolean );
+			if ( nsList.length > 0 ) {
+				const splitLists = nsList.map( ( ns ) => ns.split( '\\' ) );
+				const commonParts = [];
+				for ( let i = 0; i < splitLists[ 0 ].length; i++ ) {
+					const part = splitLists[ 0 ][ i ];
+					if ( splitLists.every( ( parts ) => parts[ i ] === part ) ) {
+						commonParts.push( part );
+					} else {
+						break;
+					}
+				}
+				if ( commonParts.length > 0 ) {
+					currentNamespace = commonParts.join( '\\' );
+				} else {
+					currentNamespace = nsList[ 0 ];
+				}
 			}
 		}
 	}
@@ -152,7 +169,7 @@ export async function detectCurrentPlugin( root ) {
 	}
 
 	// Detect current constant prefix
-	let currentPrefix = 'AIRWP_';
+	let currentPrefix = 'WPAIBP_';
 	if ( await fileExists( join( root, mainPhpFile ) ) ) {
 		const content = await readFile( join( root, mainPhpFile ), 'utf8' );
 		const prefixMatch = content.match(
@@ -166,7 +183,7 @@ export async function detectCurrentPlugin( root ) {
 	}
 
 	// Detect current REST namespace from controllers
-	let currentRestNamespace = 'ai-ready-wp/v1';
+	let currentRestNamespace = 'wpaibp/v1';
 	const restCandidates = [
 		join(
 			root,
@@ -190,7 +207,7 @@ export async function detectCurrentPlugin( root ) {
 	}
 
 	// Detect current block name from block.json (src/frontend/apps/hello-world/block.json)
-	let currentBlockName = 'ai-ready-wp/hello-world';
+	let currentBlockName = 'wpaibp/hello-world';
 	const blockJsonPath = join(
 		root,
 		'src/frontend/apps/hello-world/block.json'
@@ -291,6 +308,16 @@ export async function scaffoldPlugin( {
 		}
 	}
 
+	const currentVendorPrefix = current.restNamespace.includes( '/' )
+		? current.restNamespace.split( '/' )[ 0 ]
+		: current.slug;
+	const targetVendorPrefix = targetRestNamespace.includes( '/' )
+		? targetRestNamespace.split( '/' )[ 0 ]
+		: targetSlug;
+
+	const currentDevRestNamespace = `${ currentVendorPrefix }-dev/v1`;
+	const targetDevRestNamespace = `${ targetVendorPrefix }-dev/v1`;
+
 	const replacements = [
 		// 1. Double backslash namespace (JSON files)
 		{
@@ -312,16 +339,25 @@ export async function scaffoldPlugin( {
 			from: current.name,
 			to: targetName,
 		},
-		// 5. REST route namespace (dynamically discovered)
+		// 5. Dev REST route namespace (e.g. ai-ready-wp-dev/v1 -> wpaibp-dev/v1)
+		...( currentDevRestNamespace !== targetDevRestNamespace
+			? [ { from: currentDevRestNamespace, to: targetDevRestNamespace } ]
+			: [] ),
+		// 6. REST route namespace (dynamically discovered)
 		{
 			from: current.restNamespace,
 			to: targetRestNamespace,
 		},
-		// 6. Block identifier (dynamically discovered)
+		// 7. Block identifier (dynamically discovered)
 		{
 			from: current.blockName,
 			to: targetBlockName,
 		},
+		// 8. Category / Vendor prefix (e.g. ai-ready-wp -> wpaibp)
+		...( currentVendorPrefix !== targetVendorPrefix &&
+		currentVendorPrefix !== current.slug
+			? [ { from: currentVendorPrefix, to: targetVendorPrefix } ]
+			: [] ),
 		// 7. Composer package name
 		...( currentComposerName &&
 		targetComposerName &&
@@ -333,12 +369,12 @@ export async function scaffoldPlugin( {
 			from: current.prefix,
 			to: targetPrefix,
 		},
-		// 9. Lowercase Underscore Prefix (e.g. airwp_ -> airwp_)
+		// 9. Lowercase Underscore Prefix (e.g. wpaibp_ -> wpaibp_)
 		{
 			from: current.lowerUnderscorePrefix,
 			to: targetLowerUnderscorePrefix,
 		},
-		// 10. Lowercase Hyphen Prefix (e.g. airwp- -> airwp-)
+		// 10. Lowercase Hyphen Prefix (e.g. wpaibp- -> wpaibp-)
 		...( current.lowerHyphenPrefix !== targetLowerHyphenPrefix
 			? [
 					{
@@ -347,11 +383,11 @@ export async function scaffoldPlugin( {
 					},
 			  ]
 			: [] ),
-		// 11. PascalCase Prefix (e.g. AirwpBootstrapData -> AirwpBootstrapData)
+		// 11. PascalCase Prefix (e.g. WpaibpBootstrapData -> WpaibpBootstrapData)
 		...( current.pascalPrefix !== targetPascalPrefix
 			? [ { from: current.pascalPrefix, to: targetPascalPrefix } ]
 			: [] ),
-		// 12. CamelCase Global Bootstrap variable (e.g. airwpAdminBootstrap -> airwpAdminBootstrap)
+		// 12. CamelCase Global Bootstrap variable (e.g. wpaibpAdminBootstrap -> wpaibpAdminBootstrap)
 		...( current.camelPrefix !== targetCamelPrefix
 			? [
 					{
@@ -387,6 +423,41 @@ export async function scaffoldPlugin( {
 			relativeFrom: normalizePath( root, oldMainPhpPath ),
 			relativeTo: normalizePath( root, newMainPhpPath ),
 		} );
+	}
+
+	// Plan rename of language catalog files if slug changed
+	if ( current.slug !== targetSlug ) {
+		const languagesDir = join( root, 'languages' );
+		if ( await fileExists( languagesDir ) ) {
+			try {
+				const langEntries = await readdir( languagesDir, {
+					withFileTypes: true,
+				} );
+				for ( const entry of langEntries ) {
+					if (
+						entry.isFile() &&
+						entry.name.startsWith( current.slug )
+					) {
+						const oldPath = join( languagesDir, entry.name );
+						const newName = entry.name.replace(
+							current.slug,
+							targetSlug
+						);
+						const newPath = join( languagesDir, newName );
+						if ( oldPath !== newPath ) {
+							fileRenames.push( {
+								from: oldPath,
+								to: newPath,
+								relativeFrom: normalizePath( root, oldPath ),
+								relativeTo: normalizePath( root, newPath ),
+							} );
+						}
+					}
+				}
+			} catch {
+				// ignore
+			}
+		}
 	}
 
 	// Scan all eligible project files

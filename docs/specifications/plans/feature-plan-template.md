@@ -140,7 +140,7 @@
   - Main App View: Structured using `Card`, `CardHeader`, `CardBody`, and `CardFooter`.
   - Sidebar Navigation: Vertical tabs with icons from `@wordpress/icons` if multi-view.
   - Feedback Elements: WPDS `Notice` or `Snackbar` for asynchronous state notifications.
-  - Internationalization: All strings wrapped with `__( 'Text', 'ai-ready-wp-plugin-boilerplate' )`.
+  - Internationalization: All strings wrapped with `__( 'Text', 'wp-ai-ready-plugin-boilerplate' )`.
 
 ---
 

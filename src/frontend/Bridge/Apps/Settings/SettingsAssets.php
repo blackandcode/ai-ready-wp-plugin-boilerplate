@@ -2,10 +2,10 @@
 /**
  * Settings script and style enqueue for React application.
  *
- * @package AIReady\WPPluginBoilerplate\Frontend\Apps\Settings
+ * @package WPAIBP\Frontend\Apps\Settings
  */
 
-namespace AIReady\WPPluginBoilerplate\Frontend\Apps\Settings;
+namespace WPAIBP\Frontend\Apps\Settings;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -42,13 +42,13 @@ class SettingsAssets {
 			return;
 		}
 
-		$plugin_dir = defined( 'AIRWP_PLUGIN_DIR' ) ? AIRWP_PLUGIN_DIR : dirname( __DIR__, 5 ) . '/';
-		$plugin_url = defined( 'AIRWP_PLUGIN_URL' ) ? AIRWP_PLUGIN_URL : plugin_dir_url( $plugin_dir . 'ai-ready-wp-plugin-boilerplate.php' );
-		$version    = defined( 'AIRWP_VERSION' ) ? AIRWP_VERSION : '1.3.3';
+		$plugin_dir = defined( 'WPAIBP_PLUGIN_DIR' ) ? WPAIBP_PLUGIN_DIR : dirname( __DIR__, 5 ) . '/';
+		$plugin_url = defined( 'WPAIBP_PLUGIN_URL' ) ? WPAIBP_PLUGIN_URL : plugin_dir_url( $plugin_dir . 'wp-ai-ready-plugin-boilerplate.php' );
+		$version    = defined( 'WPAIBP_VERSION' ) ? WPAIBP_VERSION : '1.3.3';
 
 		$script_path = 'build/admin/settings/index.js';
 		$style_path  = 'build/admin/settings/index.css';
-		$handle      = 'airwp-admin-settings';
+		$handle      = 'wpaibp-admin-settings';
 
 		if ( ! file_exists( $plugin_dir . $script_path ) ) {
 			return;
@@ -88,7 +88,7 @@ class SettingsAssets {
 
 		wp_localize_script(
 			$handle,
-			'airwpAdminBootstrap',
+			'wpaibpAdminBootstrap',
 			$payload
 		);
 

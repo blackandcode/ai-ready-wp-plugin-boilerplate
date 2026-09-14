@@ -3,7 +3,7 @@ import save from '../../../../src/frontend/apps/hello-world/save';
 
 jest.mock( '@wordpress/block-editor', () => ( {
 	useBlockProps: {
-		save: jest.fn( () => ( { className: 'airwp-hello-world-block' } ) ),
+		save: jest.fn( () => ( { className: 'wpaibp-hello-world-block' } ) ),
 	},
 } ) );
 
@@ -16,7 +16,7 @@ describe( 'HelloWorld Block Save Component', () => {
 
 		const { container } = render( <>{ save( { attributes } ) }</> );
 
-		const blockRoot = container.querySelector( '.airwp-hello-world-block' );
+		const blockRoot = container.querySelector( '.wpaibp-hello-world-block' );
 		expect( blockRoot ).toHaveAttribute(
 			'data-wp-interactive',
 			'airwp/hello-world'

@@ -29,7 +29,7 @@ This checklist defines the pre-flight verification items for bootstrapping a fre
 - [ ] Latest WordPress and PHP 8.3 running on `http://localhost:8888`.
 - [ ] Companion plugins active: MCP Adapter, OpenAI provider, Secure Custom Fields.
 - [ ] Lifecycle script `tools/wp-env/after-start.mjs` configures permalinks and test users.
-- [ ] Dedicated test user `airwp_api_test` created with Application Password synced to `.env`.
+- [ ] Dedicated test user `wpaibp_api_test` created with Application Password synced to `.env`.
 
 ---
 

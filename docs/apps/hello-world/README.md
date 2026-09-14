@@ -11,7 +11,7 @@ Governed by **ADR-0003: Gutenberg Block API v3 Standard** and **ADR-0009**.
 - **Backend Headless Domain (`src/backend/Apps/HelloWorld/`):**
   - `Domain/`: `HelloWorldGreeting` Value Object.
   - `Application/`: `HelloWorldService`, `HelloWorldDTO`.
-  - `Rest/`: `HelloWorldController` exposing public `GET /ai-ready-wp/v1/hello`.
+  - `Rest/`: `HelloWorldController` exposing public `GET /wpaibp/v1/hello`.
   - `HelloWorldBackendServiceProvider.php`: Registers service provider and REST routes.
 
 - **Frontend Block Presentation (`src/frontend/apps/hello-world/`):**

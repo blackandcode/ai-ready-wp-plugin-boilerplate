@@ -23,7 +23,7 @@ const changelogCliPath = join(
 );
 
 async function createFixture() {
-	const directory = await mkdtemp( join( tmpdir(), 'airwp-version-sync-' ) );
+	const directory = await mkdtemp( join( tmpdir(), 'wpaibp-version-sync-' ) );
 	await cp( fixtureRoot, directory, { recursive: true } );
 	return directory;
 }

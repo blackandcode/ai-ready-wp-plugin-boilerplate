@@ -2,10 +2,10 @@
 /**
  * Settings REST Controller.
  *
- * @package AIReady\WPPluginBoilerplate\Backend\Apps\Settings\Rest
+ * @package WPAIBP\Backend\Apps\Settings\Rest
  */
 
-namespace AIReady\WPPluginBoilerplate\Backend\Apps\Settings\Rest;
+namespace WPAIBP\Backend\Apps\Settings\Rest;
 
 use Throwable;
 use WP_Error;
@@ -13,9 +13,9 @@ use WP_REST_Controller;
 use WP_REST_Request;
 use WP_REST_Response;
 use WP_REST_Server;
-use AIReady\WPPluginBoilerplate\Backend\Apps\Settings\Application\Command\UpdateSettingsCommand;
-use AIReady\WPPluginBoilerplate\Backend\Apps\Settings\Application\SettingsApplicationService;
-use AIReady\WPPluginBoilerplate\Framework\Support\WordPressErrorMapper;
+use WPAIBP\Backend\Apps\Settings\Application\Command\UpdateSettingsCommand;
+use WPAIBP\Backend\Apps\Settings\Application\SettingsApplicationService;
+use WPAIBP\Framework\Support\WordPressErrorMapper;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -31,7 +31,7 @@ class SettingsController extends WP_REST_Controller {
 	 *
 	 * @var string
 	 */
-	protected $namespace = 'ai-ready-wp/v1';
+	protected $namespace = 'wpaibp/v1';
 
 	/**
 	 * REST resource name.
@@ -123,7 +123,7 @@ class SettingsController extends WP_REST_Controller {
 		if ( ! current_user_can( 'manage_options' ) ) {
 			return new WP_Error(
 				'rest_forbidden',
-				__( 'You do not have sufficient permissions to access plugin settings.', 'ai-ready-wp-plugin-boilerplate' ),
+				__( 'You do not have sufficient permissions to access plugin settings.', 'wp-ai-ready-plugin-boilerplate' ),
 				array( 'status' => 403 )
 			);
 		}
@@ -172,23 +172,23 @@ class SettingsController extends WP_REST_Controller {
 			'properties' => array(
 				'general'        => array(
 					'title'       => 'general_settings',
-					'description' => esc_html__( 'General plugin configuration settings.', 'ai-ready-wp-plugin-boilerplate' ),
+					'description' => esc_html__( 'General plugin configuration settings.', 'wp-ai-ready-plugin-boilerplate' ),
 					'type'        => 'object',
 					'properties'  => array(
 						'greeting_message' => array(
-							'description' => esc_html__( 'Greeting message displayed across plugin interfaces.', 'ai-ready-wp-plugin-boilerplate' ),
+							'description' => esc_html__( 'Greeting message displayed across plugin interfaces.', 'wp-ai-ready-plugin-boilerplate' ),
 							'type'        => 'string',
-							'default'     => 'Hello from AI-Ready WP Plugin Boilerplate!',
+							'default'     => 'Hello from WP AI Ready Plugin Boilerplate!',
 							'minLength'   => 1,
 							'maxLength'   => 255,
 						),
 						'enable_feature'   => array(
-							'description' => esc_html__( 'Toggle enabling or disabling primary plugin functionality.', 'ai-ready-wp-plugin-boilerplate' ),
+							'description' => esc_html__( 'Toggle enabling or disabling primary plugin functionality.', 'wp-ai-ready-plugin-boilerplate' ),
 							'type'        => 'boolean',
 							'default'     => true,
 						),
 						'description'      => array(
-							'description' => esc_html__( 'Detailed description text for the plugin instance.', 'ai-ready-wp-plugin-boilerplate' ),
+							'description' => esc_html__( 'Detailed description text for the plugin instance.', 'wp-ai-ready-plugin-boilerplate' ),
 							'type'        => 'string',
 							'default'     => 'A modern WordPress plugin powered by AI workflows.',
 							'maxLength'   => 1000,
@@ -197,16 +197,16 @@ class SettingsController extends WP_REST_Controller {
 				),
 				'advanced'       => array(
 					'title'       => 'advanced_settings',
-					'description' => esc_html__( 'Advanced developer and performance settings.', 'ai-ready-wp-plugin-boilerplate' ),
+					'description' => esc_html__( 'Advanced developer and performance settings.', 'wp-ai-ready-plugin-boilerplate' ),
 					'type'        => 'object',
 					'properties'  => array(
 						'rest_debug' => array(
-							'description' => esc_html__( 'Enable verbose REST API debugging headers and telemetry.', 'ai-ready-wp-plugin-boilerplate' ),
+							'description' => esc_html__( 'Enable verbose REST API debugging headers and telemetry.', 'wp-ai-ready-plugin-boilerplate' ),
 							'type'        => 'boolean',
 							'default'     => false,
 						),
 						'cache_ttl'  => array(
-							'description' => esc_html__( 'Cache time-to-live duration in seconds.', 'ai-ready-wp-plugin-boilerplate' ),
+							'description' => esc_html__( 'Cache time-to-live duration in seconds.', 'wp-ai-ready-plugin-boilerplate' ),
 							'type'        => 'integer',
 							'default'     => 3600,
 							'minimum'     => 0,
@@ -216,11 +216,11 @@ class SettingsController extends WP_REST_Controller {
 				),
 				'data_retention' => array(
 					'title'       => 'data_retention_settings',
-					'description' => esc_html__( 'Data retention and cleanup policies upon uninstallation.', 'ai-ready-wp-plugin-boilerplate' ),
+					'description' => esc_html__( 'Data retention and cleanup policies upon uninstallation.', 'wp-ai-ready-plugin-boilerplate' ),
 					'type'        => 'object',
 					'properties'  => array(
 						'uninstall_action' => array(
-							'description' => esc_html__( 'Strategy for handling stored plugin data when uninstalling.', 'ai-ready-wp-plugin-boilerplate' ),
+							'description' => esc_html__( 'Strategy for handling stored plugin data when uninstalling.', 'wp-ai-ready-plugin-boilerplate' ),
 							'type'        => 'string',
 							'enum'        => array( 'preserve', 'delete_settings', 'delete_all' ),
 							'default'     => 'preserve',

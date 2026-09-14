@@ -2,14 +2,14 @@
 /**
  * Test CacheTtl Value Object.
  *
- * @package AIReady\WPPluginBoilerplate\Tests\Unit\Backend\Apps\Settings\Domain
+ * @package WPAIBP\Tests\Unit\Backend\Apps\Settings\Domain
  */
 
-namespace AIReady\WPPluginBoilerplate\Tests\Unit\Backend\Apps\Settings\Domain;
+namespace WPAIBP\Tests\Unit\Backend\Apps\Settings\Domain;
 
 use PHPUnit\Framework\TestCase;
-use AIReady\WPPluginBoilerplate\Backend\Apps\Settings\Domain\Exception\InvalidCacheTtlException;
-use AIReady\WPPluginBoilerplate\Backend\Apps\Settings\Domain\ValueObject\CacheTtl;
+use WPAIBP\Backend\Apps\Settings\Domain\Exception\InvalidCacheTtlException;
+use WPAIBP\Backend\Apps\Settings\Domain\ValueObject\CacheTtl;
 
 /**
  * Class CacheTtlTest

@@ -2,12 +2,12 @@
 /**
  * OpenAPI 3.1 Document Factory.
  *
- * @package AIReady\WPPluginBoilerplate\Development\OpenApi
+ * @package WPAIBP\Development\OpenApi
  */
 
-namespace AIReady\WPPluginBoilerplate\Development\OpenApi;
+namespace WPAIBP\Development\OpenApi;
 
-use AIReady\WPPluginBoilerplate\Framework\Kernel\Plugin;
+use WPAIBP\Framework\Kernel\Plugin;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -71,10 +71,10 @@ class OpenApiDocumentFactory {
 	public function create( array $inspected_routes, array $config = array() ): array {
 		$this->schema_converter->reset();
 
-		$namespace   = $config['namespace'] ?? 'ai-ready-wp/v1';
-		$version     = $config['version'] ?? ( defined( 'AIRWP_VERSION' ) ? AIRWP_VERSION : Plugin::VERSION );
-		$title       = $config['title'] ?? 'AI-Ready WP Plugin Boilerplate REST API';
-		$description = $config['description'] ?? 'Authoritative OpenAPI 3.1 contract specification for AI-Ready WP Plugin Boilerplate endpoints.';
+		$namespace   = $config['namespace'] ?? 'wpaibp/v1';
+		$version     = $config['version'] ?? ( defined( 'WPAIBP_VERSION' ) ? WPAIBP_VERSION : Plugin::VERSION );
+		$title       = $config['title'] ?? 'WP AI Ready Plugin Boilerplate REST API';
+		$description = $config['description'] ?? 'Authoritative OpenAPI 3.1 contract specification for WP AI Ready Plugin Boilerplate endpoints.';
 
 		// Register standard ErrorResponse component schema.
 		$this->register_error_response_schema();

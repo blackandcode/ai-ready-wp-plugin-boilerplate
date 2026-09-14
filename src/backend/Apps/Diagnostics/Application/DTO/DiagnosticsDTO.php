@@ -2,10 +2,10 @@
 /**
  * Diagnostics DTO.
  *
- * @package AIReady\WPPluginBoilerplate\Backend\Apps\Diagnostics\Application\DTO
+ * @package WPAIBP\Backend\Apps\Diagnostics\Application\DTO
  */
 
-namespace AIReady\WPPluginBoilerplate\Backend\Apps\Diagnostics\Application\DTO;
+namespace WPAIBP\Backend\Apps\Diagnostics\Application\DTO;
 
 /**
  * Immutable DTO representing system diagnostics and runtime health.

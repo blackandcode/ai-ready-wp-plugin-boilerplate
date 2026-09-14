@@ -23,7 +23,7 @@ import { AdvancedSection } from './AdvancedSection';
 import { developerAppExtension } from '../../../developer';
 import type {
 	PluginSettings,
-	AirwpBootstrapData,
+	WpaibpBootstrapData,
 	SettingsAppExtension,
 } from '../types';
 
@@ -32,7 +32,7 @@ export type SettingsTab = CoreSettingsTab | string;
 
 export interface SettingsShellProps {
 	settings: PluginSettings;
-	bootstrap?: AirwpBootstrapData;
+	bootstrap?: WpaibpBootstrapData;
 	isDirty: boolean;
 	isSaving: boolean;
 	onUpdate: ( updated: PluginSettings ) => void;
@@ -51,20 +51,20 @@ interface TabDefinition {
 const BASE_TABS: TabDefinition[] = [
 	{
 		id: 'general',
-		label: __( 'General', 'ai-ready-wp-plugin-boilerplate' ),
+		label: __( 'General', 'wp-ai-ready-plugin-boilerplate' ),
 		icon: cog,
 		subtitle: __(
 			'Configure greeting message, core toggles, and metadata.',
-			'ai-ready-wp-plugin-boilerplate'
+			'wp-ai-ready-plugin-boilerplate'
 		),
 	},
 	{
 		id: 'advanced',
-		label: __( 'Advanced & Retention', 'ai-ready-wp-plugin-boilerplate' ),
+		label: __( 'Advanced & Retention', 'wp-ai-ready-plugin-boilerplate' ),
 		icon: shield,
 		subtitle: __(
 			'Developer controls, debug logging, and data persistence policies.',
-			'ai-ready-wp-plugin-boilerplate'
+			'wp-ai-ready-plugin-boilerplate'
 		),
 	},
 ];
@@ -110,19 +110,19 @@ export function SettingsShell( {
 		! currentExtension || currentExtension.hasFooter === true;
 
 	return (
-		<div className="airwp-settings-layout">
+		<div className="wpaibp-settings-layout">
 			<nav
-				className="airwp-settings-sidebar"
+				className="wpaibp-settings-sidebar"
 				aria-label={ __(
 					'Settings Sections',
-					'ai-ready-wp-plugin-boilerplate'
+					'wp-ai-ready-plugin-boilerplate'
 				) }
 			>
-				<ul className="airwp-sidebar-nav-list">
+				<ul className="wpaibp-sidebar-nav-list">
 					{ visibleTabs.map( ( tab ) => (
 						<li key={ tab.id }>
 							<Button
-								className={ `airwp-sidebar-tab ${
+								className={ `wpaibp-sidebar-tab ${
 									activeTab === tab.id ? 'is-active' : ''
 								}` }
 								onClick={ () => setActiveTab( tab.id ) }
@@ -135,28 +135,28 @@ export function SettingsShell( {
 				</ul>
 			</nav>
 
-			<main className="airwp-settings-main">
-				<Card className="airwp-settings-card">
-					<CardHeader className="airwp-card-header">
-						<div className="airwp-header-content">
-							<div className="airwp-header-badge">
+			<main className="wpaibp-settings-main">
+				<Card className="wpaibp-settings-card">
+					<CardHeader className="wpaibp-card-header">
+						<div className="wpaibp-header-content">
+							<div className="wpaibp-header-badge">
 								<Icon
 									icon={ currentTabMeta.icon }
 									size={ 20 }
 								/>
 							</div>
 							<div>
-								<h2 className="airwp-card-title">
+								<h2 className="wpaibp-card-title">
 									{ currentTabMeta.label }
 								</h2>
-								<p className="airwp-card-subtitle">
+								<p className="wpaibp-card-subtitle">
 									{ currentTabMeta.subtitle }
 								</p>
 							</div>
 						</div>
 					</CardHeader>
 
-					<CardBody className="airwp-card-body">
+					<CardBody className="wpaibp-card-body">
 						{ activeTab === 'general' && (
 							<GeneralSection
 								settings={ settings.general }
@@ -190,20 +190,20 @@ export function SettingsShell( {
 					</CardBody>
 
 					{ showFooter && (
-						<CardFooter className="airwp-card-footer">
+						<CardFooter className="wpaibp-card-footer">
 							<div
-								className={ `airwp-save-status ${
+								className={ `wpaibp-save-status ${
 									isDirty ? 'is-dirty' : ''
 								}` }
 							>
 								{ isDirty
 									? __(
 											'You have unsaved changes',
-											'ai-ready-wp-plugin-boilerplate'
+											'wp-ai-ready-plugin-boilerplate'
 									  )
 									: __(
 											'All changes saved',
-											'ai-ready-wp-plugin-boilerplate'
+											'wp-ai-ready-plugin-boilerplate'
 									  ) }
 							</div>
 							<div style={ { display: 'flex', gap: '8px' } }>
@@ -214,7 +214,7 @@ export function SettingsShell( {
 								>
 									{ __(
 										'Reset',
-										'ai-ready-wp-plugin-boilerplate'
+										'wp-ai-ready-plugin-boilerplate'
 									) }
 								</Button>
 								<Button
@@ -225,7 +225,7 @@ export function SettingsShell( {
 								>
 									{ __(
 										'Save Settings',
-										'ai-ready-wp-plugin-boilerplate'
+										'wp-ai-ready-plugin-boilerplate'
 									) }
 								</Button>
 							</div>

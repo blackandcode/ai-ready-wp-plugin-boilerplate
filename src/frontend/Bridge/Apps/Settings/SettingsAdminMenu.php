@@ -2,12 +2,12 @@
 /**
  * Settings Admin Menu Page Registration.
  *
- * @package AIReady\WPPluginBoilerplate\Frontend\Apps\Settings
+ * @package WPAIBP\Frontend\Apps\Settings
  */
 
-namespace AIReady\WPPluginBoilerplate\Frontend\Apps\Settings;
+namespace WPAIBP\Frontend\Apps\Settings;
 
-use AIReady\WPPluginBoilerplate\Framework\View\TemplateRenderer;
+use WPAIBP\Framework\View\TemplateRenderer;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -25,8 +25,8 @@ class SettingsAdminMenu {
 	 */
 	public static function boot(): void {
 		if ( function_exists( 'add_action' ) ) {
-			add_action( 'airwp_render_settings_page', array( self::class, 'render_settings_view' ) );
-			add_action( 'airwp_settings_app_placeholder', array( self::class, 'render_loading_placeholder' ) );
+			add_action( 'wpaibp_render_settings_page', array( self::class, 'render_settings_view' ) );
+			add_action( 'wpaibp_settings_app_placeholder', array( self::class, 'render_loading_placeholder' ) );
 		}
 	}
 
@@ -42,8 +42,8 @@ class SettingsAdminMenu {
 		);
 
 		add_menu_page(
-			__( 'AI Boilerplate', 'ai-ready-wp-plugin-boilerplate' ),
-			__( 'AI Boilerplate', 'ai-ready-wp-plugin-boilerplate' ),
+			__( 'AI Boilerplate', 'wp-ai-ready-plugin-boilerplate' ),
+			__( 'AI Boilerplate', 'wp-ai-ready-plugin-boilerplate' ),
 			'manage_options',
 			SettingsRoute::SETTINGS_SLUG,
 			array( self::class, 'render_settings_page' ),
@@ -53,8 +53,8 @@ class SettingsAdminMenu {
 
 		add_submenu_page(
 			SettingsRoute::SETTINGS_SLUG,
-			__( 'Boilerplate Settings', 'ai-ready-wp-plugin-boilerplate' ),
-			__( 'Settings', 'ai-ready-wp-plugin-boilerplate' ),
+			__( 'Boilerplate Settings', 'wp-ai-ready-plugin-boilerplate' ),
+			__( 'Settings', 'wp-ai-ready-plugin-boilerplate' ),
 			'manage_options',
 			SettingsRoute::SETTINGS_SLUG,
 			array( self::class, 'render_settings_page' )
@@ -68,23 +68,23 @@ class SettingsAdminMenu {
 	 */
 	public static function render_settings_page(): void {
 		if ( ! current_user_can( 'manage_options' ) ) {
-			wp_die( esc_html__( 'You do not have sufficient permissions to access this page.', 'ai-ready-wp-plugin-boilerplate' ) );
+			wp_die( esc_html__( 'You do not have sufficient permissions to access this page.', 'wp-ai-ready-plugin-boilerplate' ) );
 		}
 
 		/**
 		 * Fires before rendering the boilerplate settings admin page.
 		 */
-		do_action( 'airwp_before_settings_page' );
+		do_action( 'wpaibp_before_settings_page' );
 
 		/**
 		 * Fires to render the boilerplate settings admin page root container.
 		 */
-		do_action( 'airwp_render_settings_page' );
+		do_action( 'wpaibp_render_settings_page' );
 
 		/**
 		 * Fires after rendering the boilerplate settings admin page.
 		 */
-		do_action( 'airwp_after_settings_page' );
+		do_action( 'wpaibp_after_settings_page' );
 	}
 
 	/**

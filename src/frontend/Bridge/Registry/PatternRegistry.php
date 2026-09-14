@@ -2,10 +2,10 @@
 /**
  * Dynamic Pattern Registry.
  *
- * @package AIReady\WPPluginBoilerplate\Frontend\Registry
+ * @package WPAIBP\Frontend\Registry
  */
 
-namespace AIReady\WPPluginBoilerplate\Frontend\Registry;
+namespace WPAIBP\Frontend\Registry;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -27,11 +27,11 @@ class PatternRegistry {
 		}
 
 		register_block_pattern_category(
-			'ai-ready-wp',
-			array( 'label' => __( 'AI-Ready WP', 'ai-ready-wp-plugin-boilerplate' ) )
+			'wpaibp',
+			array( 'label' => __( 'AI-Ready WP', 'wp-ai-ready-plugin-boilerplate' ) )
 		);
 
-		$plugin_dir    = defined( 'AIRWP_PLUGIN_DIR' ) ? AIRWP_PLUGIN_DIR : dirname( __DIR__, 4 ) . '/';
+		$plugin_dir    = defined( 'WPAIBP_PLUGIN_DIR' ) ? WPAIBP_PLUGIN_DIR : dirname( __DIR__, 4 ) . '/';
 		$patterns_dir  = $plugin_dir . 'src/frontend/patterns';
 		$pattern_files = glob( $patterns_dir . '/*.php' );
 
@@ -68,7 +68,7 @@ class PatternRegistry {
 				$headers['slug'],
 				array(
 					'title'       => $headers['title'],
-					'categories'  => ! empty( $categories ) ? $categories : array( 'ai-ready-wp' ),
+					'categories'  => ! empty( $categories ) ? $categories : array( 'wpaibp' ),
 					'description' => (string) ( $headers['description'] ?? '' ),
 					'content'     => $content,
 				)

@@ -84,7 +84,7 @@ test( 'isPathIgnored correctly flags ignored and non-ignored project files', () 
 
 	// Must NOT be ignored
 	assert.equal(
-		isPathIgnored( 'ai-ready-wp-plugin-boilerplate.php', false, rules ),
+		isPathIgnored( 'wp-ai-ready-plugin-boilerplate.php', false, rules ),
 		false
 	);
 	assert.equal(
@@ -143,7 +143,7 @@ test( 'isPathIgnored correctly flags development subsystem and config files with
 
 	// Runtime files must NOT be ignored
 	assert.equal(
-		isPathIgnored( 'ai-ready-wp-plugin-boilerplate.php', false, rules ),
+		isPathIgnored( 'wp-ai-ready-plugin-boilerplate.php', false, rules ),
 		false
 	);
 	assert.equal(

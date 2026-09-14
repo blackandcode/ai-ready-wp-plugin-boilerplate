@@ -60,15 +60,15 @@ classDiagram
 
 ### 1.3 Infrastructure Adapter (`WordPressSettingsRepository`)
 
-- Persists settings as a serialized associative array in `wp_options` under option key `airwp_settings`.
-- Enforces WordPress performance policy: `update_option( 'airwp_settings', $data, false )` (`autoload = false`).
+- Persists settings as a serialized associative array in `wp_options` under option key `wpaibp_settings`.
+- Enforces WordPress performance policy: `update_option( 'wpaibp_settings', $data, false )` (`autoload = false`).
 
 ### 1.4 REST Controller (`SettingsController`)
 
 - Extends `WP_REST_Controller`.
 - Routes:
-  - `GET /ai-ready-wp/v1/settings`: Retrieves settings DTO.
-  - `POST /ai-ready-wp/v1/settings`: Mutates settings.
+  - `GET /wpaibp/v1/settings`: Retrieves settings DTO.
+  - `POST /wpaibp/v1/settings`: Mutates settings.
 - Enforces capability check: `current_user_can('manage_options')`.
 - Translates exceptions to `WP_Error` via `WordPressErrorMapper`.
 
@@ -114,7 +114,7 @@ flowchart TD
 
   ```javascript
   window.airwpSettingsBootstrap = {
-    apiUrl: '/wp-json/ai-ready-wp/v1/',
+    apiUrl: '/wp-json/wpaibp/v1/',
     nonce: '...',
     initialSettings: { ... },
     isDevMode: true

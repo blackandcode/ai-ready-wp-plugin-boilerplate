@@ -8,10 +8,10 @@
 
 import { __ } from '@wordpress/i18n';
 import { StatusBadge } from '../../../../shared';
-import type { AirwpBootstrapData } from '../types';
+import type { WpaibpBootstrapData } from '../types';
 
 export interface DiagnosticsSectionProps {
-	environment?: AirwpBootstrapData[ 'environment' ];
+	environment?: WpaibpBootstrapData[ 'environment' ];
 	version?: string;
 }
 
@@ -20,13 +20,13 @@ export function DiagnosticsSection( {
 	version,
 }: DiagnosticsSectionProps ) {
 	return (
-		<table className="airwp-diagnostics-table">
+		<table className="wpaibp-diagnostics-table">
 			<tbody>
 				<tr>
 					<th>
 						{ __(
 							'Boilerplate Version',
-							'ai-ready-wp-plugin-boilerplate'
+							'wp-ai-ready-plugin-boilerplate'
 						) }
 					</th>
 					<td>
@@ -37,7 +37,7 @@ export function DiagnosticsSection( {
 					<th>
 						{ __(
 							'PHP Runtime',
-							'ai-ready-wp-plugin-boilerplate'
+							'wp-ai-ready-plugin-boilerplate'
 						) }
 					</th>
 					<td>
@@ -45,7 +45,7 @@ export function DiagnosticsSection( {
 						<StatusBadge status="success">
 							{ __(
 								'Compatible',
-								'ai-ready-wp-plugin-boilerplate'
+								'wp-ai-ready-plugin-boilerplate'
 							) }
 						</StatusBadge>
 					</td>
@@ -54,7 +54,7 @@ export function DiagnosticsSection( {
 					<th>
 						{ __(
 							'WordPress Core',
-							'ai-ready-wp-plugin-boilerplate'
+							'wp-ai-ready-plugin-boilerplate'
 						) }
 					</th>
 					<td>
@@ -62,7 +62,7 @@ export function DiagnosticsSection( {
 						<StatusBadge status="success">
 							{ __(
 								'Supported',
-								'ai-ready-wp-plugin-boilerplate'
+								'wp-ai-ready-plugin-boilerplate'
 							) }
 						</StatusBadge>
 					</td>
@@ -71,7 +71,7 @@ export function DiagnosticsSection( {
 					<th>
 						{ __(
 							'Environment Type',
-							'ai-ready-wp-plugin-boilerplate'
+							'wp-ai-ready-plugin-boilerplate'
 						) }
 					</th>
 					<td>
@@ -82,13 +82,13 @@ export function DiagnosticsSection( {
 					<th>
 						{ __(
 							'REST Endpoint Health',
-							'ai-ready-wp-plugin-boilerplate'
+							'wp-ai-ready-plugin-boilerplate'
 						) }
 					</th>
 					<td>
-						<code>/wp-json/ai-ready-wp/v1/hello</code>{ ' ' }
+						<code>/wp-json/wpaibp/v1/hello</code>{ ' ' }
 						<StatusBadge status="success">
-							{ __( 'Active', 'ai-ready-wp-plugin-boilerplate' ) }
+							{ __( 'Active', 'wp-ai-ready-plugin-boilerplate' ) }
 						</StatusBadge>
 					</td>
 				</tr>

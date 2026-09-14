@@ -2,12 +2,12 @@
 /**
  * Greeting Message Value Object.
  *
- * @package AIReady\WPPluginBoilerplate\Backend\Apps\Settings\Domain\ValueObject
+ * @package WPAIBP\Backend\Apps\Settings\Domain\ValueObject
  */
 
-namespace AIReady\WPPluginBoilerplate\Backend\Apps\Settings\Domain\ValueObject;
+namespace WPAIBP\Backend\Apps\Settings\Domain\ValueObject;
 
-use AIReady\WPPluginBoilerplate\Backend\Apps\Settings\Domain\Exception\InvalidGreetingMessageException;
+use WPAIBP\Backend\Apps\Settings\Domain\Exception\InvalidGreetingMessageException;
 
 /**
  * Immutable greeting message value object.
@@ -83,7 +83,7 @@ readonly class GreetingMessage {
 	 * @return self
 	 */
 	public static function default(): self {
-		return new self( 'Hello from AI-Ready WP Plugin Boilerplate!' );
+		return new self( 'Hello from WP AI Ready Plugin Boilerplate!' );
 	}
 
 	/**

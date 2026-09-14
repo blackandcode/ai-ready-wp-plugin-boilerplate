@@ -18,7 +18,7 @@ flowchart TD
     Event["Domain Event Object (SettingsUpdatedEvent)"]
     Dispatcher["EventDispatcher (src/framework/Event/)"]
     Subscribers["In-Memory Subscribers (PHP Closures / Services)"]
-    WPBridge["WordPress Action Hook (do_action('airwp_settings_updated'))"]
+    WPBridge["WordPress Action Hook (do_action('wpaibp_settings_updated'))"]
     ThirdParty["Third-Party Plugins / Themes"]
 
     Domain -->|"dispatch($event)"| Dispatcher
@@ -36,7 +36,7 @@ flowchart TD
 Defines the contract for subscribing and dispatching events:
 
 ```php
-namespace AIReady\WPPluginBoilerplate\Framework\Event;
+namespace WPAIBP\Event;
 
 interface EventDispatcherInterface {
     /**
@@ -60,7 +60,7 @@ interface EventDispatcherInterface {
 
 - **In-Memory Subscribers:** Listeners are registered by fully qualified class name.
 - **Fast Execution:** Dispatches synchronously in-memory with sub-millisecond execution.
-- **WordPress Hook Bridging:** Automatically checks `function_exists( 'do_action' )` and fires namespaced WordPress hooks (e.g., `airwp_settings_updated`, `airwp_retention_policy_changed`).
+- **WordPress Hook Bridging:** Automatically checks `function_exists( 'do_action' )` and fires namespaced WordPress hooks (e.g., `wpaibp_settings_updated`, `wpaibp_retention_policy_changed`).
 
 ---
 
@@ -72,7 +72,7 @@ Inside an application service:
 
 ```php
 use AIReady\WPPluginBoilerplate\Backend\Apps\Settings\Domain\Event\SettingsUpdatedEvent;
-use AIReady\WPPluginBoilerplate\Framework\Event\EventDispatcherInterface;
+use WPAIBP\Event\EventDispatcherInterface;
 
 class SettingsApplicationService {
     public function __construct(
@@ -105,7 +105,7 @@ $dispatcher->subscribe(
 Third-party plugins can hook into the standard WordPress action:
 
 ```php
-add_action( 'airwp_settings_updated', function( array $payload, array $changed_keys ) {
+add_action( 'wpaibp_settings_updated', function( array $payload, array $changed_keys ) {
     error_log( 'Settings were modified for keys: ' . implode( ', ', $changed_keys ) );
 }, 10, 2 );
 ```

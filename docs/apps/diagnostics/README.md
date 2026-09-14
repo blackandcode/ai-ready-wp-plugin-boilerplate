@@ -12,7 +12,7 @@ Governed by **ADR-0007** and **ADR-0009**.
   - `Domain/`: `DiagnosticsProviderInterface`.
   - `Application/`: `DiagnosticsService`, `DiagnosticsDTO`.
   - `Infrastructure/`: `WordPressDiagnosticsProvider` (inspecting host PHP version, WordPress core version, database connection, REST API accessibility).
-  - `Rest/`: `DiagnosticsController` exposing authenticated `GET /ai-ready-wp/v1/diagnostics`.
+  - `Rest/`: `DiagnosticsController` exposing authenticated `GET /wpaibp/v1/diagnostics`.
   - `Cli/`: `DiagnosticsCliCommand` implementing `wp ai-ready doctor`.
   - `Abilities/`: `DiagnosticsAbilities` registering diagnostics with the WordPress Abilities API.
   - `DiagnosticsBackendServiceProvider.php`: Boots diagnostics routes and CLI commands.

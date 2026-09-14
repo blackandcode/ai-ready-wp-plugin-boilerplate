@@ -32,10 +32,10 @@ We adopt a **strict Hexagonal (Ports & Adapters) / DDD architecture** with a **S
 2. **Application Layer & Shared Core Service (`src/Settings/Application/`, `src/Diagnostics/Application/`):**
    - **CQRS-Lite Pattern:** State mutations are encapsulated in command objects (`UpdateSettingsCommand`), and reads are encapsulated in query objects (`GetSettingsQuery`).
    - **Application Services:** `SettingsApplicationService` and `DiagnosticsService` act as the single source of truth for use case execution, coordinating repositories, validating commands, and publishing domain events.
-   - **Event Bus:** An `EventDispatcher` observes aggregate state transitions and dispatches events both to internal in-memory subscribers and to standard WordPress action hooks (`airwp_settings_updated`).
+   - **Event Bus:** An `EventDispatcher` observes aggregate state transitions and dispatches events both to internal in-memory subscribers and to standard WordPress action hooks (`wpaibp_settings_updated`).
 
 3. **Infrastructure Layer (`src/Settings/Infrastructure/`, `src/Diagnostics/Infrastructure/`, `src/Support/`):**
-   - **WordPress Option Storage:** `WordPressSettingsRepository` implements `SettingsRepositoryInterface`, persisting serialized aggregates to `wp_options` under `airwp_settings` with an explicit `autoload => false` policy to prevent options table bloat.
+   - **WordPress Option Storage:** `WordPressSettingsRepository` implements `SettingsRepositoryInterface`, persisting serialized aggregates to `wp_options` under `wpaibp_settings` with an explicit `autoload => false` policy to prevent options table bloat.
    - **Performance Utilities:** `TransientCache` wraps the WordPress Transients API with strict TTL validation and cache tag clearing.
 
 4. **Unified Presentation Adapters (The Shared Core Pattern):**
@@ -85,7 +85,7 @@ We adopt a **strict Hexagonal (Ports & Adapters) / DDD architecture** with a **S
 
 - Domain layer classes must NEVER import WordPress functions, `$wpdb`, or HTTP globals.
 - All presentation adapters (REST, WP-CLI, Abilities) must remain thin and delegate exclusively to Application Services.
-- Option keys and hook names must retain the established prefix (`airwp_`).
+- Option keys and hook names must retain the established prefix (`wpaibp_`).
 
 ## Verification & Fitness Functions
 

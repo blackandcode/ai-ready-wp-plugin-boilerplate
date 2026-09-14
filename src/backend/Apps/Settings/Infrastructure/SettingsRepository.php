@@ -2,10 +2,10 @@
 /**
  * Settings Repository (Backward-compatible adapter).
  *
- * @package AIReady\WPPluginBoilerplate\Backend\Apps\Settings\Infrastructure
+ * @package WPAIBP\Backend\Apps\Settings\Infrastructure
  */
 
-namespace AIReady\WPPluginBoilerplate\Backend\Apps\Settings\Infrastructure;
+namespace WPAIBP\Backend\Apps\Settings\Infrastructure;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;

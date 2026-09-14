@@ -2,13 +2,13 @@
 /**
  * Test Compatibility checker.
  *
- * @package AIReady\WPPluginBoilerplate\Tests\Unit\Framework\Kernel
+ * @package WPAIBP\Tests\Unit\Framework\Kernel
  */
 
-namespace AIReady\WPPluginBoilerplate\Tests\Unit\Framework\Kernel;
+namespace WPAIBP\Tests\Unit\Framework\Kernel;
 
 use PHPUnit\Framework\TestCase;
-use AIReady\WPPluginBoilerplate\Framework\Kernel\Compatibility;
+use WPAIBP\Framework\Kernel\Compatibility;
 
 /**
  * Class CompatibilityTest

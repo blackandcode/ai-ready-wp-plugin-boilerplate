@@ -5,7 +5,7 @@ import {
 import type {
 	PluginSettingsData,
 	SystemDiagnosticsData,
-	AirwpBootstrapData,
+	WpaibpBootstrapData,
 } from '../../../src/frontend/shared/types';
 
 describe( 'SettingsApiClient Adapter', () => {
@@ -42,7 +42,7 @@ describe( 'SettingsApiClient Adapter', () => {
 		expect( mockFetcher ).toHaveBeenCalledTimes( 1 );
 		expect( mockFetcher ).toHaveBeenCalledWith(
 			expect.objectContaining( {
-				path: '/ai-ready-wp/v1/settings',
+				path: '/wpaibp/v1/settings',
 				method: 'GET',
 			} )
 		);
@@ -58,7 +58,7 @@ describe( 'SettingsApiClient Adapter', () => {
 		expect( mockFetcher ).toHaveBeenCalledTimes( 1 );
 		expect( mockFetcher ).toHaveBeenCalledWith(
 			expect.objectContaining( {
-				path: '/ai-ready-wp/v1/settings',
+				path: '/wpaibp/v1/settings',
 				method: 'POST',
 				data: mockSettings,
 			} )
@@ -74,7 +74,7 @@ describe( 'SettingsApiClient Adapter', () => {
 
 		expect( mockFetcher ).toHaveBeenCalledWith(
 			expect.objectContaining( {
-				path: '/ai-ready-wp/v1/diagnostics',
+				path: '/wpaibp/v1/diagnostics',
 				method: 'GET',
 			} )
 		);
@@ -83,8 +83,8 @@ describe( 'SettingsApiClient Adapter', () => {
 
 	it( 'injects X-WP-Nonce header when available in bootstrap data', async () => {
 		const mockFetcher = jest.fn().mockResolvedValue( mockSettings );
-		const mockBootstrap: AirwpBootstrapData = {
-			apiBase: '/ai-ready-wp/v1',
+		const mockBootstrap: WpaibpBootstrapData = {
+			apiBase: '/wpaibp/v1',
 			nonce: 'secret-nonce-123',
 			version: '1.3.3',
 			currentUserCan: { manageOptions: true },

@@ -59,16 +59,16 @@ npm run scaffold -- \
 When executed, `tools/scaffolding/scaffold-engine.mjs` executes an atomic transformation:
 
 1. **Main Plugin File:**
-   - Detects the current root PHP file (e.g., `ai-ready-wp-plugin-boilerplate.php`).
+   - Detects the current root PHP file (e.g., `wp-ai-ready-plugin-boilerplate.php`).
    - Renames it to `<new-slug>.php`.
 2. **PHP Namespaces:**
    - Replaces all occurrences of `AIReady\WPPluginBoilerplate` with the new namespace across all PHP and TypeScript files.
    - Replaces JSON double-escaped namespaces (`AIReady\\WPPluginBoilerplate`) inside `composer.json`.
 3. **PHP Constants & Prefix Variations:**
-   - Replaces uppercase constant prefix `AIRWP_` with `<NEWPREFIX_>` (e.g., `MDM_PLUGIN_FILE`, `MDM_VERSION`).
-   - Replaces lowercase underscore prefix (`airwp_`) in database option names (`airwp_settings` -> `mdm_settings`), function names, and test users (`airwp_api_test`).
-   - Replaces lowercase hyphen prefix (`airwp-`) in admin menu slugs (`airwp-settings`), CSS selectors (`.airwp-*`), and HTML mount points (`#airwp-settings-root`).
-   - Replaces camelCase and PascalCase identifiers (`airwpAdminBootstrap`, `AirwpBootstrapData`).
+   - Replaces uppercase constant prefix `WPAIBP_` with `<NEWPREFIX_>` (e.g., `MDM_PLUGIN_FILE`, `MDM_VERSION`).
+   - Replaces lowercase underscore prefix (`wpaibp_`) in database option names (`wpaibp_settings` -> `mdm_settings`), function names, and test users (`wpaibp_api_test`).
+   - Replaces lowercase hyphen prefix (`wpaibp-`) in admin menu slugs (`wpaibp-settings`), CSS selectors (`.wpaibp-*`), and HTML mount points (`#wpaibp-settings-root`).
+   - Replaces camelCase and PascalCase identifiers (`wpaibpAdminBootstrap`, `WpaibpBootstrapData`).
 4. **Configuration & Manifest Files:**
    - Updates `package.json`, `composer.json`, `.wp-env.json`, `phpcs.xml.dist`, `tests/bruno/`, and `docs/api/openapi.yaml`.
 

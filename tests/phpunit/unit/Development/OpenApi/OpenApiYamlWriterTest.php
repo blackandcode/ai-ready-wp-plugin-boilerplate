@@ -2,13 +2,13 @@
 /**
  * Test OpenAPI YAML Writer.
  *
- * @package AIReady\WPPluginBoilerplate\Tests\Unit\Development\OpenApi
+ * @package WPAIBP\Tests\Unit\Development\OpenApi
  */
 
-namespace AIReady\WPPluginBoilerplate\Tests\Unit\Development\OpenApi;
+namespace WPAIBP\Tests\Unit\Development\OpenApi;
 
 use PHPUnit\Framework\TestCase;
-use AIReady\WPPluginBoilerplate\Development\OpenApi\OpenApiYamlWriter;
+use WPAIBP\Development\OpenApi\OpenApiYamlWriter;
 
 /**
  * Class OpenApiYamlWriterTest
@@ -42,7 +42,7 @@ class OpenApiYamlWriterTest extends TestCase {
 	 */
 	public function test_write_creates_file_atomically(): void {
 		$writer    = new OpenApiYamlWriter();
-		$temp_dir  = sys_get_temp_dir() . '/airwp-openapi-test-' . uniqid();
+		$temp_dir  = sys_get_temp_dir() . '/wpaibp-openapi-test-' . uniqid();
 		$file_path = $temp_dir . '/sub/openapi.yaml';
 
 		$doc = array(

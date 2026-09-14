@@ -86,5 +86,5 @@ Discovers block patterns placed under `src/frontend/patterns/*.php` and register
 ## 3. Coding Agent Rules
 
 1. **Keep Bridge in `src/frontend/Bridge/`:** Never place presentation PHP classes in the root of `src/frontend/` or in `src/backend/`.
-2. **Never Call Backend Services Directly in Bridge Views:** The bridge must render minimal mount HTML (`<div id="airwp-settings-root"></div>`) and inject bootstrap metadata. All dynamic data fetching must be executed client-side via the REST API.
+2. **Never Call Backend Services Directly in Bridge Views:** The bridge must render minimal mount HTML (`<div id="wpaibp-settings-root"></div>`) and inject bootstrap metadata. All dynamic data fetching must be executed client-side via the REST API.
 3. **Always Screen-Guard Assets:** Asset enqueuing must strictly verify `SettingsRoute::is_settings_screen()` before calling `wp_enqueue_script()` or `wp_enqueue_style()` to prevent asset leaking into unrelated admin screens.

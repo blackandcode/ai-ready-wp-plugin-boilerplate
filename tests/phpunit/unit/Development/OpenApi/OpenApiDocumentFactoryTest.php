@@ -2,13 +2,13 @@
 /**
  * Test OpenAPI Document Factory.
  *
- * @package AIReady\WPPluginBoilerplate\Tests\Unit\Development\OpenApi
+ * @package WPAIBP\Tests\Unit\Development\OpenApi
  */
 
-namespace AIReady\WPPluginBoilerplate\Tests\Unit\Development\OpenApi;
+namespace WPAIBP\Tests\Unit\Development\OpenApi;
 
 use PHPUnit\Framework\TestCase;
-use AIReady\WPPluginBoilerplate\Development\OpenApi\OpenApiDocumentFactory;
+use WPAIBP\Development\OpenApi\OpenApiDocumentFactory;
 
 /**
  * Class OpenApiDocumentFactoryTest
@@ -20,12 +20,12 @@ class OpenApiDocumentFactoryTest extends TestCase {
 	 */
 	public function test_builds_base_document_structure(): void {
 		$factory  = new OpenApiDocumentFactory();
-		$document = $factory->create( array(), array( 'namespace' => 'ai-ready-wp/v1' ) );
+		$document = $factory->create( array(), array( 'namespace' => 'wpaibp/v1' ) );
 
 		$this->assertSame( '3.1.0', $document['openapi'] );
-		$this->assertSame( 'AI-Ready WP Plugin Boilerplate REST API', $document['info']['title'] );
+		$this->assertSame( 'WP AI Ready Plugin Boilerplate REST API', $document['info']['title'] );
 		$this->assertNotEmpty( $document['servers'] );
-		$this->assertSame( '/wp-json/ai-ready-wp/v1', $document['servers'][0]['url'] );
+		$this->assertSame( '/wp-json/wpaibp/v1', $document['servers'][0]['url'] );
 		$this->assertArrayHasKey( 'paths', $document );
 		$this->assertArrayHasKey( 'components', $document );
 		$this->assertArrayHasKey( 'securitySchemes', $document['components'] );
@@ -88,7 +88,7 @@ class OpenApiDocumentFactoryTest extends TestCase {
 			),
 		);
 
-		$document  = $factory->create( $routes, array( 'namespace' => 'ai-ready-wp/v1' ) );
+		$document  = $factory->create( $routes, array( 'namespace' => 'wpaibp/v1' ) );
 		$path_keys = array_keys( $document['paths'] );
 
 		// Paths must be sorted alphabetically: /alpha, /settings.

@@ -39,33 +39,33 @@ export class SettingsPage {
 	constructor( page: Page ) {
 		this.page = page;
 		this.pageHeading = page.locator( 'h1.wp-heading-inline' );
-		this.appContainer = page.locator( '.airwp-app-container' );
-		this.settingsCard = page.locator( '.airwp-settings-card' );
-		this.cardHeader = page.locator( '.airwp-card-header' );
-		this.cardHeaderContent = page.locator( '.airwp-header-content' );
-		this.headerBadge = page.locator( '.airwp-header-badge' );
-		this.cardTitle = page.locator( '.airwp-card-title' );
-		this.cardSubtitle = page.locator( '.airwp-card-subtitle' );
-		this.sidebarNav = page.locator( '.airwp-settings-sidebar' );
+		this.appContainer = page.locator( '.wpaibp-app-container' );
+		this.settingsCard = page.locator( '.wpaibp-settings-card' );
+		this.cardHeader = page.locator( '.wpaibp-card-header' );
+		this.cardHeaderContent = page.locator( '.wpaibp-header-content' );
+		this.headerBadge = page.locator( '.wpaibp-header-badge' );
+		this.cardTitle = page.locator( '.wpaibp-card-title' );
+		this.cardSubtitle = page.locator( '.wpaibp-card-subtitle' );
+		this.sidebarNav = page.locator( '.wpaibp-settings-sidebar' );
 		this.generalTab = page
-			.locator( '.airwp-sidebar-tab' )
+			.locator( '.wpaibp-sidebar-tab' )
 			.filter( { hasText: 'General' } );
 		this.advancedTab = page
-			.locator( '.airwp-sidebar-tab' )
+			.locator( '.wpaibp-sidebar-tab' )
 			.filter( { hasText: 'Advanced' } );
 		this.developerSidebarTab = page
-			.locator( '.airwp-sidebar-tab' )
+			.locator( '.wpaibp-sidebar-tab' )
 			.filter( { hasText: 'Developer Tools' } );
-		this.developerApp = page.locator( '.airwp-developer-app' );
+		this.developerApp = page.locator( '.wpaibp-developer-app' );
 		this.diagnosticsSubTab = page
-			.locator( '.airwp-dev-subtab' )
+			.locator( '.wpaibp-dev-subtab' )
 			.filter( { hasText: 'System Diagnostics' } );
 		this.apiReferenceSubTab = page
-			.locator( '.airwp-dev-subtab' )
+			.locator( '.wpaibp-dev-subtab' )
 			.filter( { hasText: 'API Reference' } );
-		this.diagnosticsTable = page.locator( '.airwp-diagnostics-table' );
-		this.apiReferenceBanner = page.locator( '.airwp-dev-reference-banner' );
-		this.apiReferenceBadge = page.locator( '.airwp-dev-banner-badge' );
+		this.diagnosticsTable = page.locator( '.wpaibp-diagnostics-table' );
+		this.apiReferenceBanner = page.locator( '.wpaibp-dev-reference-banner' );
+		this.apiReferenceBadge = page.locator( '.wpaibp-dev-banner-badge' );
 		this.greetingInput = page.locator( 'input[type="text"]' ).first();
 		this.descriptionInput = page.locator( 'textarea' );
 		this.featureToggle = page
@@ -73,15 +73,15 @@ export class SettingsPage {
 			.first();
 		this.saveButton = page.getByRole( 'button', { name: 'Save Settings' } );
 		this.resetButton = page.getByRole( 'button', { name: 'Reset' } );
-		this.noticeBanner = page.locator( '.airwp-notice-banner' );
-		this.layoutContainer = page.locator( '.airwp-settings-layout' );
+		this.noticeBanner = page.locator( '.wpaibp-notice-banner' );
+		this.layoutContainer = page.locator( '.wpaibp-settings-layout' );
 	}
 
 	/**
 	 * Navigate to the Settings admin screen and wait until ready.
 	 */
 	public async goto(): Promise< void > {
-		await this.page.goto( '/wp-admin/admin.php?page=airwp-settings' );
+		await this.page.goto( '/wp-admin/admin.php?page=wpaibp-settings' );
 		await this.waitForReady();
 	}
 
@@ -92,7 +92,7 @@ export class SettingsPage {
 		await expect( this.pageHeading ).toBeVisible();
 		await expect( this.settingsCard ).toBeVisible();
 		await expect( this.appContainer ).toHaveAttribute(
-			'data-airwp-app-state',
+			'data-wpaibp-app-state',
 			'ready'
 		);
 	}
@@ -145,7 +145,7 @@ export class SettingsPage {
 	public async save(): Promise< void > {
 		await this.saveButton.click();
 		await expect( this.appContainer ).toHaveAttribute(
-			'data-airwp-app-state',
+			'data-wpaibp-app-state',
 			'ready'
 		);
 	}

@@ -4,10 +4,10 @@
  *
  * Defines the contract for isolated, safe template rendering.
  *
- * @package AIReady\WPPluginBoilerplate\Framework\View
+ * @package WPAIBP\Framework\View
  */
 
-namespace AIReady\WPPluginBoilerplate\Framework\View;
+namespace WPAIBP\Framework\View;
 
 use InvalidArgumentException;
 

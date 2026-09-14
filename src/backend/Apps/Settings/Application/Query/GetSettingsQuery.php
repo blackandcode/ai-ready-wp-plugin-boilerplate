@@ -2,10 +2,10 @@
 /**
  * Get Settings Query.
  *
- * @package AIReady\WPPluginBoilerplate\Backend\Apps\Settings\Application\Query
+ * @package WPAIBP\Backend\Apps\Settings\Application\Query
  */
 
-namespace AIReady\WPPluginBoilerplate\Backend\Apps\Settings\Application\Query;
+namespace WPAIBP\Backend\Apps\Settings\Application\Query;
 
 /**
  * Query object for retrieving plugin settings.

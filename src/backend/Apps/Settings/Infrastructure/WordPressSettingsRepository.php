@@ -2,13 +2,13 @@
 /**
  * WordPress Settings Repository Implementation.
  *
- * @package AIReady\WPPluginBoilerplate\Backend\Apps\Settings\Infrastructure
+ * @package WPAIBP\Backend\Apps\Settings\Infrastructure
  */
 
-namespace AIReady\WPPluginBoilerplate\Backend\Apps\Settings\Infrastructure;
+namespace WPAIBP\Backend\Apps\Settings\Infrastructure;
 
-use AIReady\WPPluginBoilerplate\Backend\Apps\Settings\Domain\Model\PluginSettings;
-use AIReady\WPPluginBoilerplate\Backend\Apps\Settings\Domain\Repository\SettingsRepositoryInterface;
+use WPAIBP\Backend\Apps\Settings\Domain\Model\PluginSettings;
+use WPAIBP\Backend\Apps\Settings\Domain\Repository\SettingsRepositoryInterface;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;

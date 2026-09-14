@@ -2,18 +2,18 @@
 /**
  * Test Plugin bootstrap class.
  *
- * @package AIReady\WPPluginBoilerplate\Tests\Unit\Framework\Kernel
+ * @package WPAIBP\Tests\Unit\Framework\Kernel
  */
 
-namespace AIReady\WPPluginBoilerplate\Tests\Unit\Framework\Kernel;
+namespace WPAIBP\Tests\Unit\Framework\Kernel;
 
 use PHPUnit\Framework\TestCase;
-use AIReady\WPPluginBoilerplate\Backend\BackendServiceProvider;
-use AIReady\WPPluginBoilerplate\Development\DevelopmentServiceProvider;
-use AIReady\WPPluginBoilerplate\Framework\Environment\DevelopmentMode;
-use AIReady\WPPluginBoilerplate\Framework\Environment\FakeDevelopmentMode;
-use AIReady\WPPluginBoilerplate\Framework\Kernel\Plugin;
-use AIReady\WPPluginBoilerplate\Frontend\FrontendServiceProvider;
+use WPAIBP\Backend\BackendServiceProvider;
+use WPAIBP\Development\DevelopmentServiceProvider;
+use WPAIBP\Framework\Environment\DevelopmentMode;
+use WPAIBP\Framework\Environment\FakeDevelopmentMode;
+use WPAIBP\Framework\Kernel\Plugin;
+use WPAIBP\Frontend\FrontendServiceProvider;
 
 /**
  * Class PluginTest

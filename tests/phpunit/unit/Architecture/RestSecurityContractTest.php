@@ -7,16 +7,16 @@
  * 2. Privileged endpoints strictly require 'manage_options'.
  * 3. Developer endpoints never include authentication bypasses.
  *
- * @package AIReady\WPPluginBoilerplate\Tests\Unit\Architecture
+ * @package WPAIBP\Tests\Unit\Architecture
  */
 
-namespace AIReady\WPPluginBoilerplate\Tests\Unit\Architecture;
+namespace WPAIBP\Tests\Unit\Architecture;
 
 use PHPUnit\Framework\TestCase;
-use AIReady\WPPluginBoilerplate\Backend\Apps\Diagnostics\Rest\DiagnosticsController;
-use AIReady\WPPluginBoilerplate\Backend\Apps\HelloWorld\Rest\HelloWorldController;
-use AIReady\WPPluginBoilerplate\Backend\Apps\Settings\Rest\SettingsController;
-use AIReady\WPPluginBoilerplate\Development\Rest\DevOpenApiController;
+use WPAIBP\Backend\Apps\Diagnostics\Rest\DiagnosticsController;
+use WPAIBP\Backend\Apps\HelloWorld\Rest\HelloWorldController;
+use WPAIBP\Backend\Apps\Settings\Rest\SettingsController;
+use WPAIBP\Development\Rest\DevOpenApiController;
 
 /**
  * Class RestSecurityContractTest

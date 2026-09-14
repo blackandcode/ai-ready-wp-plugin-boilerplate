@@ -8,10 +8,10 @@
  * - Frontend Bridge must NEVER import or depend on Development.
  * - Composition Root (Plugin.php) wires the top-level ServiceProviders only.
  *
- * @package AIReady\WPPluginBoilerplate\Tests\Unit\Architecture
+ * @package WPAIBP\Tests\Unit\Architecture
  */
 
-namespace AIReady\WPPluginBoilerplate\Tests\Unit\Architecture;
+namespace WPAIBP\Tests\Unit\Architecture;
 
 use PHPUnit\Framework\TestCase;
 
@@ -119,10 +119,10 @@ class DependencyDirectionTest extends TestCase {
 			$imports = $this->extract_imported_namespaces( $file );
 
 			foreach ( $imports as $import ) {
-				if ( str_starts_with( $import, 'AIReady\\WPPluginBoilerplate\\Backend' ) ) {
+				if ( str_starts_with( $import, 'WPAIBP\\Backend' ) ) {
 					$violations[] = sprintf( '%s imports Backend: "%s"', $relative_path, $import );
 				}
-				if ( str_starts_with( $import, 'AIReady\\WPPluginBoilerplate\\Development' ) ) {
+				if ( str_starts_with( $import, 'WPAIBP\\Development' ) ) {
 					$violations[] = sprintf( '%s imports Development: "%s"', $relative_path, $import );
 				}
 			}
@@ -150,7 +150,7 @@ class DependencyDirectionTest extends TestCase {
 			$relative_path = str_replace( $this->base_dir, '', $file );
 
 			foreach ( $imports as $import ) {
-				if ( str_starts_with( $import, 'AIReady\\WPPluginBoilerplate\\Development' ) ) {
+				if ( str_starts_with( $import, 'WPAIBP\\Development' ) ) {
 					$violations[] = sprintf( '%s imports Development: "%s"', $relative_path, $import );
 				}
 			}
@@ -176,7 +176,7 @@ class DependencyDirectionTest extends TestCase {
 			$relative_path = str_replace( $this->base_dir, '', $file );
 
 			foreach ( $imports as $import ) {
-				if ( str_starts_with( $import, 'AIReady\\WPPluginBoilerplate\\Development' ) ) {
+				if ( str_starts_with( $import, 'WPAIBP\\Development' ) ) {
 					$violations[] = sprintf( '%s imports Development: "%s"', $relative_path, $import );
 				}
 			}

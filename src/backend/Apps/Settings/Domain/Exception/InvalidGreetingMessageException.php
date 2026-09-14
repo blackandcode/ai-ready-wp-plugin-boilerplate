@@ -2,10 +2,10 @@
 /**
  * Invalid Greeting Message Domain Exception.
  *
- * @package AIReady\WPPluginBoilerplate\Backend\Apps\Settings\Domain\Exception
+ * @package WPAIBP\Backend\Apps\Settings\Domain\Exception
  */
 
-namespace AIReady\WPPluginBoilerplate\Backend\Apps\Settings\Domain\Exception;
+namespace WPAIBP\Backend\Apps\Settings\Domain\Exception;
 
 /**
  * Thrown when a greeting message violates domain invariants.

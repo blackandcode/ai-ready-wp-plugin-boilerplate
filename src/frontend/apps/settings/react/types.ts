@@ -11,7 +11,7 @@ export type {
 	PluginSettingsData,
 	PluginSettings,
 	SystemDiagnosticsData,
-	AirwpBootstrapData,
+	WpaibpBootstrapData,
 	DevelopmentToolsData,
 	SettingsAppExtension,
 } from '../../../shared/types';

@@ -2,13 +2,13 @@
 /**
  * Retention Policy Changed Domain Event.
  *
- * @package AIReady\WPPluginBoilerplate\Backend\Apps\Settings\Domain\Event
+ * @package WPAIBP\Backend\Apps\Settings\Domain\Event
  */
 
-namespace AIReady\WPPluginBoilerplate\Backend\Apps\Settings\Domain\Event;
+namespace WPAIBP\Backend\Apps\Settings\Domain\Event;
 
 use DateTimeImmutable;
-use AIReady\WPPluginBoilerplate\Backend\Apps\Settings\Domain\ValueObject\DataRetentionPolicy;
+use WPAIBP\Backend\Apps\Settings\Domain\ValueObject\DataRetentionPolicy;
 
 /**
  * Event recorded when the data retention policy is changed.

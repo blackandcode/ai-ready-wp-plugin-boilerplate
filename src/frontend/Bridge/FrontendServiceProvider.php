@@ -2,16 +2,16 @@
 /**
  * Master Frontend Presentation Service Provider.
  *
- * @package AIReady\WPPluginBoilerplate\Frontend
+ * @package WPAIBP\Frontend
  */
 
-namespace AIReady\WPPluginBoilerplate\Frontend;
+namespace WPAIBP\Frontend;
 
-use AIReady\WPPluginBoilerplate\Framework\Container\Container;
-use AIReady\WPPluginBoilerplate\Framework\Container\ServiceProviderInterface;
-use AIReady\WPPluginBoilerplate\Frontend\Apps\Settings\SettingsFrontendServiceProvider;
-use AIReady\WPPluginBoilerplate\Frontend\Registry\BlockRegistry;
-use AIReady\WPPluginBoilerplate\Frontend\Registry\PatternRegistry;
+use WPAIBP\Framework\Container\Container;
+use WPAIBP\Framework\Container\ServiceProviderInterface;
+use WPAIBP\Frontend\Apps\Settings\SettingsFrontendServiceProvider;
+use WPAIBP\Frontend\Registry\BlockRegistry;
+use WPAIBP\Frontend\Registry\PatternRegistry;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;

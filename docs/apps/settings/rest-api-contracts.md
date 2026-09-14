@@ -8,7 +8,7 @@ Governed by **ADR-0011: Generated OpenAPI 3.1 Specification from WordPress REST 
 
 ## 1. Endpoints Overview
 
-- **Base URL:** `/wp-json/ai-ready-wp/v1`
+- **Base URL:** `/wp-json/wpaibp/v1`
 - **Authentication:** WordPress Cookie Nonce (`X-WP-Nonce`) or Application Passwords (`Authorization: Basic ...`).
 - **Capability Required:** `manage_options`.
 
@@ -28,7 +28,7 @@ Retrieves the current saved configuration.
 ```json
 {
   "general": {
-    "greeting_message": "Hello from AI-Ready WP Plugin Boilerplate!",
+    "greeting_message": "Hello from WP AI Ready Plugin Boilerplate!",
     "enable_feature": true,
     "description": "A modern WordPress plugin powered by AI workflows."
   },
@@ -83,7 +83,7 @@ Returned when input validation fails:
 
 ```json
 {
-  "code": "airwp_invalid_setting",
+  "code": "wpaibp_invalid_setting",
   "message": "Greeting message exceeds 255 characters.",
   "data": {
     "status": 400

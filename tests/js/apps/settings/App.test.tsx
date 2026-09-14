@@ -9,7 +9,7 @@ import { App } from '../../../../src/frontend/apps/settings/react/App';
 import type { ISettingsApiClient } from '../../../../src/frontend/shared';
 import type {
 	PluginSettings,
-	AirwpBootstrapData,
+	WpaibpBootstrapData,
 } from '../../../../src/frontend/shared/types';
 
 describe( 'Settings App Container', () => {
@@ -28,8 +28,8 @@ describe( 'Settings App Container', () => {
 		},
 	};
 
-	const mockBootstrap: AirwpBootstrapData = {
-		apiBase: '/ai-ready-wp/v1',
+	const mockBootstrap: WpaibpBootstrapData = {
+		apiBase: '/wpaibp/v1',
 		nonce: 'test-nonce',
 		version: '1.3.3',
 		currentUserCan: { manageOptions: true },

@@ -2,15 +2,15 @@
 /**
  * Master Development Service Provider.
  *
- * @package AIReady\WPPluginBoilerplate\Development
+ * @package WPAIBP\Development
  */
 
-namespace AIReady\WPPluginBoilerplate\Development;
+namespace WPAIBP\Development;
 
-use AIReady\WPPluginBoilerplate\Development\Cli\DeveloperCliServiceProvider;
-use AIReady\WPPluginBoilerplate\Development\Rest\DevOpenApiController;
-use AIReady\WPPluginBoilerplate\Framework\Container\Container;
-use AIReady\WPPluginBoilerplate\Framework\Container\ServiceProviderInterface;
+use WPAIBP\Development\Cli\DeveloperCliServiceProvider;
+use WPAIBP\Development\Rest\DevOpenApiController;
+use WPAIBP\Framework\Container\Container;
+use WPAIBP\Framework\Container\ServiceProviderInterface;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;

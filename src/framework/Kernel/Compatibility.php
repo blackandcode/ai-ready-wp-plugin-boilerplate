@@ -2,10 +2,10 @@
 /**
  * Compatibility checker class.
  *
- * @package AIReady\WPPluginBoilerplate\Framework\Kernel
+ * @package WPAIBP\Framework\Kernel
  */
 
-namespace AIReady\WPPluginBoilerplate\Framework\Kernel;
+namespace WPAIBP\Framework\Kernel;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -80,7 +80,7 @@ class Compatibility {
 			esc_html(
 				sprintf(
 					/* translators: 1: Minimum PHP version, 2: Current PHP version */
-					__( 'AI-Ready WP Plugin Boilerplate requires PHP version %1$s or higher. You are running version %2$s.', 'ai-ready-wp-plugin-boilerplate' ),
+					__( 'WP AI Ready Plugin Boilerplate requires PHP version %1$s or higher. You are running version %2$s.', 'wp-ai-ready-plugin-boilerplate' ),
 					self::MIN_PHP_VERSION,
 					PHP_VERSION
 				)
@@ -98,7 +98,7 @@ class Compatibility {
 			esc_html(
 				sprintf(
 					/* translators: 1: Minimum WordPress version, 2: Current WordPress version */
-					__( 'AI-Ready WP Plugin Boilerplate requires WordPress version %1$s or higher. You are running version %2$s.', 'ai-ready-wp-plugin-boilerplate' ),
+					__( 'WP AI Ready Plugin Boilerplate requires WordPress version %1$s or higher. You are running version %2$s.', 'wp-ai-ready-plugin-boilerplate' ),
 					self::MIN_WP_VERSION,
 					$wp_version ?? 'unknown'
 				)

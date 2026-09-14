@@ -2,15 +2,15 @@
 /**
  * Test DevelopmentMode implementations.
  *
- * @package AIReady\WPPluginBoilerplate\Tests\Unit\Framework\Environment
+ * @package WPAIBP\Tests\Unit\Framework\Environment
  */
 
-namespace AIReady\WPPluginBoilerplate\Tests\Unit\Framework\Environment;
+namespace WPAIBP\Tests\Unit\Framework\Environment;
 
 use PHPUnit\Framework\TestCase;
-use AIReady\WPPluginBoilerplate\Framework\Environment\DevelopmentMode;
-use AIReady\WPPluginBoilerplate\Framework\Environment\FakeDevelopmentMode;
-use AIReady\WPPluginBoilerplate\Framework\Environment\WordPressDevelopmentMode;
+use WPAIBP\Framework\Environment\DevelopmentMode;
+use WPAIBP\Framework\Environment\FakeDevelopmentMode;
+use WPAIBP\Framework\Environment\WordPressDevelopmentMode;
 
 /**
  * Class DevelopmentModeTest

@@ -39,7 +39,7 @@ We maintain two distinct, manually dispatched release pipelines:
 | **Workflow** | `.github/workflows/plugin-release.yml` | `.github/workflows/boilerplate-release.yml` |
 | **Release Tag** | `vX.Y.Z` (e.g. `v1.3.3`) | `boilerplate-vX.Y.Z` (e.g. `boilerplate-v1.3.3`) |
 | **Archive Name** | `{slug}-{version}.zip` | `{slug}-starter-{version}.zip` |
-| **Release Title** | `v{version}` | `AI-Ready WP Plugin Boilerplate Starter v{version}` |
+| **Release Title** | `v{version}` | `WP AI Ready Plugin Boilerplate Starter v{version}` |
 | **Primary Scope** | Live WordPress sites / WP.org | Developers, Starter Template, `npx` installer |
 | **Composer Vendor** | Pruned runtime-only (`vendor/`) | Production runtime autoloader (`vendor/`) |
 | **Frontend Assets** | Compiled runtime assets only | Pre-compiled assets + full source code |
@@ -67,7 +67,7 @@ The Boilerplate Starter archive (`dist/<slug>-starter-<version>.zip`) is assembl
 ## Rationale
 
 - **Decoupled Evolution:** Separating the starter release workflow and tag namespacing (`boilerplate-vX.Y.Z`) from plugin releases (`vX.Y.Z`) ensures zero collision with the immutable production plugin releases, while maintaining Git release history for both.
-- **Enabling Zero-Git Standalone Installers:** A standalone installer (such as `npx create-ai-ready-plugin`) can fetch the latest GitHub Release asset `ai-ready-wp-plugin-boilerplate-starter-*.zip`, extract it to the target directory, execute `npm run scaffold`, and hand off a fully pre-compiled project to the developer without requiring Git or network cloning.
+- **Enabling Zero-Git Standalone Installers:** A standalone installer (such as `npx create-ai-ready-plugin`) can fetch the latest GitHub Release asset `wp-ai-ready-plugin-boilerplate-starter-*.zip`, extract it to the target directory, execute `npm run scaffold`, and hand off a fully pre-compiled project to the developer without requiring Git or network cloning.
 - **Fail-Safe WordPress Testing:** Because `build/` assets and `vendor/autoload.php` are pre-compiled and bundled, testers and evaluators can drop the starter zip directly into a standard WordPress `/wp-content/plugins/` directory and immediately see the plugin operational.
 
 ---

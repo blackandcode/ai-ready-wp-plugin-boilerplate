@@ -2,10 +2,10 @@
 /**
  * WordPress REST Route Inspector.
  *
- * @package AIReady\WPPluginBoilerplate\Development\OpenApi
+ * @package WPAIBP\Development\OpenApi
  */
 
-namespace AIReady\WPPluginBoilerplate\Development\OpenApi;
+namespace WPAIBP\Development\OpenApi;
 
 use WP_REST_Server;
 
@@ -37,10 +37,10 @@ class WordPressRouteInspector {
 	/**
 	 * Inspect registered routes for a specific namespace.
 	 *
-	 * @param string $route_namespace Target REST namespace (default: ai-ready-wp/v1).
+	 * @param string $route_namespace Target REST namespace (default: wpaibp/v1).
 	 * @return array<int, array{route: string, route_schema: array<string, mixed>|null, handlers: array<int, array<string, mixed>>}>
 	 */
-	public function inspect_namespace( string $route_namespace = 'ai-ready-wp/v1' ): array {
+	public function inspect_namespace( string $route_namespace = 'wpaibp/v1' ): array {
 		$server = $this->get_server();
 		if ( null === $server ) {
 			return array();

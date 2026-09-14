@@ -10,12 +10,12 @@ This document details the software design, block attributes, Interactivity API c
 
 - Encapsulates greeting strings.
 - Guarantees non-empty trimmed text.
-- Fallback default: `'Hello from AI-Ready WP Plugin Boilerplate!'`.
+- Fallback default: `'Hello from WP AI Ready Plugin Boilerplate!'`.
 
 ### 1.2 `HelloWorldService` & DTO
 
 - Produces formatted `HelloWorldDTO` carrying greeting message, timestamp, and environment metadata.
-- Exposes `GET /ai-ready-wp/v1/hello` via `HelloWorldController` as a public smoke-testing endpoint.
+- Exposes `GET /wpaibp/v1/hello` via `HelloWorldController` as a public smoke-testing endpoint.
 
 ---
 
@@ -27,7 +27,7 @@ This document details the software design, block attributes, Interactivity API c
 {
   "$schema": "https://schemas.wp.org/trunk/block.json",
   "apiVersion": 3,
-  "name": "ai-ready-wp/hello-world",
+  "name": "wpaibp/hello-world",
   "version": "1.3.3",
   "title": "AI-Ready Hello World",
   "category": "widgets",
@@ -72,7 +72,7 @@ Renders declarative Interactivity API directives:
 ```html
 <div
   {...blockProps}
-  data-wp-interactive="ai-ready-wp/hello-world"
+  data-wp-interactive="wpaibp/hello-world"
   data-wp-context='{"likes": 0, "hasLiked": false}'
 >
   <p class="greeting" data-wp-text="context.message"></p>
@@ -93,7 +93,7 @@ Registers store actions and computed state using `store()` from `@wordpress/inte
 ```typescript
 import { store, getContext } from '@wordpress/interactivity';
 
-store('ai-ready-wp/hello-world', {
+store('wpaibp/hello-world', {
   state: {
     get likeButtonLabel() {
       const context = getContext();

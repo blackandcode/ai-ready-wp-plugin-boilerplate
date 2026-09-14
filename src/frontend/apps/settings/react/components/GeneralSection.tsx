@@ -19,7 +19,7 @@ export function GeneralSection( { settings, onChange }: GeneralSectionProps ) {
 				__nextHasNoMarginBottom={ true }
 				label={ __(
 					'Greeting Message',
-					'ai-ready-wp-plugin-boilerplate'
+					'wp-ai-ready-plugin-boilerplate'
 				) }
 				value={ settings.greeting_message }
 				onChange={ ( value: string ) =>
@@ -27,7 +27,7 @@ export function GeneralSection( { settings, onChange }: GeneralSectionProps ) {
 				}
 				help={ __(
 					'Default greeting text returned by the REST API and displayed in the block.',
-					'ai-ready-wp-plugin-boilerplate'
+					'wp-ai-ready-plugin-boilerplate'
 				) }
 			/>
 
@@ -35,7 +35,7 @@ export function GeneralSection( { settings, onChange }: GeneralSectionProps ) {
 				__nextHasNoMarginBottom={ true }
 				label={ __(
 					'Enable Boilerplate Features',
-					'ai-ready-wp-plugin-boilerplate'
+					'wp-ai-ready-plugin-boilerplate'
 				) }
 				checked={ settings.enable_feature }
 				onChange={ ( checked: boolean ) =>
@@ -43,7 +43,7 @@ export function GeneralSection( { settings, onChange }: GeneralSectionProps ) {
 				}
 				help={ __(
 					'Toggle core feature flags for plugin components.',
-					'ai-ready-wp-plugin-boilerplate'
+					'wp-ai-ready-plugin-boilerplate'
 				) }
 			/>
 
@@ -51,7 +51,7 @@ export function GeneralSection( { settings, onChange }: GeneralSectionProps ) {
 				__nextHasNoMarginBottom={ true }
 				label={ __(
 					'Plugin Description & Context',
-					'ai-ready-wp-plugin-boilerplate'
+					'wp-ai-ready-plugin-boilerplate'
 				) }
 				value={ settings.description }
 				onChange={ ( value: string ) =>
@@ -60,7 +60,7 @@ export function GeneralSection( { settings, onChange }: GeneralSectionProps ) {
 				rows={ 3 }
 				help={ __(
 					'High-level summary of this plugin instance for administrators and AI agents.',
-					'ai-ready-wp-plugin-boilerplate'
+					'wp-ai-ready-plugin-boilerplate'
 				) }
 			/>
 		</>

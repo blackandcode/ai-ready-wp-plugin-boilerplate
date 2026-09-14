@@ -20,11 +20,11 @@ export type { DeveloperSubTab, DeveloperTabMeta } from './react/types';
  */
 export const developerAppExtension: SettingsAppExtension = {
 	id: 'developer',
-	label: __( 'Developer Tools', 'ai-ready-wp-plugin-boilerplate' ),
+	label: __( 'Developer Tools', 'wp-ai-ready-plugin-boilerplate' ),
 	icon: code,
 	subtitle: __(
 		'System diagnostics telemetry and live OpenAPI 3.1 specification viewer.',
-		'ai-ready-wp-plugin-boilerplate'
+		'wp-ai-ready-plugin-boilerplate'
 	),
 	component: DeveloperApp,
 	hasFooter: false,

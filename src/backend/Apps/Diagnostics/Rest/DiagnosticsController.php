@@ -2,12 +2,12 @@
 /**
  * REST Diagnostics Controller.
  *
- * @package AIReady\WPPluginBoilerplate\Backend\Apps\Diagnostics\Rest
+ * @package WPAIBP\Backend\Apps\Diagnostics\Rest
  */
 
-namespace AIReady\WPPluginBoilerplate\Backend\Apps\Diagnostics\Rest;
+namespace WPAIBP\Backend\Apps\Diagnostics\Rest;
 
-use AIReady\WPPluginBoilerplate\Backend\Apps\Diagnostics\Application\DiagnosticsService;
+use WPAIBP\Backend\Apps\Diagnostics\Application\DiagnosticsService;
 use WP_Error;
 use WP_REST_Controller;
 use WP_REST_Request;
@@ -28,7 +28,7 @@ class DiagnosticsController extends WP_REST_Controller {
 	 *
 	 * @var string
 	 */
-	protected $namespace = 'ai-ready-wp/v1';
+	protected $namespace = 'wpaibp/v1';
 
 	/**
 	 * Rest base route name.
@@ -97,7 +97,7 @@ class DiagnosticsController extends WP_REST_Controller {
 		if ( ! current_user_can( 'manage_options' ) ) {
 			return new WP_Error(
 				'rest_forbidden',
-				__( 'You do not have sufficient permissions to access diagnostic telemetry.', 'ai-ready-wp-plugin-boilerplate' ),
+				__( 'You do not have sufficient permissions to access diagnostic telemetry.', 'wp-ai-ready-plugin-boilerplate' ),
 				array( 'status' => 403 )
 			);
 		}
@@ -128,27 +128,27 @@ class DiagnosticsController extends WP_REST_Controller {
 			'type'       => 'object',
 			'properties' => array(
 				'php_version'      => array(
-					'description' => esc_html__( 'PHP runtime version.', 'ai-ready-wp-plugin-boilerplate' ),
+					'description' => esc_html__( 'PHP runtime version.', 'wp-ai-ready-plugin-boilerplate' ),
 					'type'        => 'string',
 				),
 				'wp_version'       => array(
-					'description' => esc_html__( 'WordPress core version.', 'ai-ready-wp-plugin-boilerplate' ),
+					'description' => esc_html__( 'WordPress core version.', 'wp-ai-ready-plugin-boilerplate' ),
 					'type'        => 'string',
 				),
 				'environment_type' => array(
-					'description' => esc_html__( 'WordPress environment type.', 'ai-ready-wp-plugin-boilerplate' ),
+					'description' => esc_html__( 'WordPress environment type.', 'wp-ai-ready-plugin-boilerplate' ),
 					'type'        => 'string',
 				),
 				'db_status'        => array(
-					'description' => esc_html__( 'Database connectivity status.', 'ai-ready-wp-plugin-boilerplate' ),
+					'description' => esc_html__( 'Database connectivity status.', 'wp-ai-ready-plugin-boilerplate' ),
 					'type'        => 'string',
 				),
 				'rest_status'      => array(
-					'description' => esc_html__( 'REST API availability status.', 'ai-ready-wp-plugin-boilerplate' ),
+					'description' => esc_html__( 'REST API availability status.', 'wp-ai-ready-plugin-boilerplate' ),
 					'type'        => 'string',
 				),
 				'plugin_version'   => array(
-					'description' => esc_html__( 'Plugin release version.', 'ai-ready-wp-plugin-boilerplate' ),
+					'description' => esc_html__( 'Plugin release version.', 'wp-ai-ready-plugin-boilerplate' ),
 					'type'        => 'string',
 				),
 			),

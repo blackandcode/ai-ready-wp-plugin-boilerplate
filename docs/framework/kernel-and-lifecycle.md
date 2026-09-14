@@ -11,7 +11,7 @@ The plugin lifecycle follows a strict sequence from initial PHP file loading to 
 ```mermaid
 sequenceDiagram
     participant WP as WordPress Core
-    participant Root as ai-ready-wp-plugin-boilerplate.php
+    participant Root as wp-ai-ready-plugin-boilerplate.php
     participant Comp as Compatibility
     participant Plug as Plugin Singleton
     participant Reg as ServiceProviderRegistry
@@ -47,7 +47,7 @@ The `Plugin` class is the central orchestrator of the entire plugin:
 - **Testing Reset:** Exposes `Plugin::reset()` allowing unit tests to reset the singleton state and run multiple isolation tests in a single process.
 
 ```php
-use AIReady\WPPluginBoilerplate\Framework\Kernel\Plugin;
+use WPAIBP\Kernel\Plugin;
 
 // Access the singleton
 $plugin = Plugin::instance();
@@ -72,7 +72,7 @@ Guards the plugin against running on incompatible hosting environments:
 Executes only when the plugin is activated via the WordPress admin or WP-CLI:
 
 - **Requirement Verification:** Re-checks `Compatibility::check()`.
-- **Default Seed Data:** Seeds default options (`airwp_settings`) if not already present, with explicit fallback values for greeting message, feature flags, cache TTL, and data retention policy.
+- **Default Seed Data:** Seeds default options (`wpaibp_settings`) if not already present, with explicit fallback values for greeting message, feature flags, cache TTL, and data retention policy.
 - **Rewrite Flush:** Flushes rewrite rules if custom post types or rewrite endpoints are declared.
 
 ### 2.4 `Deactivation` Handler (`src/framework/Kernel/Deactivation.php`)
@@ -87,6 +87,6 @@ Executes only when the plugin is deactivated:
 
 ## 3. Coding Agent Guidance
 
-1. **Keep Root File Thin:** Never place procedural hooks, business logic, or REST route registrations in `ai-ready-wp-plugin-boilerplate.php`. The root file only defines constants and delegates to `Plugin::instance()->boot()`.
+1. **Keep Root File Thin:** Never place procedural hooks, business logic, or REST route registrations in `wp-ai-ready-plugin-boilerplate.php`. The root file only defines constants and delegates to `Plugin::instance()->boot()`.
 2. **Never Delete Data on Deactivation:** Deactivation must be 100% reversible. Only `uninstall.php` may purge options or user settings.
 3. **Use `Plugin::reset()` in Tests:** When authoring PHPUnit tests that boot the plugin or inspect container bindings, always invoke `Plugin::reset()` in `setUp()` or `tearDown()` to avoid test pollution.

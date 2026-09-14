@@ -11,7 +11,7 @@ export interface StatusBadgeProps {
 
 export function StatusBadge( { status, children }: StatusBadgeProps ) {
 	return (
-		<span className={ `airwp-status-badge status-${ status }` }>
+		<span className={ `wpaibp-status-badge status-${ status }` }>
 			{ children }
 		</span>
 	);

@@ -2,10 +2,10 @@
 /**
  * OpenAPI YAML Writer.
  *
- * @package AIReady\WPPluginBoilerplate\Development\OpenApi
+ * @package WPAIBP\Development\OpenApi
  */
 
-namespace AIReady\WPPluginBoilerplate\Development\OpenApi;
+namespace WPAIBP\Development\OpenApi;
 
 use RuntimeException;
 use Symfony\Component\Yaml\Yaml;

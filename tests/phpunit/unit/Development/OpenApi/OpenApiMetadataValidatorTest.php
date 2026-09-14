@@ -2,14 +2,14 @@
 /**
  * Test OpenAPI Metadata Validator.
  *
- * @package AIReady\WPPluginBoilerplate\Tests\Unit\Development\OpenApi
+ * @package WPAIBP\Tests\Unit\Development\OpenApi
  */
 
-namespace AIReady\WPPluginBoilerplate\Tests\Unit\Development\OpenApi;
+namespace WPAIBP\Tests\Unit\Development\OpenApi;
 
 use PHPUnit\Framework\TestCase;
-use AIReady\WPPluginBoilerplate\Development\OpenApi\OpenApiMetadataValidator;
-use AIReady\WPPluginBoilerplate\Development\OpenApi\Exception\OpenApiValidationException;
+use WPAIBP\Development\OpenApi\OpenApiMetadataValidator;
+use WPAIBP\Development\OpenApi\Exception\OpenApiValidationException;
 
 /**
  * Class OpenApiMetadataValidatorTest

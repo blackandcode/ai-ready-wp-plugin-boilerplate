@@ -2,10 +2,10 @@
 /**
  * OpenAPI Specification Generator Facade.
  *
- * @package AIReady\WPPluginBoilerplate\Development\OpenApi
+ * @package WPAIBP\Development\OpenApi
  */
 
-namespace AIReady\WPPluginBoilerplate\Development\OpenApi;
+namespace WPAIBP\Development\OpenApi;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -19,7 +19,7 @@ class OpenApiGenerator {
 	/**
 	 * Default plugin REST namespace.
 	 */
-	public const DEFAULT_NAMESPACE = 'ai-ready-wp/v1';
+	public const DEFAULT_NAMESPACE = 'wpaibp/v1';
 
 	/**
 	 * Route inspector.

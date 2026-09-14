@@ -2,10 +2,10 @@
 /**
  * REST Debug Flag Value Object.
  *
- * @package AIReady\WPPluginBoilerplate\Backend\Apps\Settings\Domain\ValueObject
+ * @package WPAIBP\Backend\Apps\Settings\Domain\ValueObject
  */
 
-namespace AIReady\WPPluginBoilerplate\Backend\Apps\Settings\Domain\ValueObject;
+namespace WPAIBP\Backend\Apps\Settings\Domain\ValueObject;
 
 /**
  * Immutable REST debug flag value object.

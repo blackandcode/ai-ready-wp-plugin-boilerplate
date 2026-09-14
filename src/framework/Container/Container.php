@@ -2,10 +2,10 @@
 /**
  * Lightweight Dependency Injection Container.
  *
- * @package AIReady\WPPluginBoilerplate\Framework\Container
+ * @package WPAIBP\Framework\Container
  */
 
-namespace AIReady\WPPluginBoilerplate\Framework\Container;
+namespace WPAIBP\Framework\Container;
 
 use RuntimeException;
 
@@ -14,7 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Minimal purpose-built DI container for AI-Ready WP Plugin Boilerplate.
+ * Minimal purpose-built DI container for WP AI Ready Plugin Boilerplate.
  */
 class Container {
 

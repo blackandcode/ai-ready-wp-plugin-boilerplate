@@ -2,10 +2,10 @@
 /**
  * Update Settings Command.
  *
- * @package AIReady\WPPluginBoilerplate\Backend\Apps\Settings\Application\Command
+ * @package WPAIBP\Backend\Apps\Settings\Application\Command
  */
 
-namespace AIReady\WPPluginBoilerplate\Backend\Apps\Settings\Application\Command;
+namespace WPAIBP\Backend\Apps\Settings\Application\Command;
 
 /**
  * Command carrying parameters for mutating plugin settings.

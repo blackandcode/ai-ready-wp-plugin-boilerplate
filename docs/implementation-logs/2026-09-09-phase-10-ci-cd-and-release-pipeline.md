@@ -9,7 +9,7 @@
 
 ## 1. Executive Summary
 
-Implemented the complete two-pipeline CI/CD and release readiness architecture for the `ai-ready-wp-plugin-boilerplate`, ensuring:
+Implemented the complete two-pipeline CI/CD and release readiness architecture for the `wp-ai-ready-plugin-boilerplate`, ensuring:
 
 1. **Continuous Delivery Readiness:** Shared reusable release gate (`.github/workflows/_release-readiness.yml`) consumed by both continuous integration (`.github/workflows/ci.yml`) and manual releases (`.github/workflows/release.yml`), eliminating pipeline drift.
 2. **Artifact Parity ("Tested Artifact == Released Artifact"):** The exact distribution ZIP tested, validated, and subjected to official WordPress Plugin Check in CI is the artifact published to GitHub Releases.

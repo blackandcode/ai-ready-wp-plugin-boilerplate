@@ -2,20 +2,20 @@
 /**
  * Test SettingsApplicationService.
  *
- * @package AIReady\WPPluginBoilerplate\Tests\Unit\Backend\Apps\Settings\Application
+ * @package WPAIBP\Tests\Unit\Backend\Apps\Settings\Application
  */
 
-namespace AIReady\WPPluginBoilerplate\Tests\Unit\Backend\Apps\Settings\Application;
+namespace WPAIBP\Tests\Unit\Backend\Apps\Settings\Application;
 
 use PHPUnit\Framework\TestCase;
-use AIReady\WPPluginBoilerplate\Backend\Apps\Settings\Application\Command\UpdateSettingsCommand;
-use AIReady\WPPluginBoilerplate\Backend\Apps\Settings\Application\SettingsApplicationService;
-use AIReady\WPPluginBoilerplate\Backend\Apps\Settings\Domain\Event\SettingsUpdatedEvent;
-use AIReady\WPPluginBoilerplate\Backend\Apps\Settings\Domain\Exception\InvalidCacheTtlException;
-use AIReady\WPPluginBoilerplate\Backend\Apps\Settings\Domain\Exception\InvalidGreetingMessageException;
-use AIReady\WPPluginBoilerplate\Backend\Apps\Settings\Domain\Model\PluginSettings;
-use AIReady\WPPluginBoilerplate\Backend\Apps\Settings\Domain\Repository\SettingsRepositoryInterface;
-use AIReady\WPPluginBoilerplate\Framework\Event\EventDispatcher;
+use WPAIBP\Backend\Apps\Settings\Application\Command\UpdateSettingsCommand;
+use WPAIBP\Backend\Apps\Settings\Application\SettingsApplicationService;
+use WPAIBP\Backend\Apps\Settings\Domain\Event\SettingsUpdatedEvent;
+use WPAIBP\Backend\Apps\Settings\Domain\Exception\InvalidCacheTtlException;
+use WPAIBP\Backend\Apps\Settings\Domain\Exception\InvalidGreetingMessageException;
+use WPAIBP\Backend\Apps\Settings\Domain\Model\PluginSettings;
+use WPAIBP\Backend\Apps\Settings\Domain\Repository\SettingsRepositoryInterface;
+use WPAIBP\Framework\Event\EventDispatcher;
 
 /**
  * In-memory Fake Repository for unit testing application service.
@@ -51,7 +51,7 @@ class SettingsApplicationServiceTest extends TestCase {
 
 		$dto = $service->get_settings();
 
-		$this->assertSame( 'Hello from AI-Ready WP Plugin Boilerplate!', $dto->general['greeting_message'] );
+		$this->assertSame( 'Hello from WP AI Ready Plugin Boilerplate!', $dto->general['greeting_message'] );
 		$this->assertTrue( $dto->general['enable_feature'] );
 		$this->assertSame( 3600, $dto->advanced['cache_ttl'] );
 		$this->assertSame( 'preserve', $dto->data_retention['uninstall_action'] );

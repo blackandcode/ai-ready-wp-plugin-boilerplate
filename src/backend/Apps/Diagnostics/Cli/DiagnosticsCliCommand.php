@@ -2,15 +2,15 @@
 /**
  * Diagnostics WP-CLI Command.
  *
- * @package AIReady\WPPluginBoilerplate\Backend\Apps\Diagnostics\Cli
+ * @package WPAIBP\Backend\Apps\Diagnostics\Cli
  */
 
-namespace AIReady\WPPluginBoilerplate\Backend\Apps\Diagnostics\Cli;
+namespace WPAIBP\Backend\Apps\Diagnostics\Cli;
 
 use WP_CLI;
-use AIReady\WPPluginBoilerplate\Backend\Apps\Diagnostics\Application\DiagnosticsService;
-use AIReady\WPPluginBoilerplate\Backend\Apps\Diagnostics\Infrastructure\WordPressDiagnosticsProvider;
-use AIReady\WPPluginBoilerplate\Framework\Kernel\Plugin;
+use WPAIBP\Backend\Apps\Diagnostics\Application\DiagnosticsService;
+use WPAIBP\Backend\Apps\Diagnostics\Infrastructure\WordPressDiagnosticsProvider;
+use WPAIBP\Framework\Kernel\Plugin;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;

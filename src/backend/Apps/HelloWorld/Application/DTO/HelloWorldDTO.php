@@ -2,10 +2,10 @@
 /**
  * Hello World DTO.
  *
- * @package AIReady\WPPluginBoilerplate\Backend\Apps\HelloWorld\Application\DTO
+ * @package WPAIBP\Backend\Apps\HelloWorld\Application\DTO
  */
 
-namespace AIReady\WPPluginBoilerplate\Backend\Apps\HelloWorld\Application\DTO;
+namespace WPAIBP\Backend\Apps\HelloWorld\Application\DTO;
 
 /**
  * Immutable DTO representing Hello World endpoint payload.

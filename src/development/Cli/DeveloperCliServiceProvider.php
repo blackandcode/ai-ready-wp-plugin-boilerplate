@@ -2,14 +2,14 @@
 /**
  * Developer WP-CLI Service Provider.
  *
- * @package AIReady\WPPluginBoilerplate\Development\Cli
+ * @package WPAIBP\Development\Cli
  */
 
-namespace AIReady\WPPluginBoilerplate\Development\Cli;
+namespace WPAIBP\Development\Cli;
 
 use WP_CLI;
-use AIReady\WPPluginBoilerplate\Framework\Container\Container;
-use AIReady\WPPluginBoilerplate\Framework\Container\ServiceProviderInterface;
+use WPAIBP\Framework\Container\Container;
+use WPAIBP\Framework\Container\ServiceProviderInterface;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;

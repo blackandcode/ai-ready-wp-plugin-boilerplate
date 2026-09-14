@@ -18,7 +18,7 @@ export default function Edit( {
 }: BlockEditProps< HelloWorldAttributes > ) {
 	const { greeting, showTimestamp } = attributes;
 	const blockProps = useBlockProps( {
-		className: 'airwp-hello-world-block',
+		className: 'wpaibp-hello-world-block',
 	} );
 
 	return (
@@ -29,28 +29,28 @@ export default function Edit( {
 			/>
 
 			<div { ...blockProps }>
-				<div className="airwp-hello-world-card">
-					<div className="airwp-hello-world-icon" aria-hidden="true">
+				<div className="wpaibp-hello-world-card">
+					<div className="wpaibp-hello-world-icon" aria-hidden="true">
 						✨
 					</div>
-					<h3 className="airwp-hello-world-heading">
+					<h3 className="wpaibp-hello-world-heading">
 						{ greeting ||
 							__(
 								'Hello World!',
-								'ai-ready-wp-plugin-boilerplate'
+								'wp-ai-ready-plugin-boilerplate'
 							) }
 					</h3>
-					<p className="airwp-hello-world-subtext">
+					<p className="wpaibp-hello-world-subtext">
 						{ __(
 							'Ready for AI-assisted WordPress block and plugin development.',
-							'ai-ready-wp-plugin-boilerplate'
+							'wp-ai-ready-plugin-boilerplate'
 						) }
 					</p>
 					{ showTimestamp && (
-						<span className="airwp-hello-world-badge">
+						<span className="wpaibp-hello-world-badge">
 							{ __(
 								'Live Block Preview',
-								'ai-ready-wp-plugin-boilerplate'
+								'wp-ai-ready-plugin-boilerplate'
 							) }
 						</span>
 					) }

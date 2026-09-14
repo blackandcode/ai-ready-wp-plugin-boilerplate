@@ -2,15 +2,15 @@
 /**
  * Test WordPress Error Mapper.
  *
- * @package AIReady\WPPluginBoilerplate\Tests\Unit\Framework\Support
+ * @package WPAIBP\Tests\Unit\Framework\Support
  */
 
-namespace AIReady\WPPluginBoilerplate\Tests\Unit\Framework\Support;
+namespace WPAIBP\Tests\Unit\Framework\Support;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use RuntimeException;
-use AIReady\WPPluginBoilerplate\Framework\Support\WordPressErrorMapper;
+use WPAIBP\Framework\Support\WordPressErrorMapper;
 
 /**
  * Class WordPressErrorMapperTest

@@ -2,16 +2,16 @@
 /**
  * Settings WP-CLI Command.
  *
- * @package AIReady\WPPluginBoilerplate\Backend\Apps\Settings\Cli
+ * @package WPAIBP\Backend\Apps\Settings\Cli
  */
 
-namespace AIReady\WPPluginBoilerplate\Backend\Apps\Settings\Cli;
+namespace WPAIBP\Backend\Apps\Settings\Cli;
 
 use Throwable;
 use WP_CLI;
-use AIReady\WPPluginBoilerplate\Backend\Apps\Settings\Application\Command\UpdateSettingsCommand;
-use AIReady\WPPluginBoilerplate\Backend\Apps\Settings\Application\SettingsApplicationService;
-use AIReady\WPPluginBoilerplate\Framework\Kernel\Plugin;
+use WPAIBP\Backend\Apps\Settings\Application\Command\UpdateSettingsCommand;
+use WPAIBP\Backend\Apps\Settings\Application\SettingsApplicationService;
+use WPAIBP\Framework\Kernel\Plugin;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -53,8 +53,8 @@ class SettingsCliCommand {
 			return $container->get( SettingsApplicationService::class );
 		}
 
-		$repo       = new \AIReady\WPPluginBoilerplate\Backend\Apps\Settings\Infrastructure\WordPressSettingsRepository();
-		$dispatcher = new \AIReady\WPPluginBoilerplate\Framework\Event\EventDispatcher();
+		$repo       = new \WPAIBP\Backend\Apps\Settings\Infrastructure\WordPressSettingsRepository();
+		$dispatcher = new \WPAIBP\Framework\Event\EventDispatcher();
 		return new SettingsApplicationService( $repo, $dispatcher );
 	}
 

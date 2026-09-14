@@ -2,10 +2,10 @@
 /**
  * Settings Route and Screen Helper.
  *
- * @package AIReady\WPPluginBoilerplate\Frontend\Apps\Settings
+ * @package WPAIBP\Frontend\Apps\Settings
  */
 
-namespace AIReady\WPPluginBoilerplate\Frontend\Apps\Settings;
+namespace WPAIBP\Frontend\Apps\Settings;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -19,12 +19,12 @@ class SettingsRoute {
 	/**
 	 * Top-level menu page slug.
 	 */
-	public const MENU_SLUG = 'airwp-plugin';
+	public const MENU_SLUG = 'wpaibp-plugin';
 
 	/**
 	 * Settings submenu page slug.
 	 */
-	public const SETTINGS_SLUG = 'airwp-settings';
+	public const SETTINGS_SLUG = 'wpaibp-settings';
 
 	/**
 	 * Check whether current admin hook matches target screen slug.

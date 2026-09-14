@@ -23,10 +23,10 @@ flowchart LR
 
 ### 1.2 Mapping Rules
 
-- **Domain Validation Exceptions (`*Invalid*`, `InvalidSettingException`):** Maps to `airwp_invalid_setting` with HTTP status **400 Bad Request**.
-- **`InvalidArgumentException`:** Maps to `airwp_invalid_argument` with HTTP status **400 Bad Request**.
-- **`RuntimeException`:** Maps to `airwp_runtime_error` with HTTP status **500 Internal Server Error**.
-- **Fallback / Unexpected `Throwable`:** Maps to `airwp_internal_error` with HTTP status **500 Internal Server Error** and safe default message.
+- **Domain Validation Exceptions (`*Invalid*`, `InvalidSettingException`):** Maps to `wpaibp_invalid_setting` with HTTP status **400 Bad Request**.
+- **`InvalidArgumentException`:** Maps to `wpaibp_invalid_argument` with HTTP status **400 Bad Request**.
+- **`RuntimeException`:** Maps to `wpaibp_runtime_error` with HTTP status **500 Internal Server Error**.
+- **Fallback / Unexpected `Throwable`:** Maps to `wpaibp_internal_error` with HTTP status **500 Internal Server Error** and safe default message.
 
 ### 1.3 Usage Example
 
@@ -54,14 +54,14 @@ WordPress transients are subject to strict limitations:
 
 `TransientCache` enforces safety around the WordPress Transients API:
 
-- **Key Normalization & Hashing:** Automatically prefixes keys with `airwp_`. If the key exceeds `MAX_KEY_LENGTH` (45 characters), it deterministically falls back to `airwp_` + `md5($key)`.
+- **Key Normalization & Hashing:** Automatically prefixes keys with `wpaibp_`. If the key exceeds `MAX_KEY_LENGTH` (45 characters), it deterministically falls back to `wpaibp_` + `md5($key)`.
 - **TTL Clamping:** Clamps minimum TTL to 1 second and maximum TTL to 30 days (`2592000` seconds).
 - **Graceful WordPress Isolation:** Checks `function_exists('get_transient')` so unit tests can run safely without bootstrapping WordPress.
 
 ### 2.2 Usage Example
 
 ```php
-use AIReady\WPPluginBoilerplate\Framework\Support\Cache\TransientCache;
+use WPAIBP\Support\Cache\TransientCache;
 
 // Storing data with 1-hour TTL
 TransientCache::set( 'diagnostics_report', $data, 3600 );

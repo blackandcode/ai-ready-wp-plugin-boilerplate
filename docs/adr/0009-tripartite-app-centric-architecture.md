@@ -22,7 +22,7 @@ We need a definitive architectural organization that strictly segregates the sha
 
 ## Decision Drivers
 
-1. **Strict REST Communication Boundary:** Frontend interfaces (React admin apps, Gutenberg blocks) must communicate with the plugin backend exclusively through the WordPress REST API (`/ai-ready-wp/v1/*`).
+1. **Strict REST Communication Boundary:** Frontend interfaces (React admin apps, Gutenberg blocks) must communicate with the plugin backend exclusively through the WordPress REST API (`/wpaibp/v1/*`).
 2. **App-Centric Modularity:** Both backend services and frontend applications must be organized by distinct "Apps" (e.g., `Settings`, `Diagnostics`, `HelloWorld`) to allow modular development, testing, and replacement.
 3. **Consolidated Frontend with Clean PHP Bridge:** All presentation code must reside in `src/frontend/`. General patterns and templates remain at `src/frontend/patterns/` and `src/frontend/templates/`, while all PHP hooks, registries, and asset enqueuers are consolidated under `src/frontend/Bridge/` to avoid folder pollution.
 4. **Pure Headless Backend:** `src/backend/` must contain zero presentation concerns (no `add_menu_page`, no `wp_enqueue_script`, no HTML templates).
@@ -64,7 +64,7 @@ src/
   - `shared/`: Reusable React components, hooks, API client adapter (`SettingsApiClient`), and TypeScript types.
   - `Bridge/`: Dedicated PHP subfolder containing `FrontendServiceProvider`, `Apps/Settings/` (`SettingsFrontendServiceProvider`, menu, assets, route, bootstrap data), and `Registry/` (`BlockRegistry`, `PatternRegistry`).
 - **Composer PSR-4 Mapping:**
-  - `AIReady\WPPluginBoilerplate\Framework\` -> `src/framework/`
+  - `WPAIBP\` -> `src/framework/`
   - `AIReady\WPPluginBoilerplate\Backend\` -> `src/backend/`
   - `AIReady\WPPluginBoilerplate\Frontend\` -> `src/frontend/Bridge/`
 
@@ -97,7 +97,7 @@ src/
 
 ## Architectural Constraints
 
-1. **Strict REST Communication Boundary:** Frontend code (React components, Interactivity stores, templates) must never directly invoke backend application services or database repositories. All data exchange occurs over `/wp-json/ai-ready-wp/v1/*` using `SettingsApiClient`.
+1. **Strict REST Communication Boundary:** Frontend code (React components, Interactivity stores, templates) must never directly invoke backend application services or database repositories. All data exchange occurs over `/wp-json/wpaibp/v1/*` using `SettingsApiClient`.
 2. **Zero Presentation in Backend:** Files in `src/backend/` must never call `add_menu_page()`, `add_submenu_page()`, `wp_enqueue_script()`, or render HTML output.
 3. **Frontend PHP Bridge Isolation:** All PHP classes belonging to the presentation domain must reside inside `src/frontend/Bridge/` and declare the `AIReady\WPPluginBoilerplate\Frontend` namespace.
 4. **App-Centric Modularity:** Feature code must be encapsulated in app directories (`src/backend/Apps/<App>` and `src/frontend/apps/<app>`). Cross-app dependencies must communicate through events or domain interfaces.
@@ -115,7 +115,7 @@ src/
 - **Tier 3 (Jest Unit Tests):**
   - `npm run test:unit` validates all frontend components, hooks, API adapters, and blocks in `src/frontend/`.
 - **Tier 4 (Bruno REST Contract Tests):**
-  - `npm run test:rest` executes Bruno collections against `/wp-json/ai-ready-wp/v1/*` ensuring contract integrity.
+  - `npm run test:rest` executes Bruno collections against `/wp-json/wpaibp/v1/*` ensuring contract integrity.
 - **Tier 5 (Playwright E2E Tests):**
   - `npm run test:e2e` executes real browser tests verifying the WPDS admin React app, settings workflows, visual regression, and Gutenberg block frontend interactivity.
 

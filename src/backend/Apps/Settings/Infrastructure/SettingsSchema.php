@@ -2,10 +2,10 @@
 /**
  * Settings Schema and Validation.
  *
- * @package AIReady\WPPluginBoilerplate\Backend\Apps\Settings\Infrastructure
+ * @package WPAIBP\Backend\Apps\Settings\Infrastructure
  */
 
-namespace AIReady\WPPluginBoilerplate\Backend\Apps\Settings\Infrastructure;
+namespace WPAIBP\Backend\Apps\Settings\Infrastructure;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -19,7 +19,7 @@ class SettingsSchema {
 	/**
 	 * Option key stored in wp_options.
 	 */
-	public const OPTION_KEY = 'airwp_settings';
+	public const OPTION_KEY = 'wpaibp_settings';
 
 	/**
 	 * Default settings structure.
@@ -29,7 +29,7 @@ class SettingsSchema {
 	public static function get_defaults(): array {
 		return array(
 			'general'        => array(
-				'greeting_message' => 'Hello from AI-Ready WP Plugin Boilerplate!',
+				'greeting_message' => 'Hello from WP AI Ready Plugin Boilerplate!',
 				'enable_feature'   => true,
 				'description'      => 'A modern WordPress plugin powered by AI workflows.',
 			),

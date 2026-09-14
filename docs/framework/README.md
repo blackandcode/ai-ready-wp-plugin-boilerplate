@@ -43,7 +43,7 @@ flowchart TD
 1. **Domain-Agnostic Purity:** `src/framework/` contains zero business rules, zero feature flags, and zero hardcoded database option names. It is purely reusable infrastructure.
 2. **Zero Heavy Third-Party Bloat:** The framework provides an ultra-lightweight in-tree micro-container and event dispatcher rather than pulling in external frameworks like Symfony or Laravel.
 3. **Symmetric Autoloading:** Autoloaded cleanly via Composer PSR-4 prefixes:
-   - `AIReady\WPPluginBoilerplate\Framework\` -> `src/framework/`
+   - `WPAIBP\` -> `src/framework/`
    - `AIReady\WPPluginBoilerplate\Frontend\` -> `src/frontend/Bridge/`
 
 ---
@@ -67,25 +67,25 @@ flowchart TD
 
 | Class / Interface | Namespace | Purpose |
 |:---|:---|:---|
-| `Plugin` | `AIReady\WPPluginBoilerplate\Framework\Kernel` | Singleton orchestrator managing DI container boot and lifecycle. |
-| `Compatibility` | `AIReady\WPPluginBoilerplate\Framework\Kernel` | Pre-flight runtime check for PHP 8.3+ and WordPress 7.1+. |
-| `Activation` | `AIReady\WPPluginBoilerplate\Framework\Kernel` | Activation routine, default settings seeding, and rewrite flush. |
-| `Deactivation` | `AIReady\WPPluginBoilerplate\Framework\Kernel` | Deactivation routine, transient flushing, and rewrite flush. |
-| `Container` | `AIReady\WPPluginBoilerplate\Framework\Container` | Micro in-tree dependency injection container with singleton caching. |
-| `ServiceProviderInterface` | `AIReady\WPPluginBoilerplate\Framework\Container` | Interface contract for all modular service providers. |
-| `ServiceProviderRegistry` | `AIReady\WPPluginBoilerplate\Framework\Container` | Registry managing two-pass provider registration and boot lifecycle. |
-| `EventDispatcherInterface` | `AIReady\WPPluginBoilerplate\Framework\Event` | Domain event publishing contract. |
-| `EventDispatcher` | `AIReady\WPPluginBoilerplate\Framework\Event` | In-memory subscriber registry and WordPress `do_action` event bridge. |
-| `TemplateRendererInterface` | `AIReady\WPPluginBoilerplate\Framework\View` | Template evaluation contract. |
-| `TemplateRenderer` | `AIReady\WPPluginBoilerplate\Framework\View` | Template engine enforcing strict directory traversal guards. |
-| `WordPressErrorMapper` | `AIReady\WPPluginBoilerplate\Framework\Support` | Maps typed domain exceptions to standard `WP_Error` objects. |
-| `TransientCache` | `AIReady\WPPluginBoilerplate\Framework\Support\Cache` | Transient caching wrapper with automatic hashing and TTL clamping. |
-| `OpenApiGenerator` | `AIReady\WPPluginBoilerplate\Framework\Rest\OpenApi` | Master facade generating deterministic OpenAPI 3.1 contracts. |
-| `WordPressRouteInspector` | `AIReady\WPPluginBoilerplate\Framework\Rest\OpenApi` | Introspects registered WordPress REST routes from `WP_REST_Server`. |
-| `OpenApiDocumentFactory` | `AIReady\WPPluginBoilerplate\Framework\Rest\OpenApi` | Assembles paths, operations, components, and schemas. |
-| `OpenApiPathNormalizer` | `AIReady\WPPluginBoilerplate\Framework\Rest\OpenApi` | Normalizes WordPress regex route patterns to OpenAPI templates. |
-| `OpenApiYamlWriter` | `AIReady\WPPluginBoilerplate\Framework\Rest\OpenApi` | Deterministic, byte-identical YAML serialization via Symfony YAML. |
-| `OpenApiMetadataValidator` | `AIReady\WPPluginBoilerplate\Framework\Rest\OpenApi` | Validates schema integrity and required operation attributes. |
+| `Plugin` | `WPAIBP\Kernel` | Singleton orchestrator managing DI container boot and lifecycle. |
+| `Compatibility` | `WPAIBP\Kernel` | Pre-flight runtime check for PHP 8.3+ and WordPress 7.1+. |
+| `Activation` | `WPAIBP\Kernel` | Activation routine, default settings seeding, and rewrite flush. |
+| `Deactivation` | `WPAIBP\Kernel` | Deactivation routine, transient flushing, and rewrite flush. |
+| `Container` | `WPAIBP\Container` | Micro in-tree dependency injection container with singleton caching. |
+| `ServiceProviderInterface` | `WPAIBP\Container` | Interface contract for all modular service providers. |
+| `ServiceProviderRegistry` | `WPAIBP\Container` | Registry managing two-pass provider registration and boot lifecycle. |
+| `EventDispatcherInterface` | `WPAIBP\Event` | Domain event publishing contract. |
+| `EventDispatcher` | `WPAIBP\Event` | In-memory subscriber registry and WordPress `do_action` event bridge. |
+| `TemplateRendererInterface` | `WPAIBP\View` | Template evaluation contract. |
+| `TemplateRenderer` | `WPAIBP\View` | Template engine enforcing strict directory traversal guards. |
+| `WordPressErrorMapper` | `WPAIBP\Support` | Maps typed domain exceptions to standard `WP_Error` objects. |
+| `TransientCache` | `WPAIBP\Support\Cache` | Transient caching wrapper with automatic hashing and TTL clamping. |
+| `OpenApiGenerator` | `WPAIBP\Rest\OpenApi` | Master facade generating deterministic OpenAPI 3.1 contracts. |
+| `WordPressRouteInspector` | `WPAIBP\Rest\OpenApi` | Introspects registered WordPress REST routes from `WP_REST_Server`. |
+| `OpenApiDocumentFactory` | `WPAIBP\Rest\OpenApi` | Assembles paths, operations, components, and schemas. |
+| `OpenApiPathNormalizer` | `WPAIBP\Rest\OpenApi` | Normalizes WordPress regex route patterns to OpenAPI templates. |
+| `OpenApiYamlWriter` | `WPAIBP\Rest\OpenApi` | Deterministic, byte-identical YAML serialization via Symfony YAML. |
+| `OpenApiMetadataValidator` | `WPAIBP\Rest\OpenApi` | Validates schema integrity and required operation attributes. |
 | `FrontendServiceProvider` | `AIReady\WPPluginBoilerplate\Frontend` | Master presentation provider registering UI bridge services. |
 | `SettingsAdminMenu` | `AIReady\WPPluginBoilerplate\Frontend\Settings` | Registers top-level admin menu and settings submenu. |
 | `SettingsAssets` | `AIReady\WPPluginBoilerplate\Frontend\Settings` | Enqueues React scripts, styles, and localized bootstrap JSON. |

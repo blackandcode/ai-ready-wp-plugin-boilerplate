@@ -2,13 +2,13 @@
 /**
  * Test BlockRegistry Adapter.
  *
- * @package AIReady\WPPluginBoilerplate\Tests\Unit\Frontend\Bridge\Registry
+ * @package WPAIBP\Tests\Unit\Frontend\Bridge\Registry
  */
 
-namespace AIReady\WPPluginBoilerplate\Tests\Unit\Frontend\Bridge\Registry;
+namespace WPAIBP\Tests\Unit\Frontend\Bridge\Registry;
 
 use PHPUnit\Framework\TestCase;
-use AIReady\WPPluginBoilerplate\Frontend\Registry\BlockRegistry;
+use WPAIBP\Frontend\Registry\BlockRegistry;
 
 /**
  * Class BlockRegistryTest

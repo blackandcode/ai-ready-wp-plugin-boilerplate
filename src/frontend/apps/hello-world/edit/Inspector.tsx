@@ -22,7 +22,7 @@ export function Inspector( { attributes, setAttributes }: InspectorProps ) {
 			<PanelBody
 				title={ __(
 					'Greeting Settings',
-					'ai-ready-wp-plugin-boilerplate'
+					'wp-ai-ready-plugin-boilerplate'
 				) }
 				initialOpen={ true }
 			>
@@ -31,7 +31,7 @@ export function Inspector( { attributes, setAttributes }: InspectorProps ) {
 					__nextHasNoMarginBottom={ true }
 					label={ __(
 						'Greeting Text',
-						'ai-ready-wp-plugin-boilerplate'
+						'wp-ai-ready-plugin-boilerplate'
 					) }
 					value={ greeting }
 					onChange={ ( value: string ) =>
@@ -39,7 +39,7 @@ export function Inspector( { attributes, setAttributes }: InspectorProps ) {
 					}
 					help={ __(
 						'Custom message to display.',
-						'ai-ready-wp-plugin-boilerplate'
+						'wp-ai-ready-plugin-boilerplate'
 					) }
 				/>
 
@@ -47,7 +47,7 @@ export function Inspector( { attributes, setAttributes }: InspectorProps ) {
 					__nextHasNoMarginBottom={ true }
 					label={ __(
 						'Show Timestamp',
-						'ai-ready-wp-plugin-boilerplate'
+						'wp-ai-ready-plugin-boilerplate'
 					) }
 					checked={ showTimestamp }
 					onChange={ ( value: boolean ) =>
@@ -55,7 +55,7 @@ export function Inspector( { attributes, setAttributes }: InspectorProps ) {
 					}
 					help={ __(
 						'Display current time on the frontend.',
-						'ai-ready-wp-plugin-boilerplate'
+						'wp-ai-ready-plugin-boilerplate'
 					) }
 				/>
 			</PanelBody>

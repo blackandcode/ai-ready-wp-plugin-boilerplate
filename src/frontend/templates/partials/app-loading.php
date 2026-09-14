@@ -2,7 +2,7 @@
 /**
  * Partial: Admin App Loading Placeholder.
  *
- * @package AIReady\WPPluginBoilerplate\Admin
+ * @package WPAIBP\Admin
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -10,6 +10,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 ?>
-<div class="airwp-app-loading-state" role="status" aria-live="polite">
-	<p class="airwp-app-loading"><?php esc_html_e( 'Loading settings application...', 'ai-ready-wp-plugin-boilerplate' ); ?></p>
+<div class="wpaibp-app-loading-state" role="status" aria-live="polite">
+	<p class="wpaibp-app-loading"><?php esc_html_e( 'Loading settings application...', 'wp-ai-ready-plugin-boilerplate' ); ?></p>
 </div>

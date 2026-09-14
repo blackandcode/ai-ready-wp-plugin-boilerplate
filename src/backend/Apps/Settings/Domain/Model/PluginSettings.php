@@ -2,19 +2,19 @@
 /**
  * Plugin Settings Aggregate Root.
  *
- * @package AIReady\WPPluginBoilerplate\Backend\Apps\Settings\Domain\Model
+ * @package WPAIBP\Backend\Apps\Settings\Domain\Model
  */
 
-namespace AIReady\WPPluginBoilerplate\Backend\Apps\Settings\Domain\Model;
+namespace WPAIBP\Backend\Apps\Settings\Domain\Model;
 
-use AIReady\WPPluginBoilerplate\Backend\Apps\Settings\Domain\Event\RetentionPolicyChangedEvent;
-use AIReady\WPPluginBoilerplate\Backend\Apps\Settings\Domain\Event\SettingsUpdatedEvent;
-use AIReady\WPPluginBoilerplate\Backend\Apps\Settings\Domain\ValueObject\CacheTtl;
-use AIReady\WPPluginBoilerplate\Backend\Apps\Settings\Domain\ValueObject\DataRetentionPolicy;
-use AIReady\WPPluginBoilerplate\Backend\Apps\Settings\Domain\ValueObject\Description;
-use AIReady\WPPluginBoilerplate\Backend\Apps\Settings\Domain\ValueObject\FeatureFlag;
-use AIReady\WPPluginBoilerplate\Backend\Apps\Settings\Domain\ValueObject\GreetingMessage;
-use AIReady\WPPluginBoilerplate\Backend\Apps\Settings\Domain\ValueObject\RestDebug;
+use WPAIBP\Backend\Apps\Settings\Domain\Event\RetentionPolicyChangedEvent;
+use WPAIBP\Backend\Apps\Settings\Domain\Event\SettingsUpdatedEvent;
+use WPAIBP\Backend\Apps\Settings\Domain\ValueObject\CacheTtl;
+use WPAIBP\Backend\Apps\Settings\Domain\ValueObject\DataRetentionPolicy;
+use WPAIBP\Backend\Apps\Settings\Domain\ValueObject\Description;
+use WPAIBP\Backend\Apps\Settings\Domain\ValueObject\FeatureFlag;
+use WPAIBP\Backend\Apps\Settings\Domain\ValueObject\GreetingMessage;
+use WPAIBP\Backend\Apps\Settings\Domain\ValueObject\RestDebug;
 
 /**
  * Aggregate root encapsulating plugin settings state, invariants, and events.
@@ -103,7 +103,7 @@ class PluginSettings {
 	 */
 	public static function create_default(): self {
 		return new self(
-			new GreetingMessage( 'Hello from AI-Ready WP Plugin Boilerplate!' ),
+			new GreetingMessage( 'Hello from WP AI Ready Plugin Boilerplate!' ),
 			new FeatureFlag( true ),
 			new Description( 'A modern WordPress plugin powered by AI workflows.' ),
 			new RestDebug( false ),

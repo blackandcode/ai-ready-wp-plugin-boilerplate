@@ -2,10 +2,10 @@
 /**
  * Plugin deactivation handler.
  *
- * @package AIReady\WPPluginBoilerplate\Framework\Kernel
+ * @package WPAIBP\Framework\Kernel
  */
 
-namespace AIReady\WPPluginBoilerplate\Framework\Kernel;
+namespace WPAIBP\Framework\Kernel;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;

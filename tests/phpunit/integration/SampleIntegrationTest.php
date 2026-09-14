@@ -2,10 +2,10 @@
 /**
  * Sample Integration Test.
  *
- * @package AIReady\WPPluginBoilerplate\Tests\Integration
+ * @package WPAIBP\Tests\Integration
  */
 
-namespace AIReady\WPPluginBoilerplate\Tests\Integration;
+namespace WPAIBP\Tests\Integration;
 
 use PHPUnit\Framework\TestCase;
 

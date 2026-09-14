@@ -2,15 +2,15 @@
 /**
  * Test Container class.
  *
- * @package AIReady\WPPluginBoilerplate\Tests\Unit\Framework\Container
+ * @package WPAIBP\Tests\Unit\Framework\Container
  */
 
-namespace AIReady\WPPluginBoilerplate\Tests\Unit\Framework\Container;
+namespace WPAIBP\Tests\Unit\Framework\Container;
 
 use PHPUnit\Framework\TestCase;
 use RuntimeException;
 use stdClass;
-use AIReady\WPPluginBoilerplate\Framework\Container\Container;
+use WPAIBP\Framework\Container\Container;
 
 /**
  * Class ContainerTest

@@ -20,7 +20,7 @@ Modern enterprise plugins require **PSR-4 autoloading** with PascalCase class fi
     <description>PHPCS ruleset for WordPress AI Plugin Boilerplate.</description>
 
     <file>src/</file>
-    <file>ai-ready-wp-plugin-boilerplate.php</file>
+    <file>wp-ai-ready-plugin-boilerplate.php</file>
     <file>uninstall.php</file>
 
     <exclude-pattern>/vendor/</exclude-pattern>
@@ -36,7 +36,7 @@ Modern enterprise plugins require **PSR-4 autoloading** with PascalCase class fi
         <exclude-pattern>src/*</exclude-pattern>
     </rule>
 
-    <config name="text_domain" value="ai-ready-wp-plugin-boilerplate"/>
+    <config name="text_domain" value="wp-ai-ready-plugin-boilerplate"/>
     <config name="minimum_supported_wp_version" value="7.1"/>
 </ruleset>
 ```

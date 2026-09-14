@@ -25,7 +25,7 @@ export function AdvancedSection( {
 				__nextHasNoMarginBottom={ true }
 				label={ __(
 					'REST API Debug Headers',
-					'ai-ready-wp-plugin-boilerplate'
+					'wp-ai-ready-plugin-boilerplate'
 				) }
 				checked={ advanced.rest_debug }
 				onChange={ ( checked: boolean ) =>
@@ -33,7 +33,7 @@ export function AdvancedSection( {
 				}
 				help={ __(
 					'Append debug headers (execution time, memory peak) to REST API responses.',
-					'ai-ready-wp-plugin-boilerplate'
+					'wp-ai-ready-plugin-boilerplate'
 				) }
 			/>
 
@@ -42,7 +42,7 @@ export function AdvancedSection( {
 				__nextHasNoMarginBottom={ true }
 				label={ __(
 					'Cache Time-to-Live (Seconds)',
-					'ai-ready-wp-plugin-boilerplate'
+					'wp-ai-ready-plugin-boilerplate'
 				) }
 				value={ advanced.cache_ttl }
 				onChange={ ( value?: number ) =>
@@ -56,7 +56,7 @@ export function AdvancedSection( {
 				step={ 300 }
 				help={ __(
 					'Configure transient caching lifespan for intensive operations.',
-					'ai-ready-wp-plugin-boilerplate'
+					'wp-ai-ready-plugin-boilerplate'
 				) }
 			/>
 
@@ -65,28 +65,28 @@ export function AdvancedSection( {
 				__nextHasNoMarginBottom={ true }
 				label={ __(
 					'Uninstall Data Retention Policy',
-					'ai-ready-wp-plugin-boilerplate'
+					'wp-ai-ready-plugin-boilerplate'
 				) }
 				value={ dataRetention.uninstall_action }
 				options={ [
 					{
 						label: __(
 							'Preserve settings and user data (Recommended)',
-							'ai-ready-wp-plugin-boilerplate'
+							'wp-ai-ready-plugin-boilerplate'
 						),
 						value: 'preserve',
 					},
 					{
 						label: __(
 							'Delete options table settings only',
-							'ai-ready-wp-plugin-boilerplate'
+							'wp-ai-ready-plugin-boilerplate'
 						),
 						value: 'delete_settings',
 					},
 					{
 						label: __(
 							'Complete purge: delete all options, posts, and meta',
-							'ai-ready-wp-plugin-boilerplate'
+							'wp-ai-ready-plugin-boilerplate'
 						),
 						value: 'delete_all',
 					},
@@ -100,7 +100,7 @@ export function AdvancedSection( {
 				}
 				help={ __(
 					'Determines actions taken if this plugin is permanently uninstalled via WP Admin.',
-					'ai-ready-wp-plugin-boilerplate'
+					'wp-ai-ready-plugin-boilerplate'
 				) }
 			/>
 		</>

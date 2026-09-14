@@ -77,7 +77,7 @@ composer test
 - **Execution:** Run inside the container using `wp-env`:
 
   ```bash
-  npx wp-env run cli --env-cwd=wp-content/plugins/ai-ready-wp-plugin-boilerplate vendor/bin/phpunit
+  npx wp-env run cli --env-cwd=wp-content/plugins/wp-ai-ready-plugin-boilerplate vendor/bin/phpunit
   ```
 
 ---

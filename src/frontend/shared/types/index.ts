@@ -44,7 +44,7 @@ export interface DevelopmentToolsData {
 	openApiPath?: string;
 }
 
-export interface AirwpBootstrapData {
+export interface WpaibpBootstrapData {
 	apiBase: string;
 	nonce: string;
 	version: string;
@@ -65,14 +65,14 @@ export interface SettingsAppExtension {
 	label: string;
 	icon: any;
 	subtitle: string;
-	component: ComponentType< { bootstrap?: AirwpBootstrapData } >;
+	component: ComponentType< { bootstrap?: WpaibpBootstrapData } >;
 	hasFooter?: boolean;
-	isVisible?: ( bootstrap?: AirwpBootstrapData ) => boolean;
+	isVisible?: ( bootstrap?: WpaibpBootstrapData ) => boolean;
 }
 
 declare global {
 	interface Window {
-		airwpAdminBootstrap?: AirwpBootstrapData;
-		airwpSettingsBootstrap?: AirwpBootstrapData;
+		wpaibpAdminBootstrap?: WpaibpBootstrapData;
+		airwpSettingsBootstrap?: WpaibpBootstrapData;
 	}
 }

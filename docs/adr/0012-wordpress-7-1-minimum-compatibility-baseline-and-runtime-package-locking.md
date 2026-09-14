@@ -68,7 +68,7 @@ Chosen Option: **Option 3**.
 ### Concrete Invariants & Governance Rules
 
 1. **Declared Minimum Supported Version:**
-   - The plugin declares `Requires at least: 7.1` in the main plugin file (`ai-ready-wp-plugin-boilerplate.php`) and `readme.txt`.
+   - The plugin declares `Requires at least: 7.1` in the main plugin file (`wp-ai-ready-plugin-boilerplate.php`) and `readme.txt`.
    - `Compatibility::MIN_WP_VERSION` is `'7.1'`.
    - PHPCS `minimum_supported_wp_version` is configured to `7.1`.
 

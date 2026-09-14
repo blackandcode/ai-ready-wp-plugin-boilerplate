@@ -9,10 +9,10 @@
 import { __ } from '@wordpress/i18n';
 import { ErrorBoundary } from '../../../shared';
 import { DeveloperShell } from './components/DeveloperShell';
-import type { AirwpBootstrapData, DeveloperSubTab } from './types';
+import type { WpaibpBootstrapData, DeveloperSubTab } from './types';
 
 export interface DeveloperAppProps {
-	bootstrap?: AirwpBootstrapData;
+	bootstrap?: WpaibpBootstrapData;
 	initialSubTab?: DeveloperSubTab;
 }
 
@@ -24,7 +24,7 @@ export function DeveloperApp( {
 		<ErrorBoundary
 			fallbackTitle={ __(
 				'Developer Tools Error',
-				'ai-ready-wp-plugin-boilerplate'
+				'wp-ai-ready-plugin-boilerplate'
 			) }
 		>
 			<DeveloperShell

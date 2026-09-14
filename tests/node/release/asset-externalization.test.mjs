@@ -61,7 +61,7 @@ test( 'verifyAssets passes on valid built project assets', async () => {
 } );
 
 test( 'verifyAssets fails if build directory does not exist', async () => {
-	const tempDir = await mkdtemp( join( tmpdir(), 'airwp-asset-test-none-' ) );
+	const tempDir = await mkdtemp( join( tmpdir(), 'wpaibp-asset-test-none-' ) );
 	try {
 		const result = await verifyAssets( tempDir );
 		assert.equal( result.valid, false );
@@ -77,7 +77,7 @@ test( 'verifyAssets fails if build directory does not exist', async () => {
 } );
 
 test( 'verifyAssets fails when asset metadata is missing required dependencies', async () => {
-	const tempDir = await mkdtemp( join( tmpdir(), 'airwp-asset-test-bad-' ) );
+	const tempDir = await mkdtemp( join( tmpdir(), 'wpaibp-asset-test-bad-' ) );
 	try {
 		for ( const entry of EXPECTED_ENTRYPOINTS ) {
 			const jsDir = join( tempDir, dirname( entry.jsPath ) );
@@ -106,7 +106,7 @@ test( 'verifyAssets fails when asset metadata is missing required dependencies',
 } );
 
 test( 'verifyAssets fails if JS bundle accidentally inlines internal @wordpress/ code', async () => {
-	const tempDir = await mkdtemp( join( tmpdir(), 'airwp-asset-test-leak-' ) );
+	const tempDir = await mkdtemp( join( tmpdir(), 'wpaibp-asset-test-leak-' ) );
 	try {
 		for ( const entry of EXPECTED_ENTRYPOINTS ) {
 			const jsDir = join( tempDir, dirname( entry.jsPath ) );

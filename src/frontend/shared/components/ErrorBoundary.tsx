@@ -77,50 +77,50 @@ export class ErrorBoundary extends Component<
 				this.props.fallbackTitle ||
 				__(
 					'Something went wrong while rendering this section.',
-					'ai-ready-wp-plugin-boilerplate'
+					'wp-ai-ready-plugin-boilerplate'
 				);
 
 			return (
-				<Card className="airwp-error-boundary-card" role="alert">
-					<CardHeader className="airwp-card-header">
-						<div className="airwp-header-content">
-							<div className="airwp-header-badge airwp-badge-error">
+				<Card className="wpaibp-error-boundary-card" role="alert">
+					<CardHeader className="wpaibp-card-header">
+						<div className="wpaibp-header-content">
+							<div className="wpaibp-header-badge wpaibp-badge-error">
 								<Icon icon={ caution } size={ 20 } />
 							</div>
 							<div>
-								<h2 className="airwp-card-title">{ title }</h2>
-								<p className="airwp-card-description">
+								<h2 className="wpaibp-card-title">{ title }</h2>
+								<p className="wpaibp-card-description">
 									{ __(
 										'An unexpected JavaScript error occurred. You can attempt to retry or reload the page.',
-										'ai-ready-wp-plugin-boilerplate'
+										'wp-ai-ready-plugin-boilerplate'
 									) }
 								</p>
 							</div>
 						</div>
 					</CardHeader>
-					<CardBody className="airwp-card-body">
-						<pre className="airwp-error-stack">
+					<CardBody className="wpaibp-card-body">
+						<pre className="wpaibp-error-stack">
 							{ this.state.error?.message ||
 								__(
 									'Unknown Error',
-									'ai-ready-wp-plugin-boilerplate'
+									'wp-ai-ready-plugin-boilerplate'
 								) }
 						</pre>
 					</CardBody>
-					<CardFooter className="airwp-card-footer">
+					<CardFooter className="wpaibp-card-footer">
 						<Button
 							variant="secondary"
 							onClick={ this.handleReset }
 						>
 							{ __(
 								'Try Again',
-								'ai-ready-wp-plugin-boilerplate'
+								'wp-ai-ready-plugin-boilerplate'
 							) }
 						</Button>
 						<Button variant="primary" onClick={ this.handleReload }>
 							{ __(
 								'Reload Page',
-								'ai-ready-wp-plugin-boilerplate'
+								'wp-ai-ready-plugin-boilerplate'
 							) }
 						</Button>
 					</CardFooter>

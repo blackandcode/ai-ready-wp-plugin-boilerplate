@@ -20,20 +20,20 @@ export function SectionHeader( {
 	actions,
 }: SectionHeaderProps ) {
 	return (
-		<div className="airwp-section-header">
-			<div className="airwp-section-header-content">
-				{ icon && <div className="airwp-header-badge">{ icon }</div> }
+		<div className="wpaibp-section-header">
+			<div className="wpaibp-section-header-content">
+				{ icon && <div className="wpaibp-header-badge">{ icon }</div> }
 				<div>
-					<h2 className="airwp-card-title">{ title }</h2>
+					<h2 className="wpaibp-card-title">{ title }</h2>
 					{ description && (
-						<p className="airwp-card-description">
+						<p className="wpaibp-card-description">
 							{ description }
 						</p>
 					) }
 				</div>
 			</div>
 			{ actions && (
-				<div className="airwp-section-header-actions">{ actions }</div>
+				<div className="wpaibp-section-header-actions">{ actions }</div>
 			) }
 		</div>
 	);

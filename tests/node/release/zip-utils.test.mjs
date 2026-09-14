@@ -10,7 +10,7 @@ import {
 } from '../../../tools/release/lib/zip-utils.mjs';
 
 test( 'createZip, listZip, and extractZip work deterministically without external dependencies', async () => {
-	const tempDir = await mkdtemp( join( tmpdir(), 'airwp-zip-test-' ) );
+	const tempDir = await mkdtemp( join( tmpdir(), 'wpaibp-zip-test-' ) );
 	const zipPath = join( tempDir, 'sample-package.zip' );
 	const extractDir = join( tempDir, 'extracted' );
 

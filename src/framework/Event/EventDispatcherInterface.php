@@ -2,10 +2,10 @@
 /**
  * Event Dispatcher Interface contract.
  *
- * @package AIReady\WPPluginBoilerplate\Framework\Event
+ * @package WPAIBP\Framework\Event
  */
 
-namespace AIReady\WPPluginBoilerplate\Framework\Event;
+namespace WPAIBP\Framework\Event;
 
 /**
  * Interface for dispatching domain events and registering subscribers.

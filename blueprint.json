@@ -3,9 +3,9 @@
   "meta": {
     "title": "AI-Ready WP Plugin Sandbox",
     "author": "Development Team",
-    "description": "Interactive zero-install sandbox for AI-Ready WP Plugin Boilerplate."
+    "description": "Interactive zero-install sandbox for WP AI Ready Plugin Boilerplate."
   },
-  "landingPage": "/wp-admin/admin.php?page=airwp-settings",
+  "landingPage": "/wp-admin/admin.php?page=wpaibp-settings",
   "preferredVersions": {
     "php": "8.3",
     "wp": "latest"

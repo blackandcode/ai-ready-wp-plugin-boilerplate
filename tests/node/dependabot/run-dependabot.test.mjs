@@ -266,7 +266,7 @@ test( 'parseDependabotOutput handles empty output gracefully', () => {
 } );
 
 test( 'findDependabotBinary searches designated paths and PATH variable', () => {
-	const tempDir = mkdtempSync( join( tmpdir(), 'airwp-dependabot-test-' ) );
+	const tempDir = mkdtempSync( join( tmpdir(), 'wpaibp-dependabot-test-' ) );
 	try {
 		const dummyBinary = join( tempDir, 'dependabot' );
 		writeFileSync( dummyBinary, '#!/bin/sh\n', 'utf8' );

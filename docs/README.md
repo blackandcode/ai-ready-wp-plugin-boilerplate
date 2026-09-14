@@ -57,7 +57,7 @@ flowchart TD
 3. **Frontend Presentation Domain (`src/frontend/`):**
    Decoupled user interfaces including Gutenberg blocks built with Block API v3 and the WordPress Interactivity API (`data-wp-*`), WordPress Design System (WPDS) React 18 administrative dashboards, block patterns, and the PHP presentation bridge (`src/frontend/Bridge/`).
 4. **Strict REST Boundary:**
-   Frontend React apps and interactive blocks never invoke PHP domain logic directly; they communicate exclusively through authenticated REST API contracts (`/ai-ready-wp/v1/*`).
+   Frontend React apps and interactive blocks never invoke PHP domain logic directly; they communicate exclusively through authenticated REST API contracts (`/wpaibp/v1/*`).
 
 ---
 
@@ -125,7 +125,7 @@ npm run update-version -- patch --dry-run
 
 1. Updates `package.json` and `package-lock.json` root versions without touching external dependencies.
 2. Updates `composer.json` version.
-3. Updates WordPress plugin header `Version: X.Y.Z` and `AIRWP_VERSION` constant.
+3. Updates WordPress plugin header `Version: X.Y.Z` and `WPAIBP_VERSION` constant.
 4. Updates `readme.txt` `Stable tag: X.Y.Z`.
 5. Promotes `CHANGELOG.md` `[Unreleased]` items into the formal release header (`## [X.Y.Z] - YYYY-MM-DD`).
 6. Enforces PHP version comparison ordering (`version_compare`).

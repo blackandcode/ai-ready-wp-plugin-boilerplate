@@ -2,10 +2,10 @@
 /**
  * Event Dispatcher Implementation.
  *
- * @package AIReady\WPPluginBoilerplate\Framework\Event
+ * @package WPAIBP\Framework\Event
  */
 
-namespace AIReady\WPPluginBoilerplate\Framework\Event;
+namespace WPAIBP\Framework\Event;
 
 /**
  * In-memory event dispatcher that also bridges domain events to WordPress action hooks.
@@ -61,7 +61,7 @@ class EventDispatcher implements EventDispatcherInterface {
 				 * @param array<string, mixed> $payload Current settings payload.
 				 * @param array<int, string>   $changed_keys Changed keys list.
 				 */
-				do_action( 'airwp_settings_updated', $event->payload, $event->changed_keys );
+				do_action( 'wpaibp_settings_updated', $event->payload, $event->changed_keys );
 			} elseif ( 'RetentionPolicyChangedEvent' === $short_name && isset( $event->new_policy, $event->previous_policy ) ) {
 				$new_val  = is_object( $event->new_policy ) && isset( $event->new_policy->value ) ? $event->new_policy->value : (string) $event->new_policy;
 				$prev_val = is_object( $event->previous_policy ) && isset( $event->previous_policy->value ) ? $event->previous_policy->value : (string) $event->previous_policy;
@@ -73,7 +73,7 @@ class EventDispatcher implements EventDispatcherInterface {
 				 * @param string $prev_val Previous policy value.
 				 */
 				do_action(
-					'airwp_retention_policy_changed',
+					'wpaibp_retention_policy_changed',
 					$new_val,
 					$prev_val
 				);
@@ -84,7 +84,7 @@ class EventDispatcher implements EventDispatcherInterface {
 			 *
 			 * @param object $event Dispatched domain event.
 			 */
-			do_action( 'airwp_domain_event_dispatched', $event );
+			do_action( 'wpaibp_domain_event_dispatched', $event );
 		}
 	}
 

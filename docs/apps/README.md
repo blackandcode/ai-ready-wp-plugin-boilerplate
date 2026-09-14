@@ -56,7 +56,7 @@ flowchart TD
 
 ## 3. Communication Boundary Invariant
 
-Frontend applications must **never** call backend application services or database tables directly. All communication between `src/frontend/` and `src/backend/` flows strictly over HTTP through the WordPress REST API (`/ai-ready-wp/v1/*`):
+Frontend applications must **never** call backend application services or database tables directly. All communication between `src/frontend/` and `src/backend/` flows strictly over HTTP through the WordPress REST API (`/wpaibp/v1/*`):
 
 ```text
 React Admin App / Block Store

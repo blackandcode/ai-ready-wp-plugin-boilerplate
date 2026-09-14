@@ -1,4 +1,4 @@
-# Repository Manifest & File Inventory — AI-Ready WP Plugin Boilerplate
+# Repository Manifest & File Inventory — WP AI Ready Plugin Boilerplate
 
 This manifest provides a comprehensive directory and file inventory for the **WordPress AI Plugin Development Boilerplate**, indicating each file's role, architectural layer, and importance to agentic workflows under the **Tripartite App-Centric Architecture (ADR-0009)**.
 
@@ -8,7 +8,7 @@ This manifest provides a comprehensive directory and file inventory for the **Wo
 
 | File | Purpose | Layer |
 |---|---|---|
-| `ai-ready-wp-plugin-boilerplate.php` | Main WordPress plugin entrypoint with headers, constants, and hooks. | Bootstrap |
+| `wp-ai-ready-plugin-boilerplate.php` | Main WordPress plugin entrypoint with headers, constants, and hooks. | Bootstrap |
 | `uninstall.php` | Cleanup handler executing data retention policy on uninstallation. | Lifecycle |
 | `package.json` | Node dependencies, build scripts, test suites, and scaffolding commands. | Toolchain |
 | `composer.json` | PHP dependencies, quadripartite PSR-4 autoload mapping (`Framework\`, `Backend\`, `Development\`, `Frontend\`), and linters. | Toolchain |
@@ -28,6 +28,7 @@ This manifest provides a comprehensive directory and file inventory for the **Wo
 | `README.md` | High-conversion marketing and developer onboarding documentation. | Documentation |
 | `LICENSE` | MIT License terms and conditions. | Legal |
 | `readme.txt` | WordPress.org standard plugin readme with stable tag and descriptions. | Distribution |
+| `languages/` | Gettext translation catalogs (.pot, .po, .mo) for plugin internationalization. | Distribution |
 | `.distignore` | Distribution archive rules specifying files to exclude from production ZIP. | Distribution |
 | `.github/dependabot.yml` | Dependabot configuration for GitHub Actions, npm, and Composer. | Automation |
 | `.github/workflows/_release-readiness.yml` | Reusable shared workflow defining the canonical release-readiness gate. | CI/CD |
@@ -89,7 +90,7 @@ This manifest provides a comprehensive directory and file inventory for the **Wo
 | `src/backend/Apps/Settings/Infrastructure/WordPressSettingsRepository.php` | Adapter persisting settings with autoload=false policy. | Infrastructure |
 | `src/backend/Apps/Settings/Infrastructure/SettingsRepository.php` | Backward-compatible repository wrapper. | Infrastructure |
 | `src/backend/Apps/Settings/Infrastructure/SettingsSchema.php` | Settings schema definition, default values, and sanitization. | Infrastructure |
-| `src/backend/Apps/Settings/Rest/SettingsController.php` | Authenticated `/ai-ready-wp/v1/settings` REST controller. | Rest |
+| `src/backend/Apps/Settings/Rest/SettingsController.php` | Authenticated `/wpaibp/v1/settings` REST controller. | Rest |
 | `src/backend/Apps/Settings/Cli/SettingsCliCommand.php` | WP-CLI commands (`wp ai-ready settings-get`, `settings-update`). | Cli |
 | `src/backend/Apps/Settings/Abilities/SettingsAbilities.php` | Registers settings abilities with WordPress Abilities API. | Abilities |
 | `src/backend/Apps/Diagnostics/DiagnosticsBackendServiceProvider.php` | Service provider booting Diagnostics App backend services. | Backend (Diagnostics) |
@@ -97,14 +98,14 @@ This manifest provides a comprehensive directory and file inventory for the **Wo
 | `src/backend/Apps/Diagnostics/Application/DiagnosticsService.php` | Service formatting diagnostics telemetry. | Application |
 | `src/backend/Apps/Diagnostics/Application/DTO/DiagnosticsDTO.php` | DTO representing runtime telemetry. | Application |
 | `src/backend/Apps/Diagnostics/Infrastructure/WordPressDiagnosticsProvider.php` | Infrastructure telemetry provider querying WP environment. | Infrastructure |
-| `src/backend/Apps/Diagnostics/Rest/DiagnosticsController.php` | Authenticated `/ai-ready-wp/v1/diagnostics` REST controller. | Rest |
+| `src/backend/Apps/Diagnostics/Rest/DiagnosticsController.php` | Authenticated `/wpaibp/v1/diagnostics` REST controller. | Rest |
 | `src/backend/Apps/Diagnostics/Cli/DiagnosticsCliCommand.php` | WP-CLI commands (`wp ai-ready doctor`). | Cli |
 | `src/backend/Apps/Diagnostics/Abilities/DiagnosticsAbilities.php` | Registers diagnostics abilities with WordPress Abilities API. | Abilities |
 | `src/backend/Apps/HelloWorld/HelloWorldBackendServiceProvider.php` | Service provider booting HelloWorld App backend services. | Backend (HelloWorld) |
 | `src/backend/Apps/HelloWorld/Domain/HelloWorldGreeting.php` | Value object encapsulating greeting invariants. | Domain |
 | `src/backend/Apps/HelloWorld/Application/HelloWorldService.php` | Service producing Hello World responses. | Application |
 | `src/backend/Apps/HelloWorld/Application/DTO/HelloWorldDTO.php` | DTO representing Hello World responses. | Application |
-| `src/backend/Apps/HelloWorld/Rest/HelloWorldController.php` | Public `GET /ai-ready-wp/v1/hello` REST controller. | Rest |
+| `src/backend/Apps/HelloWorld/Rest/HelloWorldController.php` | Public `GET /wpaibp/v1/hello` REST controller. | Rest |
 
 ---
 
@@ -139,7 +140,7 @@ This manifest provides a comprehensive directory and file inventory for the **Wo
 | `src/frontend/Bridge/Apps/Settings/SettingsBootstrapData.php` | Builds configuration JSON for the React admin app. | Frontend Bridge |
 | `src/frontend/Bridge/Registry/BlockRegistry.php` | Native adapter registering blocks via `wp_register_block_types_from_metadata_collection`. | Frontend Bridge |
 | `src/frontend/Bridge/Registry/PatternRegistry.php` | Dynamic scanner registering block patterns from `src/frontend/patterns/*.php`. | Frontend Bridge |
-| `src/frontend/apps/settings/react/index.tsx` | Webpack entrypoint mounting React app to `#airwp-settings-root`. | Frontend (Settings) |
+| `src/frontend/apps/settings/react/index.tsx` | Webpack entrypoint mounting React app to `#wpaibp-settings-root`. | Frontend (Settings) |
 | `src/frontend/apps/settings/react/App.tsx` | Orchestrating container managing state reducer, API client, and error boundary. | Frontend (Settings) |
 | `src/frontend/apps/settings/react/types.ts` | TypeScript types for bootstrap data, settings, and sections. | Frontend (Settings) |
 | `src/frontend/apps/settings/react/styles/settings.css` | WPDS card and vertical sidebar layout styles. | Frontend (Settings) |
@@ -148,7 +149,7 @@ This manifest provides a comprehensive directory and file inventory for the **Wo
 | `src/frontend/apps/settings/react/components/AdvancedSection.tsx` | Form controls for REST debug, cache TTL, and data retention policy. | Frontend (Settings) |
 | `src/frontend/apps/settings/templates/admin-settings-root.php` | HTML mount template for Settings app with action hooks. | Frontend (Settings) |
 | `src/frontend/apps/developer/index.ts` | Public exports and Settings extension definition (`developerAppExtension`). | Frontend (Developer) |
-| `src/frontend/apps/developer/react/index.tsx` | Webpack entrypoint mounting standalone Developer app to `#airwp-developer-root`. | Frontend (Developer) |
+| `src/frontend/apps/developer/react/index.tsx` | Webpack entrypoint mounting standalone Developer app to `#wpaibp-developer-root`. | Frontend (Developer) |
 | `src/frontend/apps/developer/react/App.tsx` | Root container for standalone Developer app with ErrorBoundary. | Frontend (Developer) |
 | `src/frontend/apps/developer/react/types.ts` | TypeScript types for Developer sub-tabs and metadata. | Frontend (Developer) |
 | `src/frontend/apps/developer/react/styles/developer.css` | Dedicated styles for horizontal sub-tabs, diagnostics table, and banner. | Frontend (Developer) |
@@ -175,7 +176,7 @@ This manifest provides a comprehensive directory and file inventory for the **Wo
 | `src/frontend/shared/components/CardLayout.tsx` | Compound WPDS component (`CardLayout.Header`, `Body`, `Footer`). | Frontend Shared |
 | `src/frontend/shared/components/SectionHeader.tsx` | Reusable section header with badge icon and actions. | Frontend Shared |
 | `src/frontend/shared/components/NoticeBanner.tsx` | Accessible dismissible banner (`role="status"`, `role="alert"`). | Frontend Shared |
-| `src/frontend/shared/components/LoadingSkeleton.tsx` | Accessible loading skeleton emitting `data-airwp-app-state="loading"`. | Frontend Shared |
+| `src/frontend/shared/components/LoadingSkeleton.tsx` | Accessible loading skeleton emitting `data-wpaibp-app-state="loading"`. | Frontend Shared |
 | `src/frontend/shared/components/StatusBadge.tsx` | WPDS status indicator badge for health and telemetry. | Frontend Shared |
 | `src/frontend/shared/components/ErrorBoundary.tsx` | Defensive error boundary catching render crashes with retry action. | Frontend Shared |
 
@@ -193,6 +194,7 @@ This manifest provides a comprehensive directory and file inventory for the **Wo
 | `tools/environment/environment-checker.mjs` | Core environment verification and OS remediation engine. | Toolchain |
 | `tools/git-hooks/install-hooks.mjs` | Configures Git core.hooksPath to .githooks or uninstalls in-tree hooks. | Toolchain |
 | `tools/git-hooks/pre-commit.mjs` | Cross-platform pre-commit runner executing 10 CI-parity quality checks. | Toolchain |
+| `tools/i18n/make-pot.mjs` | Extracts translatable strings from PHP/JS and compiles .pot, .po, and binary .mo catalogs. | Toolchain |
 | `tools/release/build-package.mjs` | CLI packaging production distribution ZIP respecting .distignore. | Release |
 | `tools/release/build-boilerplate-package.mjs` | Isolated staging builder for boilerplate starter template ZIP archive. | Release |
 | `tools/release/extract-release-notes.mjs` | CLI extracting markdown release notes for a target version from CHANGELOG.md. | Release |
@@ -260,6 +262,7 @@ This manifest provides a comprehensive directory and file inventory for the **Wo
 | `tests/js/blocks/hello-world/edit.test.tsx` | Unit tests for Gutenberg Hello World block edit component. | Tier 3 |
 | `tests/js/blocks/hello-world/save.test.tsx` | Unit tests for Hello World save directives. | Tier 3 |
 | `tests/node/versioning/version-sync.test.mjs` | Integration tests for automated SemVer synchronization engine. | Toolchain |
+| `tests/node/i18n/make-pot.test.mjs` | Unit tests for POT string extraction and GNU gettext binary MO generation. | Toolchain |
 | `tests/node/scaffolding/scaffold.test.mjs` | Integration tests for automated scaffolding & renaming CLI. | Toolchain |
 | `tests/node/dependabot/run-dependabot.test.mjs` | Unit tests for local Dependabot runner and job generator. | Toolchain |
 | `tests/node/environment/environment-checker.test.mjs` | Unit tests for pre-flight environment checker. | Toolchain |
@@ -279,11 +282,11 @@ This manifest provides a comprehensive directory and file inventory for the **Wo
 | `tests/bruno/collection.bru` | Root collection configuration with basic auth and pre-request vars. | Tier 4 |
 | `tests/bruno/environments/Local.bru` | Environment variables for local Bruno test execution. | Tier 4 |
 | `tests/bruno/00 Smoke/rest-index.bru` | Verification of core WordPress REST API discovery (`/wp-json/`). | Tier 4 |
-| `tests/bruno/00 Smoke/hello-world.bru` | Verification of public `/ai-ready-wp/v1/hello` contract. | Tier 4 |
-| `tests/bruno/03 Settings/get-settings.bru` | Verification of authenticated `/ai-ready-wp/v1/settings` GET with Chai schema checks. | Tier 4 |
-| `tests/bruno/03 Settings/update-settings.bru` | Verification of authenticated `/ai-ready-wp/v1/settings` POST. | Tier 4 |
+| `tests/bruno/00 Smoke/hello-world.bru` | Verification of public `/wpaibp/v1/hello` contract. | Tier 4 |
+| `tests/bruno/03 Settings/get-settings.bru` | Verification of authenticated `/wpaibp/v1/settings` GET with Chai schema checks. | Tier 4 |
+| `tests/bruno/03 Settings/update-settings.bru` | Verification of authenticated `/wpaibp/v1/settings` POST. | Tier 4 |
 | `tests/bruno/03 Settings/invalid-settings.bru` | Verification of 400 Bad Request on invalid settings payloads. | Tier 4 |
-| `tests/bruno/04 Diagnostics/get-diagnostics.bru` | Verification of authenticated `/ai-ready-wp/v1/diagnostics` GET endpoint. | Tier 4 |
+| `tests/bruno/04 Diagnostics/get-diagnostics.bru` | Verification of authenticated `/wpaibp/v1/diagnostics` GET endpoint. | Tier 4 |
 | `tests/bruno/05 Developer/get-dev-openapi.bru` | Verification of authenticated `/ai-ready-wp-dev/v1/openapi` live spec discovery contract. | Tier 4 |
 | `tests/bruno/05 Developer/dev-openapi-unauthenticated.bru` | Verification of 403 Forbidden on unauthenticated access to development OpenAPI route. | Tier 4 |
 | `tests/e2e/playwright/setup/auth.setup.ts` | Playwright global authentication fixture logging in admin user. | Tier 5 |

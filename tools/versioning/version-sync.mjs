@@ -544,7 +544,7 @@ async function commitChanges( changes ) {
 		for ( const [ path, change ] of changes ) {
 			const existed = await fileExists( path );
 			const mode = existed ? ( await stat( path ) ).mode : 0o644;
-			const temporaryPath = `${ path }.airwp-version-${ process.pid }.tmp`;
+			const temporaryPath = `${ path }.wpaibp-version-${ process.pid }.tmp`;
 
 			await writeFile( temporaryPath, change.after, {
 				encoding: 'utf8',

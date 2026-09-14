@@ -2,10 +2,10 @@
 /**
  * Hello World Greeting Value Object.
  *
- * @package AIReady\WPPluginBoilerplate\Backend\Apps\HelloWorld\Domain
+ * @package WPAIBP\Backend\Apps\HelloWorld\Domain
  */
 
-namespace AIReady\WPPluginBoilerplate\Backend\Apps\HelloWorld\Domain;
+namespace WPAIBP\Backend\Apps\HelloWorld\Domain;
 
 use InvalidArgumentException;
 
@@ -51,6 +51,6 @@ readonly class HelloWorldGreeting {
 	 * @return self
 	 */
 	public static function default(): self {
-		return new self( 'Hello from AI-Ready WP Plugin Boilerplate!' );
+		return new self( 'Hello from WP AI Ready Plugin Boilerplate!' );
 	}
 }

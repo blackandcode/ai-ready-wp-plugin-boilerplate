@@ -2,20 +2,20 @@
 /**
  * Master Backend Service Provider.
  *
- * @package AIReady\WPPluginBoilerplate\Backend
+ * @package WPAIBP\Backend
  */
 
-namespace AIReady\WPPluginBoilerplate\Backend;
+namespace WPAIBP\Backend;
 
 use WP_CLI;
-use AIReady\WPPluginBoilerplate\Backend\Apps\Diagnostics\DiagnosticsBackendServiceProvider;
-use AIReady\WPPluginBoilerplate\Backend\Apps\HelloWorld\HelloWorldBackendServiceProvider;
-use AIReady\WPPluginBoilerplate\Backend\Apps\Settings\SettingsBackendServiceProvider;
-use AIReady\WPPluginBoilerplate\Backend\Cli\PluginCliCommand;
-use AIReady\WPPluginBoilerplate\Framework\Container\Container;
-use AIReady\WPPluginBoilerplate\Framework\Container\ServiceProviderInterface;
-use AIReady\WPPluginBoilerplate\Framework\Event\EventDispatcher;
-use AIReady\WPPluginBoilerplate\Framework\Event\EventDispatcherInterface;
+use WPAIBP\Backend\Apps\Diagnostics\DiagnosticsBackendServiceProvider;
+use WPAIBP\Backend\Apps\HelloWorld\HelloWorldBackendServiceProvider;
+use WPAIBP\Backend\Apps\Settings\SettingsBackendServiceProvider;
+use WPAIBP\Backend\Cli\PluginCliCommand;
+use WPAIBP\Framework\Container\Container;
+use WPAIBP\Framework\Container\ServiceProviderInterface;
+use WPAIBP\Framework\Event\EventDispatcher;
+use WPAIBP\Framework\Event\EventDispatcherInterface;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -98,10 +98,10 @@ class BackendServiceProvider implements ServiceProviderInterface {
 		}
 
 		wp_register_ability_category(
-			'ai-ready-wp',
+			'wpaibp',
 			array(
-				'label'       => __( 'AI-Ready WP Plugin', 'ai-ready-wp-plugin-boilerplate' ),
-				'description' => __( 'Domain capabilities for inspecting and modifying plugin settings and telemetry.', 'ai-ready-wp-plugin-boilerplate' ),
+				'label'       => __( 'AI-Ready WP Plugin', 'wp-ai-ready-plugin-boilerplate' ),
+				'description' => __( 'Domain capabilities for inspecting and modifying plugin settings and telemetry.', 'wp-ai-ready-plugin-boilerplate' ),
 			)
 		);
 	}

@@ -1,12 +1,12 @@
 {
   "$schema": "https://schemas.wp.org/trunk/block.json",
   "apiVersion": 3,
-  "name": "ai-ready-wp/hello-world",
+  "name": "wpaibp/hello-world",
   "version": "1.3.3",
   "title": "Hello World",
   "category": "widgets",
   "icon": "smiley",
-  "description": "A modern interactive starter block for AI-Ready WP Plugin Boilerplate.",
+  "description": "A modern interactive starter block for WP AI Ready Plugin Boilerplate.",
   "keywords": [
     "hello",
     "world",
@@ -14,11 +14,11 @@
     "interactivity",
     "boilerplate"
   ],
-  "textdomain": "ai-ready-wp-plugin-boilerplate",
+  "textdomain": "wp-ai-ready-plugin-boilerplate",
   "attributes": {
     "greeting": {
       "type": "string",
-      "default": "Hello from AI-Ready WP Plugin Boilerplate!"
+      "default": "Hello from WP AI Ready Plugin Boilerplate!"
     },
     "showTimestamp": {
       "type": "boolean",

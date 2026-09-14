@@ -2,14 +2,14 @@
 /**
  * Test DataRetentionPolicy Enum.
  *
- * @package AIReady\WPPluginBoilerplate\Tests\Unit\Backend\Apps\Settings\Domain
+ * @package WPAIBP\Tests\Unit\Backend\Apps\Settings\Domain
  */
 
-namespace AIReady\WPPluginBoilerplate\Tests\Unit\Backend\Apps\Settings\Domain;
+namespace WPAIBP\Tests\Unit\Backend\Apps\Settings\Domain;
 
 use PHPUnit\Framework\TestCase;
-use AIReady\WPPluginBoilerplate\Backend\Apps\Settings\Domain\Exception\InvalidRetentionPolicyException;
-use AIReady\WPPluginBoilerplate\Backend\Apps\Settings\Domain\ValueObject\DataRetentionPolicy;
+use WPAIBP\Backend\Apps\Settings\Domain\Exception\InvalidRetentionPolicyException;
+use WPAIBP\Backend\Apps\Settings\Domain\ValueObject\DataRetentionPolicy;
 
 /**
  * Class DataRetentionPolicyTest

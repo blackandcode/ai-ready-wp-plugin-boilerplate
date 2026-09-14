@@ -38,13 +38,13 @@ tests/bruno/
 │   └── Local.bru                    # Environment file with baseUrl
 ├── 00 Smoke/
 │   ├── rest-index.bru               # Verifies core /wp-json/ discovery
-│   └── hello-world.bru              # Public GET /ai-ready-wp/v1/hello
+│   └── hello-world.bru              # Public GET /wpaibp/v1/hello
 ├── 03 Settings/
-│   ├── get-settings.bru             # Authenticated GET /ai-ready-wp/v1/settings
-│   ├── update-settings.bru          # Authenticated POST /ai-ready-wp/v1/settings
+│   ├── get-settings.bru             # Authenticated GET /wpaibp/v1/settings
+│   ├── update-settings.bru          # Authenticated POST /wpaibp/v1/settings
 │   └── invalid-settings.bru         # Bad request POST returning 400 Bad Request
 └── 04 Diagnostics/
-    └── get-diagnostics.bru          # Authenticated GET /ai-ready-wp/v1/diagnostics
+    └── get-diagnostics.bru          # Authenticated GET /wpaibp/v1/diagnostics
 ```
 
 ---
@@ -61,7 +61,7 @@ meta {
 }
 
 get {
-  url: {{baseUrl}}/wp-json/ai-ready-wp/v1/settings
+  url: {{baseUrl}}/wp-json/wpaibp/v1/settings
   body: none
   auth: inherit
 }

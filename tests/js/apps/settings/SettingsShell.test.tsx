@@ -124,7 +124,7 @@ describe( 'SettingsShell Component', () => {
 				onSave={ jest.fn() }
 				onReset={ jest.fn() }
 				bootstrap={ {
-					apiBase: 'https://example.com/wp-json/ai-ready-wp/v1',
+					apiBase: 'https://example.com/wp-json/wpaibp/v1',
 					nonce: 'test-nonce',
 					version: '1.3.3',
 					currentUserCan: { manageOptions: true },
@@ -150,15 +150,15 @@ describe( 'SettingsShell Component', () => {
 				onSave={ jest.fn() }
 				onReset={ jest.fn() }
 				bootstrap={ {
-					apiBase: 'https://example.com/wp-json/ai-ready-wp/v1',
+					apiBase: 'https://example.com/wp-json/wpaibp/v1',
 					nonce: 'test-nonce',
 					version: '1.3.3',
 					currentUserCan: { manageOptions: true },
 					development: {
 						pluginMode: true,
 						openApiEndpoint:
-							'https://example.com/wp-json/ai-ready-wp-dev/v1/openapi',
-						openApiPath: '/ai-ready-wp-dev/v1/openapi',
+							'https://example.com/wp-json/wpaibp-dev/v1/openapi',
+						openApiPath: '/wpaibp-dev/v1/openapi',
 					},
 				} }
 			/>

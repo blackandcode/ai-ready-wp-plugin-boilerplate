@@ -2,13 +2,13 @@
 /**
  * Test Settings Schema.
  *
- * @package AIReady\WPPluginBoilerplate\Tests\Unit\Backend\Apps\Settings\Infrastructure
+ * @package WPAIBP\Tests\Unit\Backend\Apps\Settings\Infrastructure
  */
 
-namespace AIReady\WPPluginBoilerplate\Tests\Unit\Backend\Apps\Settings\Infrastructure;
+namespace WPAIBP\Tests\Unit\Backend\Apps\Settings\Infrastructure;
 
 use PHPUnit\Framework\TestCase;
-use AIReady\WPPluginBoilerplate\Backend\Apps\Settings\Infrastructure\SettingsSchema;
+use WPAIBP\Backend\Apps\Settings\Infrastructure\SettingsSchema;
 
 /**
  * Class SettingsSchemaTest

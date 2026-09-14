@@ -2,10 +2,10 @@
 /**
  * WordPress Error Mapper.
  *
- * @package AIReady\WPPluginBoilerplate\Framework\Support
+ * @package WPAIBP\Framework\Support
  */
 
-namespace AIReady\WPPluginBoilerplate\Framework\Support;
+namespace WPAIBP\Framework\Support;
 
 use Throwable;
 use WP_Error;
@@ -34,7 +34,7 @@ class WordPressErrorMapper {
 
 		if ( 'InvalidSettingException' === $short_name || str_contains( $class_name, 'Invalid' ) ) {
 			return new WP_Error(
-				'airwp_invalid_setting',
+				'wpaibp_invalid_setting',
 				$exception->getMessage(),
 				array( 'status' => 400 )
 			);
@@ -42,7 +42,7 @@ class WordPressErrorMapper {
 
 		if ( $exception instanceof InvalidArgumentException ) {
 			return new WP_Error(
-				'airwp_invalid_argument',
+				'wpaibp_invalid_argument',
 				$exception->getMessage(),
 				array( 'status' => 400 )
 			);
@@ -50,17 +50,17 @@ class WordPressErrorMapper {
 
 		if ( $exception instanceof RuntimeException ) {
 			return new WP_Error(
-				'airwp_runtime_error',
+				'wpaibp_runtime_error',
 				$exception->getMessage(),
 				array( 'status' => 500 )
 			);
 		}
 
-		$fallback_message = esc_html__( 'An unexpected error occurred.', 'ai-ready-wp-plugin-boilerplate' );
+		$fallback_message = esc_html__( 'An unexpected error occurred.', 'wp-ai-ready-plugin-boilerplate' );
 		$message          = ! empty( $exception->getMessage() ) ? $exception->getMessage() : $fallback_message;
 
 		return new WP_Error(
-			'airwp_internal_error',
+			'wpaibp_internal_error',
 			$message,
 			array( 'status' => 500 )
 		);

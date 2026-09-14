@@ -2,13 +2,13 @@
 /**
  * Settings Frontend Presentation Service Provider.
  *
- * @package AIReady\WPPluginBoilerplate\Frontend\Apps\Settings
+ * @package WPAIBP\Frontend\Apps\Settings
  */
 
-namespace AIReady\WPPluginBoilerplate\Frontend\Apps\Settings;
+namespace WPAIBP\Frontend\Apps\Settings;
 
-use AIReady\WPPluginBoilerplate\Framework\Container\Container;
-use AIReady\WPPluginBoilerplate\Framework\Container\ServiceProviderInterface;
+use WPAIBP\Framework\Container\Container;
+use WPAIBP\Framework\Container\ServiceProviderInterface;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;

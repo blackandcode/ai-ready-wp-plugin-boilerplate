@@ -2,7 +2,7 @@
 /**
  * PHPUnit bootstrap file.
  *
- * @package AIReady\WPPluginBoilerplate\Tests
+ * @package WPAIBP\Tests
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -17,10 +17,10 @@ if ( file_exists( dirname( __DIR__, 2 ) . '/vendor/autoload.php' ) ) {
 spl_autoload_register(
 	static function ( $class ) {
 		$map = array(
-			'AIReady\\WPPluginBoilerplate\\Framework\\'   => dirname( __DIR__, 2 ) . '/src/framework/',
-			'AIReady\\WPPluginBoilerplate\\Backend\\'     => dirname( __DIR__, 2 ) . '/src/backend/',
-			'AIReady\\WPPluginBoilerplate\\Development\\' => dirname( __DIR__, 2 ) . '/src/development/',
-			'AIReady\\WPPluginBoilerplate\\Frontend\\'    => dirname( __DIR__, 2 ) . '/src/frontend/Bridge/',
+			'WPAIBP\\Framework\\'   => dirname( __DIR__, 2 ) . '/src/framework/',
+			'WPAIBP\\Backend\\'     => dirname( __DIR__, 2 ) . '/src/backend/',
+			'WPAIBP\\Development\\' => dirname( __DIR__, 2 ) . '/src/development/',
+			'WPAIBP\\Frontend\\'    => dirname( __DIR__, 2 ) . '/src/frontend/Bridge/',
 		);
 
 		foreach ( $map as $prefix => $base_dir ) {
@@ -47,10 +47,10 @@ if ( ! $_tests_dir ) {
 if ( file_exists( $_tests_dir . '/includes/functions.php' ) ) {
 	require_once $_tests_dir . '/includes/functions.php';
 
-	function _airwp_manually_load_plugin() {
-		require_once dirname( __DIR__, 2 ) . '/ai-ready-wp-plugin-boilerplate.php';
+	function _wpaibp_manually_load_plugin() {
+		require_once dirname( __DIR__, 2 ) . '/wp-ai-ready-plugin-boilerplate.php';
 	}
-	tests_add_filter( 'muplugins_loaded', '_airwp_manually_load_plugin' );
+	tests_add_filter( 'muplugins_loaded', '_wpaibp_manually_load_plugin' );
 
 	require $_tests_dir . '/includes/bootstrap.php';
 }

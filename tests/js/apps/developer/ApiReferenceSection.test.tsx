@@ -28,7 +28,7 @@ describe( 'ApiReferenceSection Component', () => {
 
 		render(
 			<ApiReferenceSection
-				endpoint="https://example.com/wp-json/ai-ready-wp-dev/v1/openapi"
+				endpoint="https://example.com/wp-json/wpaibp-dev/v1/openapi"
 				nonce="test-nonce"
 			/>
 		);
@@ -51,7 +51,7 @@ describe( 'ApiReferenceSection Component', () => {
 
 		render(
 			<ApiReferenceSection
-				endpoint="https://example.com/wp-json/ai-ready-wp-dev/v1/openapi"
+				endpoint="https://example.com/wp-json/wpaibp-dev/v1/openapi"
 				nonce="test-nonce"
 			/>
 		);
@@ -87,13 +87,13 @@ describe( 'ApiReferenceSection Component', () => {
 	it( 'fetches and renders OpenAPI spec successfully', async () => {
 		mockedApiFetch.mockResolvedValueOnce( {
 			openapi: '3.1.0',
-			info: { title: 'AI-Ready WP Plugin Boilerplate REST API' },
+			info: { title: 'WP AI Ready Plugin Boilerplate REST API' },
 			paths: {},
 		} );
 
 		render(
 			<ApiReferenceSection
-				endpoint="https://example.com/wp-json/ai-ready-wp-dev/v1/openapi"
+				endpoint="https://example.com/wp-json/wpaibp-dev/v1/openapi"
 				nonce="test-nonce"
 			/>
 		);
@@ -104,11 +104,11 @@ describe( 'ApiReferenceSection Component', () => {
 
 		expect(
 			screen.getByText(
-				/Viewer Loaded: AI-Ready WP Plugin Boilerplate REST API/i
+				/Viewer Loaded: WP AI Ready Plugin Boilerplate REST API/i
 			)
 		).toBeInTheDocument();
 		expect( mockedApiFetch ).toHaveBeenCalledWith( {
-			url: 'https://example.com/wp-json/ai-ready-wp-dev/v1/openapi',
+			url: 'https://example.com/wp-json/wpaibp-dev/v1/openapi',
 			headers: { 'X-WP-Nonce': 'test-nonce' },
 		} );
 	} );
@@ -116,13 +116,13 @@ describe( 'ApiReferenceSection Component', () => {
 	it( 'fetches using relative path when provided', async () => {
 		mockedApiFetch.mockResolvedValueOnce( {
 			openapi: '3.1.0',
-			info: { title: 'AI-Ready WP Plugin Boilerplate REST API' },
+			info: { title: 'WP AI Ready Plugin Boilerplate REST API' },
 			paths: {},
 		} );
 
 		render(
 			<ApiReferenceSection
-				path="/ai-ready-wp-dev/v1/openapi"
+				path="/wpaibp-dev/v1/openapi"
 				nonce="test-nonce"
 			/>
 		);
@@ -132,7 +132,7 @@ describe( 'ApiReferenceSection Component', () => {
 		} );
 
 		expect( mockedApiFetch ).toHaveBeenCalledWith( {
-			path: '/ai-ready-wp-dev/v1/openapi',
+			path: '/wpaibp-dev/v1/openapi',
 			headers: { 'X-WP-Nonce': 'test-nonce' },
 		} );
 	} );

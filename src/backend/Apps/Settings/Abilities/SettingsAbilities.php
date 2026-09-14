@@ -2,17 +2,17 @@
 /**
  * Settings Abilities Registration.
  *
- * @package AIReady\WPPluginBoilerplate\Backend\Apps\Settings\Abilities
+ * @package WPAIBP\Backend\Apps\Settings\Abilities
  */
 
-namespace AIReady\WPPluginBoilerplate\Backend\Apps\Settings\Abilities;
+namespace WPAIBP\Backend\Apps\Settings\Abilities;
 
 use Throwable;
 use WP_Error;
-use AIReady\WPPluginBoilerplate\Backend\Apps\Settings\Application\Command\UpdateSettingsCommand;
-use AIReady\WPPluginBoilerplate\Backend\Apps\Settings\Application\SettingsApplicationService;
-use AIReady\WPPluginBoilerplate\Framework\Kernel\Plugin;
-use AIReady\WPPluginBoilerplate\Framework\Support\WordPressErrorMapper;
+use WPAIBP\Backend\Apps\Settings\Application\Command\UpdateSettingsCommand;
+use WPAIBP\Backend\Apps\Settings\Application\SettingsApplicationService;
+use WPAIBP\Framework\Kernel\Plugin;
+use WPAIBP\Framework\Support\WordPressErrorMapper;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -26,7 +26,7 @@ class SettingsAbilities {
 	/**
 	 * Ability category identifier.
 	 */
-	public const CATEGORY = 'ai-ready-wp';
+	public const CATEGORY = 'wpaibp';
 
 	/**
 	 * Register category and abilities.
@@ -40,10 +40,10 @@ class SettingsAbilities {
 
 		// 1. Get Settings Ability
 		wp_register_ability(
-			'ai-ready-wp/get-settings',
+			'wpaibp/get-settings',
 			array(
-				'label'               => __( 'Get Plugin Settings', 'ai-ready-wp-plugin-boilerplate' ),
-				'description'         => __( 'Retrieve all current settings sections for the AI-Ready WP plugin.', 'ai-ready-wp-plugin-boilerplate' ),
+				'label'               => __( 'Get Plugin Settings', 'wp-ai-ready-plugin-boilerplate' ),
+				'description'         => __( 'Retrieve all current settings sections for the AI-Ready WP plugin.', 'wp-ai-ready-plugin-boilerplate' ),
 				'category'            => self::CATEGORY,
 				'permission_callback' => array( self::class, 'check_manage_options' ),
 				'execute_callback'    => array( self::class, 'execute_get_settings' ),
@@ -63,10 +63,10 @@ class SettingsAbilities {
 
 		// 2. Update Settings Ability
 		wp_register_ability(
-			'ai-ready-wp/update-settings',
+			'wpaibp/update-settings',
 			array(
-				'label'               => __( 'Update Plugin Settings', 'ai-ready-wp-plugin-boilerplate' ),
-				'description'         => __( 'Update one or more settings fields for the AI-Ready WP plugin.', 'ai-ready-wp-plugin-boilerplate' ),
+				'label'               => __( 'Update Plugin Settings', 'wp-ai-ready-plugin-boilerplate' ),
+				'description'         => __( 'Update one or more settings fields for the AI-Ready WP plugin.', 'wp-ai-ready-plugin-boilerplate' ),
 				'category'            => self::CATEGORY,
 				'permission_callback' => array( self::class, 'check_manage_options' ),
 				'execute_callback'    => array( self::class, 'execute_update_settings' ),
@@ -143,8 +143,8 @@ class SettingsAbilities {
 			return $container->get( SettingsApplicationService::class );
 		}
 
-		$repo       = new \AIReady\WPPluginBoilerplate\Backend\Apps\Settings\Infrastructure\WordPressSettingsRepository();
-		$dispatcher = new \AIReady\WPPluginBoilerplate\Framework\Event\EventDispatcher();
+		$repo       = new \WPAIBP\Backend\Apps\Settings\Infrastructure\WordPressSettingsRepository();
+		$dispatcher = new \WPAIBP\Framework\Event\EventDispatcher();
 		return new SettingsApplicationService( $repo, $dispatcher );
 	}
 }

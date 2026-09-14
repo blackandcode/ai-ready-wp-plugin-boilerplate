@@ -1,4 +1,4 @@
-# Product Charter and Architectural Invariants — AI-Ready WP Plugin Boilerplate
+# Product Charter and Architectural Invariants — WP AI Ready Plugin Boilerplate
 
 This document is the **Single Source of Truth** for the **WordPress AI Plugin Development Boilerplate**.
 If any specification, phase document, prompt, or code implementation conflicts with this charter, **the charter wins**, and the conflicting artifact must be corrected immediately.
@@ -8,11 +8,11 @@ If any specification, phase document, prompt, or code implementation conflicts w
 ## 1. Product Identity & Foundations
 
 - **Product Name:** WordPress AI Plugin Development Boilerplate
-- **Default Plugin Slug:** `ai-ready-wp-plugin-boilerplate`
+- **Default Plugin Slug:** `wp-ai-ready-plugin-boilerplate`
 - **Default PHP Root Namespace:** `AIReady\WPPluginBoilerplate`
-- **Default Constant Prefix:** `AIRWP_`
-- **Default REST Route Namespace:** `ai-ready-wp/v1`
-- **Default Block Namespace:** `ai-ready-wp/hello-world`
+- **Default Constant Prefix:** `WPAIBP_`
+- **Default REST Route Namespace:** `wpaibp/v1`
+- **Default Block Namespace:** `wpaibp/hello-world`
 - **Minimum Supported WordPress Version:** `7.1`
 - **Minimum Supported PHP Version:** `8.3`
 - **License:** MIT
@@ -27,7 +27,7 @@ If any specification, phase document, prompt, or code implementation conflicts w
 2. **Domain Layer:** Pure PHP classes representing business rules, immutable Value Objects, Aggregate Roots, and Domain Exceptions under `src/backend/Apps/<App>/Domain/`. Zero dependencies on WordPress core functions or HTTP superglobals.
 3. **Infrastructure Layer:** Concrete WordPress adapters implementing Domain interfaces under `src/backend/Apps/<App>/Infrastructure/` (e.g. Options API with explicit `autoload => false` performance policy).
 4. **Application Layer:** CQRS-Lite Command and Query handlers, DTOs, Event Dispatcher, and Application Services (`SettingsApplicationService`, `DiagnosticsService`, `HelloWorldService`) orchestrating use cases.
-5. **Presentation Layer & Strict REST Boundary:** Frontend presentation components and templates communicate with backend services exclusively over the WordPress REST API (`/ai-ready-wp/v1/*`). Server-side PHP integration hooks for menus, script enqueuing, and dynamic block/pattern scanning reside exclusively in `src/frontend/Bridge/`.
+5. **Presentation Layer & Strict REST Boundary:** Frontend presentation components and templates communicate with backend services exclusively over the WordPress REST API (`/wpaibp/v1/*`). Server-side PHP integration hooks for menus, script enqueuing, and dynamic block/pattern scanning reside exclusively in `src/frontend/Bridge/`.
 6. **Micro Dependency Injection:** Zero-dependency `Container` and `ServiceProviderRegistry` under `src/framework/Container/`. Never pull heavy third-party PHP framework containers (Symfony, Laravel) into standard WordPress plugins.
 
 ### Invariant 2: Mandatory Coding Standards & Static Analysis

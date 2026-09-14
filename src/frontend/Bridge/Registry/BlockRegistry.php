@@ -2,10 +2,10 @@
 /**
  * Modern WordPress Block Registry Adapter.
  *
- * @package AIReady\WPPluginBoilerplate\Frontend\Registry
+ * @package WPAIBP\Frontend\Registry
  */
 
-namespace AIReady\WPPluginBoilerplate\Frontend\Registry;
+namespace WPAIBP\Frontend\Registry;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -38,7 +38,7 @@ final class BlockRegistry {
 	 * @param string|null $manifest_path Optional custom manifest file path.
 	 */
 	public function __construct( ?string $blocks_path = null, ?string $manifest_path = null ) {
-		$plugin_dir          = defined( 'AIRWP_PLUGIN_DIR' ) ? AIRWP_PLUGIN_DIR : dirname( __DIR__, 4 ) . '/';
+		$plugin_dir          = defined( 'WPAIBP_PLUGIN_DIR' ) ? WPAIBP_PLUGIN_DIR : dirname( __DIR__, 4 ) . '/';
 		$this->blocks_path   = $blocks_path ?? $plugin_dir . 'build/blocks';
 		$this->manifest_path = $manifest_path ?? $plugin_dir . 'build/blocks-manifest.php';
 	}

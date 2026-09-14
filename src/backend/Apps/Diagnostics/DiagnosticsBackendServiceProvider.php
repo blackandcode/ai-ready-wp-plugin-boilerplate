@@ -2,18 +2,18 @@
 /**
  * Diagnostics Backend Service Provider.
  *
- * @package AIReady\WPPluginBoilerplate\Backend\Apps\Diagnostics
+ * @package WPAIBP\Backend\Apps\Diagnostics
  */
 
-namespace AIReady\WPPluginBoilerplate\Backend\Apps\Diagnostics;
+namespace WPAIBP\Backend\Apps\Diagnostics;
 
-use AIReady\WPPluginBoilerplate\Backend\Apps\Diagnostics\Abilities\DiagnosticsAbilities;
-use AIReady\WPPluginBoilerplate\Backend\Apps\Diagnostics\Application\DiagnosticsService;
-use AIReady\WPPluginBoilerplate\Backend\Apps\Diagnostics\Domain\DiagnosticsProviderInterface;
-use AIReady\WPPluginBoilerplate\Backend\Apps\Diagnostics\Infrastructure\WordPressDiagnosticsProvider;
-use AIReady\WPPluginBoilerplate\Backend\Apps\Diagnostics\Rest\DiagnosticsController;
-use AIReady\WPPluginBoilerplate\Framework\Container\Container;
-use AIReady\WPPluginBoilerplate\Framework\Container\ServiceProviderInterface;
+use WPAIBP\Backend\Apps\Diagnostics\Abilities\DiagnosticsAbilities;
+use WPAIBP\Backend\Apps\Diagnostics\Application\DiagnosticsService;
+use WPAIBP\Backend\Apps\Diagnostics\Domain\DiagnosticsProviderInterface;
+use WPAIBP\Backend\Apps\Diagnostics\Infrastructure\WordPressDiagnosticsProvider;
+use WPAIBP\Backend\Apps\Diagnostics\Rest\DiagnosticsController;
+use WPAIBP\Framework\Container\Container;
+use WPAIBP\Framework\Container\ServiceProviderInterface;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;

@@ -47,7 +47,7 @@ export async function smokeTestPackage(
 	}
 
 	const meta = await getPluginMetadata( root );
-	const tempDir = await mkdtemp( join( tmpdir(), 'airwp-smoke-' ) );
+	const tempDir = await mkdtemp( join( tmpdir(), 'wpaibp-smoke-' ) );
 
 	try {
 		await extractZip( resolvedArchive, tempDir );
@@ -84,7 +84,7 @@ if ( ! function_exists( "add_action" ) ) { function add_action( $t, $c ) {} }
 require_once $argv[1];
 require_once $argv[2];
 
-\\AIReady\\WPPluginBoilerplate\\Framework\\Kernel\\Plugin::instance()->boot();
+\\WPAIBP\\Framework\\Kernel\\Plugin::instance()->boot();
 echo "Plugin bootstrap succeeded in standalone production environment\\n";
 `;
 

@@ -5,7 +5,7 @@
  */
 
 import type { ComponentType } from 'react';
-import type { AirwpBootstrapData } from '../../shared';
+import type { WpaibpBootstrapData } from '../../shared';
 
 export type DeveloperSubTab = 'diagnostics' | 'api-reference';
 
@@ -15,4 +15,4 @@ export interface DeveloperTabMeta {
 	icon?: ComponentType< { size?: number } > | any;
 }
 
-export type { AirwpBootstrapData };
+export type { WpaibpBootstrapData };
